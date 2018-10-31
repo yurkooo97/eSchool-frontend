@@ -9,9 +9,13 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 Update your Angular CLI `npm update -g @angular/cli`
 
 ##ChangeLog
-Create angular app with `yarn.lock`
-install primeng packages
-install primeicons packages
+Created angular app with `yarn.lock`
+installed primeng packages
+installed primeicons packages
+installed @fortawesome/fontawesome-svg-core
+installed @fortawesome/@fortawesome/free-solid-svg-icons
+installed @fortawesome/angular-fontawesome
+
 
 ## Development server
 
