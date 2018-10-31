@@ -1,7 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LoginComponent } from './login/login.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: '',
+    component: LoginComponent
+  },
+  {
+    path: 'shell',
+    loadChildren: './shell/shell.module#ShellModule'
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
