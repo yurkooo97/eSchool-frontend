@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: 'shell',
-    loadChildren: './shell/shell.module#ShellModule'
+    loadChildren: '../shell/shell.module#ShellModule'
   }
 ];
 
