@@ -17,7 +17,7 @@ installed @fortawesome/@fortawesome/free-solid-svg-icons
 installed @fortawesome/angular-fontawesome
 created the project structure
 created components in modules
-created router modules according to design structure 
+created router modules according to design structure
 
 ## Development server
 
