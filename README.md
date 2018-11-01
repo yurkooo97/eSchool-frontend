@@ -1,15 +1,15 @@
-#How to install app
+# How to install app
 
-1)Install yarn `npm install -g yarn`
-2)Copy repository `clone https://github.com/IF-092-UI/final_project.git`
-3)Use command in repository `yarn install`
+Install yarn `npm install -g yarn`
+Copy repository `clone https://github.com/IF-092-UI/final_project.git`
+Use command in repository `yarn install`
 
 # ESchool
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.3.
 Update your Angular CLI `npm update -g @angular/cli`
 
-##ChangeLog
+## ChangeLog
 
 Created angular app with `yarn.lock`
 installed primeng packages
