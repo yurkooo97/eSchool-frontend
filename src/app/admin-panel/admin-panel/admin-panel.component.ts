@@ -15,10 +15,10 @@ export class AdminPanelComponent implements OnInit {
     this.items = [{
       label:'Навігація',
       items:[
-        {label: 'Учні', icon: 'pi  pi-users'},
-        {label: 'Учителі', icon: 'pi pi-user-minus'},
-        {label: 'Предмети', icon: 'pi pi-pencil'},
-        {label: 'Класи', icon: 'pi pi-folder'}
+        { label: 'Учні', icon: 'pi  pi-users', routerLink: ['students']},
+        {label: 'Учителі', icon: 'pi pi-user-minus', routerLink: ['teachers']},
+        {label: 'Предмети', icon: 'pi pi-pencil', routerLink: ['subjects']},
+        {label: 'Класи', icon: 'pi pi-folder', routerLink: ['groups']}
     ]
   }]
   }
