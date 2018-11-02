@@ -1,3 +1,10 @@
-<p>
-  admin-panel works!
-</p>
+<div class="p-grid">
+    <div class="p-col-2">
+      <div class="sidenav">
+          <p-menu  [model]="items" [style]="{'border':'none', 'width':'100%'}" ></p-menu>
+      </div>
+    </div>
+    <div class="p-col-10">
+      <router-outlet></router-outlet>
+    </div> 
+  </div>
