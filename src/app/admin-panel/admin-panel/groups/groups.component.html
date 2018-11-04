@@ -1,3 +1,61 @@
-<p>
-  groups works!
-</p>
+<div class="cont">
+    <p-table  [columns]="cols" [value]="groups">
+    <ng-template pTemplate="caption">
+        Список класів
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="summary">
+        В цій школі {{groups?.length}} класів
+    </ng-template>
+</p-table>
+
+
+     
+    <p-table  [columns]="cols" [value]="inactiveGroups">
+        <ng-template pTemplate="caption">
+            Список неактивних класів 
+            <div class="btn"><button class="btn" (click)="showSelected()">
+                    <span *ngIf="!selected">Сховати</span>
+                    <span *ngIf="selected">Показати</span>
+                </button>
+            </div>
+    </ng-template>
+       
+    <ng-template pTemplate="header" let-columns>
+        <tr *ngIf="!selected">
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr *ngIf="!selected">
+            <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+
+
+
+</p-table>
+
+
+<div>
+    <p-button  id="button" label="Додати клас" styleClass="ui-button-success"></p-button>
+</div>
+</div>
