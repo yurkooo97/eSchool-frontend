@@ -1,37 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {Observable} from 'rxjs';
-
-
+import {Observable, from} from 'rxjs';
+import {Subject} from '../models/subjects.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminSubjectsService {
+
   private httpOptions = {
     headers: new HttpHeaders({ 
       'Access-Control-Allow-Origin':'*',
-      'Access-Control-Allow-Methods':'PUT',
+      'Access-Control-Allow-Methods':'GET,POST,PUT,DELETE',
       "Access-Control-Allow-Headers": "accept, content-type"
     })
   };
+
   private url = 'https://fierce-shore-32592.herokuapp.com/subjects';
+
   constructor(private _http:HttpClient) { }
 
-
-  public getSubjectsList(){
-    return this._http.get(this.url);
+  public getSubjectsList():Observable<Subject[]> {
+    return this._http.get<Subject[]>(this.url, this.httpOptions);
   }
 
-  public postSubject (subject) { 
-    return this._http.post(this.url, subject);
+  public postSubject (subject:Subject):Observable<Subject>{ 
+    return this._http.post<Subject>(this.url, subject, this.httpOptions);
   }
 
-  public putSubject (subject) { 
-    return this._http.put(`${this.url}/${subject.subjectId}`, subject, this.httpOptions);
-  }
-  
-  public deleteSubject (subject) { 
-    return this._http.delete(`${this.url}/${subject.subjectId}`, subject);
+  public putSubject (subject:Subject):Observable<Subject> { 
+    return this._http.put<Subject>(`${this.url}/${subject.subjectId}`, subject, this.httpOptions);
   }
 }

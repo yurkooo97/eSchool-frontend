@@ -46,7 +46,6 @@
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
            <button *ngIf='newSubject' type="button" pButton icon="pi pi-trash" (click)="create()" label="Додати"></button>
-            <button *ngIf='!newSubject' type="button" pButton icon="pi pi-trash" (click)="delete()" label="Видалити"></button>
             <button *ngIf='!newSubject' type="button" pButton icon="pi pi-check" (click)="save()" label="Змінити"></button>
         </div>
     </p-footer>
