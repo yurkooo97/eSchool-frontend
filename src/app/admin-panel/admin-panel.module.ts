@@ -7,6 +7,7 @@ import {DialogModule} from 'primeng/dialog';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
+import {InputTextareaModule} from 'primeng/inputtextarea';
 
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { StudentsComponent } from './admin-panel/students/students.component';
@@ -25,7 +26,8 @@ import { AdminSubjectsService } from '../services/admin-subjects.service';
     FormsModule,
     ReactiveFormsModule,
     ButtonModule,
-    InputTextModule
+    InputTextModule,
+    InputTextareaModule
   ],
   providers:[AdminSubjectsService],
   declarations: [AdminPanelComponent, StudentsComponent, TeachersComponent, GroupsComponent, SubjectsComponent]
