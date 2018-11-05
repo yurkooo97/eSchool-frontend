@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-shell',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShellComponent implements OnInit {
 
+  items: MenuItem[];
+
   constructor() { }
 
   ngOnInit() {
+    this.items = [
+      {
+          label: 'Username',
+          items: [
+              {label: 'Menu'},
+              {label: 'Logout'}
+          ]
+      }
+  
+  ];
   }
 
 }

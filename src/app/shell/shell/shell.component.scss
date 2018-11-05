@@ -1,0 +1,25 @@
+i.home {
+    font-size: 20px;
+    vertical-align: middle;
+    margin: 0px 10px -20px 10px;
+}
+
+
+i.user {
+    font-size: 20px;
+    padding: 10px 3px;
+    color: #007ad9;
+    position: relative;
+    left: -615%; 
+    z-index: 2;
+}
+
+:host ::ng-deep .ui-menuitem-text {
+    padding-left: 30px;
+    z-index: 1;
+} 
+
+
+
+
+
