@@ -1,3 +1,4 @@
+
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MenuModule } from "primeng/menu";
@@ -13,6 +14,8 @@ import { StudentsComponent } from "./admin-panel/students/students.component";
 import { TeachersComponent } from "./admin-panel/teachers/teachers.component";
 import { GroupsComponent } from "./admin-panel/groups/groups.component";
 import { SubjectsComponent } from "./admin-panel/subjects/subjects.component";
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import { AdminSubjectsService } from '../services/admin-subjects.service';
 
 @NgModule({
   imports: [
@@ -24,9 +27,10 @@ import { SubjectsComponent } from "./admin-panel/subjects/subjects.component";
     FormsModule,
     ReactiveFormsModule,
     ButtonModule,
-    InputTextModule
+    InputTextModule,
+    InputTextareaModule
   ],
-  providers: [TeachersService],
+  providers: [TeachersService,AdminSubjectsService],
   declarations: [
     AdminPanelComponent,
     StudentsComponent,
