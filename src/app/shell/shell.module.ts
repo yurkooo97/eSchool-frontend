@@ -3,11 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ShellRoutingModule } from './shell-routing.module';
 import { ShellComponent } from './shell/shell.component';
-import { ToolbarModule } from 'primeng/toolbar';
-import { ButtonModule } from 'primeng/button';
-import { SplitButtonModule } from 'primeng/splitbutton';
-import { MenubarModule } from 'primeng/menubar';
-import { MenuModule } from 'primeng/menu';
+import { ToolbarModule, ButtonModule, SplitButtonModule, MenubarModule, MenuModule} from 'primeng/primeng';
 
 
 @NgModule({

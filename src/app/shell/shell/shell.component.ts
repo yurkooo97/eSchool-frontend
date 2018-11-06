@@ -15,14 +15,16 @@ export class ShellComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
-          label: 'Username',
-          items: [
-              {label: 'Menu'},
-              {label: 'Logout'}
-          ]
-      }
-  
-  ];
-  }
+        label: 'Username',
+        items: [
+          {label: 'Menu'},
+          {label: 'Logout'}
+                ]
+
+            }
+
+        ];
+
+    }
 
 }
