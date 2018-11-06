@@ -1,0 +1,18 @@
+.sidenav {
+    height: 100%;
+    width: 16%;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    background-color: white;
+    overflow-x: hidden; 
+    border-right: 1px solid rgb(235,235,235);
+    border-top: 1px solid rgb(235,235,235);
+    border-top-right-radius: 8px;
+}
+::ng-deep .ui-widget-header{
+    background-color:rgb(0, 128, 255) !important;
+    color: white !important;
+    border-radius: 1px !important;
+ 
+}
