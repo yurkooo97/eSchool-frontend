@@ -1,69 +1,86 @@
-
- <p-table [columns]="columns" [value]="teachers" selectionMode="single" [(selection)]="selectedCar" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="15">
-  <ng-template pTemplate="caption">
-      Список учителів
-  </ng-template>
-  <ng-template pTemplate="header" let-columns>
-      <tr>
-          <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-              {{col.header}}
-              <p-sortIcon [field]="col.field"></p-sortIcon>
-          </th>
-      </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-rowData let-columns="columns">
-      <tr [pSelectableRow]="rowData">
-          <td *ngFor="let col of columns">
-              {{rowData[col.field]}}
-          </td>
-      </tr>
-  </ng-template>
-  <ng-template pTemplate="summary" let-rowData>
-      <div style="text-align:left">
-          <button type="button" pButton icon="pi pi-plus" (click)="showDialogToAdd()" label="Добавити"></button>
-      </div>
-  </ng-template>    
+<p-table [columns]="columns" [value]="teachers" selectionMode="single" [(selection)]="selectedTeacher" (onRowSelect)="onRowSelect($event)"
+    [paginator]="true" [rows]="15">
+    <ng-template pTemplate="caption">
+        Список учителів
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+            <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary" let-rowData>
+        <div style="text-align:left">
+            <button type="button" pButton icon="pi pi-plus" (click)="showDialogToAdd()" label="Добавити"></button>
+        </div>
+    </ng-template>
 </p-table>
 
-  <p-dialog header="Добавити нового учителя" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="400">
-  <div class="ui-g ui-fluid" *ngIf="teachers">
-      <div class="ui-g-12">
-          <div class="ui-g-4">
-              <label for="vin">Ім'я</label>
-          </div>
-          <div class="ui-g-8">
-              <input pInputText id="vin" [(ngModel)]="teachers.firstname" />
-          </div>
-      </div>
-      <div class="ui-g-12">
-          <div class="ui-g-4">
-              <label for="year">Прізвище</label>
-          </div>
-          <div class="ui-g-8">
-              <input pInputText id="year" [(ngModel)]="teachers.lastname" />
-          </div>
-      </div>
-      <div class="ui-g-12">
-          <div class="ui-g-4">
-              <label for="brand">По батькові</label>
-          </div>
-          <div class="ui-g-8">
-              <input pInputText id="brand" [(ngModel)]="teachers.patronymic" />
-          </div>
-      </div>
-      <div class="ui-g-12">
-          <div class="ui-g-4">
-              <label for="color">Дата народження</label>
-          </div>
-          <div class="ui-g-8">
-              <input pInputText id="color" [(ngModel)]="teachers.dateOfBirth" />
-          </div>
-      </div>
-  </div>
-  <p-footer>
-      <div class="ui-dialog-buttonpane ui-helper-clearfix">
-          <button type="button" pButton icon="pi pi-times" (click)="delete()" label="Delete"></button>
-          <button type="button" pButton icon="pi pi-check" (click)="save()" label="Save"></button>
-      </div>
-  </p-footer>
-</p-dialog> 
+<p-dialog header="Добавити нового учителя" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
+    [width]="400">
+    <div class="ui-g ui-fluid" *ngIf="teacher">
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="name">Ім'я</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText id="name" [(ngModel)]="teacher.firstname" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="lastname">Прізвище</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText id="lastname" [(ngModel)]="teacher.lastname" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="patronymic">По батькові</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText id="patronymic" [(ngModel)]="teacher.patronymic" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="dateOfBirth">Дата народження</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText id="dateOfBirth" [(ngModel)]="teacher.dateOfBirth" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="login">Логін</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText id="login" [(ngModel)]="teacher.login" disabled />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="email">Електронна адреса</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText id="email" [(ngModel)]="teacher.email" disabled />
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" pButton icon="pi pi-times" (click)="delete()" label="Delete"></button>
+            <button type="button" pButton icon="pi pi-check" (click)="save()" label="Save"></button>
+        </div>
+    </p-footer>
+</p-dialog>
