@@ -10,16 +10,17 @@ export class AdminPanelComponent implements OnInit {
   constructor() { }
 
   items: MenuItem[];
- 
+
   ngOnInit() {
     this.items = [{
-      label:'Навігація',
-      items:[
-        { label: 'Учні', icon: 'pi  pi-users', routerLink: ['students']},
+      label: 'Навігація',
+      items: [
+        {label: 'Учні', icon: 'pi  pi-users', routerLink: ['students']},
         {label: 'Учителі', icon: 'pi pi-user-minus', routerLink: ['teachers']},
         {label: 'Предмети', icon: 'pi pi-pencil', routerLink: ['subjects']},
-        {label: 'Класи', icon: 'pi pi-folder', routerLink: ['groups']}
+        {label: 'Класи', icon: 'pi pi-folder', routerLink: ['groups']},
+        {label: 'Додати вчителя до журналу', icon: 'pi pi-user-plus', routerLink: ['attach-teacher']}
     ]
-  }]
+  }];
   }
 }

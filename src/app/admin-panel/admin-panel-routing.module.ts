@@ -5,27 +5,31 @@ import { StudentsComponent } from './admin-panel/students/students.component';
 import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 import { TeachersComponent } from './admin-panel/teachers/teachers.component';
+import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teacher.component';
 
 const routes: Routes = [
   {
     path: '',
     component: AdminPanelComponent,
-    children:[{ 
-      path:'students',
-      component:StudentsComponent
-    },
-    { 
-    
-      path:'groups',
-      component:GroupsComponent
+    children: [{
+      path: 'students',
+      component: StudentsComponent
     },
     {
-      path:'subjects',
-      component:SubjectsComponent
+      path: 'groups',
+      component: GroupsComponent
     },
     {
-      path:'teachers',
-      component:TeachersComponent
+      path: 'subjects',
+      component: SubjectsComponent
+    },
+    {
+      path: 'teachers',
+      component: TeachersComponent
+    },
+    {
+      path: 'attach-teacher',
+      component: AttachTeacherComponent
     }
   ]
   }
