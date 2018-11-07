@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { isString, isNumber } from 'util';
+import { Group } from '../../../models/groupModel';
+import { AdmingroupsService } from 'src/app/services/admingroups.service';
+
 
 @Component({
   selector: 'app-groups',
@@ -6,50 +10,86 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./groups.component.scss']
 })
 export class GroupsComponent implements OnInit {
-  selected: boolean;
-  cols: any[];
-  groups: any[];
-  inactiveGroups: any[];
+  showInactive: boolean;
+  cols: Array<object>;
+  groups: Group[];
+  activeGroups: Group[];
+  inactiveGroups: Group[];
+  showEditDialog: boolean = false;
+  editGroupOriginal: Group;
+  editGroup : any;
   
-  constructor() {
-    this.selected = true;
-    this.inactiveGroups = [ {class: '5', year: 2018 },
-                          { class: '6', year: 2018 }
-    ];
-    this.showSelected(this.inactiveGroups); {
-      this.selected = !this.selected;
-    };
-    
-   }
+ 
+  showDialog(rowData: Group) {
+    if (!rowData){
+     
+      rowData = new Group();
+      console.log(rowData);
+    }
+    this.editGroupOriginal = rowData;
+    this.editGroup = Object.assign({}, rowData);
+    console.log(this.editGroup);
+    this.showEditDialog = true;
+  }
+ 
+	
+  saveGroup(){
+    this.showEditDialog = false;
+    console.log(this.editGroup);
+    this._GroupService.saveClass(this.editGroup)
+                      .subscribe(group => {
+                        console.log(group);
+                    
+                       });
+    // send editGroup to backend
+    // if error show alert and do nothing
+    // if success then update this.groups
 
+    // hack to convert string value set by radio button to bool
+    if (isString(this.editGroup.isActive)){
+      this.editGroup.isActive = this.editGroup.isActive == 'true';
+    }
+
+    let isActiveChanged = this.editGroupOriginal.isActive != this.editGroup.isActive;
+    Object.assign(this.editGroupOriginal, this.editGroup);
+    if (isActiveChanged){
+      this.filterGroups();
+    }
+    this.showEditDialog=false;
+  }
+  
+  constructor(private _GroupService: AdmingroupsService) {
+      this.editGroup = new Group();      
+  }
   ngOnInit() {
 
-      this.cols = [
+    this._GroupService.getClasses()
+                      .subscribe(data => {
+                        this.groups = data;
+                        this.filterGroups();
+                      });
         
-      { field: 'class', header: 'Клас' },
-      { field: 'year', header: 'Рік'}
+    this.cols = [
+        
+      { field: 'className', header: 'Клас' },
+      { field: 'classYear', header: 'Рік'}
     ]                 
-      this.groups = [ { class: '5', year: 2018 },
-                      { class: '6', year: 2018 }, 
-                      { class: '7', year: 2018 }, 
-                      { class: '8-а', year: 2018 },
-                      { class: '8-б', year: 2018 },
-                      { class: '9-а', year: 2018 },
-                      { class: '9-б', year: 2018 },
-                      { class: '10-а', year: 2018 },
-                      { class: '10-б', year: 2018 },
-                      { class: '11-а', year: 2018 },
-                      { class: '11-б', year: 2018 },
-
-                      
-    ];
-    this.inactiveGroups = [ {class: '5', year: 2018 },
-                          { class: '6', year: 2018 }
-    ];
+    // this.groups = [ { id: 1, class: '5', year: 2018, description:"kj", isActive:true },
+    //                 { id: 2, class: '6', year: 2018, description:"", isActive:false }, 
+    //                 { id: 3, class: '7', year: 2018, description:"", isActive:true  }, 
+    //                 { id: 4, class: '8-а', year: 2018, description:"", isActive:true  },
+    //                             
+    // ];
     
-      }
-       
-      showSelected(inactiveGroups) {
-        this.selected = !this.selected;
-      }
-    }
+    
+  }
+
+  filterGroups(){
+    this.activeGroups = this.groups.filter(g => g.isActive);
+    this.inactiveGroups = this.groups.filter(g => !g.isActive);
+  }
+      
+}
+
+
+   
