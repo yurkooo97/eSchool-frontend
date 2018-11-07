@@ -3,7 +3,7 @@ export interface Iteachers {
   dateOfBirth: "string";
   email: "string";
   firstname: "string";
-  id: 0;
+  id: "number";
   lastname: "string";
   login: "string";
   patronymic: "string";

@@ -1,5 +1,5 @@
 <p-table [columns]="columns" [value]="teachers" selectionMode="single" [(selection)]="selectedTeacher" (onRowSelect)="onRowSelect($event)"
-    [paginator]="true" [rows]="15">
+    [paginator]="false" [rows]="50" >
     <ng-template pTemplate="caption">
         Список учителів
     </ng-template>
@@ -24,32 +24,31 @@
         </div>
     </ng-template>
 </p-table>
-
 <p-dialog header="Добавити нового учителя" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
     [width]="400">
     <div class="ui-g ui-fluid" *ngIf="teacher">
         <div class="ui-g-12">
             <div class="ui-g-4">
-                <label for="name">Ім'я</label>
+                <label for="name">Ім'я *</label>
             </div>
             <div class="ui-g-8">
-                <input pInputText id="name" [(ngModel)]="teacher.firstname" />
+                <input pInputText id="name" [(ngModel)]="teacher.firstname" required minlength="3" maxlength="20"/>
             </div>
         </div>
         <div class="ui-g-12">
             <div class="ui-g-4">
-                <label for="lastname">Прізвище</label>
+                <label for="lastname">Прізвище *</label>
             </div>
             <div class="ui-g-8">
-                <input pInputText id="lastname" [(ngModel)]="teacher.lastname" />
+                <input pInputText id="lastname" [(ngModel)]="teacher.lastname" minlength="3" maxlength="20" required/>
             </div>
         </div>
         <div class="ui-g-12">
             <div class="ui-g-4">
-                <label for="patronymic">По батькові</label>
+                <label for="patronymic">По батькові *</label>
             </div>
             <div class="ui-g-8">
-                <input pInputText id="patronymic" [(ngModel)]="teacher.patronymic" />
+                <input pInputText id="patronymic" [(ngModel)]="teacher.patronymic" minlength="7" maxlength="20" required/>
             </div>
         </div>
         <div class="ui-g-12">
@@ -57,7 +56,7 @@
                 <label for="dateOfBirth">Дата народження</label>
             </div>
             <div class="ui-g-8">
-                <input pInputText id="dateOfBirth" [(ngModel)]="teacher.dateOfBirth" />
+                <input pInputText id="dateOfBirth" [(ngModel)]="teacher.dateOfBirth" type="date" min="1940-12-25" max="2018-12-25"/>
             </div>
         </div>
         <div class="ui-g-12">
@@ -65,7 +64,7 @@
                 <label for="login">Логін</label>
             </div>
             <div class="ui-g-8">
-                <input pInputText id="login" [(ngModel)]="teacher.login" disabled />
+                <input pInputText id="login" [(ngModel)]="teacher.login" />
             </div>
         </div>
         <div class="ui-g-12">
@@ -73,14 +72,22 @@
                 <label for="email">Електронна адреса</label>
             </div>
             <div class="ui-g-8">
-                <input pInputText id="email" [(ngModel)]="teacher.email" disabled />
+                <input pInputText id="email" [(ngModel)]="teacher.email"  type="email"/>
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="tel">Номер телефону</label>
+            </div>
+            <div class="ui-g-8">
+                <p-inputMask [(ngModel)]="teacher.phone" id="tel" mask="999-999-9999" placeholder="999-999-9999"></p-inputMask>
             </div>
         </div>
     </div>
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <button type="button" pButton icon="pi pi-times" (click)="delete()" label="Delete"></button>
-            <button type="button" pButton icon="pi pi-check" (click)="save()" label="Save"></button>
+            <button *ngIf='newTeacher' type="button" pButton icon="pi pi-check" (click)="create()" label="Добавити"></button>
+            <button *ngIf='!newTeacher' type="button" pButton icon="pi pi-check" (click)="save()" label="Змінити"></button>
         </div>
     </p-footer>
 </p-dialog>

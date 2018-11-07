@@ -16,6 +16,7 @@ import { GroupsComponent } from "./admin-panel/groups/groups.component";
 import { SubjectsComponent } from "./admin-panel/subjects/subjects.component";
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import { AdminSubjectsService } from '../services/admin-subjects.service';
+import {InputMaskModule} from 'primeng/inputmask';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { AdminSubjectsService } from '../services/admin-subjects.service';
     ReactiveFormsModule,
     ButtonModule,
     InputTextModule,
-    InputTextareaModule
+    InputTextareaModule,
+    InputMaskModule
   ],
   providers: [TeachersService,AdminSubjectsService],
   declarations: [
