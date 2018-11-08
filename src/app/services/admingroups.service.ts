@@ -17,34 +17,8 @@ private ClassesUrl = 'https://fierce-shore-32592.herokuapp.com/classes';
 constructor(private http: HttpClient) { }
 
 public getClasses(): Observable<Group[]> {
-  //TODO: remove this spike and use sigle method to load all the classes
-  // const active = this.http.get<Group[]>(this.ClassesUrl);
-  // const inactive = this.http.get<Group[]>(`${this.ClassesUrl}/inactive`);
-
-  // const allClasses = forkJoin([active, inactive]);// active.pipe(concat(inactive));
-  // return allClasses
-  //   .map(responses => [].concat(...responses) )
-  //   .map(classes => {
-  //     classes.forEach(c => {
-  //       if (isString(c.isActive)){
-  //         c.isActive = c.isActive == 'true';
-  //       }
-  //     });
-  //     return classes;
-  //   })
-  //   .pipe(
-  //     catchError(this.handleError)
-  //   );
   
   return this.http.get<Group[]>(this.ClassesUrl)
-  // .map(classes => {
-  //   classes.forEach(c => {
-  //     if (isString(c.isActive)){
-  //       c.isActive = c.isActive == 'true';
-  //     }
-  //   });
-  //   return classes;
-  // })
     .pipe(
       catchError(this.handleError)
     );
