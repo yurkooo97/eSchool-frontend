@@ -1,13 +1,16 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { AdmingroupsService } from './services/admingroups.service';
-import { TokenInterceptorService } from './services/token-interceptor.service';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
 
+import { TokenInterceptorService } from './services/token-interceptor.service';
+import { AdmingroupsService } from './services/admingroups.service';
+import { AdminSubjectsService } from './services/admin-subjects.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+
+
 
 @NgModule({
   declarations: [
@@ -17,16 +20,16 @@ import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule
-    
-    
+    HttpClientModule 
   ],
 	providers: [AdmingroupsService, 
-	{
-		provide: HTTP_INTERCEPTORS,
-		useClass: TokenInterceptorService,
-		multi: true
-	}],
+		AdminSubjectsService,
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: TokenInterceptorService,
+			multi: true
+		}
+	],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
