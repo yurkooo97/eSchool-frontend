@@ -11,7 +11,7 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr style="height: 48px;" class='subjects-table-row' [pSelectableRow]="rowData">
+        <tr class='subjects-table-row' [pSelectableRow]="rowData">
             <td *ngFor="let col of columns" class="subjects-table-cell">
                 {{rowData[col.field]}}
                 <button  class='subjects-custom-button' *ngIf='col.field=="subjectDescription"' pButton type="button"(click)="onRowSelect(rowData)" icon="pi pi-pencil" iconPos="left" ></button>
