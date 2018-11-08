@@ -41,9 +41,7 @@ export class GroupsComponent implements OnInit {
                         console.log(group);
                     
                        });
-    // send editGroup to backend
-    // if error show alert and do nothing
-    // if success then update this.groups
+    
 
     // hack to convert string value set by radio button to bool
     if (isString(this.editGroup.isActive)){
@@ -74,15 +72,9 @@ export class GroupsComponent implements OnInit {
       { field: 'className', header: 'Клас' },
       { field: 'classYear', header: 'Рік'}
     ]                 
-    // this.groups = [ { id: 1, class: '5', year: 2018, description:"kj", isActive:true },
-    //                 { id: 2, class: '6', year: 2018, description:"", isActive:false }, 
-    //                 { id: 3, class: '7', year: 2018, description:"", isActive:true  }, 
-    //                 { id: 4, class: '8-а', year: 2018, description:"", isActive:true  },
-    //                             
-    // ];
     
-    
-  }
+   
+	}
 
   filterGroups(){
     this.activeGroups = this.groups.filter(g => g.isActive);

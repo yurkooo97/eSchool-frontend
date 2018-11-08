@@ -5,6 +5,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {CardModule} from 'primeng/card';
 import {ButtonModule} from 'primeng/button';
 import {ToolbarModule} from 'primeng/toolbar';
+import { FormsModule } from '@angular/forms';
 
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login/login.component';
@@ -17,7 +18,8 @@ import { LoginComponent } from './login/login.component';
     InputTextModule,
     CardModule,
     ButtonModule,
-    ToolbarModule
+		ToolbarModule,
+		FormsModule
   ],
   declarations: [LoginComponent]
 })
