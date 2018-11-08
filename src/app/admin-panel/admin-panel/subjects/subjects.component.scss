@@ -2,3 +2,23 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+::ng-deep .ui-state-highlight{
+    background-color: #f9f9f9 !important;
+    color: black !important;
+}
+
+.subjects-custom-button{
+    visibility: hidden; 
+}
+
+.subjects-table-cell{
+    position: relative;
+}
+
+.subjects-table-row:hover .subjects-custom-button{
+    position: absolute;
+    top: 8px;
+    left: 434px;
+    visibility: visible;
+}
