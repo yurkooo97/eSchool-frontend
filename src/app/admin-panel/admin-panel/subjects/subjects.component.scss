@@ -8,17 +8,18 @@
     color: black !important;
 }
 
-.subjects-custom-button{
-    visibility: hidden; 
-}
-
-.subjects-table-cell{
-    position: relative;
-}
-
-.subjects-table-row:hover .subjects-custom-button{
-    position: absolute;
-    top: 8px;
-    left: 434px;
-    visibility: visible;
+.subjects-table-row{
+    height: 48px;
+    .subjects-table-cell{
+        position: relative;
+    }
+    .subjects-custom-button{
+        display:none;
+    }
+    &:hover .subjects-custom-button{
+        position: absolute;
+        top: 8px;
+        left: 482px;
+        display: inline-block;
+    }
 }
