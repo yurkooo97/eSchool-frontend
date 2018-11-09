@@ -25,6 +25,7 @@ import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 
 import { AdmingroupsService } from '../services/admingroups.service';
 import { AdminSubjectsService } from '../services/admin-subjects.service';
+import { NewEduYearComponent } from './admin-panel/new-edu-year/new-edu-year.component';
 
 @NgModule({
   imports: [
@@ -42,6 +43,6 @@ import { AdminSubjectsService } from '../services/admin-subjects.service';
     ReactiveFormsModule 
   ],
   providers: [AdmingroupsService, AdminSubjectsService],
-  declarations: [AdminPanelComponent, StudentsComponent, TeachersComponent, GroupsComponent, SubjectsComponent]
+  declarations: [AdminPanelComponent, StudentsComponent, TeachersComponent, GroupsComponent, SubjectsComponent, NewEduYearComponent]
 })
 export class AdminPanelModule { }
