@@ -15,7 +15,7 @@ import { TeachersComponent } from './admin-panel/teachers/teachers.component';
 import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 import { AdminSubjectsService } from '../services/admin-subjects.service';
-import { NewEduYearComponent } from './admin-panel/new-edu-year/new-edu-year.component';
+import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
 
 @NgModule({
   imports: [
@@ -31,6 +31,6 @@ import { NewEduYearComponent } from './admin-panel/new-edu-year/new-edu-year.com
     InputTextareaModule
   ],
   providers:[AdminSubjectsService],
-  declarations: [AdminPanelComponent, StudentsComponent, TeachersComponent, GroupsComponent, SubjectsComponent, NewEduYearComponent]
+  declarations: [AdminPanelComponent, StudentsComponent, TeachersComponent, GroupsComponent, SubjectsComponent, NewStudingYearComponent]
 })
 export class AdminPanelModule { }
