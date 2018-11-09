@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthenticationService {
-	public Url:string="https://fierce-shore-32592.herokuapp.com/signin/";
+	public Url:string="https://fierce-shore-32592.herokuapp.com/signin";
 
 	private token: string;
 
@@ -40,6 +40,9 @@ export class AuthenticationService {
 	logout() {
 		this.token = null;
 		localStorage.remoevItem('authToken');
+	}
+	loggedIn() {
+		return !!localStorage.getItem('token')
 	}
 	
 }
