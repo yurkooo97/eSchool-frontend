@@ -1,3 +1,7 @@
-<p>
-  menu works!
-</p>
+<br>
+<p-toolbar>
+  <div class="ui-toolbar-group-left">
+    <p-dropdown [options]="classNames" [(ngModel)]="selectedClassName"></p-dropdown>
+    <p-dropdown [options]="subjectNames" [(ngModel)]="selectedSubjectName"></p-dropdown>
+  </div>
+</p-toolbar>

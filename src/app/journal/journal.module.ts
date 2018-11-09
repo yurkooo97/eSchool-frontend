@@ -5,11 +5,18 @@ import { JournalRoutingModule } from './journal-routing.module';
 import { JournalComponent } from './journal/journal.component';
 import { MenuComponent } from './journal/menu/menu.component';
 import { HometaskComponent } from './journal/hometask/hometask.component';
+import { FormsModule } from '@angular/forms';
+
+import { ToolbarModule } from 'primeng/toolbar';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   imports: [
     CommonModule,
-    JournalRoutingModule
+    JournalRoutingModule,
+    ToolbarModule,
+    DropdownModule,
+    FormsModule
   ],
   declarations: [JournalComponent, MenuComponent, HometaskComponent]
 })
