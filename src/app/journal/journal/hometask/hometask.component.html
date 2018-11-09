@@ -1,3 +1,32 @@
-<p>
-  hometask works!
-</p>
+<h3>Домашнє завдання</h3>
+<p-dataView [value]="hometasks" [paginator]="true" [rows]="5" paginatorPosition="both" >
+  <p-header>
+    <div class="ui-helper-clearfix">
+      <div class="ui-g">
+        <div class="ui-g-12 ui-md-4">
+          <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Сортування:" (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}">
+          </p-dropdown>
+        </div>
+
+        <div class="ui-g-6 ui-md-4 filter-container">
+          <div style="position:relative">
+            <input class="ui-inputtext ui-corner-all ui-state-default ui-widget" type="search" pInputText placeholder="Шукати по опису" (keyup)="dv.filter($event.target.value)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-header>
+  <ng-template let-hometask pTemplate="listItem">
+    <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
+      <div class="ui-g-12 ui-md-3" style="text-align:center">
+        {{hometask.hometaskDate}}
+      </div>
+      <div class="ui-g-12 ui-md-6" style="text-align:center">
+        {{hometask.hometaskDescription}}
+      </div>
+      <div class="ui-g-12 ui-md-3" style="text-align:center">
+        {{hometask.hometaskFileUrl}}
+      </div>
+    </div>
+  </ng-template>
+</p-dataView>
