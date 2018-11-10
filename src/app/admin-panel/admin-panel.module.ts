@@ -17,6 +17,8 @@ import { SubjectsComponent } from "./admin-panel/subjects/subjects.component";
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import { AdminSubjectsService } from '../services/admin-subjects.service';
 import {InputMaskModule} from 'primeng/inputmask';
+import { NewEduYearComponent } from './admin-panel/new-edu-year/new-edu-year.component';
+
 
 @NgModule({
   imports: [
@@ -38,7 +40,8 @@ import {InputMaskModule} from 'primeng/inputmask';
     StudentsComponent,
     TeachersComponent,
     GroupsComponent,
-    SubjectsComponent
+    SubjectsComponent,
+    NewEduYearComponent
   ]
 })
 export class AdminPanelModule {}

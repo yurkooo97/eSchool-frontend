@@ -14,7 +14,8 @@ export class TeachersComponent implements OnInit {
   columns: any[];
   newTeacher: boolean;
   selectedTeacher: Iteachers;
-
+  imageUrl: any = 'assets/avatar.png';
+  fileToUpload: File = null;
   constructor(private _teacherServices: TeachersService) {}
 
   ngOnInit() {
@@ -27,6 +28,14 @@ export class TeachersComponent implements OnInit {
       { field: "patronymic", header: "По батькові" },
       { field: "dateOfBirth", header: "Дата народження" }
     ];
+  }
+  handlerFileInput(file: FileList){
+    this.fileToUpload = file.item(0);
+    let reader = new FileReader();
+    reader.onload = (event: any) =>{
+      this.imageUrl = event.target.result;
+    };
+    reader.readAsDataURL(this.fileToUpload);
   }
   showDialogToAdd() {
     this.displayDialog = true;
@@ -41,7 +50,7 @@ export class TeachersComponent implements OnInit {
     this.displayDialog = true;
   }
   create() {
-    if(this.teacher.firstname.length >= 3 &&this.teacher.lastname.length >= 3 && this.teacher.patronymic.length >=7){
+    if (this.teacher.firstname.length >= 3 && this.teacher.lastname.length >= 3 && this.teacher.patronymic.length >=7){
       this.displayDialog = false;
     }
     this._teacherServices
