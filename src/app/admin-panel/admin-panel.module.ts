@@ -1,13 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MenuModule} from 'primeng/menu';
-import {TableModule} from 'primeng/table';
+import { MenuModule } from 'primeng/menu';
+import { TableModule } from 'primeng/table';
 import { AdminPanelRoutingModule } from './admin-panel-routing.module';
-import {DialogModule} from 'primeng/dialog';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import {ButtonModule} from 'primeng/button';
-import {InputTextModule} from 'primeng/inputtext';
-import {InputTextareaModule} from 'primeng/inputtextarea';
+import { DialogModule } from 'primeng/dialog';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { DropdownModule } from 'primeng/dropdown';
+import { FieldsetModule } from 'primeng/fieldset';
+import { FileUploadModule } from 'primeng/fileupload';
 
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { StudentsComponent } from './admin-panel/students/students.component';
@@ -28,9 +33,14 @@ import { NewEduYearComponent } from './admin-panel/new-edu-year/new-edu-year.com
     ReactiveFormsModule,
     ButtonModule,
     InputTextModule,
-    InputTextareaModule
+    InputTextareaModule,
+    MessagesModule,
+    MessageModule,
+    DropdownModule,
+    FieldsetModule,
+    FileUploadModule
   ],
-  providers:[AdminSubjectsService],
+  providers: [AdminSubjectsService],
   declarations: [AdminPanelComponent, StudentsComponent, TeachersComponent, GroupsComponent, SubjectsComponent, NewEduYearComponent]
 })
 export class AdminPanelModule { }
