@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StudentsService } from '../../../services/admin-students.service';
 import { Student } from '../../../models/students.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {Class} from '../../../models/classesForStudents';
+import {Class_} from '../../../models/classesForStudents.model';
 
 @Component({
   selector: 'app-students',
@@ -12,7 +12,7 @@ import {Class} from '../../../models/classesForStudents';
 })
 export class StudentsComponent implements OnInit {
 
-  classes: Class[];
+  classes: Class_[];
   students: Student[];
   avatars: any[] = [];
   newStudent: Student;
@@ -58,7 +58,7 @@ export class StudentsComponent implements OnInit {
       selectClass: ['']
     });
 
-    this.newStudent = new Student('', '', '', 0, '', '', '', '', 0);
+    this.newStudent = new Student();
   }
 
   loadStudents(classID: number) {
@@ -69,7 +69,7 @@ export class StudentsComponent implements OnInit {
   }
 
   createStudent() {
-    this.newStudent = new Student('', '', '', 0, '', '', '', '', 0);
+    this.newStudent = new Student();
     this.students.push(this.newStudent);
     this.isNew = true;
     this.showForm();
