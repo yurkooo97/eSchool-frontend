@@ -23,10 +23,10 @@ export class TeachersComponent implements OnInit {
       .getTeachers()
       .subscribe(users => (this.teachers = users));
     this.columns = [
-      { field: "firstname", header: "Ім'я" },
-      { field: "lastname", header: "Прізвище" },
-      { field: "patronymic", header: "По батькові" },
-      { field: "dateOfBirth", header: "Дата народження" }
+      { field: 'firstname', header: 'Ім\'я' },
+      { field: 'lastname', header: 'Прізвище' },
+      { field: 'patronymic', header: 'По батькові' },
+      { field: 'dateOfBirth', header: 'Дата народження' }
     ];
   }
   handlerFileInput(file: FileList){

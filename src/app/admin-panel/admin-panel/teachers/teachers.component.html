@@ -1,8 +1,6 @@
 <p-table [columns]="columns" [value]="teachers" selectionMode="single" [(selection)]="selectedTeacher" (onRowSelect)="onRowSelect($event)"
     [paginator]="false" [rows]="50" >
-    <ng-template pTemplate="caption">
-        Список учителів
-    </ng-template>
+    <ng-template pTemplate="caption">Список учителів</ng-template>
     <ng-template pTemplate="header" let-columns>
         <tr>
             <th *ngFor="let col of columns" [pSortableColumn]="col.field">
