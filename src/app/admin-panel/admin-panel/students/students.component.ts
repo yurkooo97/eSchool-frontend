@@ -1,10 +1,8 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StudentsService } from '../../../services/admin-students.service';
 import { Student } from '../../../models/students.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DialogModule } from 'primeng/dialog';
 import {Class} from '../../../models/classesForStudents';
-import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-students',
