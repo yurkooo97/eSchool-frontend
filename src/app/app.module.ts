@@ -9,6 +9,8 @@ import { AdminSubjectsService } from './services/admin-subjects.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { LoginGuard } from './login/login/login.guard';
+import { AdminGuard} from './admin-panel/admin.guard';
 
 
 
@@ -23,7 +25,8 @@ import { AppComponent } from './app.component';
     HttpClientModule 
   ],
 	providers: [AdmingroupsService, 
-		AdminSubjectsService,
+		AdminSubjectsService, LoginGuard,
+		AdminGuard,
 		{
 			provide: HTTP_INTERCEPTORS,
 			useClass: TokenInterceptorService,

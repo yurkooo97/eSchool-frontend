@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {MenuItem} from 'primeng/api';
 
+
+
 @Component({
   selector: 'app-admin-panel',
   templateUrl: './admin-panel.component.html',
@@ -21,5 +23,7 @@ export class AdminPanelComponent implements OnInit {
         {label: 'Класи', icon: 'pi pi-folder', routerLink: ['groups']}
     ]
   }]
-  }
+	}
+	
+	
 }

@@ -19,6 +19,15 @@ i.user {
   z-index: 1;
 } 
 
+:host ::ng-deep .ui-menubar .ui-menuitem-link:hover {
+  background-color: transparent;
+} 
+
+:host ::ng-deep .ui-menubar .ui-menuitem.ui-menuitem-active > .ui-menuitem-link {
+  background-color: transparent;
+} 
+
+
 
 
 

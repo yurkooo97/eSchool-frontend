@@ -1,14 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AdminGuard } from './admin-panel/admin.guard';
+import { LoginGuard} from './login/login/login.guard'
+
 
 const routes: Routes = [
   {
-    path: 'login',
+		path: 'login',
+		canLoad: [LoginGuard],
     loadChildren: './login/login.module#LoginModule'
   },
   {
-    path: 'shell',
-    loadChildren: './shell/shell.module#ShellModule'
+		path: 'shell',
+		canLoad: [AdminGuard],
+		loadChildren: './shell/shell.module#ShellModule',
+		
   },
   {
     path: '',

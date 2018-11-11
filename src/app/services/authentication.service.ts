@@ -39,10 +39,10 @@ export class AuthenticationService {
 	}
 	logout() {
 		this.token = null;
-		localStorage.remoevItem('authToken');
+		localStorage.removeItem('authToken');
 	}
 	loggedIn() {
-		return !!localStorage.getItem('token')
+		return !!localStorage.getItem('authToken')
 	}
 	
 }

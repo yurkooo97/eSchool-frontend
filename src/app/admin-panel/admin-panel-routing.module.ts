@@ -5,11 +5,13 @@ import { StudentsComponent } from './admin-panel/students/students.component';
 import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 import { TeachersComponent } from './admin-panel/teachers/teachers.component';
-
+import { AdminGuard } from './admin.guard';
 const routes: Routes = [
   {
     path: '',
-    component: AdminPanelComponent,
+		component: AdminPanelComponent,
+		canLoad: [AdminGuard],
+	
     children:[{ 
       path:'students',
       component:StudentsComponent
