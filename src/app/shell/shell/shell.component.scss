@@ -1,23 +1,28 @@
-i.home {
-  font-size: 20px;
+.ui-toolbar-group-left .home {
+  font-size: 22px;
   vertical-align: middle;
-  margin: 0px 10px -20px 10px;
+	margin: 0px 10px -20px 8px;
 }
 
 
-i.user {
+.ui-toolbar-group-right .user {
   font-size: 20px;
-  padding: 10px 3px;
+  padding: 10px;
   color: #007ad9;
   position: relative;
-  left: -615%; 
-  z-index: 2;
+  right: 400px; 
+  z-index: 1;
 }
 
-:host ::ng-deep .ui-menuitem-text {
-  padding-left: 30px;
-  z-index: 1;
+:host ::ng-deep .ui-toolbar {
+	position: fixed; 
+	left: 0; 
+	top: 0; 
+	width: 100%;
+	padding: 10px;
+	z-index: 2;
 } 
+
 
 :host ::ng-deep .ui-menubar .ui-menuitem-link:hover {
   background-color: transparent;
@@ -26,6 +31,33 @@ i.user {
 :host ::ng-deep .ui-menubar .ui-menuitem.ui-menuitem-active > .ui-menuitem-link {
   background-color: transparent;
 } 
+
+
+:host ::ng-deep .ui-toolbar .ui-button {
+	margin-left: 10px;
+	width: 60px;
+}
+
+:host ::ng-deep .ui-toolbar .ui-menuitem {
+	width: 400px;
+}
+
+:host ::ng-deep .ui-toolbar .ui-menuitem-text {
+	padding-left: 30px;
+} 
+
+:host ::ng-deep .ui-toolbar .ui-menuitem:nth-child(2) .ui-menuitem-text {
+  font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
 
 
 
