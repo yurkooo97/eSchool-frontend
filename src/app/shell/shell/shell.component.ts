@@ -4,7 +4,7 @@ import { MenuItem } from 'primeng/api';
 @Component({
   selector: 'app-shell',
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.scss']
+	styleUrls: ['./shell.component.scss']
 })
 export class ShellComponent implements OnInit {
 
@@ -15,9 +15,9 @@ export class ShellComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        label: 'Username',
+				label: 'Струтинська Тетяна Олександрівна (Вчитель)',
         items: [
-          {label: 'Menu'},
+					{label: 'Menu'},
           {label: 'Logout'}
                 ]
 

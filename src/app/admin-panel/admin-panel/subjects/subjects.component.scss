@@ -1,4 +1,8 @@
 .subjects-table-cell{
     overflow: hidden;
-    text-overflow: ellipsis;
+		text-overflow: ellipsis;
 }
+
+:host ::ng-deep .ui-table-caption {
+	margin-top: 70px; 
+} 
