@@ -1,4 +1,5 @@
-<p-toolbar>
+
+	<p-toolbar>
 
 	<div class="ui-toolbar-group-left">
   	<button pButton type="button"><i class="fas fa-home home"></i></button>
@@ -7,10 +8,14 @@
   <div class="ui-toolbar-group-right">
     <i class="fas fa-user user"></i>
   </div>
-  <div class="ui-toolbar-group-right menubar" >
-    <p-menubar [model]="items" ></p-menubar>
+  <div class="ui-toolbar-group-right" >
+		<p-menubar [model]="items" [autoDisplay]="false">
+		</p-menubar>
   </div>
   
 </p-toolbar>
+
+
+
 
 <router-outlet></router-outlet>

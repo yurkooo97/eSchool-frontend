@@ -1,0 +1,18 @@
+$required: red;
+::ng-deep .ui-state-highlight{
+	background-color: #f9f9f9 !important;
+	color: black !important;
+}
+.ui-g-12{
+	padding: 0px !important;
+}
+.is-invalid{
+	border-color: $required;
+}
+.d-none{
+	display: none;
+}
+.requiredMessage{
+	color: $required;
+	font-size: 10px;
+}
