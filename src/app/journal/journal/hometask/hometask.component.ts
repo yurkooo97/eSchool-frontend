@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Hometask } from '../../../models/hometask.model';
 import { SelectItem } from 'primeng/api';
+import { TeacherJournalsService } from '../../../services/teacher-journals.service';
+import { Journal } from '../../../models/journal.model';
 
 @Component({
   selector: 'app-hometask',
@@ -15,7 +17,9 @@ export class HometaskComponent implements OnInit {
   sortField: string;
   sortOrder: number;
 
-  constructor() {
+  activeJournal: Journal;
+
+  constructor(private teacherJournalService: TeacherJournalsService) {
     this.hometasks = [
       {hometaskDate: '12-09-2018', hometaskDescription: 'Повторити правила', hometaskFileUrl: 'http://www.google.com'},
       {hometaskDate: '13-09-2018', hometaskDescription: 'Вивчити вірш', hometaskFileUrl: 'http://www.google.com'},
@@ -41,6 +45,10 @@ export class HometaskComponent implements OnInit {
       {label: 'Спочатку старі', value: 'year'},
       {label: 'По опису', value: 'description'}
     ];
+    //this.getJournal();
   }
 
+  getJournal(): void {
+    this.teacherJournalService.selectedJournal.subscribe(journal => this.activeJournal = journal);
+  }
 }
