@@ -9,7 +9,8 @@ import { FormsModule } from '@angular/forms';
 
 import { ToolbarModule } from 'primeng/toolbar';
 import { DropdownModule } from 'primeng/dropdown';
-import {DataViewModule} from 'primeng/dataview';
+import { DataViewModule } from 'primeng/dataview';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import {DataViewModule} from 'primeng/dataview';
     ToolbarModule,
     DropdownModule,
     FormsModule,
-    DataViewModule
+    DataViewModule,
+    ButtonModule
   ],
   declarations: [JournalComponent, MenuComponent, HometaskComponent]
 })
