@@ -1,3 +1,8 @@
 p-dropdown {
   margin-right: 20px;
 }
+:host {
+  ::ng-deep .ui-dropdown {
+    min-width: 200px;
+  }
+}
