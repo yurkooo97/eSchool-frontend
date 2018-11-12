@@ -6,8 +6,8 @@ import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 import { TeachersComponent } from './admin-panel/teachers/teachers.component';
 import { NewEduYearComponent } from './admin-panel/new-edu-year/new-edu-year.component';
-import { AdminGuard } from './admin.guard';
 
+import { AdminGuard } from './admin.guard';
 
 const routes: Routes = [
   {
@@ -33,8 +33,8 @@ const routes: Routes = [
       component:TeachersComponent
     },
     {
-      path:'newEducationalYear',
-      component: NewEduYearComponent
+      path:'new-studing-year',
+      component: NewStudingYearComponent
     },
   ]
   }

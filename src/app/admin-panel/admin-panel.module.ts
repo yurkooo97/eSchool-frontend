@@ -21,11 +21,11 @@ import { TeachersComponent } from './admin-panel/teachers/teachers.component';
 import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 import { NewEduYearComponent } from './admin-panel/new-edu-year/new-edu-year.component';
+import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
 
 import { AdmingroupsService } from '../services/admingroups.service';
 import { TeachersService } from "../services/teachers.service";
 import { AdminSubjectsService } from '../services/admin-subjects.service';
-
 
 @NgModule({
   imports: [
@@ -43,9 +43,9 @@ import { AdminSubjectsService } from '../services/admin-subjects.service';
     FormsModule,
     ReactiveFormsModule 
   ],
-  providers: [AdmingroupsService, AdminSubjectsService, TeachersService],
-  declarations: [AdminPanelComponent, StudentsComponent, TeachersComponent, GroupsComponent, SubjectsComponent, NewEduYearComponent]
 
+  providers: [AdmingroupsService, AdminSubjectsService, TeachersService],
+  declarations: [AdminPanelComponent, StudentsComponent, TeachersComponent, GroupsComponent, SubjectsComponent, NewEduYearComponent, NewStudingYearComponent]
 
 })
 export class AdminPanelModule {}
