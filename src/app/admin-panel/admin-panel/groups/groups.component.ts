@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { isString, isNumber } from 'util';
-import { Group } from '../../../models/groupModel';
+import { Group } from '../../../models/group.model';
 import { AdmingroupsService } from 'src/app/services/admingroups.service';
 
 

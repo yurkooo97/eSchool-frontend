@@ -12,10 +12,8 @@ const routes: Routes = [
   },
   {
 		path: 'shell',
-		canLoad: [AdminGuard],
 		loadChildren: './shell/shell.module#ShellModule',
-		
-  },
+	},
   {
     path: '',
     redirectTo: '',

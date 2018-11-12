@@ -18,13 +18,9 @@ export class ShellComponent implements OnInit {
         label: 'Username',
         items: [
           {label: 'Menu'},
-          {label: 'Logout'}
-                ]
-
-            }
-
-        ];
-
-    }
-
+          {label: 'Logout'} 
+               ]
+      }
+    ];
+  }		
 }

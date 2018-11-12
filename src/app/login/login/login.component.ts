@@ -20,20 +20,16 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {}
 	Login() {
-		
 		this.authService.login(this.userName, this.password)
 			.subscribe((result) => {
-					this.errorMessage = null;
-					
+				this.errorMessage = null;
 					console.log(result);
 					//TODO: redirect user to role-specific route
-					this.router.navigate(['/shell/admin-panel/']);
+				this.router.navigate(['/shell/admin-panel/']);
 			},
 			error => {
-					this.errorMessage = 'TODO: write error message';
-				
-					console.log(error.message);
-					
+				this.errorMessage = 'TODO: write error message';
+				console.log(error.message);	
 			});
 	}	
 }

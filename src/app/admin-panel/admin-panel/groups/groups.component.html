@@ -18,7 +18,6 @@
           	</tr>
     </ng-template>
   </p-table>
-
   <p-table  [columns]="cols" [value]="inactiveGroups">
     <ng-template  pTemplate="caption">
       <span> Список неактивних класів </span>
@@ -28,8 +27,7 @@
             <span *ngIf="!showInactive">Показати</span>
           </button>
         </div>
-    </ng-template>
-        
+    </ng-template> 
     <ng-template pTemplate="header" let-columns>
       <tr *ngIf="showInactive">
         <th *ngFor="let col of columns">
@@ -45,16 +43,12 @@
         </tr>
     </ng-template>
   </p-table>
-
-
 	<div>
   	<p-button (click)="showDialog()" label="Додати клас" styleClass="ui-button-success"></p-button>
 	</div>
-
 </div>
 <p-dialog header="Редагувати клас"  [(visible)]="showEditDialog" [modal]="true" [responsive]="true" [width]="450" [minWidth]="200" [minY]="70" 
-      [maximizable]="true" [baseZIndex]="10000">                   
-                    
+      [maximizable]="true" [baseZIndex]="10000">                             
       	<h3>Назва класу</h3>
         <input id="input" type="text" size="30" pInputText [(ngModel)]="editGroup.className" /> 
           <label  for="input"></label>
@@ -62,13 +56,11 @@
         <input id="input" type="text" size="30" pInputText [(ngModel)]="editGroup.classYear"> 
           <label  for="input"></label>
         <h3>Опис класу</h3>
-          <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="editGroup.classDescription"></textarea>
-                    
+          <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="editGroup.classDescription"></textarea>                 
 	<div class="ui-g" style="width:250px;margin:10px 0 10px">                                   
     <p-radioButton name="isActivegroup" value="true" label="Активний" [(ngModel)]="editGroup.isActive"></p-radioButton>
     <p-radioButton name="isActivegroup" value="false" label="Неактивний" [(ngModel)]="editGroup.isActive"></p-radioButton>
-	</div>                              
-                             
+	</div>                                                         
   <p-footer>
     <button type="button" pButton icon="pi pi-check" (click)="saveGroup()" label="Зберегти"></button>
     <button type="button" pButton icon="pi pi-close" (click)="showEditDialog=false" label="Відміна" class="ui-button-secondary"></button>
