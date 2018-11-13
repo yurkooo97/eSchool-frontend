@@ -42,7 +42,7 @@ export class MenuComponent implements OnInit {
   }
 
   getJournals(): void {
-    this.teacherJournalService.getJournals().subscribe(journals => this.journals = journals.data);
+    this.teacherJournalService.getJournals().subscribe(journals => this.classes = journals);
   }
   extractClasses(): void {
 

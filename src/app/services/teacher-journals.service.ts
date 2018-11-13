@@ -18,7 +18,7 @@ export class TeacherJournalsService {
   private httpOptions = { headers: new HttpHeaders( {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE',
-      'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnQnVibGlrMjMiLCJSb2xlcyI6eyJhdXRob3JpdHkiOiJST0xFX1RFQUNIRVIifSwiZXhwIjoxNTQxODgwMTkxLCJpYXQiOjE1NDE4NzY1OTEsImp0aSI6IjExIn0.OiQV_uRnXyQLuE5BXb14kkqYh1IEcea6G7lbHsGwdR-hZsoem3IxzHTxVXmKGf2SBMIAyc8TaoRikzV0XjG2nQ'})};
+      'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnQnVibGlrMjMiLCJSb2xlcyI6eyJhdXRob3JpdHkiOiJST0xFX1RFQUNIRVIifSwiZXhwIjoxNTQyMTUyMzg2LCJpYXQiOjE1NDIxNDg3ODYsImp0aSI6IjExIn0.z3wq4cXEZqxJbo-gJCPF8HyJjyRxwgSG_wUxUJYM76Vu6qSVARYzx-nqC_xTxjZWNZjnR-wOJWlBUI3bBi39gg'})};
 
   getJournals(): Observable<Journal[]> {
     return this.http.get<Journal[]>(this.journalUrl, this.httpOptions);

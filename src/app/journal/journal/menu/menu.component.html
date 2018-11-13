@@ -1,8 +1,8 @@
 <br>
 <p-toolbar>
   <div class="ui-toolbar-group-left">
-    <p-dropdown [options]="journalspppp" [(ngModel)]="selectedClassName" optionLabel="className" placeholder="Оберіть клас:"></p-dropdown>
-    <p-dropdown [options]="journals" [(ngModel)]="selectedSubjectName" optionLabel="subjectName" placeholder="Оберіть предмет:"></p-dropdown>
+    <p-dropdown [options]="classes.data" [(ngModel)]="selectedClassName" optionLabel="className" placeholder="Оберіть клас:"></p-dropdown>
+    <p-dropdown [options]="classes.data" [(ngModel)]="selectedSubjectName" optionLabel="subjectName" placeholder="Оберіть предмет:"></p-dropdown>
     <span *ngIf="selectedClassName">{{selectedClassName ? selectedClassName.academicYear : 'none'}}</span>
     <p-button label="Завантажити журнал" (onClick)="handleClick($event)"></p-button>
   </div>
@@ -12,7 +12,7 @@
 
 
 <ul class="journal">
-  <li *ngFor="let journal of journals">
+  <li *ngFor="let journal of classes.data">
       <div>{{journal.academicYear}}</div>
       <div>{{journal.className}}</div>
       <div>{{journal.idClass}}</div>
