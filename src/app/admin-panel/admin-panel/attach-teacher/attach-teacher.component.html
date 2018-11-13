@@ -3,7 +3,7 @@
     <h1>{{title}}</h1>
     <h3>Вчитель</h3>
     <p-autoComplete [(ngModel)]="teacher" [suggestions]="filteredTeachers" (completeMethod)="filterTeachers($event)"
-      [size]="30" [minLength]="1" placeholder="Hint: type 'v' or 'f'" field="firstname" [dropdown]="true">
+      [size]="30" [minLength]="1" placeholder="Виберіть вчителя" field="firstname" [dropdown]="true">
       <ng-template let-teacher pTemplate="item">
         <div class="ui-helper-clearfix">
           <div style="font-size:18px;float:left;margin:10px 10px 0 0">{{teacher?.lastname}} {{teacher?.firstname}}</div>
@@ -13,7 +13,7 @@
 
     <h3>Предмет</h3>
     <p-autoComplete [(ngModel)]="subject" [suggestions]="filteredSubjects" (completeMethod)="filterSubjects($event)"
-      [size]="30" [minLength]="1" placeholder="Hint: type 'v' or 'f'" field="subjectName" [dropdown]="true">
+      [size]="30" [minLength]="1" placeholder="Виберіть предмет" field="subjectName" [dropdown]="true">
       <ng-template let-subject pTemplate="item">
         <div class="ui-helper-clearfix">
           <div style="font-size:18px;margin:10px 10px 0 0">{{subject?.subjectName}}</div>
@@ -22,14 +22,14 @@
     </p-autoComplete>
     <h3>Клас</h3>
     <p-autoComplete [(ngModel)]="_class" [suggestions]="filteredClasses" (completeMethod)="filterClasses($event)"
-      [size]="30" [minLength]="1" placeholder="Hint: type 'v' or 'f'" field="className" [dropdown]="true">
+      [size]="30" [minLength]="1" placeholder="Виберіть клас" field="className" [dropdown]="true">
       <ng-template let-_class pTemplate="item">
         <div class="ui-helper-clearfix">
           <div style="font-size:18px;margin:10px 10px 0 0">{{_class?.className}}</div>
         </div>
       </ng-template>
     </p-autoComplete>
-    <div><button pButton type="button" label="Зберегти" icon="fa fa-check" iconPos="left" class="ui-button-success"
+    <div style="margin-top:20px"><button pButton type="button" label="Зберегти" icon="fa fa-check" iconPos="left" class="ui-button-success"
         (click)="postAttachTeacher(object)"></button></div>
   </div>
 </div>
