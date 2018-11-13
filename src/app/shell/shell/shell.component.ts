@@ -2,26 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 
 @Component({
-  selector: 'app-shell',
-  templateUrl: './shell.component.html',
+	selector: 'app-shell',
+	templateUrl: './shell.component.html',
 	styleUrls: ['./shell.component.scss']
 })
 export class ShellComponent implements OnInit {
 
-  items: MenuItem[];
+	items: MenuItem[];
 
-  constructor() { }
+	constructor() { }
 
-  ngOnInit() {
-    this.items = [
-      {
+	ngOnInit() {
+		this.items = [
+			{
 				label: 'Струтинська Тетяна Олександрівна (Вчитель)',
-        items: [
+				items: [
 
-          {label: 'Menu'},
-          {label: 'Logout'} 
-               ]
-      }
-    ];
-  }		
-
+					{ label: 'Menu' },
+					{ label: 'Logout' }
+				]
+			}
+		];
+	}
+}
