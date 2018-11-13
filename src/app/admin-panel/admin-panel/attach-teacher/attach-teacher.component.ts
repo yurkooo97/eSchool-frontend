@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpAttachTeacherService } from 'src/app/services/http-attach-teacher.service';
 import { Teacher } from 'src/app/models/teacher.model';
 import { Subject } from 'src/app/models/subjects.model';
 import { Group } from 'src/app/models/group.model';
 import { AttachedTeacher } from 'src/app/models/attached-teacher.model';
+import { NgForm } from '@angular/forms';
+
 
 @Component({
   selector: 'app-attach-teacher',
@@ -12,26 +14,18 @@ import { AttachedTeacher } from 'src/app/models/attached-teacher.model';
   providers: [HttpAttachTeacherService]
 })
 export class AttachTeacherComponent implements OnInit {
+  @ViewChild('AttachTeacherForm') form: NgForm;
   title = 'Привз\'яка вчителя до журналу';
 
-  set teacher(teacher: Teacher) {
-    this.object.teacherId = teacher.id;
-    console.log(teacher.id);
-  }
+  teacher: Teacher;
   teachers: Teacher[] = [];
   filteredTeachers: Teacher[];
 
-  set subject(subject: Subject) {
-    this.object.subjectId = subject.subjectId;
-    console.log(subject.subjectId);
-  }
+  subject: Subject;
   subjects: Subject[] = [];
   filteredSubjects: Subject[];
 
-  set _class(_class: Group) {
-    this.object.classId = _class.id;
-    console.log(_class.id);
-  }
+  _class: Group;
   classes: Group[] = [];
   filteredClasses: Group[];
 
@@ -41,7 +35,6 @@ export class AttachTeacherComponent implements OnInit {
     teacherId: 0
   };
   constructor(private attachService: HttpAttachTeacherService) { }
-
 
   filterTeachers(event) {
     this.filteredTeachers = [];
@@ -70,9 +63,13 @@ export class AttachTeacherComponent implements OnInit {
       }
     }
   }
-  postAttachTeacher(obj: AttachedTeacher) {
-    console.log(obj);
-    this.attachService.postAttachTeacher(obj).subscribe(data => console.log(data));
+  postAttachTeacher() {
+    this.object.subjectId = this.form.value.subject.subjectId;
+    this.object.teacherId = this.form.value.teacher.id;
+    this.object.classId = this.form.value._class.id;
+    console.log(this.object);
+    this.attachService.postAttachTeacher(this.object).subscribe(data => console.log(data));
+    this.form.reset();
   }
 
   ngOnInit() {
