@@ -1,22 +1,34 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MenuModule} from 'primeng/menu';
-import {TableModule} from 'primeng/table';
-import { AdminPanelRoutingModule } from './admin-panel-routing.module';
-import {DialogModule} from 'primeng/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {ButtonModule} from 'primeng/button';
-import {InputTextModule} from 'primeng/inputtext';
-import {InputTextareaModule} from 'primeng/inputtextarea';
-import {AutoCompleteModule} from 'primeng/autocomplete';
+import { MenuModule } from 'primeng/menu';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { InputMaskModule } from 'primeng/inputmask';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { DropdownModule } from 'primeng/dropdown';
+import { FieldsetModule } from 'primeng/fieldset';
+import { FileUploadModule } from 'primeng/fileupload';
+import { AdminPanelRoutingModule } from './admin-panel-routing.module';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+
+import { TeachersService } from '../services/teachers.service';
+import { AdminSubjectsService } from '../services/admin-subjects.service';
+import { AdmingroupsService } from '../services/admingroups.service';
 
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { StudentsComponent } from './admin-panel/students/students.component';
 import { TeachersComponent } from './admin-panel/teachers/teachers.component';
 import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
-import { AdminSubjectsService } from '../services/admin-subjects.service';
 import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teacher.component';
+import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
+
 
 @NgModule({
   imports: [
@@ -24,15 +36,32 @@ import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teac
     AdminPanelRoutingModule,
     MenuModule,
     TableModule,
-    DialogModule,
-    FormsModule,
-    ReactiveFormsModule,
     ButtonModule,
+    FieldsetModule,
+    DialogModule,
     InputTextModule,
     InputTextareaModule,
+    MessagesModule,
+    MessageModule,
+    DropdownModule,
+    FileUploadModule,
+    InputMaskModule,
+    RadioButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
     AutoCompleteModule
   ],
-  providers: [AdminSubjectsService],
-  declarations: [AdminPanelComponent, StudentsComponent, TeachersComponent, GroupsComponent, SubjectsComponent, AttachTeacherComponent]
+
+  providers: [AdmingroupsService, AdminSubjectsService, TeachersService],
+  declarations: [
+    AdminPanelComponent,
+    StudentsComponent,
+    TeachersComponent,
+    GroupsComponent,
+    SubjectsComponent,
+    NewStudingYearComponent,
+    AttachTeacherComponent
+  ]
+
 })
 export class AdminPanelModule { }

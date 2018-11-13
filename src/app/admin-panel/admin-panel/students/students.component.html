@@ -1,3 +1,123 @@
-<p>
-  students works!
-</p>
+<br>
+<p-fieldset legend="Активні класи" [toggleable]="true" [collapsed]="false">
+  <span *ngFor="let  class_ of classes">
+    <button *ngIf="class_.isActive == true" type="button" pButton icon="pi pi-users" label="&nbsp;&nbsp;{{class_.className}}" title="{{class_.id}}" (click)="loadStudents(class_.id)" class="ui-button-raised classButton"></button>
+  </span>
+</p-fieldset>
+<br>
+<p-fieldset legend="Класи минулих років" [toggleable]="true" [collapsed]="true">
+  <span *ngFor="let  class_ of classes">
+    <button *ngIf="class_.isActive == false" type="button" pButton icon="pi pi-users" label="&nbsp;&nbsp;{{class_.className}}&nbsp;&nbsp;({{class_.classYear}})" title="{{class_.id}}" (click)="loadStudents(class_.id)" class="ui-button-raised classButton"></button>
+  </span>
+</p-fieldset>
+<br>
+<p-table [value]="students">
+  <ng-template pTemplate="caption">
+    Учні
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th *ngFor="let col of cols">
+        {{col.header}}
+      </th>
+      <th>
+        Кнопка
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-student>
+    <tr>
+      <td *ngFor="let col of cols">
+        {{student[col.field]}}
+      </td>
+      <td>
+        <button type="button" pButton icon="pi pi-pencil" (click)="editStudent(student)" class="ui-button-raised ui-button-warning"></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <button type="button" (click)="createStudent()" pButton icon="pi pi-plus" class="ui-button-raised ui-button-secondary" label="Новий учень"></button>
+  </ng-template>
+</p-table>
+
+<p-dialog header="Інформація Про Учня" [(visible)]="displayForm" [modal]="true" [responsive]="true" [width]="420" [minWidth]="200" [minY]="70" [maximizable]="false" [baseZIndex]="10000">
+  <form [formGroup]="addStudentForm" ngNativeValidate class="studentsForm">
+    <p-fieldset legend="Обов'язкові поля">
+      <span class="ui-float-label">
+        <input id="float-input" type="text" pInputText formControlName="firstname" name="firstname" [(ngModel)]="newStudent.firstname" class="form-control">
+        <label for="float-input">Ім'я</label>
+      </span>
+      <div class="messageOfMistake" *ngIf="addStudentForm.controls['firstname'].invalid && addStudentForm.controls['firstname'].touched">
+        Некоректне ім'я
+      </div>
+      <br>
+      <span class="ui-float-label">
+        <input id="float-input" type="text" pInputText formControlName="lastname" name="lastname" [(ngModel)]="newStudent.lastname" class="form-control">
+        <label for="float-input">Прізвище</label>
+      </span>
+      <div class="messageOfMistake" *ngIf="addStudentForm.controls['lastname'].invalid && addStudentForm.controls['lastname'].touched">
+        Некоректне прізвище
+      </div>
+      <br>
+      <span class="ui-float-label">
+        <input id="float-input" type="text" pInputText formControlName="patronymic" name="patronymic" [(ngModel)]="newStudent.patronymic" class="form-control">
+        <label for="float-input">По батькові</label>
+      </span>
+      <div class="messageOfMistake" *ngIf="addStudentForm.controls['patronymic'].invalid && addStudentForm.controls['patronymic'].touched">
+        Некоректне по-батькові
+      </div>
+      <br>
+      <span class="ui-float-label">
+        <select (change)="selectedClassHandler($event)">
+            <option></option>
+            <option *ngFor="let class_ of classes" value="{{class_.id}}">{{class_.className}} ({{class_.classYear}})</option>
+        </select>
+        <p-dropdown [options]="classes" placeholder="Оберіть клас" optionLabel="className" [(ngModel)]="selectedClass" formControlName="selectClass"></p-dropdown>
+        <input id="float-input" type="text" pInputText formControlName="classId" name="classId" [(ngModel)]="newStudent.classId" value="{{selectedClass.id}}" class="form-control classID" disabled>
+        <!--<label for="float-input">Клас</label>-->
+        <div class="messageOfMistake" *ngIf="addStudentForm.controls['classId'].invalid && addStudentForm.controls['classId'].touched">
+          Оберіть клас
+        </div>
+      </span>
+      <br>
+      <span class="ui-float-label">
+        <input id="float-input" type="text" pInputText formControlName="login" name="login" [(ngModel)]="newStudent.login" class="form-control">
+        <label for="float-input">Логін</label>
+      </span>
+      <div class="messageOfMistake" *ngIf="addStudentForm.controls['login'].invalid && addStudentForm.controls['login'].touched">
+        Некоректний логін
+      </div>
+      <br>
+      <span class="ui-float-label">
+        <input id="float-input" type="text" pInputText formControlName="dateOfBirth" name="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" class="form-control">
+        <label for="float-input">Дата народження</label>
+      </span>
+      <div class="messageOfMistake" *ngIf="addStudentForm.controls['dateOfBirth'].invalid && addStudentForm.controls['dateOfBirth'].touched">
+        Некоректна дата народження
+      </div>
+      <br>
+    </p-fieldset>
+    <br>
+    <p-fieldset legend="Додаткова інформація" [toggleable]="true" [collapsed]="true">
+      <br>
+      <span class="ui-float-label">
+        <input id="float-input" type="text" pInputText formControlName="phone" name="phone" [(ngModel)]="newStudent.phone" class="form-control">
+        <label for="float-input">Номер телефону</label>
+      </span>
+      <br>
+      <span class="ui-float-label">
+        <input id="float-input" type="text" pInputText formControlName="email" name="email" [(ngModel)]="newStudent.email" class="form-control">
+        <label for="float-input">Email</label>
+      </span>
+      <br>
+      <p-fileUpload name="avatar[]" mode="basic" [maxFileSize]="500000" chooseLabel="Оберіть аватар" (onUpload)="uploadAvatar()" class="form-control"></p-fileUpload>
+    </p-fieldset>
+    <br>
+  </form>
+<p-footer>
+  <button type="button" pButton icon="pi pi-check" [disabled]="addStudentForm.invalid" (click)="saveStudent()" class="ui-button-raised ui-button-success" label="Зберегти"></button>
+<button type="button" pButton icon="pi pi-times" (click)="hideForm()" class="ui-button-raised ui-button-danger" label="Скасувати"></button>
+</p-footer>
+</p-dialog>
+
+

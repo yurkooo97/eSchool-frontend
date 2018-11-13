@@ -67,10 +67,10 @@ export class SubjectsComponent implements OnInit {
 		this.subject = null;
 	}
 
-	onRowSelect(event) {
+	onRowSelect(rowData) {
 		this.newSubject = false;
         this.subject = {
-            ...event.data
+            ...rowData
         };
 		this.displayDialog = true;
 	}

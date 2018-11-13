@@ -9,26 +9,26 @@ import {Subject} from '../models/subjects.model';
 export class AdminSubjectsService {
 
   private httpOptions = {
-    headers: new HttpHeaders({ 
-      'Access-Control-Allow-Origin':'*',
-      'Access-Control-Allow-Methods':'GET,POST,PUT,DELETE',
-      "Access-Control-Allow-Headers": "accept, content-type"
+    headers: new HttpHeaders({
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE',
+      'Access-Control-Allow-Headers': 'accept, content-type'
     })
   };
 
   private url = 'https://fierce-shore-32592.herokuapp.com/subjects';
 
-  constructor(private _http:HttpClient) { }
+  constructor(private _http: HttpClient) { }
 
-  public getSubjectsList():Observable<Subject[]> {
+  public getSubjectsList(): Observable<Subject[]> {
     return this._http.get<Subject[]>(this.url, this.httpOptions);
   }
 
-  public postSubject (subject:Subject):Observable<Subject>{ 
+  public postSubject (subject: Subject): Observable<Subject> {
     return this._http.post<Subject>(this.url, subject, this.httpOptions);
   }
 
-  public putSubject (subject:Subject):Observable<Subject> { 
+  public putSubject (subject: Subject): Observable<Subject> {
     return this._http.put<Subject>(`${this.url}/${subject.subjectId}`, subject, this.httpOptions);
   }
 }

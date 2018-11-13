@@ -2,3 +2,27 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+::ng-deep .ui-state-highlight{
+    background-color: #f9f9f9 !important;
+    color: black !important;
+}
+:host ::ng-deep .ui-table-caption {
+	margin-top: 70px; 
+}
+.subjects-table-row{
+    height: 48px;
+    .subjects-table-cell{
+        position: relative;
+    }
+    .subjects-custom-button{
+        display:none;
+    }
+    &:hover .subjects-custom-button{
+        position: absolute;
+        top: 8px;
+        left: 482px;
+        display: inline-block;
+    }
+}
+ 
