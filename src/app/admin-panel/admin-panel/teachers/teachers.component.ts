@@ -42,10 +42,10 @@ export class TeachersComponent implements OnInit {
     this.newTeacher = true;
     this.teacher = {};
   }
-  onRowSelect(event) {
+  onRowSelect(rowData) {
     this.newTeacher = false;
     this.teacher = {
-      ...event.data
+      ...rowData
     };
     this.displayDialog = true;
   }
