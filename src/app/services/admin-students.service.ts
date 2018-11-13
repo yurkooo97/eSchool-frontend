@@ -13,7 +13,7 @@ export class StudentsService {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
       'Access-Control-Allow-Headers': 'accept, content-type',
-      'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsIlJvbGVzIjp7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifSwiZXhwIjoxNTQxOTc1ODE1LCJpYXQiOjE1NDE5NzIyMTUsImp0aSI6IjIzMSJ9.a0D-efTGiHC4wyb-clgsvNQOPFGtX99p8Caqr0T_2EcPWldvsIoScpDcGOzg57qKsWJHmir0Gdkx24awO1JTJg'
+      'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsIlJvbGVzIjp7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifSwiZXhwIjoxNTQyMTM5NDkyLCJpYXQiOjE1NDIxMzU4OTIsImp0aSI6IjIzMSJ9.loNuDs3MJI5hcVPVNnCggr9KcBJDW07XYnb17eIbB4oVJ5BMdhBziX8ZQizw6h7qifg1jcL16Xcn_WQofRm49w'
     })
   };
 

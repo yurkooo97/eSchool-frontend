@@ -18,3 +18,22 @@
   width: 20% !important;
   float: right;
 }
+.mainInfo
+{
+  float: left;
+  width: calc(50% - 7px);
+  margin-right: 14px;
+}
+.secondaryInfo
+{
+  float: right;
+  width: calc(50% - 7px);
+}
+.editButton
+{
+  text-align: center;
+}
+.activeClasses ::ng-deep .ui-fieldset
+{
+  margin-top: 60px;
+}

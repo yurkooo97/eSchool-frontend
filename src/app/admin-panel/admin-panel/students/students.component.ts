@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentsService } from '../../../services/admin-students.service';
 import { Student } from '../../../models/students.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {Class_} from '../../../models/classesForStudents.model';
 
 @Component({
@@ -20,11 +19,11 @@ export class StudentsComponent implements OnInit {
   cols: any[];
   selectedClass: number = 0;
   displayForm: boolean;
-  constructor(private service_: StudentsService, private formBuilder: FormBuilder) {
+  imageUrl: any = 'assets/avatar.png';
+  fileToUpload: File = null;
+  constructor(private service_: StudentsService) {
     this.students = new Array<Student>();
   }
-
-  addStudentForm: FormGroup;
 
   ngOnInit() {
     this.service_.getClasses().subscribe(
@@ -45,19 +44,6 @@ export class StudentsComponent implements OnInit {
       { field: 'login', header: 'Логін' },
     ];
 
-    this.addStudentForm = this.formBuilder.group({
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required],
-      patronymic: ['', Validators.required],
-      classId: ['', Validators.required],
-      dateOfBirth: ['', Validators.required],
-      email: [''],
-      phone: [''],
-      login: ['', Validators.required],
-      avatar: [''],
-      selectClass: ['']
-    });
-
     this.newStudent = new Student();
   }
 
@@ -70,13 +56,13 @@ export class StudentsComponent implements OnInit {
 
   createStudent() {
     this.newStudent = new Student();
-    this.students.push(this.newStudent);
+    // this.students.push(this.newStudent);
     this.isNew = true;
     this.showForm();
   }
 
   editStudent(student: Student) {
-    this.newStudent = new Student(student.firstname, student.lastname, student.patronymic, student.classId, student.dateOfBirth, student.email, student.phone, student.login, student.id);
+    this.newStudent = new Student(student.firstname, student.lastname, student.patronymic, student.classId, student.dateOfBirth, student.email, student.phone, student.login, student.id, student.avatar);
     this.isNew = false;
     this.showForm();
   }
@@ -111,11 +97,12 @@ export class StudentsComponent implements OnInit {
       this.loadStudents(21);
     }
   }
-
-  uploadAvatar(e) {
-    for (let avatar of e.files) {
-      this.avatars.push(avatar);
-    }
+  handlerFileInput(file: FileList) {
+    this.fileToUpload = file.item(0);
+    let reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.imageUrl = event.target.result;
+    };
+    reader.readAsDataURL(this.fileToUpload);
   }
-
 }
