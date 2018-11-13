@@ -13,14 +13,16 @@ import { MessageModule } from 'primeng/message';
 import { DropdownModule } from 'primeng/dropdown';
 import { FieldsetModule } from 'primeng/fieldset';
 import { FileUploadModule } from 'primeng/fileupload';
+import { InputMaskModule } from 'primeng/inputmask';
 
+import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
+import { TeachersService } from "../services/teachers.service";
+import { AdminSubjectsService } from '../services/admin-subjects.service';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { StudentsComponent } from './admin-panel/students/students.component';
 import { TeachersComponent } from './admin-panel/teachers/teachers.component';
 import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
-import { AdminSubjectsService } from '../services/admin-subjects.service';
-import { NewEduYearComponent } from './admin-panel/new-edu-year/new-edu-year.component';
 
 @NgModule({
   imports: [
@@ -38,9 +40,17 @@ import { NewEduYearComponent } from './admin-panel/new-edu-year/new-edu-year.com
     MessageModule,
     DropdownModule,
     FieldsetModule,
-    FileUploadModule
+    FileUploadModule,
+    InputMaskModule
   ],
-  providers: [AdminSubjectsService],
-  declarations: [AdminPanelComponent, StudentsComponent, TeachersComponent, GroupsComponent, SubjectsComponent, NewEduYearComponent]
+  providers: [TeachersService,AdminSubjectsService],
+  declarations: [
+    AdminPanelComponent,
+    StudentsComponent,
+    TeachersComponent,
+    GroupsComponent,
+    SubjectsComponent,
+    NewStudingYearComponent
+  ]
 })
-export class AdminPanelModule { }
+export class AdminPanelModule {}
