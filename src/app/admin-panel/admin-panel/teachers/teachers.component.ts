@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
-import { TeachersService } from "../../../services/teachers.service";
-import { Iteachers } from "src/app/models/teachers";
+import { Component, OnInit } from '@angular/core';
+import { TeachersService } from '../../../services/teachers.service';
+import { Iteachers } from 'src/app/models/teachers';
 
 @Component({
   selector: 'app-teachers',
@@ -32,7 +32,7 @@ export class TeachersComponent implements OnInit {
   handlerFileInput(file: FileList){
     this.fileToUpload = file.item(0);
     let reader = new FileReader();
-    reader.onload = (event: any) =>{
+    reader.onload = (event: any) => {
       this.imageUrl = event.target.result;
     };
     reader.readAsDataURL(this.fileToUpload);
@@ -50,7 +50,7 @@ export class TeachersComponent implements OnInit {
     this.displayDialog = true;
   }
   create() {
-    if (this.teacher.firstname.length >= 3 && this.teacher.lastname.length >= 3 && this.teacher.patronymic.length >=7){
+    if (this.teacher.firstname.length >= 3 && this.teacher.lastname.length >= 3 && this.teacher.patronymic.length >= 7 ){
       this.displayDialog = false;
     }
     this._teacherServices

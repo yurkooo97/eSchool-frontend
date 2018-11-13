@@ -11,19 +11,24 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FieldsetModule } from 'primeng/fieldset';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputMaskModule } from 'primeng/inputmask';
-
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { DropdownModule } from 'primeng/dropdown';
+import { FieldsetModule } from 'primeng/fieldset';
+import { FileUploadModule } from 'primeng/fileupload';
 import { AdminPanelRoutingModule } from './admin-panel-routing.module';
+
+import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
+import { TeachersService } from "../services/teachers.service";
+import { AdminSubjectsService } from '../services/admin-subjects.service';
+
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { StudentsComponent } from './admin-panel/students/students.component';
 import { TeachersComponent } from './admin-panel/teachers/teachers.component';
 import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 import { NewEduYearComponent } from './admin-panel/new-edu-year/new-edu-year.component';
-
-import { AdmingroupsService } from '../services/admingroups.service';
-import { TeachersService } from "../services/teachers.service";
-import { AdminSubjectsService } from '../services/admin-subjects.service';
-
+import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
 
 @NgModule({
   imports: [
@@ -36,14 +41,18 @@ import { AdminSubjectsService } from '../services/admin-subjects.service';
     DialogModule,
     InputTextModule,
     InputTextareaModule,
+    MessagesModule,
+    MessageModule,
+    DropdownModuleб
+    FileUploadModule,
     InputMaskModule,
     RadioButtonModule,
     FormsModule,
     ReactiveFormsModule 
   ],
-  providers: [AdmingroupsService, AdminSubjectsService, TeachersService],
-  declarations: [AdminPanelComponent, StudentsComponent, TeachersComponent, GroupsComponent, SubjectsComponent, NewEduYearComponent]
 
+  providers: [AdmingroupsService, AdminSubjectsService, TeachersService],
+  declarations: [AdminPanelComponent, StudentsComponent, TeachersComponent, GroupsComponent, SubjectsComponent, NewEduYearComponent, NewStudingYearComponent]
 
 })
 export class AdminPanelModule {}
