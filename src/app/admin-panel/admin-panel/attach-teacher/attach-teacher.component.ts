@@ -76,23 +76,8 @@ export class AttachTeacherComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.attachService.getTeachers()
-      .subscribe((data) => {
-        this.teachers = data;
-        console.log(this.teachers);
-      });
-
-    this.attachService.getSubjects()
-      .subscribe((data) => {
-        this.subjects = data;
-        console.log(this.subjects);
-      });
-
-    this.attachService.getClasses()
-      .subscribe((data) => {
-        this.classes = data;
-        console.log(this.classes);
-      });
+    this.attachService.getTeachers().subscribe(data => this.teachers = data);
+    this.attachService.getSubjects().subscribe(data => this.subjects = data);
+    this.attachService.getClasses().subscribe(data => this.classes = data);
   }
-
 }
