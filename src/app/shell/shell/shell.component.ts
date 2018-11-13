@@ -17,14 +17,11 @@ export class ShellComponent implements OnInit {
       {
 				label: 'Струтинська Тетяна Олександрівна (Вчитель)',
         items: [
-					{label: 'Menu'},
-          {label: 'Logout'}
-                ]
 
-            }
+          {label: 'Menu'},
+          {label: 'Logout'} 
+               ]
+      }
+    ];
+  }		
 
-        ];
-
-    }
-
-}
