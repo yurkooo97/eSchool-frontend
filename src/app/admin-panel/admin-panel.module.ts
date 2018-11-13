@@ -4,10 +4,11 @@ import {MenuModule} from 'primeng/menu';
 import {TableModule} from 'primeng/table';
 import { AdminPanelRoutingModule } from './admin-panel-routing.module';
 import {DialogModule} from 'primeng/dialog';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import {AutoCompleteModule} from 'primeng/autocomplete';
 
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { StudentsComponent } from './admin-panel/students/students.component';
@@ -28,7 +29,8 @@ import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teac
     ReactiveFormsModule,
     ButtonModule,
     InputTextModule,
-    InputTextareaModule
+    InputTextareaModule,
+    AutoCompleteModule
   ],
   providers: [AdminSubjectsService],
   declarations: [AdminPanelComponent, StudentsComponent, TeachersComponent, GroupsComponent, SubjectsComponent, AttachTeacherComponent]
