@@ -27,15 +27,15 @@ public getClasses(): Observable<Group[]> {
 public saveClass(group:Group) : Observable<Group> {
   if (isNumber(group.id)){
     return this.http.put<Group>(`${this.ClassesUrl}/${group.id}`, group)
-    .pipe(
-      catchError(this.handleError)
-    );
+      .pipe(
+        catchError(this.handleError)
+      );
   } else {
     return this.http.post<Group>(this.ClassesUrl, group)
-    .pipe(
-      catchError(this.handleError)
-    );
-  }
+      .pipe(
+        catchError(this.handleError)
+      );
+    } 
 };
   
 public postClasses(group:Group): Observable<Group> {

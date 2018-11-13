@@ -8,13 +8,12 @@ import { TeachersComponent } from './admin-panel/teachers/teachers.component';
 import { NewEduYearComponent } from './admin-panel/new-edu-year/new-edu-year.component';
 import { AdminGuard } from './admin.guard';
 
-
 const routes: Routes = [
   {
     path: '',
-		component: AdminPanelComponent,
-		canLoad: [AdminGuard],
-	
+    component: AdminPanelComponent,
+    canLoad: [AdminGuard],
+  
     children:[{ 
       path:'students',
       component:StudentsComponent

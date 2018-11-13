@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {MenuItem} from 'primeng/api';
-
-
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-admin-panel',
@@ -22,9 +20,9 @@ export class AdminPanelComponent implements OnInit {
         {label: 'Предмети', icon: 'pi pi-pencil', routerLink: ['subjects']},
         {label: 'Класи', icon: 'pi pi-folder', routerLink: ['groups']},
         {label: 'Створити новий навчальний рік', icon:'pi pi-fw pi-plus', routerLink: ['newEducationalYear']}
-    ]
-  }]
-	}
-	
-	
+      ]
+    }]
+  }
+  
+
 }

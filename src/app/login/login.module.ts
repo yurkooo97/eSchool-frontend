@@ -13,13 +13,13 @@ import { LoginComponent } from './login/login.component';
 @NgModule({
   imports: [
     CommonModule,
-		LoginRoutingModule,
-		TabMenuModule,
+    LoginRoutingModule,
+    TabMenuModule,
     InputTextModule,
     CardModule,
     ButtonModule,
-		ToolbarModule,
-		FormsModule
+    ToolbarModule,
+    FormsModule
   ],
   declarations: [LoginComponent]
 })

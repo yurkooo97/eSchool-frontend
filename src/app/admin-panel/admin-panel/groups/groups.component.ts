@@ -22,7 +22,6 @@ export class GroupsComponent implements OnInit {
  
   showDialog(rowData: Group) {
     if (!rowData){
-     
       rowData = new Group();
       console.log(rowData);
     }
@@ -32,55 +31,47 @@ export class GroupsComponent implements OnInit {
     this.showEditDialog = true;
   }
  
-	
   saveGroup(){
     this.showEditDialog = false;
     console.log(this.editGroup);
     this._GroupService.saveClass(this.editGroup)
-                      .subscribe(group => {
-                        console.log(group);
-                    
-                       });
+      .subscribe(group => {
+        console.log(group);               
+  });
     
-
-    // hack to convert string value set by radio button to bool
+  // hack to convert string value set by radio button to bool
     if (isString(this.editGroup.isActive)){
       this.editGroup.isActive = this.editGroup.isActive == 'true';
     }
 
     let isActiveChanged = this.editGroupOriginal.isActive != this.editGroup.isActive;
     Object.assign(this.editGroupOriginal, this.editGroup);
-    if (isActiveChanged){
-      this.filterGroups();
-    }
+      if (isActiveChanged){
+        this.filterGroups();
+      }
     this.showEditDialog=false;
   }
   
   constructor(private _GroupService: AdmingroupsService) {
-      this.editGroup = new Group();      
+    this.editGroup = new Group();      
   }
   ngOnInit() {
-
     this._GroupService.getClasses()
-                      .subscribe(data => {
-                        this.groups = data;
-                        this.filterGroups();
-                      });
-        
+      .subscribe(data => {
+        this.groups = data;
+        this.filterGroups();
+  });
+    
     this.cols = [
-        
       { field: 'className', header: 'Клас' },
       { field: 'classYear', header: 'Рік'}
     ]                 
-    
-   
-	}
+  }
 
   filterGroups(){
     this.activeGroups = this.groups.filter(g => g.isActive);
     this.inactiveGroups = this.groups.filter(g => !g.isActive);
-  }
-      
+  }     
 }
 
 
