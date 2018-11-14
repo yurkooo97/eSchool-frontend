@@ -4,7 +4,7 @@
     <h3>Вчитель</h3>
     <form (ngSubmit)="postAttachTeacher()" #AttachTeacherForm="ngForm">
       <p-autoComplete name="teacher" [(ngModel)]="teacher" [suggestions]="filteredTeachers" (completeMethod)="filterTeachers($event)"
-        [size]="30" [minLength]="1" placeholder="Виберіть вчителя" field="firstname" [dropdown]="true" required>
+        [size]="30" [minLength]="1" placeholder="Виберіть вчителя" field="fullname" [dropdown]="true" required>
         <ng-template let-teacher pTemplate="item">
           <div class="ui-helper-clearfix">
             <div style="font-size:18px;float:left;margin:10px 10px 0 0">{{teacher?.lastname}} {{teacher?.firstname}}</div>
@@ -30,8 +30,8 @@
           </div>
         </ng-template>
       </p-autoComplete>
-      <div style="margin-top:20px"><button pButton [disabled]="!AttachTeacherForm.valid" type="submit" label="Зберегти" icon="fa fa-check" iconPos="left"
-          class="ui-button-success"></button>
+      <div style="margin-top:20px"><button pButton [disabled]="!AttachTeacherForm.valid" type="submit" label="Зберегти"
+          icon="fa fa-check" iconPos="left" class="ui-button-success"></button>
       </div>
     </form>
   </div>

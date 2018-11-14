@@ -8,4 +8,5 @@ export class Teacher {
     login: string;
     patronymic: string;
     phone: string;
+    fullname: string;
   }

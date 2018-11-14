@@ -40,7 +40,7 @@ export class AttachTeacherComponent implements OnInit {
     this.filteredTeachers = [];
     for (let i = 0; i < this.teachers.length; i++) {
       const teacher = this.teachers[i];
-      if (teacher.firstname.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+      if (teacher.fullname.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
         this.filteredTeachers.push(teacher);
       }
     }
@@ -68,7 +68,11 @@ export class AttachTeacherComponent implements OnInit {
     this.object.teacherId = this.form.value.teacher.id;
     this.object.classId = this.form.value._class.id;
     console.log(this.object);
-    this.attachService.postAttachTeacher(this.object).subscribe(data => console.log(data));
+    this.attachService.postAttachTeacher(this.object)
+      .subscribe(
+        data => console.log(data),
+        error => console.log(error)
+      );
     this.form.reset();
   }
 
