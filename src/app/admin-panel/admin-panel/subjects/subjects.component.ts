@@ -36,7 +36,10 @@ export class SubjectsComponent implements OnInit {
     this.loading = true;
     this._subjectsService
       .getSubjectsList()
-      .subscribe(data => (this.subjects = data));
+      .subscribe(data => {
+        this.subjects = data
+        this.loading = false;
+      });
     this.cols = [
       {
         field: "subjectName",
@@ -47,7 +50,6 @@ export class SubjectsComponent implements OnInit {
         header: "Опис"
       }
     ];
-    this.loading = false;
     this.subjectForm = this.formBuilder.group({
       subjectName: [
         "",
