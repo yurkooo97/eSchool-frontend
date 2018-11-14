@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { AuthenticationService } from 'src/app/services/authentication.service'
 
 @Component({
 	selector: 'app-shell',
@@ -10,7 +11,7 @@ export class ShellComponent implements OnInit {
 
 	items: MenuItem[];
 
-	constructor() { }
+	constructor(private _authService: AuthenticationService) { }
 
 	ngOnInit() {
 		this.items = [
@@ -19,9 +20,16 @@ export class ShellComponent implements OnInit {
 				items: [
 
 					{ label: 'Menu' },
-					{ label: 'Logout' }
+					{
+						label: 'Logout', command: (click) => {
+							this.LogOut()
+						}, routerLink: ['/login']
+					}
 				]
 			}
 		];
+	}
+	LogOut() {
+		this._authService.logOut();
 	}
 }
