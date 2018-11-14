@@ -12,8 +12,7 @@ export class StudentsService {
     headers: new HttpHeaders({
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
-      'Access-Control-Allow-Headers': 'accept, content-type',
-      'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsIlJvbGVzIjp7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifSwiZXhwIjoxNTQyMTM5NDkyLCJpYXQiOjE1NDIxMzU4OTIsImp0aSI6IjIzMSJ9.loNuDs3MJI5hcVPVNnCggr9KcBJDW07XYnb17eIbB4oVJ5BMdhBziX8ZQizw6h7qifg1jcL16Xcn_WQofRm49w'
+      'Access-Control-Allow-Headers': 'accept, content-type'
     })
   };
 
@@ -23,19 +22,19 @@ export class StudentsService {
 
   constructor (private http: HttpClient) { }
 
-  getClasses() {
+  public getClasses(): Observable<Class_[]> {
     return this.http.get<Class_[]>(this.classesUrl, this.httpOptions);
   }
 
-  getStudents(idClass): Observable<Student[]> {
+  public getStudents(idClass): Observable<Student[]> {
     return this.http.get<Student[]>(this.studentByClassUrl + idClass, this.httpOptions);
   }
 
-  addStudent(student: Student): Observable<Student> {
+  public addStudent(student: Student): Observable<Student> {
     return this.http.post<Student>(this.studentsUrl, student, this.httpOptions);
   }
 
-  changeStudent(student: Student): Observable<Student> {
+  public changeStudent(student: Student): Observable<Student> {
     return this.http.put<Student>(`${this.studentsUrl}/${student.id}`, student, this.httpOptions);
   }
 }

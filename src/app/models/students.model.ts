@@ -9,5 +9,5 @@ export class Student {
     public phone: string = '',
     public login: string = '',
     public id: number = 0,
-    public avatar: string) { }
+    public avatar: string = '') { }
 }

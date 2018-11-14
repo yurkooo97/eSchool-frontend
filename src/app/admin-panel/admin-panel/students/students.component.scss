@@ -1,9 +1,16 @@
+.hiddenBox
+{
+  display: none;
+}
 .messageOfMistake
 {
-  width: 100%;
-  padding: 5px;
-  background-color: #dd2233;
-  color: #ffffff;
+  color: #ff0000;
+  font-size: 11px;
+  float: right;
+}
+.wrongData
+{
+  border-color: #ff0000;
 }
 .studentsForm ::ng-deep input
 {

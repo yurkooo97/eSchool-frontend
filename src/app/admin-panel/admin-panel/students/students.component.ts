@@ -13,7 +13,6 @@ export class StudentsComponent implements OnInit {
 
   classes: Class_[];
   students: Student[];
-  avatars: any[] = [];
   newStudent: Student;
   isNew: boolean;
   cols: any[];
@@ -56,7 +55,6 @@ export class StudentsComponent implements OnInit {
 
   createStudent() {
     this.newStudent = new Student();
-    // this.students.push(this.newStudent);
     this.isNew = true;
     this.showForm();
   }
