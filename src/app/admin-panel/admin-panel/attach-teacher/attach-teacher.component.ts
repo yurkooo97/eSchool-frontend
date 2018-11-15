@@ -3,7 +3,6 @@ import { HttpAttachTeacherService } from 'src/app/services/http-attach-teacher.s
 import { Teacher } from 'src/app/models/teacher.model';
 import { Subject } from 'src/app/models/subjects.model';
 import { Group } from 'src/app/models/group.model';
-import { AttachedTeacher } from 'src/app/models/attached-teacher.model';
 import { NgForm } from '@angular/forms';
 
 
@@ -15,28 +14,24 @@ import { NgForm } from '@angular/forms';
 })
 export class AttachTeacherComponent implements OnInit {
   @ViewChild('AttachTeacherForm') form: NgForm;
-  title = 'Привз\'яка вчителя до журналу';
+  public title = 'Привз\'яка вчителя до журналу';
 
-  teacher: Teacher;
-  teachers: Teacher[] = [];
-  filteredTeachers: Teacher[];
+  public teacher: Teacher;
+  private teachers: Teacher[] = [];
+  private filteredTeachers: Teacher[];
 
-  subject: Subject;
-  subjects: Subject[] = [];
-  filteredSubjects: Subject[];
+  public subject: Subject;
+  private subjects: Subject[] = [];
+  private filteredSubjects: Subject[];
 
-  _class: Group;
-  classes: Group[] = [];
-  filteredClasses: Group[];
+  public _class: Group;
+  private classes: Group[] = [];
+  private filteredClasses: Group[];
 
-  object: AttachedTeacher = {
-    classId: 0,
-    subjectId: 0,
-    teacherId: 0
-  };
   constructor(private attachService: HttpAttachTeacherService) { }
 
-  filterTeachers(event) {
+  /**Add teacher to suggestion list */
+  filterTeachers(event): void {
     this.filteredTeachers = [];
     for (let i = 0; i < this.teachers.length; i++) {
       const teacher = this.teachers[i];
@@ -45,7 +40,9 @@ export class AttachTeacherComponent implements OnInit {
       }
     }
   }
-  filterSubjects(event) {
+
+  /**Add subject to suggestion list */
+  filterSubjects(event): void {
     this.filteredSubjects = [];
     for (let i = 0; i < this.subjects.length; i++) {
       const subject = this.subjects[i];
@@ -54,7 +51,9 @@ export class AttachTeacherComponent implements OnInit {
       }
     }
   }
-  filterClasses(event) {
+
+  /**Add class to suggestion list */
+  filterClasses(event): void {
     this.filteredClasses = [];
     for (let i = 0; i < this.classes.length; i++) {
       const __class = this.classes[i];
@@ -63,16 +62,19 @@ export class AttachTeacherComponent implements OnInit {
       }
     }
   }
+
   postAttachTeacher() {
-    this.object.subjectId = this.form.value.subject.subjectId;
-    this.object.teacherId = this.form.value.teacher.id;
-    this.object.classId = this.form.value._class.id;
-    console.log(this.object);
-    this.attachService.postAttachTeacher(this.object)
-      .subscribe(
-        data => console.log(data),
-        error => console.log(error)
-      );
+    this.attachService.postAttachTeacher(
+      {
+        subjectId: this.form.value.subject.subjectId,
+        teacherId: this.form.value.teacher.id,
+        classId: this.form.value._class.id
+      }
+    ).subscribe(
+      // TODO: toast
+      data => console.log(data),
+      error => console.log(error)
+    );
     this.form.reset();
   }
 

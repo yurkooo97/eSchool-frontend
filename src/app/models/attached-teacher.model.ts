@@ -1,5 +1,5 @@
 export class AttachedTeacher {
-    classId: number;
-    subjectId: number;
-    teacherId: number;
-  }
+  classId: number;
+  subjectId: number;
+  teacherId: number;
+}
