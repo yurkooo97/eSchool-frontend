@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Journal } from '../models/journal.model';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
-const teacherId = 1;
+const teacherId = 1; // for debug mode, remove in prod
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +14,36 @@ export class TeacherJournalsService {
 
   public selectedJournal: Observable<Journal>;
 
-  private journalUrl = 'https://fierce-shore-32592.herokuapp.com/journals/teachers/' + teacherId + '/active';
+  readonly allJournalsUrl: string = 'https://fierce-shore-32592.herokuapp.com/journals';
+  readonly activeJurnal: string = '/active';
+  
+  private url(teacherId?: number, isActive?: boolean): string {
+    
+    if (teacherId >= 1) {
+      if (isActive) {
+        return this.allJournalsUrl + '/teachers/' + teacherId + this.activeJurnal;
+      } else {
+        return this.activeJurnal + '/teachers/' + teacherId;
+      } 
+    } else {
+      return this.activeJurnal //all jurnals for current user/teacher
+    }
+  }
+
   private httpOptions = { headers: new HttpHeaders( {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE',
-      'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnQnVibGlrMjMiLCJSb2xlcyI6eyJhdXRob3JpdHkiOiJST0xFX1RFQUNIRVIifSwiZXhwIjoxNTQyMTUyMzg2LCJpYXQiOjE1NDIxNDg3ODYsImp0aSI6IjExIn0.z3wq4cXEZqxJbo-gJCPF8HyJjyRxwgSG_wUxUJYM76Vu6qSVARYzx-nqC_xTxjZWNZjnR-wOJWlBUI3bBi39gg'})};
+      'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE'}
+      )
+    };
 
-  getJournals(): Observable<Journal[]> {
-    return this.http.get<Journal[]>(this.journalUrl, this.httpOptions);
+  getJournalsTeacher(id?: number, isActive?: boolean): Observable<Journal[]> {
+    return this.http.get<Journal[]>(this.url(id, isActive), this.httpOptions)
+    .map( (response: any) => {
+      return response.data;
+    })
+    .catch( (error: any) => {
+      return throwError(error)
+    });
   }
 
 }
