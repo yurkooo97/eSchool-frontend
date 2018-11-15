@@ -39,7 +39,7 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="summary">
-    <button type="button" (click)="createStudent()" pButton icon="pi pi-plus" class="ui-button-raised ui-button-secondary" label="Новий учень"></button>
+    <button type="button" (click)="createStudent()" pButton icon="pi pi-plus" class="ui-button-raised" label="Новий учень"></button>
   </ng-template>
 </p-table>
 
@@ -79,7 +79,7 @@
       <span [class.hiddenBox]="login.valid || login.untouched" class="messageOfMistake">Введіть логін</span>
       <br>
       <span class="ui-float-label">
-        <input id="float-input-date" type="date" pInputText [class.wrongData]="dateOfBirth.invalid && dateOfBirth.touched" #dateOfBirth="ngModel" name="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" min="25-12-2000" max="25-12-2018" required>
+        <input id="float-input-date" type="date" pInputText [class.wrongData]="dateOfBirth.invalid && dateOfBirth.touched" #dateOfBirth="ngModel" name="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" required>
       </span>
       <span [class.hiddenBox]="dateOfBirth.valid || dateOfBirth.untouched" class="messageOfMistake">Некоректна дата народження</span>
       <br>
@@ -87,12 +87,12 @@
     <p-fieldset legend="Додаткова інформація" [toggleable]="true" [collapsed]="true" class="secondaryInfo">
       <br>
       <span class="ui-float-label">
-        <input id="float-input-phone" type="text" pInputText name="phone" [(ngModel)]="newStudent.phone">
+        <input id="float-input-phone" type="tel" pInputText name="phone" [(ngModel)]="newStudent.phone">
         <label for="float-input-phone">Номер телефону</label>
       </span>
       <br>
       <span class="ui-float-label">
-        <input id="float-input-email" type="text" pInputText name="email" [(ngModel)]="newStudent.email">
+        <input id="float-input-email" type="email" pInputText name="email" [(ngModel)]="newStudent.email">
         <label for="float-input-email">Email</label>
       </span>
       <br>

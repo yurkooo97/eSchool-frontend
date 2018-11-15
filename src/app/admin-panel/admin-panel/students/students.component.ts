@@ -26,9 +26,9 @@ export class StudentsComponent implements OnInit {
 
   ngOnInit() {
     this.service_.getClasses().subscribe(
-      data => {
-        this.classes = data as any;
-      });
+      data => (
+        this.classes = data
+  ));
 
     this.loadStudents(1);
 
@@ -48,9 +48,9 @@ export class StudentsComponent implements OnInit {
 
   loadStudents(classID: number) {
     this.service_.getStudents(classID).subscribe(
-      data => {
-        this.students = data;
-      });
+      data => (
+        this.students = data
+  ));
   }
 
   createStudent() {
