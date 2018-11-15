@@ -1,15 +1,19 @@
 .sidenav {
-    height: 100%;
-    width: 16%;
+    height: auto;
+    width: 16.5%;
     position: fixed;
     top: 70px;
     left: 0;
     background-color: white;
     overflow-x: hidden; 
-    border-right: 1px solid rgb(235,235,235);
-    border-top: 1px solid rgb(235,235,235);
-    border-top-right-radius: 8px;
+    border: 1px solid rgb(235,235,235);
+    border-radius: 8px;
 }
 ::ng-deep .ui-state-active{
     background-color: #f0efef;
 }
+.p-col-10{
+    padding: 0;
+    margin-top: 70px;
+}
+
