@@ -12,7 +12,7 @@ export class TeachersService {
       'Access-Control-Allow-Headers': 'accept, content-type'
     })
   };
-  private url = 'https://fierce-shore-32592.herokuapp.com/teachers/';
+  private url = 'https://fierce-shore-32592.herokuapp.com/teachers';
   constructor(private http: HttpClient) {}
   public getTeachers(): Observable<Iteachers[]> {
     return this.http.get<Iteachers[]>(this.url, this.httpOptions);
