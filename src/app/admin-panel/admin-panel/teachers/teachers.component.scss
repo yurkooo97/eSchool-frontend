@@ -1,0 +1,39 @@
+$required: red;
+span.ui-button-text,.ui-clickable{
+	padding: 0px !important;
+}
+:host ::ng-deep .ui-table-caption{
+	margin-top: 63px;
+}
+::ng-deep .ui-state-highlight{
+	background-color: #f9f9f9 !important;
+	color: black !important;
+}
+.ui-g-12{
+	padding: 0px !important;
+}
+.is-invalid{
+	border-color: $required;
+}
+.d-none{
+	display: none;
+}
+.requiredMessage{
+	color: $required;
+	font-size: 10px;
+}
+.teacher__cell{
+	line-height: 2.3;
+	cursor: default;
+}
+.teacher__edit{
+	 float: right;
+	visibility: hidden;
+}
+ .teacher__cell:hover{
+	.teacher__edit{
+		visibility: visible;
+	}
+} 
+
+ 
