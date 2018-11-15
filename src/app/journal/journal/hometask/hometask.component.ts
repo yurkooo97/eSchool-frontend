@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import { Hometask } from '../../../models/hometask.model';
 import { SelectItem } from 'primeng/api';
 import { TeacherJournalsService } from '../../../services/teacher-journals.service';
@@ -9,7 +9,7 @@ import { Journal } from '../../../models/journal.model';
   templateUrl: './hometask.component.html',
   styleUrls: ['./hometask.component.scss']
 })
-export class HometaskComponent implements OnInit {
+export class HometaskComponent implements OnInit, OnChanges {
 
   hometasks: Hometask[];
   sortKey: string;
@@ -17,7 +17,7 @@ export class HometaskComponent implements OnInit {
   sortField: string;
   sortOrder: number;
 
-  activeJournal: Journal;
+  public activeJournal: Journal;
 
   constructor(private teacherJournalService: TeacherJournalsService) {
     this.hometasks = [
@@ -46,9 +46,16 @@ export class HometaskComponent implements OnInit {
       {label: 'По опису', value: 'description'}
     ];
     //this.getJournal();
-  }
 
+  }
+  ngOnChanges() {
+    if (this.teacherJournalService.selectedJournal) {
+      this.getJournal();
+    }
+  }
   getJournal(): void {
-    this.teacherJournalService.selectedJournal.subscribe(journal => this.activeJournal = journal);
+    // this.teacherJournalService.selectedJournal.subscribe(journal => this.activeJournal = journal);
+    console.log(this.teacherJournalService.selectedJournal);
+    this.activeJournal = this.teacherJournalService.selectedJournal;
   }
 }

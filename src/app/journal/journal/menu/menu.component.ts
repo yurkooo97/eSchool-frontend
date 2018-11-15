@@ -44,7 +44,8 @@ export class MenuComponent implements OnInit {
   getJournals(): void {
     this.teacherJournalService.getJournalsTeacher().subscribe(journals => this.classes = journals);
   }
-  extractClasses(): void {
-
+  setSelectedJournal(): void {
+    console.log('clicked');
+    this.teacherJournalService.setSelectedJournal(this.selectedClassName);
   }
 }

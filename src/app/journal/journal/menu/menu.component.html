@@ -4,19 +4,19 @@
     <p-dropdown [options]="classes" [(ngModel)]="selectedClassName" optionLabel="className" placeholder="Оберіть клас:"></p-dropdown>
     <p-dropdown [options]="classes" [(ngModel)]="selectedSubjectName" optionLabel="subjectName" placeholder="Оберіть предмет:"></p-dropdown>
     <span *ngIf="selectedClassName">{{selectedClassName ? selectedClassName.academicYear : 'none'}}</span>
-    <p-button label="Завантажити журнал" (onClick)="handleClick($event)"></p-button>
+    <p-button label="Завантажити журнал" (click)="setSelectedJournal()"></p-button>
   </div>
 </p-toolbar>
 <p *ngIf="selectedClassName">Selected Journal: {{selectedClassName ? selectedClassName.className : 'none'}}</p>
 <p *ngIf="selectedSubjectName">Selected Subject: {{selectedSubjectName ? selectedSubjectName.subjectName : 'none'}}</p>
 
 
-<ul class="journal">
-  <li *ngFor="let journal of classes">
-      <div>{{journal.academicYear}}</div>
-      <div>{{journal.className}}</div>
-      <div>{{journal.idClass}}</div>
-      <div>{{journal.idSubject}}</div>
-      <div>{{journal.subjectName}}</div>
-  </li>
-</ul>
+<!--<ul class="journal">-->
+  <!--<li *ngFor="let journal of classes">-->
+      <!--<div>{{journal.academicYear}}</div>-->
+      <!--<div>{{journal.className}}</div>-->
+      <!--<div>{{journal.idClass}}</div>-->
+      <!--<div>{{journal.idSubject}}</div>-->
+      <!--<div>{{journal.subjectName}}</div>-->
+  <!--</li>-->
+<!--</ul>-->

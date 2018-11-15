@@ -12,7 +12,7 @@ export class TeacherJournalsService {
 
   constructor(private http: HttpClient) { }
 
-  public selectedJournal: Observable<Journal>;
+  public selectedJournal: Journal;
 
   readonly allJournalsUrl: string = 'https://fierce-shore-32592.herokuapp.com/journals';
   readonly activeJurnal: string = '/active';
@@ -42,8 +42,15 @@ export class TeacherJournalsService {
       return response.data;
     })
     .catch( (error: any) => {
-      return throwError(error)
+      return throwError(error);
     });
   }
 
+  setSelectedJournal(journal: Journal): void {
+    console.log('setted');
+    this.selectedJournal = journal;
+  }
+  getSelectedJournal(): Journal {
+    return this.selectedJournal;
+  }
 }

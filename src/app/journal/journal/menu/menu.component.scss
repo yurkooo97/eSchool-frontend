@@ -8,5 +8,10 @@ p-dropdown {
   ::ng-deep .ui-toolbar {
     position: inherit;
     margin-top: 60px;
+    .ui-button {
+      margin: unset;
+      width: unset;
+    }
   }
+
 }
