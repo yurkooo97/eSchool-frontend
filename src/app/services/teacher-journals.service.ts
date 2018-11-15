@@ -16,17 +16,17 @@ export class TeacherJournalsService {
 
   readonly allJournalsUrl: string = 'https://fierce-shore-32592.herokuapp.com/journals';
   readonly activeJurnal: string = '/active';
-  
+
   private url(teacherId?: number, isActive?: boolean): string {
-    
+
     if (teacherId >= 1) {
       if (isActive) {
         return this.allJournalsUrl + '/teachers/' + teacherId + this.activeJurnal;
       } else {
-        return this.activeJurnal + '/teachers/' + teacherId;
-      } 
+        return this.allJournalsUrl + '/teachers/' + teacherId;
+      }
     } else {
-      return this.activeJurnal //all jurnals for current user/teacher
+      return this.allJournalsUrl //all jurnals for current user/teacher
     }
   }
 
@@ -37,7 +37,7 @@ export class TeacherJournalsService {
     };
 
   getJournalsTeacher(id?: number, isActive?: boolean): Observable<Journal[]> {
-    return this.http.get<Journal[]>(this.url(id, isActive), this.httpOptions)
+    return this.http.get<Journal[]>(this.url(1, isActive), this.httpOptions)
     .map( (response: any) => {
       return response.data;
     })

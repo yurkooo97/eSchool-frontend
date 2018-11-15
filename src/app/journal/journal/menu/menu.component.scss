@@ -5,4 +5,8 @@ p-dropdown {
   ::ng-deep .ui-dropdown {
     min-width: 200px;
   }
+  ::ng-deep .ui-toolbar {
+    position: inherit;
+    margin-top: 60px;
+  }
 }
