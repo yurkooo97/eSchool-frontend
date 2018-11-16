@@ -9,7 +9,7 @@ import { Journal } from '../../../models/journal.model';
   templateUrl: './hometask.component.html',
   styleUrls: ['./hometask.component.scss']
 })
-export class HometaskComponent implements OnInit, OnChanges {
+export class HometaskComponent implements OnInit {
 
   hometasks: Hometask[];
   sortKey: string;
@@ -40,6 +40,11 @@ export class HometaskComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    //HERE IS WORKING SUBSCRIBER
+    this.teacherJournalService.journalChanged.subscribe((journal: Journal) => {
+      this.activeJournal = journal;
+    });
+
     this.sortOptions = [
       {label: 'Спочатку нові', value: '!year'},
       {label: 'Спочатку старі', value: 'year'},
@@ -48,14 +53,14 @@ export class HometaskComponent implements OnInit, OnChanges {
     //this.getJournal();
 
   }
-  ngOnChanges() {
-    if (this.teacherJournalService.selectedJournal) {
-      this.getJournal();
-    }
-  }
-  getJournal(): void {
-    // this.teacherJournalService.selectedJournal.subscribe(journal => this.activeJournal = journal);
-    console.log(this.teacherJournalService.selectedJournal);
-    this.activeJournal = this.teacherJournalService.selectedJournal;
-  }
+  // ngOnChanges() {
+  //   if (this.teacherJournalService.selectedJournal) {
+  //     this.getJournal();
+  //   }
+  // }
+  // getJournal(): void {
+  //   // this.teacherJournalService.selectedJournal.subscribe(journal => this.activeJournal = journal);
+  //   console.log(this.teacherJournalService.selectedJournal);
+  //   this.activeJournal = this.teacherJournalService.selectedJournal;
+  // }
 }

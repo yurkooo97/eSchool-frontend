@@ -47,5 +47,7 @@ export class MenuComponent implements OnInit {
   setSelectedJournal(): void {
     console.log('clicked');
     this.teacherJournalService.setSelectedJournal(this.selectedClassName);
+
+    this.teacherJournalService.emitJournalChanged(this.selectedClassName);
   }
 }
