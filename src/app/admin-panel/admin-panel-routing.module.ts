@@ -5,6 +5,7 @@ import { StudentsComponent } from './admin-panel/students/students.component';
 import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 import { TeachersComponent } from './admin-panel/teachers/teachers.component';
+import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teacher.component';
 import { NewStudingYearComponent } from '../admin-panel/admin-panel/new-studing-year/new-studing-year.component';
 import { AdminGuard } from './admin.guard';
 
@@ -13,29 +14,34 @@ const routes: Routes = [
     path: '',
     component: AdminPanelComponent,
     canLoad: [AdminGuard],
-  
-    children:[{ 
-      path:'students',
-      component:StudentsComponent
-    },
-    { 
-    
-      path:'groups',
-      component:GroupsComponent
+    children: [{
+      path: 'students',
+      component: StudentsComponent
     },
     {
-      path:'subjects',
-      component:SubjectsComponent
+      path: 'groups',
+      component: GroupsComponent
     },
     {
-      path:'teachers',
-      component:TeachersComponent
+      path: 'subjects',
+      component: SubjectsComponent
     },
     {
-      path:'new-studing-year',
+      path: 'teachers',
+      component: TeachersComponent
+    },
+    {
+      path: 'teachers',
+      component: TeachersComponent
+    },
+    {
+      path: 'new-studing-year',
       component: NewStudingYearComponent
     },
-  ]
+    {
+      path: 'attach-teacher',
+      component: AttachTeacherComponent
+    }]
   }
 ];
 

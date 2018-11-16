@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuModule } from 'primeng/menu';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
@@ -16,17 +15,19 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FieldsetModule } from 'primeng/fieldset';
 import { FileUploadModule } from 'primeng/fileupload';
 import { AdminPanelRoutingModule } from './admin-panel-routing.module';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
-import { TeachersService } from "../services/teachers.service";
+import { TeachersService } from '../services/teachers.service';
 import { AdminSubjectsService } from '../services/admin-subjects.service';
+import { AdmingroupsService } from '../services/admingroups.service';
 
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { StudentsComponent } from './admin-panel/students/students.component';
 import { TeachersComponent } from './admin-panel/teachers/teachers.component';
 import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
+import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teacher.component';
 import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
-import { AdmingroupsService } from '../services/admingroups.service';
 
 
 @NgModule({
@@ -47,11 +48,20 @@ import { AdmingroupsService } from '../services/admingroups.service';
     InputMaskModule,
     RadioButtonModule,
     FormsModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    AutoCompleteModule
   ],
 
   providers: [AdmingroupsService, AdminSubjectsService, TeachersService],
-  declarations: [AdminPanelComponent, StudentsComponent, TeachersComponent, GroupsComponent, SubjectsComponent, NewStudingYearComponent]
+  declarations: [
+    AdminPanelComponent,
+    StudentsComponent,
+    TeachersComponent,
+    GroupsComponent,
+    SubjectsComponent,
+    NewStudingYearComponent,
+    AttachTeacherComponent
+  ]
 
 })
-export class AdminPanelModule {}
+export class AdminPanelModule { }
