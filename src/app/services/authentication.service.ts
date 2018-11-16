@@ -1,27 +1,26 @@
 import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  public Url:string="https://fierce-shore-32592.herokuapp.com/signin";
+  public Url = 'https://fierce-shore-32592.herokuapp.com/signin';
   private token: string;
 
-  constructor(private httpClient:HttpClient) {
+  constructor(private httpClient: HttpClient) {
     this.token = localStorage.getItem('authToken');
   }
-  
-  login (userName: string, password: string) {
-    let userData = {username: userName, password: password};
-    return this.httpClient.post(this.Url, userData)
-      .map((response: any) => {
-        if (response.status.code == 200){
-          this.token = response.data.token;
-          localStorage.setItem('authToken', this.token);
-        }
-        return response;
-      });
+
+  login(userName: string, password: string) {
+    const userData = { username: userName, password: password };
+    return this.httpClient.post(this.Url, userData).map((response: any) => {
+      if (response.status.code === 200) {
+        this.token = response.data.token;
+        localStorage.setItem('authToken', this.token);
+      }
+      return response;
+    });
   }
 
   public isAuthenticated(): boolean {
@@ -36,8 +35,8 @@ export class AuthenticationService {
     this.token = null;
     localStorage.removeItem('authToken');
   }
-  
+
   loggedIn() {
-    return !!localStorage.getItem('authToken')
+    return !!localStorage.getItem('authToken');
   }
 }
