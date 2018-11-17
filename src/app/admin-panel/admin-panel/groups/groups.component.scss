@@ -1,0 +1,27 @@
+::ng-deep .groups-container  .ui-button {
+    margin:10px 0px ;
+    width:200px ;
+    height:40px ;
+    font-size:15px 
+}
+
+div {
+    text-align:center;
+}
+
+.groups-container {
+    width:100%;
+    margin:0 auto;
+}
+
+.btn {
+    float:right;
+}
+
+
+:host ::ng-deep  .ui-table .ui-table-tbody > tr:hover {
+    background: rgb(230, 149, 28);
+} 
+div.pointer {
+    pointer-events: auto;
+}
