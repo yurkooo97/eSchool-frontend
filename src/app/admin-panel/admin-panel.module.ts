@@ -16,8 +16,13 @@ import { GroupsComponent } from "./admin-panel/groups/groups.component";
 import { SubjectsComponent } from "./admin-panel/subjects/subjects.component";
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import { AdminSubjectsService } from '../services/admin-subjects.service';
-import {InputMaskModule} from 'primeng/inputmask';
+import { InputMaskModule} from 'primeng/inputmask';
 import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
+import { ClassScheduleComponent } from './admin-panel/class-schedule/class-schedule.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
+import { CardModule } from 'primeng/card';
+import { FieldsetModule } from 'primeng/fieldset';
 
 
 @NgModule({
@@ -32,7 +37,11 @@ import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-stud
     ButtonModule,
     InputTextModule,
     InputTextareaModule,
-    InputMaskModule
+		InputMaskModule,
+		DropdownModule,
+		CalendarModule,
+		CardModule,
+		FieldsetModule
   ],
   providers: [TeachersService,AdminSubjectsService],
   declarations: [
@@ -41,7 +50,8 @@ import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-stud
     TeachersComponent,
     GroupsComponent,
     SubjectsComponent,
-    NewStudingYearComponent
+    NewStudingYearComponent,
+    ClassScheduleComponent
   ]
 })
 export class AdminPanelModule {}

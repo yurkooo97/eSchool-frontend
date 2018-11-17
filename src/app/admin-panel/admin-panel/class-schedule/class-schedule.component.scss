@@ -1,0 +1,61 @@
+:host ::ng-deep .ui-dropdown { //select class
+	float: left;
+	margin-top: 10px;
+	margin-left: 20px;
+	margin-bottom: 30px;
+}
+
+.calendar-group-left { //calendar 'from date'
+	float: left;
+	margin-left: 50px;
+	margin-top: 10px;
+}
+
+.calendar-group-right { //calendar 'to date'
+	float: left;
+	margin-left: 80px;
+	margin-top: 10px;
+}
+
+
+:host ::ng-deep .ui-card { //card container for schedule
+	margin-top: 79px;
+	margin-left: 70px;
+}
+
+.ui-helper-clearfix { //header of card container
+	width: 100%;
+	height: 38px;
+	background-color:rgb(0, 128, 255);
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+}
+
+.ui-panel-title { //heading of card header
+	color: white;
+}
+
+.left-panel {
+	float: left;
+	width: 40%;
+	margin-top: 30px;
+}
+
+.right-panel {
+	float: right;
+	width: 40%;
+	margin-top: 30px;
+	
+}
+
+:host ::ng-deep .ui-dropdown {
+	clear: both;
+}
+
+:host ::ng-deep .ui-fieldset-legend { //heading of week days
+	text-align: center;
+}
+
+:host ::ng-deep .ui-fieldset-legend-text {
+	background-color: white;
+}
