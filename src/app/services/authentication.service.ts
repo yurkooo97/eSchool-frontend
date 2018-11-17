@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
+
   public Url: string = 'https://fierce-shore-32592.herokuapp.com/signin';
 
   constructor(private httpClient: HttpClient) {
@@ -19,7 +20,7 @@ export class AuthenticationService {
         }
         return response;
       });
-  }
+   }
 
   getToken() {
     return localStorage.getItem('authToken');

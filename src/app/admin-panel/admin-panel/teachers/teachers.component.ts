@@ -8,8 +8,9 @@ import { Iteachers } from 'src/app/models/teachers';
   styleUrls: ['./teachers.component.scss']
 })
 export class TeachersComponent implements OnInit {
+  photoData: string;
   displayDialog: boolean;
-  teachers: any[];
+  teachers: Iteachers[];
   teacher: any;
   columns: any[];
   newTeacher: boolean;
@@ -23,17 +24,23 @@ export class TeachersComponent implements OnInit {
       .getTeachers()
       .subscribe(users => (this.teachers = users));
     this.columns = [
-      { field: 'firstname', header: 'Ім\'я' },
       { field: 'lastname', header: 'Прізвище' },
+      { field: 'firstname', header: 'Ім\'я' },
       { field: 'patronymic', header: 'По батькові' },
       { field: 'dateOfBirth', header: 'Дата народження' }
     ];
   }
-  handlerFileInput(file: FileList){
+  handlerFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = (event: any) => {
+      if (file.item(0).size > 500000) {
+        this.photoData = 'Перевищено максимальний розмір фото 500 кб';
+        this.imageUrl = 'assets/avatar.png';
+      } else {
+      this.photoData = '';
       this.imageUrl = event.target.result;
+      }
     };
     reader.readAsDataURL(this.fileToUpload);
   }
@@ -42,15 +49,19 @@ export class TeachersComponent implements OnInit {
     this.newTeacher = true;
     this.teacher = {};
   }
-  onRowSelect(event) {
+  onRowSelect(rowData) {
     this.newTeacher = false;
     this.teacher = {
-      ...event.data
+      ...rowData
     };
     this.displayDialog = true;
   }
   create() {
-    if (this.teacher.firstname.length >= 3 && this.teacher.lastname.length >= 3 && this.teacher.patronymic.length >= 7 ){
+    if (
+      this.teacher.firstname.length >= 3 &&
+      this.teacher.lastname.length >= 3 &&
+      this.teacher.patronymic.length >= 7
+    ) {
       this.displayDialog = false;
     }
     this._teacherServices
@@ -64,7 +75,7 @@ export class TeachersComponent implements OnInit {
     this.displayDialog = false;
     this._teacherServices.putTeacher(this.teacher).subscribe(
       teacher => {
-        let teachers = [...this.teachers];
+        const teachers = [...this.teachers];
         teachers[this.teachers.indexOf(this.selectedTeacher)] = teacher;
         this.teachers = teachers;
       },

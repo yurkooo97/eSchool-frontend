@@ -7,9 +7,6 @@
     background-color: #f9f9f9 !important;
     color: black !important;
 }
-:host ::ng-deep .ui-table-caption {
-	margin-top: 70px; 
-}
 .subjects-table-row{
     height: 48px;
     .subjects-table-cell{
@@ -24,5 +21,10 @@
         left: 482px;
         display: inline-block;
     }
+}
+.invalid-feedback{
+    padding-left: 35%;
+    color: red;
+    font-size: 800;
 }
  
