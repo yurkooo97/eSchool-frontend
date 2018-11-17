@@ -19,9 +19,6 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 
 import { TeachersService } from '../services/teachers.service';
 import { AdminSubjectsService } from '../services/admin-subjects.service';
-<<<<<<< HEAD
-import { InputMaskModule} from 'primeng/inputmask';
-=======
 import { AdmingroupsService } from '../services/admingroups.service';
 
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
@@ -30,13 +27,10 @@ import { TeachersComponent } from './admin-panel/teachers/teachers.component';
 import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teacher.component';
->>>>>>> 53eb145c64c009adcba7c0a3d39eec51c6e0330d
 import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
 import { ClassScheduleComponent } from './admin-panel/class-schedule/class-schedule.component';
-import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
-import { FieldsetModule } from 'primeng/fieldset';
 
 
 @NgModule({
@@ -50,13 +44,11 @@ import { FieldsetModule } from 'primeng/fieldset';
     DialogModule,
     InputTextModule,
     InputTextareaModule,
-<<<<<<< HEAD
 		InputMaskModule,
 		DropdownModule,
 		CalendarModule,
 		CardModule,
-		FieldsetModule
-=======
+		FieldsetModule,
     MessagesModule,
     MessageModule,
     DropdownModule,
@@ -66,7 +58,6 @@ import { FieldsetModule } from 'primeng/fieldset';
     FormsModule,
     ReactiveFormsModule,
     AutoCompleteModule
->>>>>>> 53eb145c64c009adcba7c0a3d39eec51c6e0330d
   ],
 
   providers: [AdmingroupsService, AdminSubjectsService, TeachersService],
@@ -77,11 +68,8 @@ import { FieldsetModule } from 'primeng/fieldset';
     GroupsComponent,
     SubjectsComponent,
     NewStudingYearComponent,
-<<<<<<< HEAD
-    ClassScheduleComponent
-=======
+    ClassScheduleComponent,
     AttachTeacherComponent
->>>>>>> 53eb145c64c009adcba7c0a3d39eec51c6e0330d
   ]
 
 })
