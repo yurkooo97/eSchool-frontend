@@ -44,3 +44,14 @@
 {
   margin-top: 60px;
 }
+.studentRow
+{
+  .edit-student-btn
+  {
+    display: none;
+  }
+  &:hover .edit-student-btn
+  {
+    display: inline-block;
+  }
+}

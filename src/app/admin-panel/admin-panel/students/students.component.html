@@ -23,18 +23,13 @@
         {{col.header}}
         <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
-      <th>
-        Редагувати
-      </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-student>
-    <tr>
+    <tr class="studentRow">
       <td *ngFor="let col of cols">
         {{student[col.field]}}
-      </td>
-      <td class="editButton">
-        <button type="button" pButton icon="pi pi-pencil" (click)="editStudent(student)" class="ui-button-raised"></button>
+        <button type="button" pButton icon="pi pi-pencil" (click)="editStudent(student)" class="ui-button-raised edit-student-btn"></button>
       </td>
     </tr>
   </ng-template>
