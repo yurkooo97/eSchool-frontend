@@ -5,14 +5,10 @@ import { StudentsComponent } from './admin-panel/students/students.component';
 import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 import { TeachersComponent } from './admin-panel/teachers/teachers.component';
-<<<<<<< HEAD
-import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
 import { ClassScheduleComponent } from './admin-panel/class-schedule/class-schedule.component';
-=======
 import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teacher.component';
 import { NewStudingYearComponent } from '../admin-panel/admin-panel/new-studing-year/new-studing-year.component';
 import { AdminGuard } from './admin.guard';
->>>>>>> 53eb145c64c009adcba7c0a3d39eec51c6e0330d
 
 const routes: Routes = [
   {
