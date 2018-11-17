@@ -1,4 +1,4 @@
-<p-table [style]="{'padding':'8px'}" [columns]="cols" [value]="subjects" [loading]="loading" selectionMode="single" [(selection)]="selectedSubject"  >
+<p-table [columns]="cols" [value]="subjects" [loading]="loading" selectionMode="single" [(selection)]="selectedSubject"  >
     <ng-template pTemplate="caption">
         Предмети
     </ng-template>
@@ -26,28 +26,50 @@
 </p-table>
                 
 <p-dialog header="Предмет" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="500">
-    <div class="ui-g ui-fluid" *ngIf="subject">
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="name">Назва:</label>
+    <form [formGroup]="subjectForm" (ngSubmit)="onSubmit()">
+        <div class="ui-g ui-fluid" *ngIf="subject">
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="name">Назва:*</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText id="name" (change)="subject.subjectName = $event.target.value" [value]="subject.subjectName || '' " formControlName="subjectName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.subjectName.errors }" />
+                </div>
+                <div *ngIf="submitted && f.subjectName.errors" class="invalid-feedback">
+                    <div *ngIf="f.subjectName.errors.required">Назва предмета є обов'язковою *</div>
+                </div>
+                <div *ngIf="submitted && f.subjectName.errors" class="invalid-feedback">
+                    <div *ngIf="f.subjectName.errors.minlength">Кількість символів має бути більше 3 *</div>
+                </div>
+                <div *ngIf="submitted && f.subjectName.errors" class="invalid-feedback">
+                    <div *ngIf="f.subjectName.errors.maxlength">Кількість символів має бути менше 100 *</div>
+                </div>
+                <div *ngIf="submitted && f.subjectName.errors" class="invalid-feedback">
+                    <div *ngIf="f.subjectName.errors.pattern">Поле має починатись із великої літери та повинен використовуватись український алфавіт! *</div>
+                </div>
             </div>
-            <div class="ui-g-8">
-                <input pInputText id="name" [(ngModel)]="subject.subjectName" required minlength="3" maxlength="100" />
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="description">Опис:*</label>
+                </div>
+                <div class="ui-g-8">
+                    <textarea [rows]="6" [cols]="30" id="description" (change)="subject.subjectDescription = $event.target.value"  [value]="subject.subjectDescription || '' "   style="resize:none" pInputTextarea formControlName="subjectDescription" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.subjectDescription.errors }"></textarea>
+                </div>
+                <div *ngIf="submitted && f.subjectDescription.errors" class="invalid-feedback">
+                    <div *ngIf="f.subjectDescription.errors.required">Назва предмета є обов'язковою *</div>
+                </div>
+                <div *ngIf="submitted && f.subjectDescription.errors" class="invalid-feedback">
+                    <div *ngIf="f.subjectDescription.errors.minlength">Кількість символів має бути більше 3 *</div>
+                </div>
+                <div *ngIf="submitted && f.subjectDescription.errors" class="invalid-feedback">
+                    <div *ngIf="f.subjectDescription.errors.maxlength">Кількість символів має бути не більше 300 *</div>
+                </div>
             </div>
         </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="description">Опис:</label>
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button  type="submit" pButton icon="pi pi-trash" label="Надіслати"></button>
             </div>
-            <div class="ui-g-8">
-                <textarea [rows]="6" [cols]="30" style="resize:none" pInputTextarea [(ngModel)]="subject.subjectDescription" required minlength="3" maxlength="300"></textarea>
-            </div>
-        </div>
-    </div>
-    <p-footer>
-        <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <button *ngIf='newSubject' type="button" pButton icon="pi pi-trash" (click)="create()" label="Додати"></button>
-            <button *ngIf='!newSubject' type="button" pButton icon="pi pi-check" (click)="save()" label="Змінити"></button>
-        </div>
-    </p-footer>
+        </p-footer>
+    </form>    
 </p-dialog>

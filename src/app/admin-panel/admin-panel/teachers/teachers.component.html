@@ -1,104 +1,199 @@
-<p-table [columns]="columns" [value]="teachers" selectionMode="single" [(selection)]="selectedTeacher" (onRowSelect)="onRowSelect($event)"
-    [paginator]="false" [rows]="50" >
-    <ng-template pTemplate="caption">Список учителів</ng-template>
-    <ng-template pTemplate="header" let-columns>
-        <tr>
-            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                {{col.header}}
-                <p-sortIcon [field]="col.field"></p-sortIcon>
-            </th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr [pSelectableRow]="rowData">
-            <td *ngFor="let col of columns">
-                {{rowData[col.field]}} 
-            </td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="summary" let-rowData>
-        <div style="text-align:left">
-            <button type="button" pButton icon="pi pi-plus" (click)="showDialogToAdd()" label="Добавити"></button>
-        </div>
-    </ng-template>
-</p-table>
-<p-dialog header="Добавити нового учителя" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
-    [width]="400">
-    <div class="ui-g ui-fluid" *ngIf="teacher">
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="name">Ім'я *</label>
-            </div>
-            <div class="ui-g-8">
-                <input pInputText [class.is-invalid]="name.invalid && name.touched" #name="ngModel"  id="name" [(ngModel)]="teacher.firstname" required minlength="3" maxlength="20"/>
-                <span [class.d-none]="name.valid || name.untouched" class="requiredMessage">Введіть ім'я</span>
-            </div> 
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="lastname">Прізвище *</label>
-            </div>
-            <div class="ui-g-8">
-                <input pInputText id="lastname" [class.is-invalid]="lastname.invalid && lastname.touched" #lastname="ngModel"  [(ngModel)]="teacher.lastname" minlength="3" maxlength="20" required/>
-                <span [class.d-none]="lastname.valid || lastname.untouched" class="requiredMessage">Введіть прізвище</span>
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="patronymic">По батькові *</label>
-            </div>
-            <div class="ui-g-8">
-                <input pInputText id="patronymic"  [class.is-invalid]="patronymic.invalid && patronymic.touched" #patronymic="ngModel" [(ngModel)]="teacher.patronymic" minlength="7" maxlength="20" required/>
-                 <span [class.d-none]="patronymic.valid || patronymic.untouched" class="requiredMessage">Введіть по батькові</span>
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="dateOfBirth">Дата народження *</label>
-            </div>
-            <div class="ui-g-8">
-                <input pInputText id="dateOfBirth" [class.is-invalid]="date.invalid && date.touched" [(ngModel)]="teacher.dateOfBirth" #date="ngModel" type="date" min="1940-12-25" max="2018-12-25" required/>
-                <span [class.d-none]="date.valid || date.untouched" class="requiredMessage">Введіть дату народження</span>
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="login">Логін</label>
-            </div>
-            <div class="ui-g-8">
-                <input pInputText id="login" [(ngModel)]="teacher.login" />
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="email">Електронна адреса</label>
-            </div>
-            <div class="ui-g-8">
-                <input pInputText id="email" [(ngModel)]="teacher.email"  type="email"/>
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="tel">Номер телефону</label>
-            </div>
-            <div class="ui-g-8">
-                <p-inputMask  [(ngModel)]="teacher.phone" id="tel"  mask="999-999-9999" placeholder="999-999-9999"></p-inputMask>
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-3">
-                <label for="photo">Загрузити фото</label>
-                <img [src]="imageUrl"  alt="Photo" style="width:120px; height:120px">
-            </div>
-            <div class="ui-g-9">
-                <input pInputText id="photo" [(ngModel)]="teacher.avatar"  type="file" #Image accept="image/*" (change)="handlerFileInput($event.target.files)"/>
-            </div>
-        </div>
+<p-table
+  [columns]="columns"
+  [value]="teachers"
+  selectionMode="single"
+  [(selection)]="selectedTeacher"
+  [paginator]="false"
+>
+  <ng-template pTemplate="caption">Список учителів</ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+        {{ col.header }}
+        <p-sortIcon [field]="col.field"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr [pSelectableRow]="rowData" class="teacher__cell">
+      <td *ngFor="let col of columns">
+        {{ rowData[col.field] }}
+        <button
+          class="teacher__edit"
+          *ngIf="col.field == 'dateOfBirth'"
+          pButton
+          type="button"
+          (click)="onRowSelect(rowData)"
+          icon="pi pi-pencil"
+          iconPos="left"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary" let-rowData>
+    <div style="text-align:left">
+      <button
+        type="button"
+        pButton
+        icon="pi pi-plus"
+        (click)="showDialogToAdd()"
+        label="Додати"
+      ></button>
     </div>
-    <p-footer>
-        <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <button *ngIf='newTeacher' type="button" pButton icon="pi pi-check" (click)="create()" label="Добавити"></button>
-            <button *ngIf='!newTeacher' type="button" pButton icon="pi pi-check" (click)="save()" label="Змінити"></button>
-        </div>
-    </p-footer>
+  </ng-template>
+</p-table>
+<p-dialog
+  header="Добавити нового учителя"
+  [(visible)]="displayDialog"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  [width]="400"
+>
+  <div class="ui-g ui-fluid" *ngIf="teacher">
+    <div class="ui-g-12">
+      <div class="ui-g-4"><label for="name">Ім'я *</label></div>
+      <div class="ui-g-8 requiredWrapper">
+        <input
+          pInputText
+          [class.is-invalid]="name.invalid && name.touched"
+          #name="ngModel"
+          id="name"
+          [(ngModel)]="teacher.firstname"
+          required
+          minlength="3"
+          maxlength="20"
+        />
+        <span
+          [class.d-none]="name.valid || name.untouched"
+          class="requiredMessage"
+          >Введіть ім'я</span
+        >
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4"><label for="lastname">Прізвище *</label></div>
+      <div class="ui-g-8 requiredWrapper">
+        <input
+          pInputText
+          id="lastname"
+          [class.is-invalid]="lastname.invalid && lastname.touched"
+          #lastname="ngModel"
+          [(ngModel)]="teacher.lastname"
+          minlength="3"
+          maxlength="20"
+          required
+        />
+        <span
+          [class.d-none]="lastname.valid || lastname.untouched"
+          class="requiredMessage"
+          >Введіть прізвище</span
+        >
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4"><label for="patronymic">По батькові *</label></div>
+      <div class="ui-g-8 requiredWrapper">
+        <input
+          pInputText
+          id="patronymic"
+          [class.is-invalid]="patronymic.invalid && patronymic.touched"
+          #patronymic="ngModel"
+          [(ngModel)]="teacher.patronymic"
+          minlength="7"
+          maxlength="20"
+          required
+        />
+        <span
+          [class.d-none]="patronymic.valid || patronymic.untouched"
+          class="requiredMessage"
+          >Введіть по батькові</span
+        >
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="dateOfBirth">Дата народження *</label>
+      </div>
+      <div class="ui-g-8 requiredWrapper">
+        <input
+          pInputText
+          id="dateOfBirth"
+          [class.is-invalid]="date.invalid && date.touched"
+          [(ngModel)]="teacher.dateOfBirth"
+          #date="ngModel"
+          type="date"
+          min="1940-12-25"
+          max="2018-12-25"
+          required
+        />
+        <span
+          [class.d-none]="date.valid || date.untouched"
+          class="requiredMessage"
+          >Введіть дату народження</span
+        >
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4"><label for="login">Логін</label></div>
+      <div class="ui-g-8">
+        <input pInputText id="login" [(ngModel)]="teacher.login" />
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4"><label for="email">Електронна адреса</label></div>
+      <div class="ui-g-8">
+        <input pInputText id="email" [(ngModel)]="teacher.email" type="email" />
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4"><label for="tel">Номер телефону</label></div>
+      <div class="ui-g-8">
+        <p-inputMask
+          [(ngModel)]="teacher.phone"
+          id="tel"
+          mask="999-999-9999"
+          placeholder="999-999-9999"
+        ></p-inputMask>
+      </div>
+    </div>
+    <div class="ui-g-12 photoWrapper">
+      <div class="ui-g-3">
+        <label for="photo">Загрузити фото</label>
+        <img [src]="imageUrl" alt="Photo" style="width:120px; height:120px" />
+      </div>
+      <div class="ui-g-9">
+        <input
+          pInputText
+          id="photo"
+          [(ngModel)]="teacher.avatar"
+          type="file"
+          #Image
+          accept="image/*"
+          (change)="handlerFileInput($event.target.files)"
+        />
+        <span class="photoError">{{photoData}}</span>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button
+        *ngIf="newTeacher"
+        type="button"
+        pButton
+        icon="pi pi-check"
+        (click)="create()"
+        label="Додати"
+      ></button>
+      <button
+        *ngIf="!newTeacher"
+        type="button"
+        pButton
+        icon="pi pi-check"
+        (click)="save()"
+        label="Змінити"
+      ></button>
+    </div>
+  </p-footer>
 </p-dialog>

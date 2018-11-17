@@ -1,4 +1,4 @@
-export interface Iteachers {
+export class Teacher {
   avatar: string;
   dateOfBirth: string;
   email: string;
@@ -8,6 +8,5 @@ export interface Iteachers {
   login: string;
   patronymic: string;
   phone: string;
-  oldPass: string;
-  newPass: string;
+  fullname: string;
 }
