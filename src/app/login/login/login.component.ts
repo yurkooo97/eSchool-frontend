@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService} from 'src/app/services/authentication.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,32 +9,30 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthenticationService, private router: Router)  {
+  constructor(private authService: AuthenticationService, private router: Router) {
     this.userName = null;
     this.password = null;
-   }
+  }
 
   userName: string;
   password: string;
   errorMessage: string;
 
-  ngOnInit() {}
+  ngOnInit() { }
   Login() {
     this.authService.login(this.userName, this.password)
       .subscribe((result) => {
         this.errorMessage = null;
-          console.log(result);
-          //TODO: redirect user to role-specific route
-        this.router.navigate(['/shell/admin-panel/']);
-      },
-      error => {
-        this.errorMessage = 'TODO: write error message';
-        console.log(error.message);	
-      });
-  }	
+        console.log(result);
+        // TODO: redirect user to role-specific route
+				this.router.navigate(['/shell/admin-panel/']);
+			});
+      //},
+        //error => {
+          //this.errorMessage = error.error.status.message;
+        // })
+	}
 }
-  
-    
 
 
 
