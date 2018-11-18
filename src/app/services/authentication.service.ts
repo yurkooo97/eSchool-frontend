@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class AuthenticationService {
 
   public Url: string = 'https://fierce-shore-32592.herokuapp.com/signin';
-  private refreshUrl: string = "https://fierce-shore-32592.herokuapp.com/refresh";
+  private refreshUrl: string = 'https://fierce-shore-32592.herokuapp.com/refresh';
   private tokenRefreshMinPeriod: number;
   private tokenRefreshTimestamp: number;
 
@@ -16,16 +16,16 @@ export class AuthenticationService {
   }
 
   login(userName: string, password: string) {
-    let userData = { username: userName, password: password };
+    const userData = { username: userName, password: password };
     return this.httpClient.post(this.Url, userData, { observe: 'response' })
       .map((response: any) => {
-      if (response.status.code === 200 || response.status.code === 204) {
+        if (response.status === 200 || response.status === 204) {
           this.tokenRefreshTimestamp = new Date().getTime();
           localStorage.setItem('authToken', response.headers.get('Authorization'));
         }
         return response;
       });
-   }
+  }
 
   getToken() {
     return localStorage.getItem('authToken');
@@ -54,13 +54,11 @@ export class AuthenticationService {
     this.httpClient.get(this.refreshUrl)
       .subscribe(
         (response) => {
-          console.debug("token refreshed: " + JSON.stringify(response));
+          console.debug('token refreshed: ');
           this.tokenRefreshTimestamp = curTime;
         },
         (err) => {
-          console.warn("failed to refresh token with error: " + err);
+          console.warn('failed to refresh token with error: ' + err);
         });
-
   }
-
 }

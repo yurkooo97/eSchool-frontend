@@ -23,16 +23,17 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.userName, this.password)
       .subscribe((result) => {
         this.errorMessage = null;
-        console.log(result);
         // TODO: redirect user to role-specific route
-				this.router.navigate(['/shell/admin-panel/']);
-			});
-      //},
-        //error => {
-          //this.errorMessage = error.error.status.message;
-        // })
-	}
+        this.router.navigate(['/shell/admin-panel/']);
+      },
+        error => {
+          console.log(error);
+          this.errorMessage = error.error.status.message;
+        });
+
+  }
 }
+
 
 
 
