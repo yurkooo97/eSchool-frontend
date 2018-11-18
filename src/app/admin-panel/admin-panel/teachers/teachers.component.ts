@@ -9,6 +9,7 @@ import { Iteachers } from 'src/app/models/teachers';
 })
 export class TeachersComponent implements OnInit {
   photoData: string;
+  loading: boolean;
   displayDialog: boolean;
   teachers: Iteachers[];
   teacher: any;
@@ -20,9 +21,10 @@ export class TeachersComponent implements OnInit {
   constructor(private _teacherServices: TeachersService) {}
 
   ngOnInit() {
+    this.loading = true;
     this._teacherServices
       .getTeachers()
-      .subscribe(users => (this.teachers = users));
+      .subscribe(users => (this.teachers = users, this.loading = false));
     this.columns = [
       { field: 'lastname', header: 'Прізвище' },
       { field: 'firstname', header: 'Ім\'я' },
