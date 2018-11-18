@@ -5,10 +5,10 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class TeachersService {
-  private url = 'https://fierce-shore-32592.herokuapp.com/teachers/';
+  private url = 'https://fierce-shore-32592.herokuapp.com/teachers';
   constructor(private http: HttpClient) {}
   public getTeachers(): Observable<Iteachers[]> {
-    return this.http.get<Iteachers[]>(this.url);
+    return this.http.get<any>(this.url).map(response => response.data);
   }
   public postTeacher(teacher: Iteachers): Observable<Iteachers> {
     return this.http.post<Iteachers>(this.url, teacher);

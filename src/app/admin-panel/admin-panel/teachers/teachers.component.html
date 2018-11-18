@@ -4,6 +4,7 @@
   selectionMode="single"
   [(selection)]="selectedTeacher"
   [paginator]="false"
+  [loading]="loading"
 >
   <ng-template pTemplate="caption">Список учителів</ng-template>
   <ng-template pTemplate="header" let-columns>
