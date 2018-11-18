@@ -50,10 +50,10 @@
 {
   .edit-student-btn
   {
-    display: none;
+    visibility: hidden;
   }
   &:hover .edit-student-btn
   {
-    display: inline-block;
+    visibility: visible;
   }
 }

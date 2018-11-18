@@ -20,9 +20,7 @@ export class StudentsComponent implements OnInit {
   displayForm: boolean;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
-  constructor(private service_: StudentsService) {
-    this.students = new Array<Student>();
-  }
+  constructor(private service_: StudentsService) {}
 
   ngOnInit() {
     this.service_.getClasses().subscribe(
