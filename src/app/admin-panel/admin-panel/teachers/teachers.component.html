@@ -1,10 +1,10 @@
 <p-table
   [columns]="columns"
-  [style]="{ 'margin-right': '-8px' }"
   [value]="teachers"
   selectionMode="single"
   [(selection)]="selectedTeacher"
   [paginator]="false"
+  [loading]="loading"
 >
   <ng-template pTemplate="caption">Список учителів</ng-template>
   <ng-template pTemplate="header" let-columns>
@@ -54,7 +54,7 @@
   <div class="ui-g ui-fluid" *ngIf="teacher">
     <div class="ui-g-12">
       <div class="ui-g-4"><label for="name">Ім'я *</label></div>
-      <div class="ui-g-8">
+      <div class="ui-g-8 requiredWrapper">
         <input
           pInputText
           [class.is-invalid]="name.invalid && name.touched"
@@ -74,7 +74,7 @@
     </div>
     <div class="ui-g-12">
       <div class="ui-g-4"><label for="lastname">Прізвище *</label></div>
-      <div class="ui-g-8">
+      <div class="ui-g-8 requiredWrapper">
         <input
           pInputText
           id="lastname"
@@ -94,7 +94,7 @@
     </div>
     <div class="ui-g-12">
       <div class="ui-g-4"><label for="patronymic">По батькові *</label></div>
-      <div class="ui-g-8">
+      <div class="ui-g-8 requiredWrapper">
         <input
           pInputText
           id="patronymic"
@@ -116,7 +116,7 @@
       <div class="ui-g-4">
         <label for="dateOfBirth">Дата народження *</label>
       </div>
-      <div class="ui-g-8">
+      <div class="ui-g-8 requiredWrapper">
         <input
           pInputText
           id="dateOfBirth"
@@ -158,7 +158,7 @@
         ></p-inputMask>
       </div>
     </div>
-    <div class="ui-g-12">
+    <div class="ui-g-12 photoWrapper">
       <div class="ui-g-3">
         <label for="photo">Загрузити фото</label>
         <img [src]="imageUrl" alt="Photo" style="width:120px; height:120px" />
@@ -173,6 +173,7 @@
           accept="image/*"
           (change)="handlerFileInput($event.target.files)"
         />
+        <span class="photoError">{{photoData}}</span>
       </div>
     </div>
   </div>

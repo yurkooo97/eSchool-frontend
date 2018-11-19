@@ -8,5 +8,6 @@ export class Student {
     public email: string = '',
     public phone: string = '',
     public login: string = '',
-    public id: number = 0) { }
+    public id: number = 0,
+    public avatar: string = '') { }
 }
