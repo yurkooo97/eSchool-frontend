@@ -1,8 +1,8 @@
 ::ng-deep .groups-container  .ui-button {
     margin:10px 0px ;
-    width:200px ;
+    width:150px ;
     height:40px ;
-    font-size:15px 
+		font-size:15px;
 }
 
 div {
@@ -20,7 +20,7 @@ div {
 
 
 :host ::ng-deep  .ui-table .ui-table-tbody > tr:hover {
-    background: rgb(230, 149, 28);
+    background: rgb(194, 192, 190);
 } 
 div.pointer {
     pointer-events: auto;
