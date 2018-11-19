@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Journal } from '../models/journal.model';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, Subject, throwError} from 'rxjs';
+import {Hometask} from '../models/hometask.model';
 
 const teacherId = 1; // for debug mode, remove in prod
 
@@ -16,18 +17,23 @@ export class TeacherJournalsService {
 
   public selectedJournal: Journal;
 
-  readonly allJournalsUrl: string = 'https://fierce-shore-32592.herokuapp.com/journals';
+  readonly baseUrl: string = 'https://fierce-shore-32592.herokuapp.com';
+  readonly allJournalsUrl: string = '/journals';
   readonly activeJurnal: string = '/active';
 
   public emitJournalChanged(journal: Journal) {
     this.journalChanged.next(journal);
   }
 
+  private homeTaskUrl(idSubject: number, idClass: number): string {
+    return this.baseUrl + '/homeworks/subjects/' + idSubject + '/classes/' + idClass;
+  }
+
   private url(teacherId?: number, isActive?: boolean): string {
 
     if (teacherId >= 1) {
       if (isActive) {
-        return this.allJournalsUrl + '/teachers/' + teacherId + this.activeJurnal;
+        return this.baseUrl + this.allJournalsUrl + '/teachers/' + teacherId + this.activeJurnal;
       } else {
         return this.allJournalsUrl + '/teachers/' + teacherId;
       }
@@ -45,7 +51,7 @@ export class TeacherJournalsService {
     };
 
   getJournalsTeacher(id?: number, isActive?: boolean): Observable<Journal[]> {
-    return this.http.get<Journal[]>(this.url(1, isActive), this.httpOptions)
+    return this.http.get<Journal[]>(this.url(1, true), this.httpOptions)
     .map( (response: any) => {
       return response.data;
     })
@@ -60,5 +66,14 @@ export class TeacherJournalsService {
   }
   getSelectedJournal(): Journal {
     return this.selectedJournal;
+  }
+
+  getHomeworks(idSubject: number, idClass: number): Observable<Hometask[]> {
+    return this.http.get<Hometask[]>(this.homeTaskUrl(idSubject, idClass), this.httpOptions)
+      .map( (response: any) => {
+        return response.data;
+      }).catch( (error: any) => {
+        return throwError(error);
+      });
   }
 }

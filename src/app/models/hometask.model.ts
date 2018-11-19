@@ -1,5 +1,6 @@
 export class Hometask {
-  hometaskDate: string;
-  hometaskDescription: string;
-  hometaskFileUrl: string;
+  idLesson: number;
+  date: string;
+  homework: string;
+  fileName: string;
 }
