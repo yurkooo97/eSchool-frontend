@@ -30,16 +30,14 @@ export class SubjectsComponent implements OnInit {
   constructor(
     private _subjectsService: AdminSubjectsService,
     private formBuilder: FormBuilder
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loading = true;
-    this._subjectsService
-      .getSubjectsList()
-      .subscribe(data => {
-        this.subjects = data
-        this.loading = false;
-      });
+    this._subjectsService.getSubjectsList().subscribe(data => {
+      this.subjects = data;
+      this.loading = false;
+    });
     this.cols = [
       {
         field: "subjectName",
