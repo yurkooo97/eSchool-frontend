@@ -15,19 +15,21 @@ export class StudentsComponent implements OnInit {
   students: Student[];
   newStudent: Student;
   isNew: boolean;
+  loading: boolean;
   cols: any[];
   selectedClass: number = 0;
+  selectedClassName: string = '8-А класу';
   displayForm: boolean;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
-  constructor(private service_: StudentsService) {
-    this.students = new Array<Student>();
-  }
+  constructor(private service_: StudentsService) {}
 
   ngOnInit() {
+    this.loading = true;
     this.service_.getClasses().subscribe(
       data => (
-        this.classes = data['data']
+        this.classes = data['data'],
+          this.loading = false
   ));
 
     this.loadStudents(1);
@@ -47,9 +49,11 @@ export class StudentsComponent implements OnInit {
   }
 
   loadStudents(classID: number) {
+    this.loading = true;
     this.service_.getStudents(classID).subscribe(
       data => (
-        this.students = data['data']
+        this.students = data['data'],
+          this.loading = false
   ));
   }
 
@@ -84,6 +88,10 @@ export class StudentsComponent implements OnInit {
   selectedClassHandler(event: any) {
     this.selectedClass = event.target.value;
     this.newStudent.classId = this.selectedClass;
+  }
+
+  selectedClassNameHandler(nameOfClass: string) {
+    this.selectedClassName = nameOfClass;
   }
 
   showForm() {

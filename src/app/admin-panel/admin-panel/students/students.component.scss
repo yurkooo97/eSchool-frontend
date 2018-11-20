@@ -24,7 +24,7 @@
 }
 .classButton
 {
-  margin-right: 5px;
+  margin: 0 5px 5px 0;
 }
 .classID
 {
@@ -50,10 +50,10 @@
 {
   .edit-student-btn
   {
-    display: none;
+    visibility: hidden;
   }
   &:hover .edit-student-btn
   {
-    display: inline-block;
+    visibility: visible;
   }
 }
