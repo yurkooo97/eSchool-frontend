@@ -90,7 +90,7 @@ export class StudentsComponent implements OnInit {
     this.newStudent.classId = this.selectedClass;
   }
 
-  selectedClassNameHendler(nameOfClass: string) {
+  selectedClassNameHandler(nameOfClass: string) {
     this.selectedClassName = nameOfClass;
   }
 
