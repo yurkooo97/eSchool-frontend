@@ -4,6 +4,7 @@ import { Teacher } from 'src/app/models/teacher.model';
 import { Subject } from 'src/app/models/subjects.model';
 import { Group } from 'src/app/models/group.model';
 import { NgForm } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class AttachTeacherComponent implements OnInit {
   private classes: Group[] = [];
   private filteredClasses: Group[];
 
-  constructor(private attachService: HttpAttachTeacherService) { }
+  constructor(private attachService: HttpAttachTeacherService, private messageService: MessageService) { }
 
   /**Add teacher to suggestion list */
   filterTeachers(event): void {
@@ -72,7 +73,10 @@ export class AttachTeacherComponent implements OnInit {
       }
     ).subscribe(
       // TODO: toast
-      data => console.log(data),
+      data => {
+        console.log(data);
+        this.messageService.add({severity: 'warn', summary: 'Додано успішно', detail: 'Успішно виконано привязку вчителя до журналу'});
+      },
       error => console.log(error)
     );
     this.form.reset();
