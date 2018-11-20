@@ -30,7 +30,7 @@ export class SubjectsComponent implements OnInit {
   constructor(
     private _subjectsService: AdminSubjectsService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loading = true;
@@ -80,8 +80,8 @@ export class SubjectsComponent implements OnInit {
     this.subjectForm.setValue({
       subjectName: this.subject.subjectName,
       subjectDescription: this.subject.subjectDescription
-	});
-	
+    });
+
     if (this.subjectForm.invalid) {
       return;
     }
@@ -115,8 +115,8 @@ export class SubjectsComponent implements OnInit {
       subject => {
         const subjects = [...this.subjects];
         subjects[this.subjects.indexOf(this.selectedSubject)] = subject;
-		    this.subjects = subjects;
-	    	this.ngOnInit();
+        this.subjects = subjects;
+        this.ngOnInit();
       },
       err => console.error(err)
     );
