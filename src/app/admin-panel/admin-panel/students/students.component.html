@@ -51,7 +51,7 @@
       <span [class.hiddenBox]="lastname.valid || lastname.untouched" class="messageOfMistake">Некоректне прізвище</span>
       <br>
       <span class="ui-float-label">
-        <input id="float-input-patronymic" type="text" pInputText [class.wrongData]="patronymic.invalid && patronymic.touched" #patronymic="ngModel" name="patronymic" [(ngModel)]="newStudent.patronymic" minlength="7" maxlength="20" required>
+        <input id="float-input-patronymic" type="text" pInputText [class.wrongData]="patronymic.invalid && patronymic.touched" #patronymic="ngModel" name="patronymic" [(ngModel)]="newStudent.patronymic" minlength="6" maxlength="20" required>
         <label for="float-input-patronymic">По батькові</label>
       </span>
       <span [class.hiddenBox]="patronymic.valid || patronymic.untouched" class="messageOfMistake">Некоректне по-батькові</span>
@@ -65,10 +65,10 @@
       </span>
       <br>
       <span class="ui-float-label">
-        <input id="float-input-login" type="text" pInputText [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login" [(ngModel)]="newStudent.login" minlength="2" maxlength="20" required>
+        <input id="float-input-login" type="text" pInputText [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login" [(ngModel)]="newStudent.login" minlength="5" maxlength="20" required>
         <label for="float-input-login">Логін</label>
       </span>
-      <span [class.hiddenBox]="login.valid || login.untouched" class="messageOfMistake">Введіть логін</span>
+      <span [class.hiddenBox]="login.valid || login.untouched" class="messageOfMistake">Введіть коректний логін (не менше 5 символів)</span>
       <br>
       <span class="ui-float-label">
         <input id="float-input-date" type="date" pInputText [class.wrongData]="dateOfBirth.invalid && dateOfBirth.touched" #dateOfBirth="ngModel" name="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" required>
