@@ -16,12 +16,10 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { FileUploadModule } from 'primeng/fileupload';
 import { AdminPanelRoutingModule } from './admin-panel-routing.module';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { ToastModule } from 'primeng/toast';
 
 import { TeachersService } from '../services/teachers.service';
 import { AdminSubjectsService } from '../services/admin-subjects.service';
 import { AdmingroupsService } from '../services/admingroups.service';
-import { MessageService } from 'primeng/api';
 
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { StudentsComponent } from './admin-panel/students/students.component';
@@ -51,11 +49,10 @@ import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-stud
     RadioButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    AutoCompleteModule,
-    ToastModule
+    AutoCompleteModule
   ],
 
-  providers: [AdmingroupsService, AdminSubjectsService, TeachersService, MessageService],
+  providers: [AdmingroupsService, AdminSubjectsService, TeachersService],
   declarations: [
     AdminPanelComponent,
     StudentsComponent,

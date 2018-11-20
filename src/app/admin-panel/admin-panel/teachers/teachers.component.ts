@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TeachersService } from '../../../services/teachers.service';
 import { Iteachers } from 'src/app/models/teachers';
-import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-teachers',
@@ -19,7 +18,7 @@ export class TeachersComponent implements OnInit {
   selectedTeacher: Iteachers;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
-  constructor(private _teacherServices: TeachersService, private messageService: MessageService) { }
+  constructor(private _teacherServices: TeachersService) {}
 
   ngOnInit() {
     this.loading = true;
@@ -41,8 +40,8 @@ export class TeachersComponent implements OnInit {
         this.photoData = 'Перевищено максимальний розмір фото 500 кб';
         this.imageUrl = 'assets/avatar.png';
       } else {
-        this.photoData = '';
-        this.imageUrl = event.target.result;
+      this.photoData = '';
+      this.imageUrl = event.target.result;
       }
     };
     reader.readAsDataURL(this.fileToUpload);
@@ -70,10 +69,7 @@ export class TeachersComponent implements OnInit {
     this._teacherServices
       .postTeacher(this.teacher)
       .subscribe(
-        teacher => {
-          this.teachers.push(teacher);
-          this.messageService.add({ severity: 'success', summary: 'Вчителя створено', detail: 'Успішно добавлено вчителя' });
-        },
+        teacher => this.teachers.push(teacher),
         err => console.error(err)
       );
   }
@@ -84,11 +80,8 @@ export class TeachersComponent implements OnInit {
         const teachers = [...this.teachers];
         teachers[this.teachers.indexOf(this.selectedTeacher)] = teacher;
         this.teachers = teachers;
-        this.messageService.add({ severity: 'success', summary: 'Вчителя редаговано', detail: 'Успішно відредаговано вчителя' });
       },
-      err => {console.error(err);
-        this.messageService.add({ severity: 'warn', summary: 'Вчителя створено', detail: 'Успішно добавлено вчителя' });
-      }
+      err => console.error(err)
     );
     this.teacher = null;
   }
