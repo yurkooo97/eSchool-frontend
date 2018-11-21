@@ -1,3 +1,39 @@
-<p>
-  new-studing-year works!
-</p>
+<!-- <div>
+  <ul>
+    <li *ngFor='let group of activeGroups'>
+      {{group.className}}
+    </li>
+  </ul>
+</div> -->
+
+
+<div class="p-align-center">
+  <div class="aligner">
+      <button pButton type="button" class="ui-button-info" label="Новий навчальний рік. Додати класи" icon="pi pi-plus" 
+      (click)="addNewGroups()"></button>
+  </div>
+  
+  <p-table [value]="activeGroups" [columns]="cols">
+    <ng-template pTemplate="header">
+      <tr>
+        <!-- <th>
+          Учні поточного класу
+        </th> -->
+        <th>Класи поточного року</th>
+        <th>Класи нового навчального року</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">             
+        <tr *ngFor="let col of columns">
+          <!-- <td>Учні {{rowData[col.field]}} класу</td> -->
+          <td>{{rowData[col.field]}} клас, {{rowData[col.field2]}} рік</td>
+          <td>
+            <span *ngIf="emptyTagHiden">&nbsp;</span>
+            <span *ngIf="newGroupsTagHiden">222</span></td>
+        </tr>          
+    </ng-template>   
+  </p-table>
+  <div class="aligner">
+    <button pButton type="button" class="ui-button-success" (click)="saveGroup()" label="Зберегти" icon="pi pi-check" [disabled]="buttonDisabled"></button>
+  </div>  
+</div>

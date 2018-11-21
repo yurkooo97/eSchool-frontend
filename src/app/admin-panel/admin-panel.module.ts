@@ -28,6 +28,7 @@ import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teacher.component';
 import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
+import { NewStudingYearService } from '../services/new-studing-year.service';
 
 
 @NgModule({
@@ -52,7 +53,7 @@ import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-stud
     AutoCompleteModule
   ],
 
-  providers: [AdmingroupsService, AdminSubjectsService, TeachersService],
+  providers: [AdmingroupsService, AdminSubjectsService, TeachersService, NewStudingYearService],
   declarations: [
     AdminPanelComponent,
     StudentsComponent,
