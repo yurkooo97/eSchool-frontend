@@ -1,20 +1,59 @@
+.hiddenBox
+{
+  display: none;
+}
 .messageOfMistake
 {
-  width: 100%;
-  padding: 5px;
-  background-color: #dd2233;
-  color: #ffffff;
+  color: #ff0000;
+  font-size: 11px;
+  float: right;
+}
+.wrongData
+{
+  border-color: #ff0000;
 }
 .studentsForm ::ng-deep input
 {
   width: 100%;
 }
+.selectClass
+{
+  padding: 7px 0;
+  border-radius: 3px;
+  font-size: 14px;
+}
 .classButton
 {
-  margin-right: 5px;
+  margin: 0 5px 5px 0;
 }
 .classID
 {
   width: 20% !important;
   float: right;
+}
+.mainInfo
+{
+  float: left;
+  width: calc(50% - 7px);
+  margin-right: 14px;
+}
+.secondaryInfo
+{
+  float: right;
+  width: calc(50% - 7px);
+}
+.editButton
+{
+  text-align: center;
+}
+.studentRow
+{
+  .edit-student-btn
+  {
+    visibility: hidden;
+  }
+  &:hover .edit-student-btn
+  {
+    visibility: visible;
+  }
 }

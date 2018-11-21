@@ -4,6 +4,7 @@
   selectionMode="single"
   [(selection)]="selectedTeacher"
   [paginator]="false"
+  [loading]="loading"
 >
   <ng-template pTemplate="caption">Список учителів</ng-template>
   <ng-template pTemplate="header" let-columns>
@@ -43,7 +44,7 @@
   </ng-template>
 </p-table>
 <p-dialog
-  header="Добавити нового учителя"
+  header="Додати нового учителя"
   [(visible)]="displayDialog"
   [responsive]="true"
   showEffect="fade"
@@ -52,20 +53,20 @@
 >
   <div class="ui-g ui-fluid" *ngIf="teacher">
     <div class="ui-g-12">
-      <div class="ui-g-4"><label for="name">Ім'я *</label></div>
+      <div class="ui-g-4"><label for="firstname">Ім'я *</label></div>
       <div class="ui-g-8 requiredWrapper">
         <input
           pInputText
-          [class.is-invalid]="name.invalid && name.touched"
-          #name="ngModel"
-          id="name"
+          [class.is-invalid]="firstname.invalid && firstname.touched"
+          #firstname="ngModel"
+          id="firstname"
           [(ngModel)]="teacher.firstname"
           required
           minlength="3"
           maxlength="20"
         />
         <span
-          [class.d-none]="name.valid || name.untouched"
+          [class.d-none]="firstname.valid || firstname.untouched"
           class="requiredMessage"
           >Введіть ім'я</span
         >
@@ -119,16 +120,16 @@
         <input
           pInputText
           id="dateOfBirth"
-          [class.is-invalid]="date.invalid && date.touched"
+          [class.is-invalid]="dateOfBirth.invalid && dateOfBirth.touched"
           [(ngModel)]="teacher.dateOfBirth"
-          #date="ngModel"
+          #dateOfBirth="ngModel"
           type="date"
           min="1940-12-25"
           max="2018-12-25"
           required
         />
         <span
-          [class.d-none]="date.valid || date.untouched"
+          [class.d-none]="dateOfBirth.valid || dateOfBirth.untouched"
           class="requiredMessage"
           >Введіть дату народження</span
         >
@@ -166,13 +167,12 @@
         <input
           pInputText
           id="photo"
-          [(ngModel)]="teacher.avatar"
           type="file"
           #Image
           accept="image/*"
           (change)="handlerFileInput($event.target.files)"
         />
-        <span class="photoError">{{photoData}}</span>
+        <span class="photoError">{{ photoData }}</span>
       </div>
     </div>
   </div>
@@ -185,6 +185,12 @@
         icon="pi pi-check"
         (click)="create()"
         label="Додати"
+        [disabled]="
+          !teacher.lastname ||
+          !teacher.firstname ||
+          !teacher.patronymic ||
+          !teacher.dateOfBirth
+        "
       ></button>
       <button
         *ngIf="!newTeacher"

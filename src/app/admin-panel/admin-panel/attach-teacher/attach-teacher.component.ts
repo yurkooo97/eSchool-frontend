@@ -4,6 +4,7 @@ import { Teacher } from 'src/app/models/teacher.model';
 import { Subject } from 'src/app/models/subjects.model';
 import { Group } from 'src/app/models/group.model';
 import { NgForm } from '@angular/forms';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 
 @Component({
@@ -28,7 +29,9 @@ export class AttachTeacherComponent implements OnInit {
   private classes: Group[] = [];
   private filteredClasses: Group[];
 
-  constructor(private attachService: HttpAttachTeacherService) { }
+  constructor(
+    private attachService: HttpAttachTeacherService,
+    private notificationToasts: DataSharingService) { }
 
   /**Add teacher to suggestion list */
   filterTeachers(event): void {
@@ -71,10 +74,14 @@ export class AttachTeacherComponent implements OnInit {
         classId: this.form.value._class.id
       }
     ).subscribe(
-      // TODO: toast
-      data => console.log(data),
-      error => console.log(error)
-    );
+      data => {
+        console.log(data);
+        this.notificationToasts.notify('success', 'Успішно виконано', 'Прив\'язку вчителя до журналу');
+      },
+      error => {
+        console.log(error);
+        this.notificationToasts.notify('error', 'Відхилено', 'Невдалося виконати прив\'язку вчителя до журналу');
+      });
     this.form.reset();
   }
 
