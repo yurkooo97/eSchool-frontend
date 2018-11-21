@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TeachersService } from '../../../services/teachers.service';
 import { Iteachers } from 'src/app/models/teachers';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
   selector: 'app-teachers',
@@ -18,7 +19,9 @@ export class TeachersComponent implements OnInit {
   selectedTeacher: Iteachers;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
-  constructor(private _teacherServices: TeachersService) {}
+  constructor(
+    private _teacherServices: TeachersService,
+    private notificationToasts: DataSharingService) { }
 
   ngOnInit() {
     this.loading = true;
@@ -41,8 +44,8 @@ export class TeachersComponent implements OnInit {
         this.photoData = 'Перевищено максимальний розмір фото 500 кб';
         this.imageUrl = 'assets/avatar.png';
       } else {
-      this.photoData = '';
-      this.imageUrl = event.target.result;
+        this.photoData = '';
+        this.imageUrl = event.target.result;
       }
     };
     reader.readAsDataURL(this.fileToUpload);
@@ -64,8 +67,14 @@ export class TeachersComponent implements OnInit {
     this._teacherServices
       .postTeacher(this.teacher)
       .subscribe(
-        teacher => this.teachers.push(teacher),
-        err => console.error(err)
+        teacher => {
+          this.teachers.push(teacher);
+          this.notificationToasts.notify('success', 'Успішно виконано', 'Додано нового вчителя');
+        },
+        err => {
+          console.error(err);
+          this.notificationToasts.notify('error', 'Відхилено', 'Невдалося додати нового вчителя');
+        }
       );
   }
   save() {
@@ -75,8 +84,12 @@ export class TeachersComponent implements OnInit {
         const teachers = [...this.teachers];
         teachers[this.teachers.indexOf(this.selectedTeacher)] = teacher;
         this.teachers = teachers;
+        this.notificationToasts.notify('success', 'Успішно виконано', 'Збережено зміни вчителя');
       },
-      err => console.error(err)
+      err => {
+        console.error(err);
+        this.notificationToasts.notify('error', 'Відхилено', 'Невдалося зберегти зміни вчителя');
+      }
     );
     this.teacher = null;
   }
