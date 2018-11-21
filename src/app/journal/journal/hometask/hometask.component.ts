@@ -44,7 +44,7 @@ export class HometaskComponent implements OnInit, OnDestroy {
     this.teacherJournalService.journalChanged.subscribe((journal: Journal) => {
       this.activeJournal = journal;
     });
-    this.teacherJournalService.getHomeworks(1, 271).subscribe(hometasks =>
+    this.teacherJournalService.getHomeworks(21, 11).subscribe(hometasks =>
       this.hometasks = hometasks);
 
     this.sortOptions = [
