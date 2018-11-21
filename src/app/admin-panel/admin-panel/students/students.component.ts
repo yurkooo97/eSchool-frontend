@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StudentsService } from '../../../services/admin-students.service';
 import { Student } from '../../../models/students.model';
 import {Class_} from '../../../models/classesForStudents.model';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
   selector: 'app-students',
@@ -22,7 +23,9 @@ export class StudentsComponent implements OnInit {
   displayForm: boolean;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
-  constructor(private service_: StudentsService) {}
+  constructor(
+    private service_: StudentsService,
+    private notificationToasts: DataSharingService ) {}
 
   ngOnInit() {
     this.loading = true;
@@ -75,12 +78,14 @@ export class StudentsComponent implements OnInit {
         console.log('Added!!!'),
         this.loadStudents(21),
         this.displayForm = false;
+        this.notificationToasts.notify('success', 'Успішно виконано', 'Додано нового учня');
       });
     } else {
       this.service_.changeStudent(this.newStudent).subscribe( data => {
         console.log('Updated!!!'),
         this.loadStudents(21),
         this.displayForm = false;
+        this.notificationToasts.notify('success', 'Успішно виконано', 'Збережено зміни учня');
       });
     }
   }
