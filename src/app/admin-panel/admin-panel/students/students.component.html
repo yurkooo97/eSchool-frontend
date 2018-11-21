@@ -1,18 +1,18 @@
 <p-fieldset legend="Активні класи" [toggleable]="true" [collapsed]="false">
   <span *ngFor="let  class_ of classes">
-    <button *ngIf="class_.isActive == true" type="button" pButton icon="pi pi-folder" label="&nbsp;&nbsp;{{class_.className}}" title="{{class_.id}}" (click)="loadStudents(class_.id)" class="ui-button-raised classButton"></button>
+    <button *ngIf="class_.isActive" type="button" pButton icon="pi pi-folder" label="&nbsp;&nbsp;{{class_.className}}" title="{{class_.id}}" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу')" class="ui-button-raised classButton"></button>
   </span>
 </p-fieldset>
 <br>
 <p-fieldset legend="Класи минулих років" [toggleable]="true" [collapsed]="true">
   <span *ngFor="let  class_ of classes">
-    <button *ngIf="class_.isActive == false" type="button" pButton icon="pi pi-folder" label="&nbsp;&nbsp;{{class_.className}}&nbsp;&nbsp;({{class_.classYear}})" title="{{class_.id}}" (click)="loadStudents(class_.id)" class="ui-button-raised classButton"></button>
+    <button *ngIf="!class_.isActive" type="button" pButton icon="pi pi-folder" label="&nbsp;&nbsp;{{class_.className}}&nbsp;&nbsp;({{class_.classYear}})" title="{{class_.id}}" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу' + ' (' + class_.classYear + ' року)')" class="ui-button-raised classButton"></button>
   </span>
 </p-fieldset>
 <br>
-<p-table [value]="students">
+<p-table [value]="students" [loading]="loading">
   <ng-template pTemplate="caption">
-    Учні
+    Учні {{selectedClassName}}
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
@@ -51,7 +51,7 @@
       <span [class.hiddenBox]="lastname.valid || lastname.untouched" class="messageOfMistake">Некоректне прізвище</span>
       <br>
       <span class="ui-float-label">
-        <input id="float-input-patronymic" type="text" pInputText [class.wrongData]="patronymic.invalid && patronymic.touched" #patronymic="ngModel" name="patronymic" [(ngModel)]="newStudent.patronymic" minlength="7" maxlength="20" required>
+        <input id="float-input-patronymic" type="text" pInputText [class.wrongData]="patronymic.invalid && patronymic.touched" #patronymic="ngModel" name="patronymic" [(ngModel)]="newStudent.patronymic" minlength="6" maxlength="20" required>
         <label for="float-input-patronymic">По батькові</label>
       </span>
       <span [class.hiddenBox]="patronymic.valid || patronymic.untouched" class="messageOfMistake">Некоректне по-батькові</span>
@@ -65,10 +65,10 @@
       </span>
       <br>
       <span class="ui-float-label">
-        <input id="float-input-login" type="text" pInputText [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login" [(ngModel)]="newStudent.login" minlength="2" maxlength="20" required>
+        <input id="float-input-login" type="text" pInputText [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login" [(ngModel)]="newStudent.login" minlength="5" maxlength="20" required>
         <label for="float-input-login">Логін</label>
       </span>
-      <span [class.hiddenBox]="login.valid || login.untouched" class="messageOfMistake">Введіть логін</span>
+      <span [class.hiddenBox]="login.valid || login.untouched" class="messageOfMistake">Введіть коректний логін (не менше 5 символів)</span>
       <br>
       <span class="ui-float-label">
         <input id="float-input-date" type="date" pInputText [class.wrongData]="dateOfBirth.invalid && dateOfBirth.touched" #dateOfBirth="ngModel" name="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" required>
