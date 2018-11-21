@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 export class ShellComponent implements OnInit, OnDestroy {
 
   items: MenuItem[];
-  subscription: Subscription;
+  private subscription: Subscription;
 
   constructor(
     private _authService: AuthenticationService,
@@ -22,6 +22,7 @@ export class ShellComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscribeToNotifications();
+
     this.items = [
       {
         label: 'Струтинська Тетяна Олександрівна (Вчитель)',
@@ -44,9 +45,7 @@ export class ShellComponent implements OnInit, OnDestroy {
 
   subscribeToNotifications() {
     this.subscription = this.notificationToasts.showToasts
-      .subscribe(notification => {
-        this.messageService.add(notification);
-      });
+      .subscribe(notification => this.messageService.add(notification));
   }
 
   ngOnDestroy(): void {

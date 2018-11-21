@@ -74,13 +74,14 @@ export class AttachTeacherComponent implements OnInit {
         classId: this.form.value._class.id
       }
     ).subscribe(
-      // TODO: toast
       data => {
         console.log(data);
-        this.notificationToasts.notify('info', 'text', 'home test');
+        this.notificationToasts.notify('success', 'Успішно виконано', 'Прив\'язку вчителя до журналу');
       },
-      error => console.log(error)
-    );
+      error => {
+        console.log(error);
+        this.notificationToasts.notify('error', 'Відхилено', 'Невдалося виконати прив\'язку вчителя до журналу');
+      });
     this.form.reset();
   }
 
