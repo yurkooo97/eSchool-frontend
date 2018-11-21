@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { AdminSubjectsService } from "src/app/services/admin-subjects.service";
 import { Subject } from "src/app/models/subjects.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DataSharingService } from "src/app/services/data-sharing.service";
 
 @Component({
   selector: "app-subjects",
@@ -29,7 +30,8 @@ export class SubjectsComponent implements OnInit {
 
   constructor(
     private _subjectsService: AdminSubjectsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private notificationToasts: DataSharingService
   ) {}
 
   ngOnInit() {
@@ -102,8 +104,14 @@ export class SubjectsComponent implements OnInit {
     this._subjectsService
       .postSubject(this.subject)
       .subscribe(
-        subject => this.subjects.push(subject),
-        err => console.error(err)
+        subject => {
+          this.subjects.push(subject);
+          this.notificationToasts.notify('success', 'Успішно виконано', 'Додано новий предмет');
+        },
+        err => {
+          console.error(err);
+          this.notificationToasts.notify('error', 'Відхилено', 'Невдалося додати новий предмет');
+        }
       );
   }
 
@@ -115,8 +123,12 @@ export class SubjectsComponent implements OnInit {
         subjects[this.subjects.indexOf(this.selectedSubject)] = subject;
         this.subjects = subjects;
         this.ngOnInit();
+        this.notificationToasts.notify('success', 'Успішно виконано', 'Збережно зміни до предмету');
       },
-      err => console.error(err)
+      err => {
+        console.error(err);
+        this.notificationToasts.notify('error', 'Відхилено', 'Невдалося зберегти зміни до предмету');
+      }
     );
     this.subject = null;
   }
