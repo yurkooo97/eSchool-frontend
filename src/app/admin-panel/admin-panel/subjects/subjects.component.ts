@@ -1,12 +1,12 @@
-import { Component, OnInit } from "@angular/core";
-import { AdminSubjectsService } from "src/app/services/admin-subjects.service";
-import { Subject } from "src/app/models/subjects.model";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { AdminSubjectsService } from 'src/app/services/admin-subjects.service';
+import { Subject } from 'src/app/models/subjects.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: "app-subjects",
-  templateUrl: "./subjects.component.html",
-  styleUrls: ["./subjects.component.scss"]
+  selector: 'app-subjects',
+  templateUrl: './subjects.component.html',
+  styleUrls: ['./subjects.component.scss']
 })
 export class SubjectsComponent implements OnInit {
   subjectForm: FormGroup;
@@ -40,30 +40,29 @@ export class SubjectsComponent implements OnInit {
     });
     this.cols = [
       {
-        field: "subjectName",
-        header: "Назва"
+        field: 'subjectName',
+        header: 'Назва'
       },
       {
-        field: "subjectDescription",
-        header: "Опис"
+        field: 'subjectDescription',
+        header: 'Опис'
       }
     ];
     this.subjectForm = this.formBuilder.group({
       subjectName: [
-        "",
+        '',
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(100),
-          Validators.pattern("[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[' -]?)+")
+          Validators.pattern('[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+')
         ])
       ],
       subjectDescription: [
-        "",
+        '',
         Validators.compose([
-          Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(300)
+          Validators.maxLength(100),
         ])
       ]
     });
@@ -74,10 +73,11 @@ export class SubjectsComponent implements OnInit {
   }
 
   onSubmit() {
+    this.subject = this.removeSpaces(this.subject);
     this.submitted = true;
     this.subjectForm.setValue({
-      subjectName: this.subject.subjectName,
-      subjectDescription: this.subject.subjectDescription
+      subjectName: this.subject.subjectName.trim(),
+      subjectDescription: this.subject.subjectDescription || ''
     });
 
     if (this.subjectForm.invalid) {
@@ -114,7 +114,6 @@ export class SubjectsComponent implements OnInit {
         const subjects = [...this.subjects];
         subjects[this.subjects.indexOf(this.selectedSubject)] = subject;
         this.subjects = subjects;
-        this.ngOnInit();
       },
       err => console.error(err)
     );
@@ -122,11 +121,21 @@ export class SubjectsComponent implements OnInit {
   }
 
   onRowSelect(rowData) {
+    this.selectedSubject = rowData;
     this.submitted = false;
     this.newSubject = false;
     this.subject = {
       ...rowData
     };
     this.displayDialog = true;
+  }
+
+  removeSpaces(subject) {
+    for (const prop in subject) {
+      if (typeof subject[prop] === 'string') {
+        subject[prop] = subject[prop].trim();
+      }
+    }
+    return subject;
   }
 }
