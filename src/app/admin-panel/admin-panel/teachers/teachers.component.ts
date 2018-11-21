@@ -13,7 +13,7 @@ export class TeachersComponent implements OnInit {
   displayDialog: boolean;
   teachers: Iteachers[];
   teacher: any;
-  columns: any[];
+  columns: Array<object>;
   newTeacher: boolean;
   selectedTeacher: Iteachers;
   imageUrl: any = 'assets/avatar.png';
@@ -36,6 +36,7 @@ export class TeachersComponent implements OnInit {
     this.fileToUpload = file.item(0);
     const reader = new FileReader();
     reader.onload = (event: any) => {
+      this.teacher.avatar = event.target.result;
       if (file.item(0).size > 500000) {
         this.photoData = 'Перевищено максимальний розмір фото 500 кб';
         this.imageUrl = 'assets/avatar.png';
@@ -59,13 +60,7 @@ export class TeachersComponent implements OnInit {
     this.displayDialog = true;
   }
   create() {
-    if (
-      this.teacher.firstname.length >= 3 &&
-      this.teacher.lastname.length >= 3 &&
-      this.teacher.patronymic.length >= 7
-    ) {
-      this.displayDialog = false;
-    }
+    this.displayDialog = false;
     this._teacherServices
       .postTeacher(this.teacher)
       .subscribe(
