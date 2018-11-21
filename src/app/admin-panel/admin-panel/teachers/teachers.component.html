@@ -64,6 +64,7 @@
           required
           minlength="3"
           maxlength="20"
+          name="firstname"
         />
         <span
           [class.d-none]="firstname.valid || firstname.untouched"
@@ -84,6 +85,7 @@
           minlength="3"
           maxlength="20"
           required
+          name="lastname"
         />
         <span
           [class.d-none]="lastname.valid || lastname.untouched"
@@ -104,6 +106,7 @@
           minlength="7"
           maxlength="20"
           required
+          name="patronymic"
         />
         <span
           [class.d-none]="patronymic.valid || patronymic.untouched"
@@ -127,6 +130,7 @@
           min="1940-12-25"
           max="2018-12-25"
           required
+          name="dateOfBirth"
         />
         <span
           [class.d-none]="dateOfBirth.valid || dateOfBirth.untouched"
@@ -138,13 +142,19 @@
     <div class="ui-g-12">
       <div class="ui-g-4"><label for="login">Логін</label></div>
       <div class="ui-g-8">
-        <input pInputText id="login" [(ngModel)]="teacher.login" />
+        <input pInputText id="login" [(ngModel)]="teacher.login" name="login" />
       </div>
     </div>
     <div class="ui-g-12">
       <div class="ui-g-4"><label for="email">Електронна адреса</label></div>
       <div class="ui-g-8">
-        <input pInputText id="email" [(ngModel)]="teacher.email" type="email" />
+        <input
+          pInputText
+          id="email"
+          [(ngModel)]="teacher.email"
+          type="email"
+          name="email"
+        />
       </div>
     </div>
     <div class="ui-g-12">
@@ -155,6 +165,7 @@
           id="tel"
           mask="999-999-9999"
           placeholder="999-999-9999"
+          name="phone"
         ></p-inputMask>
       </div>
     </div>
@@ -171,6 +182,7 @@
           #Image
           accept="image/*"
           (change)="handlerFileInput($event.target.files)"
+          name="photo"
         />
         <span class="photoError">{{ photoData }}</span>
       </div>
@@ -185,12 +197,6 @@
         icon="pi pi-check"
         (click)="create()"
         label="Додати"
-        [disabled]="
-          !teacher.lastname ||
-          !teacher.firstname ||
-          !teacher.patronymic ||
-          !teacher.dateOfBirth
-        "
       ></button>
       <button
         *ngIf="!newTeacher"
