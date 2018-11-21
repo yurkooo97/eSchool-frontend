@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { JwtHelperService } from '@auth0/angular-jwt';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,6 +10,7 @@ export class AuthenticationService {
   private refreshUrl: string = 'https://fierce-shore-32592.herokuapp.com/refresh';
   private tokenRefreshMinPeriod: number;
   private tokenRefreshTimestamp: number;
+  private _idUser: number;
 
   constructor(private httpClient: HttpClient) {
     this.tokenRefreshMinPeriod = 1000 * 60 * 5;
@@ -22,11 +23,27 @@ export class AuthenticationService {
         if (response.status === 200 || response.status === 204) {
           this.tokenRefreshTimestamp = new Date().getTime();
           localStorage.setItem('authToken', response.headers.get('Authorization'));
+          console.log('Autheticated user id: ' + this.idUser);
         }
         return response;
       });
   }
-
+  get idUser(): number {
+    if (this._idUser) {
+      return this._idUser;
+    } else {
+      let token = localStorage.getItem('authToken');
+      if (token) {
+        const jwtHelper = new JwtHelperService();
+        const decodedToken = jwtHelper.decodeToken(token);
+        this._idUser = decodedToken.jti;
+        console.log(this._idUser);
+        return this._idUser;
+      } else {
+        console.error('Token not found!!!');
+      }
+    }
+  }
   getToken() {
     return localStorage.getItem('authToken');
   }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-// import { SelectItem } from 'primeng/api';
-import { TeacherJournalsService } from '../../../services/teacher-journals.service';
-import { Journal } from '../../../models/journal.model';
 
+import { TeacherJournalsService } from '../../../services/teacher-journals.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { Journal } from '../../../models/journal.model';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -21,8 +21,7 @@ export class MenuComponent implements OnInit {
   selectedClassName: Journal;
   selectedSubjectName: Journal;
 
-
-  constructor(private teacherJournalService: TeacherJournalsService) {
+  constructor(private teacherJournalService: TeacherJournalsService, private auth: AuthenticationService) {
     // this.classNames = [
     //  {label: 'Оберіть клас', value: null},
     //  {label: '7-А', value: '7-А'},
@@ -36,13 +35,15 @@ export class MenuComponent implements OnInit {
     //   {label: 'Фізика', value: 'Фізика'},
     // ];
   }
-
+  
   ngOnInit() {
     this.getJournals();
   }
 
   getJournals(): void {
-    this.teacherJournalService.getJournalsTeacher().subscribe(journals => this.classes = journals);
+    let idUser = this.auth.idUser;
+    this.teacherJournalService.getJournalsTeacher(idUser, false)
+    .subscribe(journals => this.classes = journals);
   }
   setSelectedJournal(): void {
     console.log('clicked');
