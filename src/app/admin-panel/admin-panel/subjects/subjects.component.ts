@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
-import { AdminSubjectsService } from "src/app/services/admin-subjects.service";
-import { Subject } from "src/app/models/subjects.model";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { DataSharingService } from "src/app/services/data-sharing.service";
+import { Component, OnInit } from '@angular/core';
+import { AdminSubjectsService } from 'src/app/services/admin-subjects.service';
+import { Subject } from 'src/app/models/subjects.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
   selector: 'app-subjects',
@@ -78,7 +78,7 @@ export class SubjectsComponent implements OnInit {
     this.subject = this.removeSpaces(this.subject);
     this.submitted = true;
     this.subjectForm.setValue({
-      subjectName: this.subject.subjectName.trim(),
+      subjectName: this.subject.subjectName || '',
       subjectDescription: this.subject.subjectDescription || ''
     });
 
@@ -122,7 +122,7 @@ export class SubjectsComponent implements OnInit {
         const subjects = [...this.subjects];
         subjects[this.subjects.indexOf(this.selectedSubject)] = subject;
         this.subjects = subjects;
-        this.notificationToasts.notify('success', 'Успішно виконано', 'Збережно зміни до предмету');
+        this.notificationToasts.notify('success', 'Успішно виконано', 'Збережено зміни до предмету');
       },
       err => {
         console.error(err);
@@ -132,7 +132,7 @@ export class SubjectsComponent implements OnInit {
     this.subject = null;
   }
 
-  onRowSelect(rowData) {
+  onRowSelect(rowData: Subject) {
     this.selectedSubject = rowData;
     this.submitted = false;
     this.newSubject = false;
@@ -142,7 +142,7 @@ export class SubjectsComponent implements OnInit {
     this.displayDialog = true;
   }
 
-  removeSpaces(subject) {
+  private removeSpaces(subject: Subject): Subject {
     for (const prop in subject) {
       if (typeof subject[prop] === 'string') {
         subject[prop] = subject[prop].trim();

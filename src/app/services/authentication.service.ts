@@ -19,7 +19,7 @@ export class AuthenticationService {
     const userData = { username: userName, password: password };
     return this.httpClient.post(this.Url, userData, { observe: 'response' })
       .map((response: any) => {
-        if (response.status === 200 || response.status === 204) {
+        if (response.status === 204) {
           this.tokenRefreshTimestamp = new Date().getTime();
           localStorage.setItem('authToken', response.headers.get('Authorization'));
         }

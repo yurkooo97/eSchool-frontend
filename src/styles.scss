@@ -1,3 +1,10 @@
+
+/* You can add global styles to this file, and also import other style files */
+body {
+	margin:0;
+	padding:0;
+}
+
 @media print {
   button, .sidenav, .ui-toolbar, .ui-table-summary, fieldset {
     display: none !important;
@@ -9,3 +16,4 @@
     margin-left: -115px;
   }
 }
+

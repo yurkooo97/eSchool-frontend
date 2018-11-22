@@ -15,7 +15,7 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 })
 export class AttachTeacherComponent implements OnInit {
   @ViewChild('AttachTeacherForm') form: NgForm;
-  public title = 'Привз\'яка вчителя до журналу';
+  public title = 'Прив\'язка вчителя до журналу';
 
   public teacher: Teacher;
   private teachers: Teacher[] = [];

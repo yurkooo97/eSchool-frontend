@@ -18,11 +18,9 @@ export class AdmingroupsService {
   constructor(private http: HttpClient) { }
 
   public getClasses(): Observable<Group[]> {
-
     return this.http.get<Group[]>(this.ClassesUrl)
       .map((response: any) => {
         return response.data;
-
       }).pipe(
         catchError(this.handleError)
       );
@@ -31,22 +29,21 @@ export class AdmingroupsService {
   public saveClass(group: Group): Observable<Group> {
     if (isNumber(group.id)) {
       return this.http.put<Group>(`${this.ClassesUrl}/${group.id}`, group)
+        .map((response: any) => {
+          return response.data;
+        })
         .pipe(
           catchError(this.handleError)
         );
     } else {
       return this.http.post<Group>(this.ClassesUrl, group)
+        .map((response: any) => {
+          return response.data;
+        })
         .pipe(
           catchError(this.handleError)
         );
     }
-  }
-
-  public postClasses(group: Group): Observable<Group> {
-    return this.http.post<Group>(this.ClassesUrl, group)
-      .pipe(
-        catchError(this.handleError)
-      );
   }
 
   private handleError(error: HttpErrorResponse) {
