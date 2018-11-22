@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/catch';
 import { AuthenticationService } from './authentication.service';
 
@@ -15,14 +15,6 @@ export class RefreshTokenInterceptorService implements HttpInterceptor {
     if (!request.url.endsWith('refresh')) {
       this.authService.refreshToken();
     }
-    return next.handle(request).catch((errorResponse: HttpErrorResponse) => {
-      const error = (typeof errorResponse.error !== 'object') ? JSON.parse(errorResponse.error) : errorResponse;
-      if (errorResponse.status === 401 && error.error === 'token_expired') {
-        this.authService.logOut();
-      }
-      return Observable.throw(error);
-    });
-
+    return next.handle(request);
   }
-
 }
