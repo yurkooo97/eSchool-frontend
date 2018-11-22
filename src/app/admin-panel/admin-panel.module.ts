@@ -49,8 +49,7 @@ import { NewStudingYearService } from '../services/new-studing-year.service';
     RadioButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    AutoCompleteModule   
-
+    AutoCompleteModule
   ],
 
   providers: [AdmingroupsService, AdminSubjectsService, TeachersService, NewStudingYearService],
