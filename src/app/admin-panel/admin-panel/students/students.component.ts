@@ -77,14 +77,14 @@ export class StudentsComponent implements OnInit {
       this.service_.addStudent(this.newStudent).subscribe(data => {
         console.log('Added!!!'),
         this.loadStudents(21),
-        this.displayForm = false;
+        this.displayForm = false,
         this.notificationToasts.notify('success', 'Успішно виконано', 'Додано нового учня');
       });
     } else {
       this.service_.changeStudent(this.newStudent).subscribe( data => {
         console.log('Updated!!!'),
         this.loadStudents(21),
-        this.displayForm = false;
+        this.displayForm = false,
         this.notificationToasts.notify('success', 'Успішно виконано', 'Збережено зміни учня');
       });
     }

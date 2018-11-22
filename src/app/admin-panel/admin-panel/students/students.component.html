@@ -69,7 +69,7 @@
         <label for="float-input-login">Логін</label>
       </span>
       <span [class.hiddenBox]="login.valid || login.untouched" class="messageOfMistake">Введіть коректний логін (не менше 5 символів)</span>
-      <br>
+      <span class="dateLabel">Дата народження</span>
       <span class="ui-float-label">
         <input id="float-input-date" type="date" pInputText [class.wrongData]="dateOfBirth.invalid && dateOfBirth.touched" #dateOfBirth="ngModel" name="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" required>
       </span>
@@ -94,7 +94,7 @@
     <br>
   </form>
 <p-footer>
-  <button type="button" pButton icon="pi pi-check" (click)="saveStudent(); studentsForm.reset();" class="ui-button-raised" label="Зберегти" [disabled]="firstname.invalid || lastname.invalid || patronymic.invalid || dateOfBirth.invalid"></button>
+  <button type="button" pButton icon="pi pi-check" (click)="saveStudent(); studentsForm.reset();" class="ui-button-raised" label="Зберегти" [disabled]="firstname.invalid || lastname.invalid || patronymic.invalid || dateOfBirth.invalid || login.invalid"></button>
 </p-footer>
 </p-dialog>
 
