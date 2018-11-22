@@ -49,7 +49,7 @@ import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-stud
     RadioButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    AutoCompleteModule
+    AutoCompleteModule,
   ],
 
   providers: [AdmingroupsService, AdminSubjectsService, TeachersService],
