@@ -27,6 +27,7 @@ import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
 import { AdmingroupsService } from '../services/admingroups.service';
+import { NewStudingYearService } from '../services/new-studing-year.service';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { AdmingroupsService } from '../services/admingroups.service';
     InputMaskModule,
     RadioButtonModule,
     FormsModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    NewStudingYearService, 
   ],
 
   providers: [AdmingroupsService, AdminSubjectsService, TeachersService],

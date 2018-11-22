@@ -24,13 +24,13 @@ import { AdminGuard} from './admin-panel/admin.guard';
     HttpClientModule 
   ],
 	providers: [AdmingroupsService, 
-		AdminSubjectsService, LoginGuard,
+		AdminSubjectsService, /* LoginGuard,
 		AdminGuard,
 		{
 			provide: HTTP_INTERCEPTORS,
 			useClass: TokenInterceptorService,
 			multi: true
-		}
+		} */
 	],
   bootstrap: [AppComponent]
 })
