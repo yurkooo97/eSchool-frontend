@@ -5,38 +5,60 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  public Url = 'https://fierce-shore-32592.herokuapp.com/signin';
-  private token: string;
+
+  public Url: string = 'https://fierce-shore-32592.herokuapp.com/signin';
+  private refreshUrl: string = 'https://fierce-shore-32592.herokuapp.com/refresh';
+  private tokenRefreshMinPeriod: number;
+  private tokenRefreshTimestamp: number;
 
   constructor(private httpClient: HttpClient) {
-    this.token = localStorage.getItem('authToken');
+    this.tokenRefreshMinPeriod = 1000 * 60 * 5;
   }
 
   login(userName: string, password: string) {
     const userData = { username: userName, password: password };
-    return this.httpClient.post(this.Url, userData).map((response: any) => {
-      if (response.status.code === 200) {
-        this.token = response.data.token;
-        localStorage.setItem('authToken', this.token);
-      }
-      return response;
-    });
-  }
-
-  public isAuthenticated(): boolean {
-    return this.token !== null;
+    return this.httpClient.post(this.Url, userData, { observe: 'response' })
+      .map((response: any) => {
+        if (response.status === 204) {
+          this.tokenRefreshTimestamp = new Date().getTime();
+          localStorage.setItem('authToken', response.headers.get('Authorization'));
+        }
+        return response;
+      });
   }
 
   getToken() {
-    return this.token;
+    return localStorage.getItem('authToken');
   }
 
   logOut() {
-    this.token = null;
+    this.tokenRefreshTimestamp = null;
     localStorage.removeItem('authToken');
   }
 
   loggedIn() {
     return !!localStorage.getItem('authToken');
+  }
+
+  refreshToken() {
+    if (!this.loggedIn()) {
+      return;
+    }
+    const curTime = new Date().getTime();
+    if (this.tokenRefreshTimestamp) {
+      const timeFromlastRefresh = curTime - this.tokenRefreshTimestamp;
+      if (timeFromlastRefresh < this.tokenRefreshMinPeriod) {
+        return;
+      }
+    }
+    this.httpClient.get(this.refreshUrl)
+      .subscribe(
+        (response) => {
+          console.debug('token refreshed: ');
+          this.tokenRefreshTimestamp = curTime;
+        },
+        (err) => {
+          console.warn('failed to refresh token with error: ' + err);
+        });
   }
 }
