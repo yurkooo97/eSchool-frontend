@@ -20,15 +20,16 @@ export class HttpAttachTeacherService {
 
   getTeachers(): Observable<Teacher[]> {
     return this.http.get<Teacher[]>(this.urlTeachers)
+      .map((response: any) => response.data)
       .pipe(tap(_ => _.map(teacher => teacher.fullname = `${teacher.lastname} ${teacher.firstname}`)));
   }
 
   getSubjects(): Observable<Subject[]> {
-    return this.http.get<Subject[]>(this.urlSubjects);
+    return this.http.get<Subject[]>(this.urlSubjects).map((response: any) => response.data);
   }
 
   getClasses(): Observable<Group[]> {
-    return this.http.get<Group[]>(this.urlClases);
+    return this.http.get<Group[]>(this.urlClases).map((response: any) => response.data);
   }
 
   postAttachTeacher(object: AttachedTeacher): Observable<any> {

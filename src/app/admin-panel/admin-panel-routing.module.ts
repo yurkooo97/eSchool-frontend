@@ -32,10 +32,6 @@ const routes: Routes = [
       component: TeachersComponent
     },
     {
-      path: 'teachers',
-      component: TeachersComponent
-    },
-    {
       path: 'new-studing-year',
       component: NewStudingYearComponent
 		},
