@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-
+import { Observable, throwError } from 'rxjs';
 import { Group } from '../models/group.model';
+import { ClassId } from '../models/classId.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,19 +11,40 @@ import { Group } from '../models/group.model';
 export class NewStudingYearService {
 
   constructor(private http: HttpClient) { }
-
   private httpOptions = {
     headers: new HttpHeaders({ 
-      /* 'Access-Control-Allow-Origin':'*',
-      'Access-Control-Allow-Methods':'GET,POST,PUT,DELETE',
-      "Access-Control-Allow-Headers": "accept, content-type" */
-      'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsIlJvbGVzIjp7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifSwiZXhwIjoxNTQyMzczMzMyLCJpYXQiOjE1NDIzNjk3MzIsImp0aSI6IjIzMSJ9.TWpyhlk5J539ySu1Wf1SJ5A47xzYnXjMYENLUCvYRHJ5BgXwdPILnfndyiUpJ5kwkzaOLJMQw2Tf6q_6OWUtfg'
+      'Content-Type': 'application/json'          
     })
   };
 
   private classUrl = 'https://fierce-shore-32592.herokuapp.com/classes';
+  private transUrl = 'https://fierce-shore-32592.herokuapp.com/students/transition';    
 
   getGroups(): Observable<Group[]> {
-    return this.http.get<Group[]>(this.classUrl, this.httpOptions);
+    return this.http.get<Group[]>(this.classUrl, this.httpOptions)
+    .map( (response: any) => {
+      return response.data;
+    })
+    .catch( (error: any) => {
+      return throwError(error);
+    });
   }
-}
+  postNewGroups(): Observable<any> {
+    return this.http.post<any>(this.transUrl, this.httpOptions)
+    .map( (response: any) => {
+      return response.data;
+    })
+    .catch( (error: any) => {
+      return throwError(error);
+    });
+  }
+  putNewOldId(idObject: any[]): Observable<any[]> {
+    return this.http.put<any[]>(this.transUrl, idObject)
+    .map( (response: any) => {
+      return response.data;
+    })
+    .catch( (error: any) => {
+      return throwError(error);
+    });
+  }
+} 

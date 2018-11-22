@@ -30,8 +30,6 @@ import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teac
 import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
 import { NewStudingYearService } from '../services/new-studing-year.service';
 
-
-
 @NgModule({
   imports: [
     CommonModule,
