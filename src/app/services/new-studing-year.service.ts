@@ -11,7 +11,6 @@ import { ClassId } from '../models/classId.model';
 export class NewStudingYearService {
 
   constructor(private http: HttpClient) { }
-
   private httpOptions = {
     headers: new HttpHeaders({ 
       'Content-Type': 'application/json'            
@@ -19,7 +18,6 @@ export class NewStudingYearService {
   };
 
   private classUrl = 'https://fierce-shore-32592.herokuapp.com/classes';
-
   private transUrl = 'https://fierce-shore-32592.herokuapp.com/students/transition';    
 
   getGroups(): Observable<Group[]> {
@@ -31,7 +29,6 @@ export class NewStudingYearService {
       return throwError(error);
     });
   }
-
   postNewGroups(): Observable<any> {
     return this.http.post<any>(this.transUrl, this.httpOptions)
     .map( (response: any) => {
@@ -41,7 +38,6 @@ export class NewStudingYearService {
       return throwError(error);
     });
   }
-
   putNewOldId(idObject: any[]): Observable<any[]> {
     return this.http.put<any[]>(this.transUrl, idObject)
     .map( (response: any) => {
@@ -51,7 +47,6 @@ export class NewStudingYearService {
       return throwError(error);
     });
   }
-
 }
 
   

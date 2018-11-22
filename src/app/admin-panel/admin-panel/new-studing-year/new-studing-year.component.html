@@ -4,8 +4,7 @@
   <div class="aligner">
       <button pButton type="button" class="ui-button-info" label="Перейти на новий навчальний рік" icon="pi pi-plus" 
       (click)="addNewGroups()" [disabled]="buttonAddDisabled"></button>
-  </div>
-  
+  </div>  
   <div class="aligner" style="border: 1px solid#c1bfbf">
     <p-table [value]="activeGroups" [columns]="cols">
       <ng-template pTemplate="header">
@@ -34,7 +33,6 @@
       </ng-template>         
     </p-table>
   </div>
-
   <div class="aligner">
     <button pButton type="button" class="ui-button-success" (click)="saveGroup()" label="Зберегти" icon="pi pi-check" [disabled]="buttonSaveDisabled"></button>
   </div>  
