@@ -1,14 +1,14 @@
 <br>
 <p-toolbar>
   <div class="ui-toolbar-group-left">
-    <p-dropdown [options]="displayJpournals" [(ngModel)]="selectedClassName" optionLabel="className" placeholder="Оберіть клас:"></p-dropdown>
-    <p-dropdown [options]="journals" [(ngModel)]="selectedSubjectName" optionLabel="subjectName" placeholder="Оберіть предмет:"></p-dropdown>
-    <span *ngIf="selectedClassName">{{selectedClassName ? selectedClassName.academicYear : 'none'}}</span>
-    <p-button label="Завантажити журнал" (click)="setSelectedJournal()"></p-button>
+    <p-dropdown [options]="displayJournalsByClass" [(ngModel)]="selectedClassName" optionLabel="className" placeholder="Оберіть клас:" (onChange)="showSubjects()"></p-dropdown>
+    <p-dropdown [options]="displayJournalsBySubject" [(ngModel)]="selectedSubjectName" optionLabel="subjectName" placeholder="Оберіть предмет:"></p-dropdown>
+    <span style="margin: 0 15px" *ngIf="selectedClassName">{{selectedClassName ? selectedClassName.academicYear : 'none'}}</span>
+    <p-button *ngIf="selectedSubjectName" label="Завантажити журнал" (click)="setSelectedJournal()"></p-button>
   </div>
 </p-toolbar>
-<p *ngIf="selectedClassName">Selected Journal: {{selectedClassName ? selectedClassName.className : 'none'}}</p>
-<p *ngIf="selectedSubjectName">Selected Subject: {{selectedSubjectName ? selectedSubjectName.subjectName : 'none'}}</p>
+<p *ngIf="selectedClassName">Обрано клас: {{selectedClassName ? selectedClassName.className : 'none'}}</p>
+<p *ngIf="selectedSubjectName">Обрано предмет: {{selectedSubjectName ? selectedSubjectName.subjectName : 'none'}}</p>
 
 
 <!--<ul class="journal">-->

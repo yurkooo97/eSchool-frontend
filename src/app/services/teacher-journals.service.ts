@@ -34,7 +34,7 @@ export class TeacherJournalsService {
       if (isActive) {
         return this.baseUrl + this.allJournals + '/teachers/' + teacherId + this.activeJurnal;
       } else {
-        return this.baseUrl + '/teachers/' + teacherId;
+        return this.baseUrl + this.allJournals + '/teachers/' + teacherId;
       }
     } else {
       return this.baseUrl+this.allJournals //all jurnals for current user/teacher
