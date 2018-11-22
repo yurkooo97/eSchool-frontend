@@ -1,0 +1,47 @@
+<p-card [style]="{width: '100%', height: '100%'}" styleClass="ui-card-shadow">
+  <p-header>
+    <div class="ui-helper-clearfix">
+      <span class="ui-panel-title">Розклад уроків</span>
+    </div>
+  </p-header>
+
+  <div class=classes>
+    <p-dropdown [options]="classes" [(ngModel)]="selectedClass" placeholder="Виберіть клас" [style]="{'width':'150px'}">
+    </p-dropdown>
+  </div>
+
+  <div class=calendar-group-left>
+    <p-calendar [(ngModel)]="startOfSemester" [locale]="ua" dateFormat="dd.mm.yy" [showIcon]="true"></p-calendar>
+  </div>
+  <div class=calendar-group-right>
+    <p-calendar [(ngModel)]="endOfSemester" [locale]="ua" dateFormat="dd.mm.yy" [showIcon]="true"></p-calendar>
+  </div>
+
+  <div class=left-panel>
+    <p-fieldset legend="Понеділок">
+      <app-day [subjectsList]="weekDays.mondaySubjects"></app-day>
+    </p-fieldset>
+    <p-fieldset legend="Вівторок">
+      <app-day [subjectsList]="weekDays.tuesdaySubjects"></app-day>
+    </p-fieldset>
+    <p-fieldset legend="Середа">
+      <app-day [subjectsList]="weekDays.wednesdaySubjects"></app-day>
+    </p-fieldset>
+  </div>
+
+  <div class=right-panel>
+    <p-fieldset legend="Четвер">
+      <app-day [subjectsList]="weekDays.thursdaySubjects"></app-day>
+    </p-fieldset>
+    <p-fieldset legend="П'ятниця">
+      <app-day [subjectsList]="weekDays.fridaySubjects"></app-day>
+    </p-fieldset>
+    <p-fieldset legend="Субота" [toggleable]="true" [collapsed]="true">
+      <app-day [subjectsList]="weekDays.saturdaySubjects"></app-day>
+    </p-fieldset>
+  </div>
+
+  <p-footer>
+    <button type="button" pButton icon="pi pi-check" (click)="saveClassSchedule()" label="Зберегти"></button>
+  </p-footer>
+</p-card>

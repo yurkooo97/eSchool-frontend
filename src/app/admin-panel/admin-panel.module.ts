@@ -28,6 +28,11 @@ import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teacher.component';
 import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
+import { ClassScheduleComponent } from './admin-panel/class-schedule/class-schedule.component';
+import { CalendarModule } from 'primeng/calendar';
+import { CardModule } from 'primeng/card';
+import { DayComponent } from './admin-panel/class-schedule/day/day.component';
+
 import { NewStudingYearService } from '../services/new-studing-year.service';
 
 @NgModule({
@@ -41,6 +46,11 @@ import { NewStudingYearService } from '../services/new-studing-year.service';
     DialogModule,
     InputTextModule,
     InputTextareaModule,
+		InputMaskModule,
+		DropdownModule,
+		CalendarModule,
+		CardModule,
+		FieldsetModule,
     MessagesModule,
     MessageModule,
     DropdownModule,
@@ -60,7 +70,9 @@ import { NewStudingYearService } from '../services/new-studing-year.service';
     GroupsComponent,
     SubjectsComponent,
     NewStudingYearComponent,
-    AttachTeacherComponent
+    ClassScheduleComponent,
+    AttachTeacherComponent,
+    DayComponent
   ]
 
 })

@@ -1,0 +1,67 @@
+.classes { //select class
+	float: left;
+	margin-top: 20px;
+	margin-left: 20%;
+}
+
+.calendar-group-left { //calendar 'from date'
+	float: left;
+	margin-top: 20px;
+	margin-left: 65px;
+}
+
+.calendar-group-right { //calendar 'to date'
+	float: left;
+	margin-top: 20px;
+	margin-left: 95px;
+}
+
+.ui-helper-clearfix { //header of card container
+	width: 100%;
+	height: 39px;
+	background-color:rgb(0, 128, 255);
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+}
+
+.ui-panel-title { //heading of card header
+	color: white;
+	margin-left: 45%;
+	margin-top: 10px;
+	display: inline-block;
+}
+
+.left-panel {
+	float: left;
+	width: 45%;
+	margin-top: 20px;
+	margin-left: 30px;
+	clear: both;
+}
+
+.right-panel {
+	float: right;
+	width: 45%;
+	margin-top: 20px;
+	margin-right: 30px;
+}
+
+p-fieldset {
+	display: inline-block;
+	margin-top: 20px;
+}
+
+:host ::ng-deep .ui-fieldset-legend { //heading of week days
+	text-align: center;
+}
+
+p-footer button {
+	width: 150px;
+	height: 40px;
+	margin-top: 30px;
+	margin-left: 43%;
+}
+
+::ng-deep p-card .ui-button-icon-left {
+	margin-left: 17px;
+}
