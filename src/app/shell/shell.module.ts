@@ -3,7 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { ShellRoutingModule } from './shell-routing.module';
 import { ShellComponent } from './shell/shell.component';
-import { ToolbarModule, ButtonModule, SplitButtonModule, MenubarModule, MenuModule} from 'primeng/primeng';
+import { ToolbarModule, ButtonModule, SplitButtonModule, MenubarModule, MenuModule } from 'primeng/primeng';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { DataSharingService } from '../services/data-sharing.service';
 
 
 @NgModule({
@@ -14,9 +17,11 @@ import { ToolbarModule, ButtonModule, SplitButtonModule, MenubarModule, MenuModu
     ButtonModule,
     SplitButtonModule,
     MenubarModule,
-    MenuModule
+    MenuModule,
+    ToastModule
   ],
-  declarations: [ShellComponent]
+  declarations: [ShellComponent],
+  providers: [MessageService, DataSharingService]
 })
 
 export class ShellModule { }

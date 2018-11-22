@@ -30,7 +30,6 @@ import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teac
 import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
 import { NewStudingYearService } from '../services/new-studing-year.service';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -50,7 +49,8 @@ import { NewStudingYearService } from '../services/new-studing-year.service';
     RadioButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    AutoCompleteModule
+    AutoCompleteModule   
+
   ],
 
   providers: [AdmingroupsService, AdminSubjectsService, TeachersService, NewStudingYearService],

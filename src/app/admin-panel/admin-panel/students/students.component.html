@@ -1,122 +1,100 @@
-<br>
 <p-fieldset legend="Активні класи" [toggleable]="true" [collapsed]="false">
   <span *ngFor="let  class_ of classes">
-    <button *ngIf="class_.isActive == true" type="button" pButton icon="pi pi-users" label="&nbsp;&nbsp;{{class_.className}}" title="{{class_.id}}" (click)="loadStudents(class_.id)" class="ui-button-raised classButton"></button>
+    <button *ngIf="class_.isActive" type="button" pButton icon="pi pi-folder" label="&nbsp;&nbsp;{{class_.className}}" title="{{class_.id}}" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу')" class="ui-button-raised classButton"></button>
   </span>
 </p-fieldset>
 <br>
 <p-fieldset legend="Класи минулих років" [toggleable]="true" [collapsed]="true">
   <span *ngFor="let  class_ of classes">
-    <button *ngIf="class_.isActive == false" type="button" pButton icon="pi pi-users" label="&nbsp;&nbsp;{{class_.className}}&nbsp;&nbsp;({{class_.classYear}})" title="{{class_.id}}" (click)="loadStudents(class_.id)" class="ui-button-raised classButton"></button>
+    <button *ngIf="!class_.isActive" type="button" pButton icon="pi pi-folder" label="&nbsp;&nbsp;{{class_.className}}&nbsp;&nbsp;({{class_.classYear}})" title="{{class_.id}}" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу' + ' (' + class_.classYear + ' року)')" class="ui-button-raised classButton"></button>
   </span>
 </p-fieldset>
 <br>
-<p-table [value]="students">
+<p-table [value]="students" [loading]="loading">
   <ng-template pTemplate="caption">
-    Учні
+    Учні {{selectedClassName}}
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th *ngFor="let col of cols">
+      <th *ngFor="let col of cols" [pSortableColumn]="col.field">
         {{col.header}}
-      </th>
-      <th>
-        Кнопка
+        <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-student>
-    <tr>
+    <tr class="studentRow">
       <td *ngFor="let col of cols">
         {{student[col.field]}}
-      </td>
-      <td>
-        <button type="button" pButton icon="pi pi-pencil" (click)="editStudent(student)" class="ui-button-raised ui-button-warning"></button>
+        <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'login'" (click)="editStudent(student)" class="ui-button-raised edit-student-btn"></button>
       </td>
     </tr>
   </ng-template>
   <ng-template pTemplate="summary">
-    <button type="button" (click)="createStudent()" pButton icon="pi pi-plus" class="ui-button-raised ui-button-secondary" label="Новий учень"></button>
+    <button type="button" (click)="createStudent()" pButton icon="pi pi-plus" class="ui-button-raised" label="Новий учень"></button>
   </ng-template>
 </p-table>
 
-<p-dialog header="Інформація Про Учня" [(visible)]="displayForm" [modal]="true" [responsive]="true" [width]="420" [minWidth]="200" [minY]="70" [maximizable]="false" [baseZIndex]="10000">
-  <form [formGroup]="addStudentForm" ngNativeValidate class="studentsForm">
-    <p-fieldset legend="Обов'язкові поля">
+<p-dialog header="Інформація Про Учня" [(visible)]="displayForm" [modal]="true" [responsive]="true" [width]="840" [minWidth]="200" [minY]="70" [maximizable]="false" [baseZIndex]="10000">
+  <form class="studentsForm" #studentsForm="ngForm">
+    <p-fieldset legend="Обов'язкові поля" class="mainInfo">
       <span class="ui-float-label">
-        <input id="float-input" type="text" pInputText formControlName="firstname" name="firstname" [(ngModel)]="newStudent.firstname" class="form-control">
-        <label for="float-input">Ім'я</label>
+        <input id="float-input-firstname" type="text" pInputText [class.wrongData]="firstname.invalid && firstname.touched" #firstname="ngModel" name="firstname" [(ngModel)]="newStudent.firstname" minlength="3" maxlength="20" required>
+        <label for="float-input-firstname">Ім'я</label>
       </span>
-      <div class="messageOfMistake" *ngIf="addStudentForm.controls['firstname'].invalid && addStudentForm.controls['firstname'].touched">
-        Некоректне ім'я
-      </div>
+      <span [class.hiddenBox]="firstname.valid || firstname.untouched" class="messageOfMistake">Некоректне ім'я</span>
       <br>
       <span class="ui-float-label">
-        <input id="float-input" type="text" pInputText formControlName="lastname" name="lastname" [(ngModel)]="newStudent.lastname" class="form-control">
-        <label for="float-input">Прізвище</label>
+        <input id="float-input-lastname" type="text" pInputText [class.wrongData]="lastname.invalid && lastname.touched" #lastname="ngModel" name="lastname" [(ngModel)]="newStudent.lastname" minlength="3" maxlength="20" required>
+        <label for="float-input-lastname">Прізвище</label>
       </span>
-      <div class="messageOfMistake" *ngIf="addStudentForm.controls['lastname'].invalid && addStudentForm.controls['lastname'].touched">
-        Некоректне прізвище
-      </div>
+      <span [class.hiddenBox]="lastname.valid || lastname.untouched" class="messageOfMistake">Некоректне прізвище</span>
       <br>
       <span class="ui-float-label">
-        <input id="float-input" type="text" pInputText formControlName="patronymic" name="patronymic" [(ngModel)]="newStudent.patronymic" class="form-control">
-        <label for="float-input">По батькові</label>
+        <input id="float-input-patronymic" type="text" pInputText [class.wrongData]="patronymic.invalid && patronymic.touched" #patronymic="ngModel" name="patronymic" [(ngModel)]="newStudent.patronymic" minlength="6" maxlength="20" required>
+        <label for="float-input-patronymic">По батькові</label>
       </span>
-      <div class="messageOfMistake" *ngIf="addStudentForm.controls['patronymic'].invalid && addStudentForm.controls['patronymic'].touched">
-        Некоректне по-батькові
-      </div>
+      <span [class.hiddenBox]="patronymic.valid || patronymic.untouched" class="messageOfMistake">Некоректне по-батькові</span>
       <br>
       <span class="ui-float-label">
-        <select (change)="selectedClassHandler($event)">
-            <option></option>
+        <select (click)="selectedClassHandler($event)" class="selectClass" required>
+            <option disabled>Оберіть клас</option>
             <option *ngFor="let class_ of classes" value="{{class_.id}}">{{class_.className}} ({{class_.classYear}})</option>
         </select>
-        <p-dropdown [options]="classes" placeholder="Оберіть клас" optionLabel="className" [(ngModel)]="selectedClass" formControlName="selectClass"></p-dropdown>
-        <input id="float-input" type="text" pInputText formControlName="classId" name="classId" [(ngModel)]="newStudent.classId" value="{{selectedClass.id}}" class="form-control classID" disabled>
-        <!--<label for="float-input">Клас</label>-->
-        <div class="messageOfMistake" *ngIf="addStudentForm.controls['classId'].invalid && addStudentForm.controls['classId'].touched">
-          Оберіть клас
-        </div>
+        <input id="float-input-class" type="text" pInputText name="classId" [(ngModel)]="newStudent.classId" class="classID" disabled>
       </span>
       <br>
       <span class="ui-float-label">
-        <input id="float-input" type="text" pInputText formControlName="login" name="login" [(ngModel)]="newStudent.login" class="form-control">
-        <label for="float-input">Логін</label>
+        <input id="float-input-login" type="text" pInputText [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login" [(ngModel)]="newStudent.login" minlength="5" maxlength="20" required>
+        <label for="float-input-login">Логін</label>
       </span>
-      <div class="messageOfMistake" *ngIf="addStudentForm.controls['login'].invalid && addStudentForm.controls['login'].touched">
-        Некоректний логін
-      </div>
+      <span [class.hiddenBox]="login.valid || login.untouched" class="messageOfMistake">Введіть коректний логін (не менше 5 символів)</span>
       <br>
       <span class="ui-float-label">
-        <input id="float-input" type="text" pInputText formControlName="dateOfBirth" name="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" class="form-control">
-        <label for="float-input">Дата народження</label>
+        <input id="float-input-date" type="date" pInputText [class.wrongData]="dateOfBirth.invalid && dateOfBirth.touched" #dateOfBirth="ngModel" name="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" required>
       </span>
-      <div class="messageOfMistake" *ngIf="addStudentForm.controls['dateOfBirth'].invalid && addStudentForm.controls['dateOfBirth'].touched">
-        Некоректна дата народження
-      </div>
+      <span [class.hiddenBox]="dateOfBirth.valid || dateOfBirth.untouched" class="messageOfMistake">Некоректна дата народження</span>
       <br>
     </p-fieldset>
-    <br>
-    <p-fieldset legend="Додаткова інформація" [toggleable]="true" [collapsed]="true">
+    <p-fieldset legend="Додаткова інформація" [toggleable]="true" [collapsed]="true" class="secondaryInfo">
       <br>
       <span class="ui-float-label">
-        <input id="float-input" type="text" pInputText formControlName="phone" name="phone" [(ngModel)]="newStudent.phone" class="form-control">
-        <label for="float-input">Номер телефону</label>
+        <input id="float-input-phone" type="tel" pInputText name="phone" [(ngModel)]="newStudent.phone">
+        <label for="float-input-phone">Номер телефону</label>
       </span>
       <br>
       <span class="ui-float-label">
-        <input id="float-input" type="text" pInputText formControlName="email" name="email" [(ngModel)]="newStudent.email" class="form-control">
-        <label for="float-input">Email</label>
+        <input id="float-input-email" type="email" pInputText name="email" [(ngModel)]="newStudent.email">
+        <label for="float-input-email">Email</label>
       </span>
       <br>
-      <p-fileUpload name="avatar[]" mode="basic" [maxFileSize]="500000" chooseLabel="Оберіть аватар" (onUpload)="uploadAvatar()" class="form-control"></p-fileUpload>
+      <input id="float-input-avatar" name="avatar" pInputText [(ngModel)]="newStudent.avatar"  type="file" #Image accept="image/*" (change)="handlerFileInput($event.target.files)"/>
+      <img [src]="imageUrl"  alt="Photo" style="width:120px; height:120px">
     </p-fieldset>
     <br>
   </form>
 <p-footer>
-  <button type="button" pButton icon="pi pi-check" [disabled]="addStudentForm.invalid" (click)="saveStudent()" class="ui-button-raised ui-button-success" label="Зберегти"></button>
-<button type="button" pButton icon="pi pi-times" (click)="hideForm()" class="ui-button-raised ui-button-danger" label="Скасувати"></button>
+  <button type="button" pButton icon="pi pi-check" (click)="saveStudent(); studentsForm.reset();" class="ui-button-raised" label="Зберегти" [disabled]="firstname.invalid || lastname.invalid || patronymic.invalid || dateOfBirth.invalid"></button>
 </p-footer>
 </p-dialog>
 

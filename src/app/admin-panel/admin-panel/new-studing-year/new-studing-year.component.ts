@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Group } from 'src/app/models/group.model';
 import { NewStudingYearService } from 'src/app/services/new-studing-year.service';
 import { ClassId } from 'src/app/models/classId.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-new-studing-year',
@@ -23,7 +24,7 @@ export class NewStudingYearComponent implements OnInit {
   oldIdArray: Array<number> = [];
   newIdArray: Array<number> = [];
   classIdArray: Array<ClassId> = [];
-  newGroupsName: Array<string> = [];  
+  newGroupsName: Array<string> = []; 
 
   constructor(private httpService: NewStudingYearService) { }
 
@@ -66,5 +67,5 @@ export class NewStudingYearComponent implements OnInit {
     this.buttonSaveDisabled = true;     
       this.httpService.putNewOldId(this.classIdArray).
         subscribe( data => data);               
-  }
+  } 
 }

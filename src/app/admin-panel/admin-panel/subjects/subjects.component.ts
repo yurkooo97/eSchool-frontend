@@ -1,12 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { AdminSubjectsService } from "src/app/services/admin-subjects.service";
-import { Subject } from "src/app/models/subjects.model";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { AdminSubjectsService } from 'src/app/services/admin-subjects.service';
+import { Subject } from 'src/app/models/subjects.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
-  selector: "app-subjects",
-  templateUrl: "./subjects.component.html",
-  styleUrls: ["./subjects.component.scss"]
+  selector: 'app-subjects',
+  templateUrl: './subjects.component.html',
+  styleUrls: ['./subjects.component.scss']
 })
 export class SubjectsComponent implements OnInit {
   subjectForm: FormGroup;
@@ -29,43 +30,41 @@ export class SubjectsComponent implements OnInit {
 
   constructor(
     private _subjectsService: AdminSubjectsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private notificationToasts: DataSharingService
   ) {}
 
   ngOnInit() {
     this.loading = true;
-    this._subjectsService
-      .getSubjectsList()
-      .subscribe(data => {
-        this.subjects = data
-        this.loading = false;
-      });
+    this._subjectsService.getSubjectsList().subscribe(data => {
+      this.subjects = data;
+      this.loading = false;
+    });
     this.cols = [
       {
-        field: "subjectName",
-        header: "Назва"
+        field: 'subjectName',
+        header: 'Назва'
       },
       {
-        field: "subjectDescription",
-        header: "Опис"
+        field: 'subjectDescription',
+        header: 'Опис'
       }
     ];
     this.subjectForm = this.formBuilder.group({
       subjectName: [
-        "",
+        '',
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(100),
-          Validators.pattern("[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[' -]?)+")
+          Validators.pattern('[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+')
         ])
       ],
       subjectDescription: [
-        "",
+        '',
         Validators.compose([
-          Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(300)
+          Validators.maxLength(300),
         ])
       ]
     });
@@ -76,12 +75,13 @@ export class SubjectsComponent implements OnInit {
   }
 
   onSubmit() {
+    this.subject = this.removeSpaces(this.subject);
     this.submitted = true;
     this.subjectForm.setValue({
-      subjectName: this.subject.subjectName,
-      subjectDescription: this.subject.subjectDescription
-	});
-	
+      subjectName: this.subject.subjectName || '',
+      subjectDescription: this.subject.subjectDescription || ''
+    });
+
     if (this.subjectForm.invalid) {
       return;
     }
@@ -104,8 +104,14 @@ export class SubjectsComponent implements OnInit {
     this._subjectsService
       .postSubject(this.subject)
       .subscribe(
-        subject => this.subjects.push(subject),
-        err => console.error(err)
+        subject => {
+          this.subjects.push(subject);
+          this.notificationToasts.notify('success', 'Успішно виконано', 'Додано новий предмет');
+        },
+        err => {
+          console.error(err);
+          this.notificationToasts.notify('error', 'Відхилено', 'Невдалося додати новий предмет');
+        }
       );
   }
 
@@ -115,20 +121,33 @@ export class SubjectsComponent implements OnInit {
       subject => {
         const subjects = [...this.subjects];
         subjects[this.subjects.indexOf(this.selectedSubject)] = subject;
-		    this.subjects = subjects;
-	    	this.ngOnInit();
+        this.subjects = subjects;
+        this.notificationToasts.notify('success', 'Успішно виконано', 'Збережено зміни до предмету');
       },
-      err => console.error(err)
+      err => {
+        console.error(err);
+        this.notificationToasts.notify('error', 'Відхилено', 'Невдалося зберегти зміни до предмету');
+      }
     );
     this.subject = null;
   }
 
-  onRowSelect(rowData) {
+  onRowSelect(rowData: Subject) {
+    this.selectedSubject = rowData;
     this.submitted = false;
     this.newSubject = false;
     this.subject = {
       ...rowData
     };
     this.displayDialog = true;
+  }
+
+  private removeSpaces(subject: Subject): Subject {
+    for (const prop in subject) {
+      if (typeof subject[prop] === 'string') {
+        subject[prop] = subject[prop].trim();
+      }
+    }
+    return subject;
   }
 }

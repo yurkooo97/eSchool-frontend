@@ -1,9 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
-import { HttpInterceptor,HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpInterceptor, HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,6 @@ export class TokenInterceptorService implements HttpInterceptor {
     })
   };
 
-
   intercept(req, next) {
     req = req.clone(this.httpOptions);
     const token = this.authService.getToken();
@@ -36,13 +35,11 @@ export class TokenInterceptorService implements HttpInterceptor {
     });
     return next.handle(tokenizedReq)
       .catch((errorResponse: HttpErrorResponse) => {
-        if (errorResponse.status === 401 || errorResponse.status === 400) {
+        if (errorResponse.status === 401) {
           this.authService.logOut();
           this.router.navigate(['/login']);
         }
         return Observable.throw(errorResponse);
-
       });
-
   }
 }
