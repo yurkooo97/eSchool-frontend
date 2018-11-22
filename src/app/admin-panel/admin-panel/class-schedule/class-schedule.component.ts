@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ClassScheduleService } from 'src/app/services/class-schedule.service';
-import { Classes } from 'src/app/models/class-schedule';
+import { Schedule } from 'src/app/models/class-schedule';
 
 
 @Component({
@@ -12,34 +12,46 @@ import { Classes } from 'src/app/models/class-schedule';
 
 export class ClassScheduleComponent implements OnInit{
 
-  ua: any;
+	ua: any;
 
-	date1: Date;
-	date2: Date;
+	startOfSemester: Date;
+	endOfSemester: Date;
 
-  classes: Classes[];
+  classes: Schedule[];
 	selectedClass: string;
+
+	weekDays = {
+		mondaySubjects: [-1, -1, -1, -1, -1, -1],
+		tuesdaySubjects: [-1, -1, -1, -1, -1, -1],
+		wednesdaySubjects: [-1, -1, -1, -1, -1, -1],
+		thursdaySubjects: [-1, -1, -1, -1, -1, -1],
+		fridaySubjects: [-1, -1, -1, -1, -1, -1],
+		saturdaySubjects: [-1, -1, -1, -1, -1, -1]
+	};
+
 	
-  constructor(private activeClasses: ClassScheduleService) {}
+	constructor(private schedule: ClassScheduleService) {}
     
 	ngOnInit() {
-    this.getClasses();
+		this.getClasses();
+		this.calendar();
   }
 
   getClasses(): void {
-    this.activeClasses.getClasses().subscribe(data => console.log(data));
-  }
+    this.schedule.getClasses().subscribe(data => {this.classes = data});
+	}
+	
 
-  calendar() {
+  calendar(): void {
     this.ua = {
-    firstDayOfWeek: 1,
-    dayNames: ["Неділя", "Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця", "Субота"],
-    dayNamesShort: ["Нед", "Пон", "Вів", "Сер", "Чет", "П'ят", "Суб"],
-    dayNamesMin: ["нд","пн","вт","ср","чт","пт","сб"],
-    monthNames: [ "Січень","Лютий","Березень","Квітень","Травень","Червень","Липень","Серпень","Вересень","Жовтень","Листопад","Грудень" ],
-    monthNamesShort: [ "Січ", "Лют", "Бер", "Кві", "Тра", "Чер","Лип", "Сер", "Вер", "Жов", "Лис", "Гру" ],
-    today: 'Сьогодні',
-    clear: 'Clear'
+			firstDayOfWeek: 1,
+			dayNames: ["Неділя", "Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця", "Субота"],
+			dayNamesShort: ["Нед", "Пон", "Вів", "Сер", "Чет", "П'ят", "Суб"],
+			dayNamesMin: ["нд","пн","вт","ср","чт","пт","сб"],
+			monthNames: [ "Січень","Лютий","Березень","Квітень","Травень","Червень","Липень","Серпень","Вересень","Жовтень","Листопад","Грудень" ],
+			monthNamesShort: [ "Січ", "Лют", "Бер", "Кві", "Тра", "Чер","Лип", "Сер", "Вер", "Жов", "Лис", "Гру" ],
+			today: 'Сьогодні',
+			clear: 'Clear'
 		};
 	}
   

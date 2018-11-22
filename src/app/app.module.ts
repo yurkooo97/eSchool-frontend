@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AdmingroupsService } from './services/admingroups.service';
 import { AdminSubjectsService } from './services/admin-subjects.service';
+import { ClassScheduleService } from './services/class-schedule.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginGuard } from './login/login/login.guard';
@@ -24,7 +25,7 @@ import { AdminGuard} from './admin-panel/admin.guard';
     HttpClientModule 
   ],
 	providers: [AdmingroupsService, 
-		AdminSubjectsService, LoginGuard,
+		AdminSubjectsService, ClassScheduleService, LoginGuard,
 		AdminGuard,
 		{
 			provide: HTTP_INTERCEPTORS,

@@ -31,6 +31,7 @@ import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-stud
 import { ClassScheduleComponent } from './admin-panel/class-schedule/class-schedule.component';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
+import { DayComponent } from './admin-panel/class-schedule/day/day.component';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { CardModule } from 'primeng/card';
     SubjectsComponent,
     NewStudingYearComponent,
     ClassScheduleComponent,
-    AttachTeacherComponent
+    AttachTeacherComponent,
+    DayComponent
   ]
 
 })

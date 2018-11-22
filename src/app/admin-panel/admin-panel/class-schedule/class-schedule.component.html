@@ -1,58 +1,50 @@
-<p-card [style]="{width: '90%', height: '100%'}" styleClass="ui-card-shadow">
+<p-card [style]="{width: '100%', height: '100%'}" styleClass="ui-card-shadow">
+
 	<p-header>
     <div class="ui-helper-clearfix">
       <span class="ui-panel-title" >Розклад уроків</span>
     </div>
-  </p-header>
-  <p-dropdown [options]="classes" [(ngModel)]="selectedClass" optionLabel={{classes.className}} placeholder="Виберіть клас" [style]="{'width':'150px'}">
-	</p-dropdown>
+	</p-header>
+	
+	<div class=classes>
+  	<p-dropdown [options]="classes" [(ngModel)]="selectedClass" placeholder="Виберіть клас" [style]="{'width':'150px'}">
+		</p-dropdown>
+	</div>
+
 	<div class=calendar-group-left>
-		<p-calendar [(ngModel)]="date1" [locale]="ua" dateFormat="dd.mm.yy" [showIcon]="true"></p-calendar>
+		<p-calendar [(ngModel)]="startOfSemester" [locale]="ua" dateFormat="dd.mm.yy" [showIcon]="true"></p-calendar>
 	</div>
 	<div class=calendar-group-right>
-		<p-calendar [(ngModel)]="date2" [locale]="ua" dateFormat="dd.mm.yy" [showIcon]="true"></p-calendar>
+		<p-calendar [(ngModel)]="endOfSemester" [locale]="ua" dateFormat="dd.mm.yy" [showIcon]="true"></p-calendar>
 	</div>
 
 	<div class=left-panel>
 		<p-fieldset legend="Понеділок">
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson1" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson2" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson3" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson4" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson5" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson6" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
+			<app-day [subjectsList] = "weekDays.mondaySubjects"></app-day>
 		</p-fieldset>
 		<p-fieldset legend="Вівторок">
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson21" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson22" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson23" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson24" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson25" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson26" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>		
+			<app-day [subjectsList] = "weekDays.tuesdaySubjects"></app-day>
 		</p-fieldset>
 		<p-fieldset legend="Середа">
-
-			
+			<app-day [subjectsList] = "weekDays.wednesdaySubjects"></app-day>
 		</p-fieldset>
-			
-		</div>
+	</div>
 
-		<div class=right-panel>
+	<div class=right-panel>
 		<p-fieldset legend="Четвер">
-			
+			<app-day [subjectsList] = "weekDays.thursdaySubjects"></app-day>
 		</p-fieldset>
 		<p-fieldset legend="П'ятниця">
-			
+			<app-day [subjectsList] = "weekDays.fridaySubjects"></app-day>
 		</p-fieldset>
-		<p-fieldset legend="Субота" [toggleable]="true">
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson61" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson62" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson63" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson64" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson65" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>
-			<p-dropdown [options]="lessons1" [(ngModel)]="selectedLesson66" [style]="{'width':'150px'}" editable="true" placeholder="Виберіть урок"></p-dropdown>	
+		<p-fieldset legend="Субота" [toggleable]="true" [collapsed]="true">
+			<app-day [subjectsList] = "weekDays.saturdaySubjects"></app-day>
 		</p-fieldset>
-		</div>
+	</div>
+
+	<p-footer>
+		<button type="button" pButton icon="pi pi-check" (click)="saveClassSchedule()" label="Зберегти"></button>
+	</p-footer>
 	
 </p-card>
 

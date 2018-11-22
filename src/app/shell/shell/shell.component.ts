@@ -19,9 +19,9 @@ export class ShellComponent implements OnInit {
 				label: 'Струтинська Тетяна Олександрівна (Вчитель)',
 				items: [
 
-					{ label: 'Menu' },
+					{ label: 'Меню' },
 					{
-						label: 'Logout', command: (click) => {
+						label: 'Вийти', command: (click) => {
 							this.LogOut()
 						}, routerLink: ['/login']
 					}

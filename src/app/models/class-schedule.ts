@@ -1,4 +1,8 @@
-export class Classes {
-	className: "string";
+export class Schedule {
 	id: "number";
+	className: "string";
+	subjectId: "number";
+	subjectName: "string";
+	startOfSemester: "string";
+	endOfSemester: "string";
 }
