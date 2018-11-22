@@ -78,7 +78,7 @@ export class SubjectsComponent implements OnInit {
     this.subject = this.removeSpaces(this.subject);
     this.submitted = true;
     this.subjectForm.setValue({
-      subjectName: this.subject.subjectName.trim(),
+      subjectName: this.subject.subjectName || '',
       subjectDescription: this.subject.subjectDescription || ''
     });
 
@@ -132,7 +132,7 @@ export class SubjectsComponent implements OnInit {
     this.subject = null;
   }
 
-  onRowSelect(rowData) {
+  onRowSelect(rowData: Subject) {
     this.selectedSubject = rowData;
     this.submitted = false;
     this.newSubject = false;
@@ -142,7 +142,7 @@ export class SubjectsComponent implements OnInit {
     this.displayDialog = true;
   }
 
-  removeSpaces(subject) {
+  private removeSpaces(subject: Subject): Subject {
     for (const prop in subject) {
       if (typeof subject[prop] === 'string') {
         subject[prop] = subject[prop].trim();

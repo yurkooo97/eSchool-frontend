@@ -8,6 +8,7 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
   templateUrl: './teachers.component.html',
   styleUrls: ['./teachers.component.scss']
 })
+
 export class TeachersComponent implements OnInit {
   photoData: string;
   loading: boolean;
@@ -21,13 +22,14 @@ export class TeachersComponent implements OnInit {
   fileToUpload: File = null;
   constructor(
     private _teacherServices: TeachersService,
-    private notificationToasts: DataSharingService) { }
+    private notificationToasts: DataSharingService
+  ) {}
 
   ngOnInit() {
     this.loading = true;
     this._teacherServices
       .getTeachers()
-      .subscribe(users => (this.teachers = users, this.loading = false));
+      .subscribe(users => ((this.teachers = users), (this.loading = false)));
     this.columns = [
       { field: 'lastname', header: 'Прізвище' },
       { field: 'firstname', header: 'Ім\'я' },
@@ -64,18 +66,24 @@ export class TeachersComponent implements OnInit {
   }
   create() {
     this.displayDialog = false;
-    this._teacherServices
-      .postTeacher(this.teacher)
-      .subscribe(
-        teacher => {
-          this.teachers.push(teacher);
-          this.notificationToasts.notify('success', 'Успішно виконано', 'Додано нового вчителя');
-        },
-        err => {
-          console.error(err);
-          this.notificationToasts.notify('error', 'Відхилено', 'Невдалося додати нового вчителя');
-        }
-      );
+    this._teacherServices.postTeacher(this.teacher).subscribe(
+      teacher => {
+        this.teachers.push(teacher);
+        this.notificationToasts.notify(
+          'success',
+          'Успішно виконано',
+          'Додано нового вчителя'
+        );
+      },
+      err => {
+        console.error(err);
+        this.notificationToasts.notify(
+          'error',
+          'Відхилено',
+          'Невдалося додати нового вчителя'
+        );
+      }
+    );
   }
   save() {
     this.displayDialog = false;
@@ -84,11 +92,19 @@ export class TeachersComponent implements OnInit {
         const teachers = [...this.teachers];
         teachers[this.teachers.indexOf(this.selectedTeacher)] = teacher;
         this.teachers = teachers;
-        this.notificationToasts.notify('success', 'Успішно виконано', 'Збережено зміни вчителя');
+        this.notificationToasts.notify(
+          'success',
+          'Успішно виконано',
+          'Збережено зміни вчителя'
+        );
       },
       err => {
         console.error(err);
-        this.notificationToasts.notify('error', 'Відхилено', 'Невдалося зберегти зміни вчителя');
+        this.notificationToasts.notify(
+          'error',
+          'Відхилено',
+          'Невдалося зберегти зміни вчителя'
+        );
       }
     );
     this.teacher = null;

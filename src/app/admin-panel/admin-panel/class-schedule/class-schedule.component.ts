@@ -21,12 +21,12 @@ export class ClassScheduleComponent implements OnInit{
 	selectedClass: string;
 
 	weekDays = {
-		mondaySubjects: [-1, -1, -1, -1, -1, -1],
-		tuesdaySubjects: [-1, -1, -1, -1, -1, -1],
-		wednesdaySubjects: [-1, -1, -1, -1, -1, -1],
-		thursdaySubjects: [-1, -1, -1, -1, -1, -1],
-		fridaySubjects: [-1, -1, -1, -1, -1, -1],
-		saturdaySubjects: [-1, -1, -1, -1, -1, -1]
+		mondaySubjects: [],
+		tuesdaySubjects: [],
+		wednesdaySubjects: [],
+		thursdaySubjects: [],
+		fridaySubjects: [],
+		saturdaySubjects: []
 	};
 
 	
@@ -41,7 +41,7 @@ export class ClassScheduleComponent implements OnInit{
     this.schedule.getClasses().subscribe(data => {this.classes = data});
 	}
 	
-
+	//TODO: move to global scope for reusing
   calendar(): void {
     this.ua = {
 			firstDayOfWeek: 1,

@@ -33,6 +33,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
 import { DayComponent } from './admin-panel/class-schedule/day/day.component';
 
+import { NewStudingYearService } from '../services/new-studing-year.service';
 
 @NgModule({
   imports: [
@@ -61,7 +62,7 @@ import { DayComponent } from './admin-panel/class-schedule/day/day.component';
     AutoCompleteModule
   ],
 
-  providers: [AdmingroupsService, AdminSubjectsService, TeachersService],
+  providers: [AdmingroupsService, AdminSubjectsService, TeachersService, NewStudingYearService],
   declarations: [
     AdminPanelComponent,
     StudentsComponent,
