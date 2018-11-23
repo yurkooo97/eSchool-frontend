@@ -1,4 +1,4 @@
-export class ClassId{
+export class ClassId {
   newClassId: any;
   oldClassId: any;
 }

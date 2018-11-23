@@ -46,11 +46,11 @@ import { NewStudingYearService } from '../services/new-studing-year.service';
     DialogModule,
     InputTextModule,
     InputTextareaModule,
-		InputMaskModule,
-		DropdownModule,
-		CalendarModule,
-		CardModule,
-		FieldsetModule,
+    InputMaskModule,
+    DropdownModule,
+    CalendarModule,
+    CardModule,
+    FieldsetModule,
     MessagesModule,
     MessageModule,
     DropdownModule,
@@ -62,7 +62,12 @@ import { NewStudingYearService } from '../services/new-studing-year.service';
     AutoCompleteModule
   ],
 
-  providers: [AdmingroupsService, AdminSubjectsService, TeachersService, NewStudingYearService],
+  providers: [
+    AdmingroupsService,
+    AdminSubjectsService,
+    TeachersService,
+    NewStudingYearService
+  ],
   declarations: [
     AdminPanelComponent,
     StudentsComponent,
@@ -74,6 +79,5 @@ import { NewStudingYearService } from '../services/new-studing-year.service';
     AttachTeacherComponent,
     DayComponent
   ]
-
 })
-export class AdminPanelModule { }
+export class AdminPanelModule {}

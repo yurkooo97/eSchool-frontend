@@ -1,5 +1,10 @@
 import { Injectable, Injector } from '@angular/core';
-import { HttpInterceptor, HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import {
+  HttpInterceptor,
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders
+} from '@angular/common/http';
 
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
@@ -9,9 +14,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TokenInterceptorService implements HttpInterceptor {
-
-  constructor(private authService: AuthenticationService,
-    private router: Router) { }
+  constructor(
+    private authService: AuthenticationService,
+    private router: Router
+  ) {}
   private httpOptions = {
     headers: new HttpHeaders({
       'Access-Control-Allow-Origin': '*',
@@ -30,10 +36,10 @@ export class TokenInterceptorService implements HttpInterceptor {
       return next.handle(req);
     }
     const tokenizedReq = req.clone({
-
       headers: req.headers.set('Authorization', token)
     });
-    return next.handle(tokenizedReq)
+    return next
+      .handle(tokenizedReq)
       .catch((errorResponse: HttpErrorResponse) => {
         if (errorResponse.status === 401) {
           this.authService.logOut();
