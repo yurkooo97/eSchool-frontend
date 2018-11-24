@@ -15,7 +15,9 @@ span.ui-button-text,.ui-clickable{
 .d-none{
 	display: none;
 }
-
+.requiredWrapper{
+	position: relative;
+}
 .requiredMessage{
 	position: absolute;
 	left: 5%;

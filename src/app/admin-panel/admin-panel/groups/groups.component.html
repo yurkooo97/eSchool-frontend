@@ -44,7 +44,13 @@
     </ng-template>
   </p-table>
   <div>
-    <p-button (click)="showDialog()" label="Додати клас" styleClass="ui-button-success"></p-button>
+    <button
+        (click)="showDialog()"
+        type="button"
+        pButton
+        icon="pi pi-plus"
+        label="Додати клас"
+      ></button>
   </div>
 </div>
 <p-dialog header="Редагувати клас" [(visible)]="showEditDialog" [modal]="true" [responsive]="true" [width]="450"

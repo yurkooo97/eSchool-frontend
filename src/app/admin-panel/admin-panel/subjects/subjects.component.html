@@ -1,4 +1,4 @@
-<p-table [columns]="cols" [value]="subjects" [loading]="loading" selectionMode="single" [(selection)]="selectedSubject"  >
+<p-table [columns]="cols" [value]="subjects" [loading]="loading" [(selection)]="selectedSubject"  >
     <ng-template pTemplate="caption">
         Предмети
     </ng-template>
@@ -20,7 +20,7 @@
     </ng-template>
     <ng-template pTemplate="summary" let-rowData>
         <div style="text-align:left">
-            <button  type="button" pButton icon="pi pi-plus" (click)="showDialogToAdd($event)" label="Додати"></button>
+            <button  type="button" pButton icon="pi pi-plus" (click)="showDialogToAdd($event)" label="Додати предмет"></button>
         </div>
     </ng-template>
 </p-table>
@@ -68,7 +68,7 @@
         </div>
         <p-footer>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                <button  type="submit" pButton icon="pi pi-check" label="Надіслати"></button>
+                <button  type="submit" pButton icon="pi pi-check" label="Зберегти"></button>
             </div>
         </p-footer>
     </form>    

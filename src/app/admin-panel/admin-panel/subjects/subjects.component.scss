@@ -11,14 +11,13 @@
     height: 48px;
     .subjects-table-cell{
         position: relative;
+        line-height: 2.3;
     }
     .subjects-custom-button{
         display:none;
     }
     &:hover .subjects-custom-button{
-        position: absolute;
-        top: 8px;
-        left: 482px;
+        float: right;
         display: inline-block;
     }
 }
