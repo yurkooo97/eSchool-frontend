@@ -15,34 +15,36 @@ const routes: Routes = [
     path: '',
     component: AdminPanelComponent,
     canLoad: [AdminGuard],
-    children: [{
-      path: 'students',
-      component: StudentsComponent
-    },
-    {
-      path: 'groups',
-      component: GroupsComponent
-    },
-    {
-      path: 'subjects',
-      component: SubjectsComponent
-    },
-    {
-      path: 'teachers',
-      component: TeachersComponent
-    },
-    {
-      path: 'new-studing-year',
-      component: NewStudingYearComponent
-		},
-		{
-      path:'class-schedule',
-      component: ClassScheduleComponent
-    },
-    {
-      path: 'attach-teacher',
-      component: AttachTeacherComponent
-    }]
+    children: [
+      {
+        path: 'students',
+        component: StudentsComponent
+      },
+      {
+        path: 'groups',
+        component: GroupsComponent
+      },
+      {
+        path: 'subjects',
+        component: SubjectsComponent
+      },
+      {
+        path: 'teachers',
+        component: TeachersComponent
+      },
+      {
+        path: 'new-studing-year',
+        component: NewStudingYearComponent
+      },
+      {
+        path: 'class-schedule',
+        component: ClassScheduleComponent
+      },
+      {
+        path: 'attach-teacher',
+        component: AttachTeacherComponent
+      }
+    ]
   }
 ];
 
@@ -50,4 +52,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AdminPanelRoutingModule { }
+export class AdminPanelRoutingModule {}
