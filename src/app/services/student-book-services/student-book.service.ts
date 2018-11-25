@@ -34,7 +34,7 @@ export class StudentBookService {
     'Субота'
   ];
 
-  private getFormattedMonday(date: Date = new Date()) {
+  private getFormattedMonday(date: Date = new Date()): string {
     const day = date.getDay(),
       diff = date.getDate() - day + 1;
     const monday = new Date(date.setDate(diff));
@@ -47,7 +47,7 @@ export class StudentBookService {
     return `${monday.getFullYear()}-${mondayMonth}-${mondayDate}`;
   }
 
-  private sortDataByWeekDay(data) {
+  private sortDataByWeekDay(data: Array<any>): Array<object> {
     let arr = [];
     const sortedArray = [];
     for (let i = 0; i < this.dayOfWeek.length; i++) {
@@ -69,14 +69,14 @@ export class StudentBookService {
     return sortedArray;
   }
 
-  private convertedDate(data) {
+  private convertedDate(data): string {
     const day = new Date(data.date.join('-')).getDate();
     const month = this.months[new Date(data.date.join('-')).getMonth()];
     const year = new Date(data.date.join('-')).getFullYear();
     return `${day} ${month} ${year}`;
   }
 
-  public getDiariesList(date?): Observable<any> {
+  public getDiariesList(date?: Date): Observable<any> {
     const formattedDate = this.getFormattedMonday(date);
     return this._http
       .get<any>(`${this.URL}?weekStartDate=${formattedDate}`)

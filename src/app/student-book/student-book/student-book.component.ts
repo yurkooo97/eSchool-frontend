@@ -27,6 +27,10 @@ export class StudentBookComponent implements OnInit {
 
   view = false;
 
+  faListUl = faListUl;
+
+  faThLarge = faThLarge;
+
   icon = faListUl;
 
   selectedType = 'week';
@@ -35,6 +39,7 @@ export class StudentBookComponent implements OnInit {
 
   ngOnInit() {
     this.studentBookService.getDiariesList().subscribe(data => {
+      console.log(data);
       [this.weekSchedule, this.startAndEndOfWeek] = data;
     });
     this.cols = [
@@ -68,15 +73,13 @@ export class StudentBookComponent implements OnInit {
     });
   }
 
-  changeDaySchedule(): void {
-    if (!this.view) {
+  changeDaySchedule(type: string): void {
+    if (type === 'list' && !this.view) {
       this.view = true;
       this.cols.push({ field: 'Note', header: 'Примітка' });
-      this.icon = faThLarge;
-    } else {
+    } else if (type === 'group' && this.view) {
       this.view = false;
       this.cols.pop();
-      this.icon = faListUl;
     }
   }
   changeDataView(): void {

@@ -29,10 +29,15 @@
     </div>
     <div class="p-col-3 right">
       <fa-icon
-        [icon]="icon"
+        [icon]="faListUl"
         size="2x"
         pull="left"
-        (click)="changeDaySchedule()"
+        (click)="changeDaySchedule('list')"
+      ></fa-icon>
+      <fa-icon
+        [icon]="faThLarge"
+        size="2x"
+        (click)="changeDaySchedule('group')"
       ></fa-icon>
     </div>
   </div>
