@@ -28,10 +28,9 @@ export class LoginComponent implements OnInit {
       },
         error => {
           if (error.error.status.message) {
-          this.errorMessage = 'Ви ввели невірні дані';
+            this.errorMessage = 'Ви ввели невірні дані';
           }
         });
-
   }
 }
 
