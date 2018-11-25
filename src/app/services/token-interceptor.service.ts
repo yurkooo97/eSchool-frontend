@@ -3,12 +3,14 @@ import { HttpInterceptor, HttpClient, HttpErrorResponse, HttpHeaders } from '@an
 
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenInterceptorService implements HttpInterceptor {
+
+  baseUrl = 'https://fierce-shore-32592.herokuapp.com';
 
   constructor(private authService: AuthenticationService,
     private router: Router) { }
@@ -21,7 +23,6 @@ export class TokenInterceptorService implements HttpInterceptor {
   };
 
   intercept(req, next) {
-    req = req.clone(this.httpOptions);
     const token = this.authService.getToken();
     if (token == null || token === '') {
       if (this.router.url !== '/login' && this.router.url !== '/login/') {
@@ -29,8 +30,9 @@ export class TokenInterceptorService implements HttpInterceptor {
       }
       return next.handle(req);
     }
-    const tokenizedReq = req.clone({
 
+    const tokenizedReq = req.clone({
+      url: this.appendBaseUrl(req.url),
       headers: req.headers.set('Authorization', token)
     });
     return next.handle(tokenizedReq)
@@ -42,4 +44,15 @@ export class TokenInterceptorService implements HttpInterceptor {
         return Observable.throw(errorResponse);
       });
   }
+
+  appendBaseUrl(url) {
+    if (url.startsWith('http')) {
+      return url;
+    }
+    if (!url.startsWith('/')) {
+      url = '/' + url;
+    }
+    return this.baseUrl + url;
+  }
 }
+
