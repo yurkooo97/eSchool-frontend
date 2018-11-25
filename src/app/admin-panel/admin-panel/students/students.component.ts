@@ -35,7 +35,7 @@ export class StudentsComponent implements OnInit {
         data => ((this.classes = data['data']), (this.loading = false))
       );
 
-    // this.loadStudents(1);
+    this.loadStudents(1);
 
     this.cols = [
       { field: 'firstname', header: 'Ім\'я' },
