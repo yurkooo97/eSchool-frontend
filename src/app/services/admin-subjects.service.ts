@@ -22,6 +22,6 @@ export class AdminSubjectsService {
   }
 
   public putSubject(subject: Subject): Observable<Subject> {
-    return this._http.put<any>(`subjectss/${subject.subjectId}`, subject).map(response => response.data);
+    return this._http.put<any>(`subjects/${subject.subjectId}`, subject).map(response => response.data);
   }
 }
