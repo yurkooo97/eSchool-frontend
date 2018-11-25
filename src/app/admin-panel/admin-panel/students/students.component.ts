@@ -118,12 +118,7 @@ export class StudentsComponent implements OnInit {
   showForm() {
     this.displayForm = true;
   }
-  hideForm() {
-    this.displayForm = false;
-    if (this.isNew) {
-      this.loadStudents(21);
-    }
-  }
+
   handlerFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
     const reader = new FileReader();
