@@ -27,10 +27,10 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/shell/admin-panel/']);
       },
         error => {
-          console.log(error);
-          this.errorMessage = error.error.status.message;
+          if (error.error.status.message) {
+            this.errorMessage = 'Ви ввели невірні дані';
+          }
         });
-
   }
 }
 

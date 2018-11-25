@@ -8,16 +8,18 @@ import {
 
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenInterceptorService implements HttpInterceptor {
-  constructor(
-    private authService: AuthenticationService,
-    private router: Router
-  ) {}
+
+  baseUrl = 'https://fierce-shore-32592.herokuapp.com';
+
+  constructor(private authService: AuthenticationService,
+    private router: Router) { }
+
   private httpOptions = {
     headers: new HttpHeaders({
       'Access-Control-Allow-Origin': '*',
@@ -27,15 +29,18 @@ export class TokenInterceptorService implements HttpInterceptor {
   };
 
   intercept(req, next) {
-    req = req.clone(this.httpOptions);
+    const reqWithUrl = req.clone({
+      url: this.appendBaseUrl(req.url)
+    });
     const token = this.authService.getToken();
     if (token == null || token === '') {
       if (this.router.url !== '/login' && this.router.url !== '/login/') {
         this.router.navigate(['/login']);
       }
-      return next.handle(req);
+      return next.handle(reqWithUrl);
     }
-    const tokenizedReq = req.clone({
+
+    const tokenizedReq = reqWithUrl.clone({
       headers: req.headers.set('Authorization', token)
     });
     return next
@@ -48,4 +53,15 @@ export class TokenInterceptorService implements HttpInterceptor {
         return Observable.throw(errorResponse);
       });
   }
+
+  appendBaseUrl(url) {
+    if (url.startsWith('http')) {
+      return url;
+    }
+    if (!url.startsWith('/')) {
+      url = '/' + url;
+    }
+    return this.baseUrl + url;
+  }
 }
+
