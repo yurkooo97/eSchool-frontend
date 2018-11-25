@@ -23,16 +23,6 @@
 	z-index: 2;
 } 
 
-
-:host ::ng-deep .ui-menubar .ui-menuitem-link:hover {
-  background-color: transparent;
-} 
-
-:host ::ng-deep .ui-menubar .ui-menuitem.ui-menuitem-active > .ui-menuitem-link {
-  background-color: transparent;
-} 
-
-
 :host ::ng-deep .ui-toolbar .ui-button {
 	margin-left: 10px;
 	width: 60px;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentsService } from '../../../services/admin-students.service';
 import { Student } from '../../../models/students.model';
-import {Class_} from '../../../models/classesForStudents.model';
+import { Class_ } from '../../../models/classesForStudents.model';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
@@ -11,7 +11,6 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
   providers: [StudentsService]
 })
 export class StudentsComponent implements OnInit {
-
   classes: Class_[];
   students: Student[];
   newStudent: Student;
@@ -25,15 +24,16 @@ export class StudentsComponent implements OnInit {
   fileToUpload: File = null;
   constructor(
     private service_: StudentsService,
-    private notificationToasts: DataSharingService ) {}
+    private notificationToasts: DataSharingService
+  ) {}
 
   ngOnInit() {
     this.loading = true;
-    this.service_.getClasses().subscribe(
-      data => (
-        this.classes = data['data'],
-          this.loading = false
-  ));
+    this.service_
+      .getClasses()
+      .subscribe(
+        data => ((this.classes = data['data']), (this.loading = false))
+      );
 
     this.loadStudents(1);
 
@@ -45,7 +45,7 @@ export class StudentsComponent implements OnInit {
       { field: 'dateOfBirth', header: 'Дата народження' },
       { field: 'email', header: 'Email' },
       { field: 'phone', header: 'Номер телефону' },
-      { field: 'login', header: 'Логін' },
+      { field: 'login', header: 'Логін' }
     ];
 
     this.newStudent = new Student();
@@ -53,11 +53,11 @@ export class StudentsComponent implements OnInit {
 
   loadStudents(classID: number) {
     this.loading = true;
-    this.service_.getStudents(classID).subscribe(
-      data => (
-        this.students = data['data'],
-          this.loading = false
-  ));
+    this.service_
+      .getStudents(classID)
+      .subscribe(
+        data => ((this.students = data['data']), (this.loading = false))
+      );
   }
 
   createStudent() {
@@ -67,7 +67,18 @@ export class StudentsComponent implements OnInit {
   }
 
   editStudent(student: Student) {
-    this.newStudent = new Student(student.firstname, student.lastname, student.patronymic, student.classId, student.dateOfBirth, student.email, student.phone, student.login, student.id, student.avatar);
+    this.newStudent = new Student(
+      student.firstname,
+      student.lastname,
+      student.patronymic,
+      student.classId,
+      student.dateOfBirth,
+      student.email,
+      student.phone,
+      student.login,
+      student.id,
+      student.avatar
+    );
     this.isNew = false;
     this.showForm();
   }
@@ -76,16 +87,24 @@ export class StudentsComponent implements OnInit {
     if (this.isNew) {
       this.service_.addStudent(this.newStudent).subscribe(data => {
         console.log('Added!!!'),
-        this.loadStudents(21),
-        this.displayForm = false;
-        this.notificationToasts.notify('success', 'Успішно виконано', 'Додано нового учня');
+          this.loadStudents(21),
+          (this.displayForm = false),
+          this.notificationToasts.notify(
+            'success',
+            'Успішно виконано',
+            'Додано нового учня'
+          );
       });
     } else {
-      this.service_.changeStudent(this.newStudent).subscribe( data => {
+      this.service_.changeStudent(this.newStudent).subscribe(data => {
         console.log('Updated!!!'),
-        this.loadStudents(21),
-        this.displayForm = false;
-        this.notificationToasts.notify('success', 'Успішно виконано', 'Збережено зміни учня');
+          this.loadStudents(21),
+          (this.displayForm = false),
+          this.notificationToasts.notify(
+            'success',
+            'Успішно виконано',
+            'Збережено зміни учня'
+          );
       });
     }
   }
@@ -110,7 +129,7 @@ export class StudentsComponent implements OnInit {
   }
   handlerFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = (event: any) => {
       this.imageUrl = event.target.result;
     };

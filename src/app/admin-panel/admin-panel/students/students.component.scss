@@ -1,3 +1,4 @@
+
 .hiddenBox
 {
   display: none;
@@ -11,6 +12,11 @@
 .wrongData
 {
   border-color: #ff0000;
+}
+.dateLabel
+{
+  font-size: 12px;
+  color: #808080;
 }
 .studentsForm ::ng-deep input
 {
@@ -30,6 +36,7 @@
 {
   width: 20% !important;
   float: right;
+  visibility: hidden;
 }
 .mainInfo
 {
@@ -42,15 +49,15 @@
   float: right;
   width: calc(50% - 7px);
 }
-.editButton
-{
-  text-align: center;
+.editButton{
+ text-align: center;
 }
 .studentRow
 {
   .edit-student-btn
   {
     visibility: hidden;
+    float: right;
   }
   &:hover .edit-student-btn
   {

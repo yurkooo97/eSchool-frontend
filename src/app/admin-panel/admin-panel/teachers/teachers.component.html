@@ -1,7 +1,7 @@
+<form #teacherForm="ngForm">
 <p-table
   [columns]="columns"
   [value]="teachers"
-  selectionMode="single"
   [(selection)]="selectedTeacher"
   [paginator]="false"
   [loading]="loading"
@@ -31,6 +31,7 @@
       </td>
     </tr>
   </ng-template>
+  
   <ng-template pTemplate="summary" let-rowData>
     <div style="text-align:left">
       <button
@@ -38,13 +39,13 @@
         pButton
         icon="pi pi-plus"
         (click)="showDialogToAdd()"
-        label="Додати"
+        label="Додати учителя"
       ></button>
     </div>
   </ng-template>
 </p-table>
 <p-dialog
-  header="Додати нового учителя"
+  header="Інформація про учителя"
   [(visible)]="displayDialog"
   [responsive]="true"
   showEffect="fade"
@@ -52,6 +53,7 @@
   [width]="400"
 >
   <div class="ui-g ui-fluid" *ngIf="teacher">
+    
     <div class="ui-g-12">
       <div class="ui-g-4"><label for="firstname">Ім'я *</label></div>
       <div class="ui-g-8 requiredWrapper">
@@ -64,6 +66,7 @@
           required
           minlength="3"
           maxlength="20"
+          name="firstname"
         />
         <span
           [class.d-none]="firstname.valid || firstname.untouched"
@@ -84,6 +87,7 @@
           minlength="3"
           maxlength="20"
           required
+          name="lastname"
         />
         <span
           [class.d-none]="lastname.valid || lastname.untouched"
@@ -104,6 +108,7 @@
           minlength="7"
           maxlength="20"
           required
+          name="patronymic"
         />
         <span
           [class.d-none]="patronymic.valid || patronymic.untouched"
@@ -127,6 +132,7 @@
           min="1940-12-25"
           max="2018-12-25"
           required
+          name="dateOfBirth"
         />
         <span
           [class.d-none]="dateOfBirth.valid || dateOfBirth.untouched"
@@ -138,13 +144,19 @@
     <div class="ui-g-12">
       <div class="ui-g-4"><label for="login">Логін</label></div>
       <div class="ui-g-8">
-        <input pInputText id="login" [(ngModel)]="teacher.login" />
+        <input pInputText id="login" [(ngModel)]="teacher.login" name="login" />
       </div>
     </div>
     <div class="ui-g-12">
       <div class="ui-g-4"><label for="email">Електронна адреса</label></div>
       <div class="ui-g-8">
-        <input pInputText id="email" [(ngModel)]="teacher.email" type="email" />
+        <input
+          pInputText
+          id="email"
+          [(ngModel)]="teacher.email"
+          type="email"
+          name="email"
+        />
       </div>
     </div>
     <div class="ui-g-12">
@@ -155,12 +167,13 @@
           id="tel"
           mask="999-999-9999"
           placeholder="999-999-9999"
+          name="phone"
         ></p-inputMask>
       </div>
     </div>
     <div class="ui-g-12 photoWrapper">
       <div class="ui-g-3">
-        <label for="photo">Загрузити фото</label>
+        <label for="photo">Завантажити фото</label>
         <img [src]="imageUrl" alt="Photo" style="width:120px; height:120px" />
       </div>
       <div class="ui-g-9">
@@ -171,10 +184,12 @@
           #Image
           accept="image/*"
           (change)="handlerFileInput($event.target.files)"
+          name="photo"
         />
         <span class="photoError">{{ photoData }}</span>
       </div>
     </div>
+    
   </div>
   <p-footer>
     <div class="ui-dialog-buttonpane ui-helper-clearfix">
@@ -184,13 +199,8 @@
         pButton
         icon="pi pi-check"
         (click)="create()"
-        label="Додати"
-        [disabled]="
-          !teacher.lastname ||
-          !teacher.firstname ||
-          !teacher.patronymic ||
-          !teacher.dateOfBirth
-        "
+        label="Зберегти"
+        [disabled]="teacherForm.invalid"
       ></button>
       <button
         *ngIf="!newTeacher"
@@ -198,8 +208,10 @@
         pButton
         icon="pi pi-check"
         (click)="save()"
-        label="Змінити"
+        label="Зберегти"
+        [disabled]="teacherForm.invalid"
       ></button>
     </div>
   </p-footer>
 </p-dialog>
+</form>

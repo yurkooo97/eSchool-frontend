@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class TeachersService {
-  private url = '/teachers';
+  private url = 'https://fierce-shore-32592.herokuapp.com/teachers';
   constructor(private http: HttpClient) {}
   public getTeachers(): Observable<Iteachers[]> {
     return this.http.get<Iteachers[]>(this.url)
