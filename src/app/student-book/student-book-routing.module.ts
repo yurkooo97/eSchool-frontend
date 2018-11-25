@@ -5,7 +5,7 @@ import { StudentBookComponent } from './student-book/student-book.component';
 const routes: Routes = [
   {
     path: '',
-    component: StudentBookComponent
+    component: StudentBookComponent,
   }
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class StudentBookRoutingModule { }
+export class StudentBookRoutingModule {}
