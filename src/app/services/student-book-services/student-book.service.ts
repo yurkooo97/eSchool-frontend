@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class StudentBookService {
-  private URL = 'https://fierce-shore-32592.herokuapp.com/diaries';
 
   constructor(private _http: HttpClient) {}
 
@@ -30,7 +29,7 @@ export class StudentBookService {
     'Вівторок',
     'Середа',
     'Четвер',
-    "П'ятниця",
+    'П\'ятниця',
     'Субота'
   ];
 
@@ -79,7 +78,7 @@ export class StudentBookService {
   public getDiariesList(date?: Date): Observable<any> {
     const formattedDate = this.getFormattedMonday(date);
     return this._http
-      .get<any>(`${this.URL}?weekStartDate=${formattedDate}`)
+      .get<any>(`/diaries?weekStartDate=${formattedDate}`)
       .map(response => {
         if (response.data.length) {
           const sortedWeekData = this.sortDataByWeekDay(response.data);
