@@ -1,22 +1,28 @@
-<br>
+<br />
 <p-toolbar>
   <div class="ui-toolbar-group-left">
-    <p-dropdown [options]="displayJournalsByClass" [(ngModel)]="selectedClassName" optionLabel="className" placeholder="Оберіть клас:" (onChange)="showSubjects()"></p-dropdown>
-    <p-dropdown [options]="displayJournalsBySubject" [(ngModel)]="selectedSubjectName" optionLabel="subjectName" placeholder="Оберіть предмет:"></p-dropdown>
-    <span style="margin: 0 15px" *ngIf="selectedClassName">{{selectedClassName ? selectedClassName.academicYear : 'none'}}</span>
-    <p-button *ngIf="selectedSubjectName" label="Завантажити журнал" (click)="setSelectedJournal()"></p-button>
+    <p-dropdown [options]="displayJournalsByClass"
+                [(ngModel)]="selectedClassName"
+                optionLabel="className"
+                placeholder="Оберіть клас:"
+                (onChange)="showSubjects()">
+
+    </p-dropdown>
+    <p-dropdown [options]="displayJournalsBySubject"
+                [(ngModel)]="selectedSubjectName"
+                optionLabel="subjectName"
+                placeholder="Оберіть предмет:">
+
+    </p-dropdown>
+    <span class="selected-year"
+          *ngIf="selectedClassName">{{selectedClassName ? 'Обраний навчальний рік: ' + selectedClassName.academicYear : 'none'}}
+    </span>
+    <p-button *ngIf="selectedSubjectName"
+              label="Завантажити журнал"
+              (click)="setSelectedJournal()">
+
+    </p-button>
   </div>
 </p-toolbar>
-<p *ngIf="selectedClassName">Обрано клас: {{selectedClassName ? selectedClassName.className : 'none'}}</p>
-<p *ngIf="selectedSubjectName">Обрано предмет: {{selectedSubjectName ? selectedSubjectName.subjectName : 'none'}}</p>
-
-
-<!--<ul class="journal">-->
-  <!--<li *ngFor="let journal of classes">-->
-      <!--<div>{{journal.academicYear}}</div>-->
-      <!--<div>{{journal.className}}</div>-->
-      <!--<div>{{journal.idClass}}</div>-->
-      <!--<div>{{journal.idSubject}}</div>-->
-      <!--<div>{{journal.subjectName}}</div>-->
-  <!--</li>-->
-<!--</ul>-->
+<!--<p *ngIf="selectedClassName">Обрано клас: {{selectedClassName ? selectedClassName.className : 'none'}}</p>-->
+<!--<p *ngIf="selectedSubjectName">Обрано предмет: {{selectedSubjectName ? selectedSubjectName.subjectName : 'none'}}</p>-->
