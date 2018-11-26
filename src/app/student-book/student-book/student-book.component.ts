@@ -31,8 +31,6 @@ export class StudentBookComponent implements OnInit {
 
   faThLarge = faThLarge;
 
-  icon = faListUl;
-
   selectedType = 'week';
 
   constructor(private studentBookService: StudentBookService) {}
