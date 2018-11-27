@@ -37,41 +37,36 @@
   </ng-template>
 </p-table>
 
-<p-dialog header="Інформація Про Учня" [(visible)]="displayForm" [modal]="true" [responsive]="true" [width]="840" [minWidth]="200" [minY]="70" [maximizable]="false" [baseZIndex]="10000">
+<p-dialog header="Інформація Про Учня" [(visible)]="displayForm" [modal]="true" [responsive]="true" [width]="700" [minWidth]="200" [minY]="70" [maximizable]="false" [baseZIndex]="10000">
   <form class="studentsForm" #studentsForm="ngForm">
     <p-fieldset legend="Обов'язкові поля" class="mainInfo">
       <span class="ui-float-label">
         <input id="float-input-firstname" type="text" pInputText [class.wrongData]="firstname.invalid && firstname.touched" #firstname="ngModel" name="firstname" [(ngModel)]="newStudent.firstname" minlength="3" maxlength="20" required>
-        <label for="float-input-firstname">Ім'я</label>
+        <label for="float-input-firstname">Ім'я *</label>
       </span>
       <span [class.hiddenBox]="firstname.valid || firstname.untouched" class="messageOfMistake">Некоректне ім'я</span>
       <br>
       <span class="ui-float-label">
         <input id="float-input-lastname" type="text" pInputText [class.wrongData]="lastname.invalid && lastname.touched" #lastname="ngModel" name="lastname" [(ngModel)]="newStudent.lastname" minlength="3" maxlength="20" required>
-        <label for="float-input-lastname">Прізвище</label>
+        <label for="float-input-lastname">Прізвище *</label>
       </span>
       <span [class.hiddenBox]="lastname.valid || lastname.untouched" class="messageOfMistake">Некоректне прізвище</span>
       <br>
       <span class="ui-float-label">
         <input id="float-input-patronymic" type="text" pInputText [class.wrongData]="patronymic.invalid && patronymic.touched" #patronymic="ngModel" name="patronymic" [(ngModel)]="newStudent.patronymic" minlength="6" maxlength="20" required>
-        <label for="float-input-patronymic">По батькові</label>
+        <label for="float-input-patronymic">По батькові *</label>
       </span>
       <span [class.hiddenBox]="patronymic.valid || patronymic.untouched" class="messageOfMistake">Некоректне по-батькові</span>
-      <br>
       <span class="ui-float-label">
-        <select (click)="selectedClassHandler($event)" class="selectClass" required>
-            <option disabled>Оберіть клас</option>
-            <option *ngFor="let class_ of classes" value="{{class_.id}}">{{class_.className}} ({{class_.classYear}})</option>
-        </select>
         <input id="float-input-class" type="text" pInputText name="classId" [(ngModel)]="newStudent.classId" class="classID" disabled>
       </span>
       <br>
       <span class="ui-float-label">
         <input id="float-input-login" type="text" pInputText [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login" [(ngModel)]="newStudent.login" minlength="5" maxlength="20" required>
-        <label for="float-input-login">Логін</label>
+        <label for="float-input-login">Логін *</label>
       </span>
       <span [class.hiddenBox]="login.valid || login.untouched" class="messageOfMistake">Введіть коректний логін (не менше 5 символів)</span>
-      <span class="dateLabel">Дата народження</span>
+      <span class="dateLabel">Дата народження *</span>
       <span class="ui-float-label">
         <input id="float-input-date" type="date" pInputText [class.wrongData]="dateOfBirth.invalid && dateOfBirth.touched" #dateOfBirth="ngModel" name="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" required>
       </span>
@@ -96,7 +91,7 @@
     <br>
   </form>
 <p-footer>
-  <button type="button" pButton icon="pi pi-check" (click)="saveStudent(); studentsForm.reset();" class="ui-button-raised" label="Зберегти" [disabled]="firstname.invalid || lastname.invalid || patronymic.invalid || dateOfBirth.invalid || login.invalid"></button>
+  <button type="button" pButton icon="pi pi-check" (click)="saveStudent(); studentsForm.reset();" class="ui-button-raised" label="Зберегти" [disabled]="studentsForm.invalid"></button>
 </p-footer>
 </p-dialog>
 

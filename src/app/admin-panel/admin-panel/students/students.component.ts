@@ -17,8 +17,8 @@ export class StudentsComponent implements OnInit {
   isNew: boolean;
   loading: boolean;
   cols: any[];
-  selectedClass: number = 0;
   selectedClassName: string = '8-А класу';
+  selectedClassId: number = 0;
   displayForm: boolean;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
@@ -53,6 +53,7 @@ export class StudentsComponent implements OnInit {
 
   loadStudents(classID: number) {
     this.loading = true;
+    this.selectedClassId = classID;
     this.service_
       .getStudents(classID)
       .subscribe(
@@ -61,7 +62,8 @@ export class StudentsComponent implements OnInit {
   }
 
   createStudent() {
-    this.newStudent = new Student();
+    this.newStudent.classId = this.selectedClassId;
+    // this.newStudent = new Student();
     this.isNew = true;
     this.showForm();
   }
@@ -71,7 +73,7 @@ export class StudentsComponent implements OnInit {
       student.firstname,
       student.lastname,
       student.patronymic,
-      student.classId,
+      student.classId = this.selectedClassId,
       student.dateOfBirth,
       student.email,
       student.phone,
@@ -87,7 +89,7 @@ export class StudentsComponent implements OnInit {
     if (this.isNew) {
       this.service_.addStudent(this.newStudent).subscribe(data => {
         console.log('Added!!!'),
-          this.loadStudents(21),
+          this.loadStudents(this.selectedClassId),
           (this.displayForm = false),
           this.notificationToasts.notify(
             'success',
@@ -98,7 +100,7 @@ export class StudentsComponent implements OnInit {
     } else {
       this.service_.changeStudent(this.newStudent).subscribe(data => {
         console.log('Updated!!!'),
-          this.loadStudents(21),
+          this.loadStudents(this.selectedClassId),
           (this.displayForm = false),
           this.notificationToasts.notify(
             'success',
@@ -109,11 +111,6 @@ export class StudentsComponent implements OnInit {
     }
   }
 
-  selectedClassHandler(event: any) {
-    this.selectedClass = event.target.value;
-    this.newStudent.classId = this.selectedClass;
-  }
-
   selectedClassNameHandler(nameOfClass: string) {
     this.selectedClassName = nameOfClass;
   }
@@ -121,12 +118,7 @@ export class StudentsComponent implements OnInit {
   showForm() {
     this.displayForm = true;
   }
-  hideForm() {
-    this.displayForm = false;
-    if (this.isNew) {
-      this.loadStudents(21);
-    }
-  }
+
   handlerFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
     const reader = new FileReader();
