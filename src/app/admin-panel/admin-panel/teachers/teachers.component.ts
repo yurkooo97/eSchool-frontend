@@ -10,7 +10,6 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 })
 
 export class TeachersComponent implements OnInit {
-  photoData: string;
   loading: boolean;
   displayDialog: boolean;
   teachers: Iteachers[];
@@ -18,6 +17,8 @@ export class TeachersComponent implements OnInit {
   columns: Array<object>;
   newTeacher: boolean;
   selectedTeacher: Iteachers;
+  ua: any;
+  photoData: string;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
   constructor(
@@ -36,6 +37,7 @@ export class TeachersComponent implements OnInit {
       { field: 'patronymic', header: 'По батькові' },
       { field: 'dateOfBirth', header: 'Дата народження' }
     ];
+    this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
   }
   handlerFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
@@ -52,6 +54,15 @@ export class TeachersComponent implements OnInit {
     };
     reader.readAsDataURL(this.fileToUpload);
   }
+  formatDate(date) {
+    const d = new Date(date);
+    const  year = d.getFullYear();
+    let  month = '' + (d.getMonth() + 1);
+    let  day = '' + d.getDate();
+    if (month.length < 2) { month = '0' + month; }
+    if (day.length < 2) { day = '0' + day; }
+    return [year, month, day].join('-');
+}
   showDialogToAdd() {
     this.displayDialog = true;
     this.newTeacher = true;
@@ -66,6 +77,8 @@ export class TeachersComponent implements OnInit {
   }
   create() {
     this.displayDialog = false;
+    this.teacher.dateOfBirth = this.formatDate(this.teacher.dateOfBirth);
+    console.log(this.teacher);
     this._teacherServices.postTeacher(this.teacher).subscribe(
       teacher => {
         this.teachers.push(teacher);
@@ -87,6 +100,8 @@ export class TeachersComponent implements OnInit {
   }
   save() {
     this.displayDialog = false;
+    this.teacher.dateOfBirth = this.formatDate(this.teacher.dateOfBirth);
+    console.log(this.teacher);
     this._teacherServices.putTeacher(this.teacher).subscribe(
       teacher => {
         const teachers = [...this.teachers];
