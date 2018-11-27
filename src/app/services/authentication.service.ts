@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,20 @@ export class AuthenticationService {
 
   loggedIn() {
     return !!localStorage.getItem('authToken');
+  }
+
+  getRole(): string {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      return null;
+    }
+    const jwtHelper = new JwtHelperService();
+    const decodedToken = jwtHelper.decodeToken(token);
+    return decodedToken.Roles.authority;
+  }
+
+  isAdmin() {
+    return this.getRole() === 'ROLE_ADMIN';
   }
 
   refreshToken() {
