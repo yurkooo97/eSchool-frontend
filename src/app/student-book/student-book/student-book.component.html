@@ -12,18 +12,17 @@
         pButton
         type="button"
         (click)="changeWeekSchedule(false)"
-        label="Попередній тиждень"
+        label="Попередній"
         class="prev ui-button-rounded ui-button-secondary"
       ></button>
       <h3>
-        {{ startAndEndOfWeek?.startOfWeek }} -
-        {{ startAndEndOfWeek?.endOfWeek }}
+        {{ startAndEndOfWeek }} 
       </h3>
       <button
         pButton
         type="button"
         (click)="changeWeekSchedule(true)"
-        label="Наступний тиждень"
+        label="Наступний"
         class="next ui-button-rounded ui-button-secondary"
       ></button>
     </div>

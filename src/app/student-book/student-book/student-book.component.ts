@@ -11,9 +11,9 @@ import { faThLarge } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./student-book.component.scss']
 })
 export class StudentBookComponent implements OnInit {
-  weekSchedule: Array<any>;
+  weekSchedule: any;
 
-  startAndEndOfWeek: object;
+  startAndEndOfWeek: string;
 
   offset = 0;
 
@@ -33,12 +33,15 @@ export class StudentBookComponent implements OnInit {
 
   selectedType = 'week';
 
+  private clonedWeekSchedule: any;
+
   constructor(private studentBookService: StudentBookService) {}
 
   ngOnInit() {
     this.studentBookService.getDiariesList().subscribe(data => {
       console.log(data);
-      [this.weekSchedule, this.startAndEndOfWeek] = data;
+      [this.weekSchedule] = data;
+      this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate}`;
     });
     this.cols = [
       { field: 'lessonNumber', header: '№' },
@@ -67,7 +70,8 @@ export class StudentBookComponent implements OnInit {
       if (typeof data === 'string') {
         this.notFound = data;
       }
-      [this.weekSchedule, this.startAndEndOfWeek] = data;
+      [this.weekSchedule] = data;
+      this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate}`;
     });
   }
 
@@ -82,18 +86,25 @@ export class StudentBookComponent implements OnInit {
   }
   changeDataView(): void {
     if (this.selectedType === 'day') {
-      const currDate = new Date().getDay();
+      const currDate = new Date().setHours(0, 0, 0, 0);
       const a = this.weekSchedule.filter(el => {
-        return currDate === el.dayDate.getDay();
+        return currDate === el.dayDate.getTime();
       });
+      this.clonedWeekSchedule = [...this.weekSchedule];
       this.weekSchedule = a.length ? a : [this.weekSchedule[0]];
+      this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate}`;
     } else {
-      this.studentBookService.getDiariesList().subscribe(data => {
-        if (typeof data === 'string') {
-          this.notFound = data;
-        }
-        [this.weekSchedule, this.startAndEndOfWeek] = data;
-      });
+      // this.studentBookService.getDiariesList().subscribe(data => {
+      //   if (typeof data === 'string') {
+      //     this.notFound = data;
+      //   }
+      // });
+        this.weekSchedule = this.clonedWeekSchedule || this.weekSchedule;
+        this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate}`;
     }
   }
+  // switchSchedule(direction: string, type: boolean){
+  //   if(type && direction === 'day'){
+  //   }
+  // }
 }
