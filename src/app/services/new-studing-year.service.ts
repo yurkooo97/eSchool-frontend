@@ -27,7 +27,7 @@ export class NewStudingYearService {
   }
   postNewGroups(): Observable<any> {
     return this.http
-      .post<any>('transition', this.httpOptions)
+      .post<any>('students/transition', this.httpOptions)
       .map((response: any) => {
         return response.data;
       })
@@ -37,7 +37,7 @@ export class NewStudingYearService {
   }
   putNewOldId(idObject: any[]): Observable<any[]> {
     return this.http
-      .put<any[]>('transition', idObject)
+      .put<any[]>('students/transition', idObject)
       .map((response: any) => {
         return response.data;
       })

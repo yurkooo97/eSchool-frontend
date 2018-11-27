@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Group } from 'src/app/models/group.model';
 import { NewStudingYearService } from 'src/app/services/new-studing-year.service';
 import { ClassId } from 'src/app/models/classId.model';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-new-studing-year',
@@ -23,7 +22,7 @@ export class NewStudingYearComponent implements OnInit {
   oldIdArray: Array<number> = [];
   newIdArray: Array<number> = [];
   classIdArray: Array<ClassId> = [];
-  newGroupsName: Array<string> = [];
+  newGroupsName: Array<string> = [];  
 
   constructor(private httpService: NewStudingYearService) {}
 
@@ -45,14 +44,25 @@ export class NewStudingYearComponent implements OnInit {
     });
   }
   addNewGroups() {
-    this.buttonSaveDisabled = false;
-    this.buttonAddDisabled = true;
+
+    //this.buttonSaveDisabled = false;
+    //this.buttonAddDisabled = true;
+
     this.nextYear = this.currentYear + 1;
     this.httpService.postNewGroups().subscribe(data => {
       this.newGroupList = data;
+      //console.log(this.newGroupList);
       this.filterNewGroups();
+      this.httpService.putNewOldId(this.classIdArray).subscribe(data2 => console.log(data2));
+
     });
   }
+  displayNewGroups(){
+    this.buttonSaveDisabled = false;
+    this.buttonAddDisabled = true;
+    
+
+  };
   filterNewGroups() {
     this.activeGroupsWithoutYear = this.newGroupList.filter(gr => gr.isActive);
     this.newActiveGroups = this.activeGroupsWithoutYear.filter(
@@ -68,9 +78,22 @@ export class NewStudingYearComponent implements OnInit {
         newClassId: item
       })
     );
+    console.log(this.classIdArray);
   }
   saveGroup() {
     this.buttonSaveDisabled = true;
-    this.httpService.putNewOldId(this.classIdArray).subscribe(data => data);
+    /* this.source = timer(5000);
+    console.log(this.source); */
+    this.addNewGroups();
+   //console.log(this.classIdArray);
+    
+   
+   /* this.httpService.putNewOldId(this.classIdArray).subscribe(data => console.log(data)      
+      ); */
+       
+  }
+
+  callPutNewOldId(){
+    this.httpService.putNewOldId(this.classIdArray).subscribe(datas => console.log(datas));
   }
 }
