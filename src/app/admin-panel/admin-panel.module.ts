@@ -34,6 +34,7 @@ import { CardModule } from 'primeng/card';
 import { DayComponent } from './admin-panel/class-schedule/day/day.component';
 
 import { NewStudingYearService } from '../services/new-studing-year.service';
+import { OverlayPanelModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -59,7 +60,8 @@ import { NewStudingYearService } from '../services/new-studing-year.service';
     RadioButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    OverlayPanelModule
   ],
 
   providers: [

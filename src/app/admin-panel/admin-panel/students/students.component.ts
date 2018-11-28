@@ -16,6 +16,7 @@ export class StudentsComponent implements OnInit {
   classes: Class_[];
   students: Student[];
   newStudent: Student;
+  selectedStudent: Student;
   isNew: boolean;
   loading: boolean;
   cols: any[];
@@ -52,6 +53,7 @@ export class StudentsComponent implements OnInit {
     ];
 
     this.newStudent = new Student();
+    this.selectedStudent = new Student();
     this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
   }
 
@@ -124,6 +126,11 @@ export class StudentsComponent implements OnInit {
 
   showForm() {
     this.displayForm = true;
+  }
+
+  studentInfo(event, student: Student, overlaypanel: OverlayPanel) {
+    this.selectedStudent = student;
+    overlaypanel.toggle(event);
   }
 
   handlerFileInput(file: FileList) {
