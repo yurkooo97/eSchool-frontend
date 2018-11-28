@@ -54,15 +54,6 @@ export class TeachersComponent implements OnInit {
     };
     reader.readAsDataURL(this.fileToUpload);
   }
-  formatDate(date) {
-    const d = new Date(date);
-    const  year = d.getFullYear();
-    let  month = '' + (d.getMonth() + 1);
-    let  day = '' + d.getDate();
-    if (month.length < 2) { month = '0' + month; }
-    if (day.length < 2) { day = '0' + day; }
-    return [year, month, day].join('-');
-}
   showDialogToAdd() {
     this.displayDialog = true;
     this.newTeacher = true;
@@ -77,8 +68,7 @@ export class TeachersComponent implements OnInit {
   }
   create() {
     this.displayDialog = false;
-    this.teacher.dateOfBirth = this.formatDate(this.teacher.dateOfBirth);
-    console.log(this.teacher);
+    this.teacher.dateOfBirth = this._teacherServices.formatDate(this.teacher.dateOfBirth);
     this._teacherServices.postTeacher(this.teacher).subscribe(
       teacher => {
         this.teachers.push(teacher);
@@ -100,8 +90,7 @@ export class TeachersComponent implements OnInit {
   }
   save() {
     this.displayDialog = false;
-    this.teacher.dateOfBirth = this.formatDate(this.teacher.dateOfBirth);
-    console.log(this.teacher);
+    this.teacher.dateOfBirth = this._teacherServices.formatDate(this.teacher.dateOfBirth);
     this._teacherServices.putTeacher(this.teacher).subscribe(
       teacher => {
         const teachers = [...this.teachers];

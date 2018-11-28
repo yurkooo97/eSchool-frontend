@@ -88,18 +88,10 @@ export class StudentsComponent implements OnInit {
     this.isNew = false;
     this.showForm();
   }
-  formatDate(date) {
-    const d = new Date(date);
-    const  year = d.getFullYear();
-    let  month = '' + (d.getMonth() + 1);
-    let  day = '' + d.getDate();
-    if (month.length < 2) { month = '0' + month; }
-    if (day.length < 2) { day = '0' + day; }
-    return [year, month, day].join('-');
-}
   saveStudent() {
     if (this.isNew) {
-      this.newStudent.dateOfBirth = this.formatDate(this.newStudent.dateOfBirth);
+      this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
+      this.displayForm = false;
       this.service_.addStudent(this.newStudent).subscribe(data => {
         console.log('Added!!!'),
           this.loadStudents(this.selectedClassId),
@@ -111,7 +103,8 @@ export class StudentsComponent implements OnInit {
           );
       });
     } else {
-      this.newStudent.dateOfBirth = this.formatDate(this.newStudent.dateOfBirth);
+      this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
+      this.displayForm = false;
       this.service_.changeStudent(this.newStudent).subscribe(data => {
         console.log('Updated!!!'),
           this.loadStudents(this.selectedClassId),
