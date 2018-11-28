@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { isString, isNumber } from 'util';
 import { Group } from '../../../models/group.model';
 import { AdmingroupsService } from 'src/app/services/admingroups.service';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
   selector: 'app-groups',
@@ -40,15 +41,21 @@ export class GroupsComponent implements OnInit {
         const newGroup = !isNumber(this.editGroup.id);
         if (newGroup) {
           this.groups.push(this.editGroup);
+          this.notificationToasts.notify('success', 'Успішно виконано', 'Додано новий клас');
         }
         if (isActiveChanged || newGroup) {
           this.filterGroups();
+          this.notificationToasts.notify('success', 'Успішно виконано', 'Збережено зміни класу');
         }
         this.showEditDialog = false;
+      }, error => {
+        this.notificationToasts.notify('error', 'Відхилено', 'Невдалося зберегти зміни');
       });
   }
 
-  constructor(private groupService: AdmingroupsService) {
+  constructor(
+    private groupService: AdmingroupsService,
+    private notificationToasts: DataSharingService) {
     this.editGroup = new Group();
   }
 
