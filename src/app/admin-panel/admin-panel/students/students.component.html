@@ -47,13 +47,13 @@
       <img src="assets/avatar.png" class="student-avatar">
     </p-header>
     <div class="student-full-info">
-      <p>Дата народження: {{selectedStudent.dateOfBirth}}</p>
-      <p>Номер телефону: {{selectedStudent.phone}}</p>
-      <p>Електронна пошта: {{selectedStudent.email}}</p>
-      <p>Логін: {{selectedStudent.login}}</p>
+      <p><span class="student-data-record">Дата народження:</span> {{selectedStudent.dateOfBirth}}</p>
+      <p><span class="student-data-record">Номер телефону:</span> {{selectedStudent.phone}}</p>
+      <p><span class="student-data-record">Email:</span> {{selectedStudent.email}}</p>
+      <p><span class="student-data-record">Логін:</span> {{selectedStudent.login}}</p>
     </div>
     <p-footer>
-    <button type="button" pButton icon="pi pi-plus" (click)="oPanel.hide()" class="ui-button-raised" label="Закрити"></button>
+      <button type="button" pButton icon="pi pi-times" (click)="oPanel.hide()" class="ui-button-raised close-student-info" label="Закрити"></button>
     </p-footer>
   </p-card>
 </p-overlayPanel>
