@@ -10,7 +10,6 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 })
 
 export class TeachersComponent implements OnInit {
-  photoData: string;
   loading: boolean;
   displayDialog: boolean;
   teachers: Iteachers[];
@@ -18,6 +17,8 @@ export class TeachersComponent implements OnInit {
   columns: Array<object>;
   newTeacher: boolean;
   selectedTeacher: Iteachers;
+  ua: object;
+  photoData: string;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
   constructor(
@@ -36,6 +37,7 @@ export class TeachersComponent implements OnInit {
       { field: 'patronymic', header: 'По батькові' },
       { field: 'dateOfBirth', header: 'Дата народження' }
     ];
+    this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
   }
   handlerFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
@@ -43,7 +45,7 @@ export class TeachersComponent implements OnInit {
     reader.onload = (event: any) => {
       this.teacher.avatar = event.target.result;
       if (file.item(0).size > 500000) {
-        this.photoData = 'Перевищено максимальний розмір фото 500 кб';
+        this.photoData = 'Перевищено максимальний розмір 500 кб';
         this.imageUrl = 'assets/avatar.png';
       } else {
         this.photoData = '';
@@ -66,6 +68,7 @@ export class TeachersComponent implements OnInit {
   }
   create() {
     this.displayDialog = false;
+    this.teacher.dateOfBirth = this._teacherServices.formatDate(this.teacher.dateOfBirth);
     this._teacherServices.postTeacher(this.teacher).subscribe(
       teacher => {
         this.teachers.push(teacher);
@@ -87,6 +90,7 @@ export class TeachersComponent implements OnInit {
   }
   save() {
     this.displayDialog = false;
+    this.teacher.dateOfBirth = this._teacherServices.formatDate(this.teacher.dateOfBirth);
     this._teacherServices.putTeacher(this.teacher).subscribe(
       teacher => {
         const teachers = [...this.teachers];

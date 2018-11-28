@@ -3,6 +3,7 @@ import { StudentsService } from '../../../services/admin-students.service';
 import { Student } from '../../../models/students.model';
 import { Class_ } from '../../../models/classesForStudents.model';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { TeachersService } from 'src/app/services/teachers.service';
 
 @Component({
   selector: 'app-students',
@@ -11,6 +12,7 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
   providers: [StudentsService]
 })
 export class StudentsComponent implements OnInit {
+  ua: object;
   classes: Class_[];
   students: Student[];
   newStudent: Student;
@@ -24,7 +26,8 @@ export class StudentsComponent implements OnInit {
   fileToUpload: File = null;
   constructor(
     private service_: StudentsService,
-    private notificationToasts: DataSharingService
+    private notificationToasts: DataSharingService,
+    private _teacherServices: TeachersService,
   ) {}
 
   ngOnInit() {
@@ -49,6 +52,7 @@ export class StudentsComponent implements OnInit {
     ];
 
     this.newStudent = new Student();
+    this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
   }
 
   loadStudents(classID: number) {
@@ -84,9 +88,10 @@ export class StudentsComponent implements OnInit {
     this.isNew = false;
     this.showForm();
   }
-
   saveStudent() {
     if (this.isNew) {
+      this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
+      this.displayForm = false;
       this.service_.addStudent(this.newStudent).subscribe(data => {
         console.log('Added!!!'),
           this.loadStudents(this.selectedClassId),
@@ -98,6 +103,8 @@ export class StudentsComponent implements OnInit {
           );
       });
     } else {
+      this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
+      this.displayForm = false;
       this.service_.changeStudent(this.newStudent).subscribe(data => {
         console.log('Updated!!!'),
           this.loadStudents(this.selectedClassId),
