@@ -41,10 +41,10 @@
   </ng-template>
 </p-table>
 
-<p-overlayPanel #oPanel [showCloseIcon]="true">
+<p-overlayPanel #oPanel>
   <p-card header="Учень {{selectedClassName}}" subheader="{{selectedStudent.lastname}} {{selectedStudent.firstname}} {{selectedStudent.patronymic}}">
     <p-header>
-      <img src="assets/avatar.png" width="100">
+      <img src="assets/avatar.png" class="student-avatar">
     </p-header>
     <div class="student-full-info">
       <p>Дата народження: {{selectedStudent.dateOfBirth}}</p>
@@ -53,7 +53,7 @@
       <p>Логін: {{selectedStudent.login}}</p>
     </div>
     <p-footer>
-      sccssc
+    <button type="button" pButton icon="pi pi-plus" (click)="oPanel.hide()" class="ui-button-raised" label="Закрити"></button>
     </p-footer>
   </p-card>
 </p-overlayPanel>

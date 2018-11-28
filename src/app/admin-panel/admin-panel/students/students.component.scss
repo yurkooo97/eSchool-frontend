@@ -70,7 +70,11 @@
 }
 .ui-card
 {
-  overflow: hidden;
+  overflow: auto;
+}
+.student-avatar
+{
+  width: 250px;
 }
 .student-full-info
 {
