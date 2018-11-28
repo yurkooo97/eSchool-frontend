@@ -10,10 +10,10 @@ export class AdminGuard implements CanLoad {
 
   canLoad(route: Route): boolean {
     const url: string = route.path;
-    if (this._authService.loggedIn()) {
+    if (this._authService.isAdmin()) {
       return true;
     }
-    this.router.navigate(['/login/']);
+    this.router.navigate(['/shell/']);
     return false;
   }
 }
