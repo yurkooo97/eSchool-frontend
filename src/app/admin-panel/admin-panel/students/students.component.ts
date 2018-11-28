@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentsService } from '../../../services/admin-students.service';
 import { Student } from '../../../models/students.model';
-import {Class_} from '../../../models/classesForStudents.model';
+import { Class_ } from '../../../models/classesForStudents.model';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { TeachersService } from 'src/app/services/teachers.service';
+import { OverlayPanel } from 'primeng/primeng';
 
 @Component({
   selector: 'app-students',
@@ -10,25 +13,32 @@ import {Class_} from '../../../models/classesForStudents.model';
   providers: [StudentsService]
 })
 export class StudentsComponent implements OnInit {
-
+  ua: object;
   classes: Class_[];
   students: Student[];
   newStudent: Student;
+  selectedStudent: Student;
   isNew: boolean;
+  loading: boolean;
   cols: any[];
-  selectedClass: number = 0;
+  selectedClassName: string = '8-А класу';
+  selectedClassId: number = 0;
   displayForm: boolean;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
-  constructor(private service_: StudentsService) {
-    this.students = new Array<Student>();
-  }
+  constructor(
+    private service_: StudentsService,
+    private notificationToasts: DataSharingService,
+    private _teacherServices: TeachersService,
+  ) {}
 
   ngOnInit() {
-    this.service_.getClasses().subscribe(
-      data => (
-        this.classes = data['data']
-  ));
+    this.loading = true;
+    this.service_
+      .getClasses()
+      .subscribe(
+        data => ((this.classes = data['data']), (this.loading = false))
+      );
 
     this.loadStudents(1);
 
@@ -37,67 +47,93 @@ export class StudentsComponent implements OnInit {
       { field: 'lastname', header: 'Прізвище' },
       { field: 'patronymic', header: 'По-батькові' },
       { field: 'classe', header: 'Клас' },
-      { field: 'dateOfBirth', header: 'Дата народження' },
-      { field: 'email', header: 'Email' },
-      { field: 'phone', header: 'Номер телефону' },
-      { field: 'login', header: 'Логін' },
+      { field: 'dateOfBirth', header: 'Дата народження' }
     ];
 
     this.newStudent = new Student();
+    this.selectedStudent = new Student();
+    this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
   }
 
   loadStudents(classID: number) {
-    this.service_.getStudents(classID).subscribe(
-      data => (
-        this.students = data['data']
-  ));
+    this.loading = true;
+    this.selectedClassId = classID;
+    this.service_
+      .getStudents(classID)
+      .subscribe(
+        data => ((this.students = data['data']), (this.loading = false))
+      );
   }
 
   createStudent() {
-    this.newStudent = new Student();
+    this.newStudent.classId = this.selectedClassId;
+    // this.newStudent = new Student();
     this.isNew = true;
     this.showForm();
   }
 
   editStudent(student: Student) {
-    this.newStudent = new Student(student.firstname, student.lastname, student.patronymic, student.classId, student.dateOfBirth, student.email, student.phone, student.login, student.id, student.avatar);
+    this.newStudent = new Student(
+      student.firstname,
+      student.lastname,
+      student.patronymic,
+      student.classId = this.selectedClassId,
+      student.dateOfBirth,
+      student.email,
+      student.phone,
+      student.login,
+      student.id,
+      student.avatar
+    );
     this.isNew = false;
     this.showForm();
   }
-
   saveStudent() {
     if (this.isNew) {
+      this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
+      this.displayForm = false;
       this.service_.addStudent(this.newStudent).subscribe(data => {
         console.log('Added!!!'),
-        this.loadStudents(21),
-        this.displayForm = false;
+          this.loadStudents(this.selectedClassId),
+          (this.displayForm = false),
+          this.notificationToasts.notify(
+            'success',
+            'Успішно виконано',
+            'Додано нового учня'
+          );
       });
     } else {
-      this.service_.changeStudent(this.newStudent).subscribe( data => {
+      this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
+      this.displayForm = false;
+      this.service_.changeStudent(this.newStudent).subscribe(data => {
         console.log('Updated!!!'),
-        this.loadStudents(21),
-        this.displayForm = false;
+          this.loadStudents(this.selectedClassId),
+          (this.displayForm = false),
+          this.notificationToasts.notify(
+            'success',
+            'Успішно виконано',
+            'Збережено зміни учня'
+          );
       });
     }
   }
 
-  selectedClassHandler(event: any) {
-    this.selectedClass = event.target.value;
-    this.newStudent.classId = this.selectedClass;
+  selectedClassNameHandler(nameOfClass: string) {
+    this.selectedClassName = nameOfClass;
   }
 
   showForm() {
     this.displayForm = true;
   }
-  hideForm() {
-    this.displayForm = false;
-    if (this.isNew) {
-      this.loadStudents(21);
-    }
+
+  studentInfo(event, student: Student, overlaypanel: OverlayPanel) {
+    this.selectedStudent = student;
+    overlaypanel.toggle(event);
   }
+
   handlerFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = (event: any) => {
       this.imageUrl = event.target.result;
     };

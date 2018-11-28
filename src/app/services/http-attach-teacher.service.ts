@@ -12,27 +12,24 @@ import { catchError, map, tap } from 'rxjs/operators';
 })
 export class HttpAttachTeacherService {
 
-  private urlTeachers = 'https://fierce-shore-32592.herokuapp.com/teachers';
-  private urlSubjects = 'https://fierce-shore-32592.herokuapp.com/subjects';
-  private urlClases = 'https://fierce-shore-32592.herokuapp.com/classes';
-
   constructor(private http: HttpClient) { }
 
   getTeachers(): Observable<Teacher[]> {
-    return this.http.get<Teacher[]>(this.urlTeachers)
+    return this.http.get<Teacher[]>('teachers')
+      .map((response: any) => response.data)
       .pipe(tap(_ => _.map(teacher => teacher.fullname = `${teacher.lastname} ${teacher.firstname}`)));
   }
 
   getSubjects(): Observable<Subject[]> {
-    return this.http.get<Subject[]>(this.urlSubjects);
+    return this.http.get<Subject[]>('subjects').map((response: any) => response.data);
   }
 
   getClasses(): Observable<Group[]> {
-    return this.http.get<Group[]>(this.urlClases);
+    return this.http.get<Group[]>('classes').map((response: any) => response.data);
   }
 
   postAttachTeacher(object: AttachedTeacher): Observable<any> {
     // tslint:disable-next-line:max-line-length
-    return this.http.post<any>(`${this.urlTeachers}/${object.teacherId}/classes/${object.classId}/subjects/${object.subjectId}/journal`, object);
+    return this.http.post<any>(`teachers/${object.teacherId}/classes/${object.classId}/subjects/${object.subjectId}/journal`, object);
   }
 }

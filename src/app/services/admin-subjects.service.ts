@@ -12,14 +12,16 @@ export class AdminSubjectsService {
   constructor(private _http: HttpClient) {}
 
   public getSubjectsList(): Observable<Subject[]> {
-    return this._http.get<Subject[]>(this.url);
+    return this._http.get<any>('subjects').map(response => response.data);
   }
 
   public postSubject(subject: Subject): Observable<Subject> {
-    return this._http.post<Subject>(this.url, subject);
+    return this._http
+      .post<any>('subjects', subject)
+      .map(response => response.data);
   }
 
   public putSubject(subject: Subject): Observable<Subject> {
-    return this._http.put<Subject>(`${this.url}/${subject.subjectId}`, subject);
+    return this._http.put<any>(`subjects/${subject.subjectId}`, subject).map(response => response.data);
   }
 }

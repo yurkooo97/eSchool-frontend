@@ -1,29 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  public Url: string = 'https://fierce-shore-32592.herokuapp.com/signin';
-  private refreshUrl: string = 'https://fierce-shore-32592.herokuapp.com/refresh';
+  public Url = 'signin';
+  private refreshUrl = 'refresh';
   private tokenRefreshMinPeriod: number;
   private tokenRefreshTimestamp: number;
   private _idUser: number;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+    private router: Router) {
     this.tokenRefreshMinPeriod = 1000 * 60 * 5;
   }
 
   login(userName: string, password: string) {
     const userData = { username: userName, password: password };
-    return this.httpClient.post(this.Url, userData, { observe: 'response' })
+    return this.httpClient
+      .post(this.Url, userData, { observe: 'response' })
       .map((response: any) => {
-        if (response.status === 200 || response.status === 204) {
+        if (response.status === 204) {
           this.tokenRefreshTimestamp = new Date().getTime();
-          localStorage.setItem('authToken', response.headers.get('Authorization'));
-          console.log('Autheticated user id: ' + this.idUser);
+          localStorage.setItem(
+            'authToken',
+            response.headers.get('Authorization')
+          );
         }
         return response;
       });
@@ -32,7 +38,7 @@ export class AuthenticationService {
     if (this._idUser) {
       return this._idUser;
     } else {
-      let token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('authToken');
       if (token) {
         const jwtHelper = new JwtHelperService();
         const decodedToken = jwtHelper.decodeToken(token);
@@ -57,6 +63,37 @@ export class AuthenticationService {
     return !!localStorage.getItem('authToken');
   }
 
+  getRole(): string {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      return null;
+    }
+    const jwtHelper = new JwtHelperService();
+    const decodedToken = jwtHelper.decodeToken(token);
+    return decodedToken.Roles.authority;
+  }
+
+  defaultRoute() {
+    let route: string;
+    const role = this.getRole();
+    switch (role) {
+      case 'ROLE_ADMIN':
+        route = '/shell/admin-panel/';
+        break;
+      case 'ROLE_TEACHER':
+        route = '/shell/journal';
+        break;
+      case 'ROLE_USER':
+        route = '/shell/';
+        break;
+    }
+    return route;
+  }
+
+  isAdmin() {
+    return this.getRole() === 'ROLE_ADMIN';
+  }
+
   refreshToken() {
     if (!this.loggedIn()) {
       return;
@@ -71,7 +108,7 @@ export class AuthenticationService {
     this.httpClient.get(this.refreshUrl)
       .subscribe(
         (response) => {
-          console.debug('token refreshed: ');
+          console.log('token refreshed: ');
           this.tokenRefreshTimestamp = curTime;
         },
         (err) => {

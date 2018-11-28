@@ -3,7 +3,6 @@ import { isString, isNumber } from 'util';
 import { Group } from '../../../models/group.model';
 import { AdmingroupsService } from 'src/app/services/admingroups.service';
 
-
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
@@ -15,64 +14,61 @@ export class GroupsComponent implements OnInit {
   groups: Group[];
   activeGroups: Group[];
   inactiveGroups: Group[];
-  showEditDialog: boolean = false;
+  showEditDialog = false;
   editGroupOriginal: Group;
-  editGroup : any;
-  
- 
+  editGroup: any;
+
+
   showDialog(rowData: Group) {
-    if (!rowData){
+    if (!rowData) {
       rowData = new Group();
-      console.log(rowData);
     }
     this.editGroupOriginal = rowData;
     this.editGroup = Object.assign({}, rowData);
-    console.log(this.editGroup);
     this.showEditDialog = true;
   }
- 
-  saveGroup(){
-    this.showEditDialog = false;
-    console.log(this.editGroup);
-    this._GroupService.saveClass(this.editGroup)
-      .subscribe(group => {
-        console.log(group);               
-  });
-    
-  // hack to convert string value set by radio button to bool
-    if (isString(this.editGroup.isActive)){
-      this.editGroup.isActive = this.editGroup.isActive == 'true';
-    }
 
-    let isActiveChanged = this.editGroupOriginal.isActive != this.editGroup.isActive;
-    Object.assign(this.editGroupOriginal, this.editGroup);
-      if (isActiveChanged){
-        this.filterGroups();
-      }
-    this.showEditDialog=false;
+  saveGroup() {
+    // hack to convert string value set by radio button to bool
+    if (isString(this.editGroup.isActive)) {
+      this.editGroup.isActive = this.editGroup.isActive === '1';
+    }
+    this.groupService.saveClass(this.editGroup)
+      .subscribe(group => {
+        const isActiveChanged = this.editGroupOriginal.isActive !== this.editGroup.isActive;
+        Object.assign(this.editGroupOriginal, this.editGroup);
+        const newGroup = !isNumber(this.editGroup.id);
+        if (newGroup) {
+          this.groups.push(this.editGroup);
+        }
+        if (isActiveChanged || newGroup) {
+          this.filterGroups();
+        }
+        this.showEditDialog = false;
+      });
   }
-  
-  constructor(private _GroupService: AdmingroupsService) {
-    this.editGroup = new Group();      
+
+  constructor(private groupService: AdmingroupsService) {
+    this.editGroup = new Group();
   }
+
   ngOnInit() {
-    this._GroupService.getClasses()
+    this.groupService.getClasses()
       .subscribe(data => {
         this.groups = data;
         this.filterGroups();
-  });
-    
+      });
+
     this.cols = [
       { field: 'className', header: 'Клас' },
-      { field: 'classYear', header: 'Рік'}
-    ]                 
+      { field: 'classYear', header: 'Рік' }
+    ];
   }
 
-  filterGroups(){
+  filterGroups() {
     this.activeGroups = this.groups.filter(g => g.isActive);
     this.inactiveGroups = this.groups.filter(g => !g.isActive);
-  }     
+  }
 }
 
 
-   

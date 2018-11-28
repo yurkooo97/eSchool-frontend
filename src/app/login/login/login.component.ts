@@ -23,14 +23,15 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.userName, this.password)
       .subscribe((result) => {
         this.errorMessage = null;
-        // TODO: redirect user to role-specific route
-        this.router.navigate(['/shell/admin-panel/']);
+        if (this.authService.getRole()) {
+          this.router.navigate([this.authService.defaultRoute()]);
+        }
       },
         error => {
-          console.log(error);
-          this.errorMessage = error.error.status.message;
+          if (error.error.status.message) {
+            this.errorMessage = 'Ви ввели невірні дані';
+          }
         });
-
   }
 }
 

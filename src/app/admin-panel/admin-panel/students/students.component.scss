@@ -1,3 +1,4 @@
+
 .hiddenBox
 {
   display: none;
@@ -12,6 +13,11 @@
 {
   border-color: #ff0000;
 }
+.dateLabel
+{
+  font-size: 12px;
+  color: #808080;
+}
 .studentsForm ::ng-deep input
 {
   width: 100%;
@@ -24,12 +30,13 @@
 }
 .classButton
 {
-  margin-right: 5px;
+  margin: 0 5px 5px 0;
 }
 .classID
 {
   width: 20% !important;
   float: right;
+  display: none;
 }
 .mainInfo
 {
@@ -42,18 +49,40 @@
   float: right;
   width: calc(50% - 7px);
 }
-.editButton
-{
-  text-align: center;
+.editButton{
+ text-align: center;
 }
 .studentRow
 {
   .edit-student-btn
   {
-    display: none;
+    visibility: hidden;
+    float: right;
   }
   &:hover .edit-student-btn
   {
-    display: inline-block;
+    visibility: visible;
   }
+}
+.info-col
+{
+  width: 4em;
+}
+.ui-card
+{
+  overflow: auto;
+}
+//.student-avatar
+//{
+//  width: 250px;
+//}
+.student-full-info
+{
+  border: 1px solid #c0c0c0;
+  border-radius: 3px;
+  padding: 5px;
+}
+.student-data-record
+{
+  font-weight: bold;
 }
