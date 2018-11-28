@@ -4,6 +4,7 @@ import { Student } from '../../../models/students.model';
 import { Class_ } from '../../../models/classesForStudents.model';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { TeachersService } from 'src/app/services/teachers.service';
+import { OverlayPanel } from 'primeng/primeng';
 
 @Component({
   selector: 'app-students',
