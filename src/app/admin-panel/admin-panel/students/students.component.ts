@@ -46,10 +46,7 @@ export class StudentsComponent implements OnInit {
       { field: 'lastname', header: 'Прізвище' },
       { field: 'patronymic', header: 'По-батькові' },
       { field: 'classe', header: 'Клас' },
-      { field: 'dateOfBirth', header: 'Дата народження' },
-      { field: 'email', header: 'Email' },
-      { field: 'phone', header: 'Номер телефону' },
-      { field: 'login', header: 'Логін' }
+      { field: 'dateOfBirth', header: 'Дата народження' }
     ];
 
     this.newStudent = new Student();
