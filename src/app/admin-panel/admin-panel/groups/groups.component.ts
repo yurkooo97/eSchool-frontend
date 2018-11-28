@@ -3,7 +3,6 @@ import { isString, isNumber } from 'util';
 import { Group } from '../../../models/group.model';
 import { AdmingroupsService } from 'src/app/services/admingroups.service';
 
-
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
