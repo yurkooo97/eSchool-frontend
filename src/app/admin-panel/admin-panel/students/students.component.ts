@@ -4,6 +4,7 @@ import { Student } from '../../../models/students.model';
 import { Class_ } from '../../../models/classesForStudents.model';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { TeachersService } from 'src/app/services/teachers.service';
+import { OverlayPanel } from 'primeng/primeng';
 
 @Component({
   selector: 'app-students',
@@ -16,6 +17,7 @@ export class StudentsComponent implements OnInit {
   classes: Class_[];
   students: Student[];
   newStudent: Student;
+  selectedStudent: Student;
   isNew: boolean;
   loading: boolean;
   cols: any[];
@@ -45,13 +47,11 @@ export class StudentsComponent implements OnInit {
       { field: 'lastname', header: 'Прізвище' },
       { field: 'patronymic', header: 'По-батькові' },
       { field: 'classe', header: 'Клас' },
-      { field: 'dateOfBirth', header: 'Дата народження' },
-      { field: 'email', header: 'Email' },
-      { field: 'phone', header: 'Номер телефону' },
-      { field: 'login', header: 'Логін' }
+      { field: 'dateOfBirth', header: 'Дата народження' }
     ];
 
     this.newStudent = new Student();
+    this.selectedStudent = new Student();
     this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
   }
 
@@ -124,6 +124,11 @@ export class StudentsComponent implements OnInit {
 
   showForm() {
     this.displayForm = true;
+  }
+
+  studentInfo(event, student: Student, overlaypanel: OverlayPanel) {
+    this.selectedStudent = student;
+    overlaypanel.toggle(event);
   }
 
   handlerFileInput(file: FileList) {
