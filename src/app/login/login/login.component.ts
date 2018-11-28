@@ -23,20 +23,9 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.userName, this.password)
       .subscribe((result) => {
         this.errorMessage = null;
-        let route: string;
-        const role = this.authService.getRole();
-        switch (role) {
-          case 'ROLE_ADMIN':
-            route = '/shell/admin-panel/';
-            break;
-          case 'ROLE_TEACHER':
-            route = '/shell/journal';
-            break;
-          case 'ROLE_USER':
-            route = '/shell/';
-            break;
+        if (this.authService.getRole()) {
+          this.router.navigate([this.authService.defaultRoute()]);
         }
-        this.router.navigate([route]);
       },
         error => {
           if (error.error.status.message) {

@@ -10,20 +10,7 @@ export class LoginGuard implements CanLoad {
 
   canLoad(): boolean {
     if (this._authService.loggedIn()) {
-      let route: string;
-      const role = this._authService.getRole();
-      switch (role) {
-        case 'ROLE_ADMIN':
-          route = '/shell/admin-panel/';
-          break;
-        case 'ROLE_TEACHER':
-          route = '/shell/journal';
-          break;
-        case 'ROLE_USER':
-          route = '/shell/';
-          break;
-      }
-      this.router.navigate([route]);
+      this.router.navigate([this._authService.defaultRoute()]);
       return true;
     }
     return true;

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class AuthenticationService {
   private tokenRefreshMinPeriod: number;
   private tokenRefreshTimestamp: number;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+    private router: Router) {
     this.tokenRefreshMinPeriod = 1000 * 60 * 5;
   }
 
@@ -53,6 +55,23 @@ export class AuthenticationService {
     const jwtHelper = new JwtHelperService();
     const decodedToken = jwtHelper.decodeToken(token);
     return decodedToken.Roles.authority;
+  }
+
+  defaultRoute() {
+    let route: string;
+    const role = this.getRole();
+    switch (role) {
+      case 'ROLE_ADMIN':
+        route = '/shell/admin-panel/';
+        break;
+      case 'ROLE_TEACHER':
+        route = '/shell/journal';
+        break;
+      case 'ROLE_USER':
+        route = '/shell/';
+        break;
+    }
+    return route;
   }
 
   isAdmin() {
