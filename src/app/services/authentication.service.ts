@@ -5,9 +5,9 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  public Url: string = 'https://fierce-shore-32592.herokuapp.com/signin';
-  private refreshUrl: string =
-    'https://fierce-shore-32592.herokuapp.com/refresh';
+
+  public Url = 'signin';
+  private refreshUrl = 'refresh';
   private tokenRefreshMinPeriod: number;
   private tokenRefreshTimestamp: number;
 
@@ -55,14 +55,14 @@ export class AuthenticationService {
         return;
       }
     }
-    this.httpClient.get(this.refreshUrl).subscribe(
-      response => {
-        console.debug('token refreshed: ');
-        this.tokenRefreshTimestamp = curTime;
-      },
-      err => {
-        console.warn('failed to refresh token with error: ' + err);
-      }
-    );
+    this.httpClient.get(this.refreshUrl)
+      .subscribe(
+        (response) => {
+          console.log('token refreshed: ');
+          this.tokenRefreshTimestamp = curTime;
+        },
+        (err) => {
+          console.warn('failed to refresh token with error: ' + err);
+        });
   }
 }

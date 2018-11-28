@@ -17,13 +17,20 @@ span.ui-button-text,.ui-clickable{
 }
 .requiredWrapper{
 	position: relative;
+	margin-top: 6px;
+}
+.filds{
+	margin-top: 5px;
+}
+.mainInfo{
+	margin-top: 2px;
 }
 .requiredMessage{
 	position: absolute;
-	left: 5%;
-	bottom: -10%;
+	right: 5%;
+	bottom: -19%;
 	color: $required;
-	font-size: 10px;
+	font-size: 11px;
 }
 .teacher__cell{
 	line-height: 2.3;
@@ -40,12 +47,15 @@ span.ui-button-text,.ui-clickable{
 .photoWrapper{
 	position: relative;
 }
+.photoImg{
+	width:120px;
+	 height:120px
+}
 .photoError{
 	color: $required;
 	position: absolute;
 	width: 50%;
 	bottom: 25%;
-	right: 10%;
+	right: 5%;
 }
 
- 

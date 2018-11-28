@@ -5,20 +5,15 @@ import { Group } from '../models/group.model';
 import { catchError, map } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { forkJoin } from 'rxjs';
 import { isString, isNumber } from 'util';
-
-
 
 @Injectable()
 export class AdmingroupsService {
 
-  private ClassesUrl = 'https://fierce-shore-32592.herokuapp.com/classes';
-
   constructor(private http: HttpClient) { }
 
   public getClasses(): Observable<Group[]> {
-    return this.http.get<Group[]>(this.ClassesUrl)
+    return this.http.get<Group[]>('classes')
       .map((response: any) => {
         return response.data;
       }).pipe(
@@ -28,7 +23,7 @@ export class AdmingroupsService {
 
   public saveClass(group: Group): Observable<Group> {
     if (isNumber(group.id)) {
-      return this.http.put<Group>(`${this.ClassesUrl}/${group.id}`, group)
+      return this.http.put<Group>(`classes/${group.id}`, group)
         .map((response: any) => {
           return response.data;
         })
@@ -36,7 +31,7 @@ export class AdmingroupsService {
           catchError(this.handleError)
         );
     } else {
-      return this.http.post<Group>(this.ClassesUrl, group)
+      return this.http.post<Group>('classes', group)
         .map((response: any) => {
           return response.data;
         })

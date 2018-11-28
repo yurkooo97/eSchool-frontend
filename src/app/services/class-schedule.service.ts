@@ -11,7 +11,7 @@ export class ClassScheduleService {
 
   public getClasses(): Observable<Schedule[]> {
     return this.http
-      .get<Schedule[]>(this.url + '/classes/')
+      .get<Schedule[]>('classes')
       .map((response: any) => {
         response.data.forEach(item => {
           item.label = item.className;
@@ -23,7 +23,7 @@ export class ClassScheduleService {
 
   public getScheduleSubjects(): Observable<Schedule[]> {
     return this.http
-      .get<Schedule[]>(this.url + '/subjects/')
+      .get<Schedule[]>('subjects')
       .map((response: any) => {
         response.data.forEach(item => {
           item.label = item.subjectName;

@@ -6,25 +6,22 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class StudentsService {
-  private classesUrl = 'https://fierce-shore-32592.herokuapp.com/classes';
-  private studentsUrl = 'https://fierce-shore-32592.herokuapp.com/students';
-  private studentByClassUrl = 'https://fierce-shore-32592.herokuapp.com/students/classes/';
 
   constructor (private http: HttpClient) { }
 
   public getClasses(): Observable<Class_[]> {
-    return this.http.get<Class_[]>(this.classesUrl);
+    return this.http.get<Class_[]>('classes');
   }
 
   public getStudents(idClass): Observable<Student[]> {
-    return this.http.get<Student[]>(this.studentByClassUrl + idClass);
+    return this.http.get<Student[]>('students/classes/' + idClass);
   }
 
   public addStudent(student: Student): Observable<Student> {
-    return this.http.post<Student>(this.studentsUrl, student);
+    return this.http.post<Student>('students', student);
   }
 
   public changeStudent(student: Student): Observable<Student> {
-    return this.http.put<Student>(`${this.studentsUrl}/${student.id}`, student);
+    return this.http.put<Student>(`students/${student.id}`, student);
   }
 }

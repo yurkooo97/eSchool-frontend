@@ -17,7 +17,7 @@ export class TeachersComponent implements OnInit {
   columns: Array<object>;
   newTeacher: boolean;
   selectedTeacher: Iteachers;
-  ua: any;
+  ua: object;
   photoData: string;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
@@ -45,7 +45,7 @@ export class TeachersComponent implements OnInit {
     reader.onload = (event: any) => {
       this.teacher.avatar = event.target.result;
       if (file.item(0).size > 500000) {
-        this.photoData = 'Перевищено максимальний розмір фото 500 кб';
+        this.photoData = 'Перевищено максимальний розмір 500 кб';
         this.imageUrl = 'assets/avatar.png';
       } else {
         this.photoData = '';

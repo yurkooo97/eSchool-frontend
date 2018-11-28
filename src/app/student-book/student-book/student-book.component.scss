@@ -1,0 +1,50 @@
+.weekSchedule {
+  margin-top: 70px;
+}
+.central {
+  text-align: center;
+  position: relative;
+  .prev {
+    position: absolute;
+    top: 23%;
+    left: 6px;
+  }
+  .next {
+    position: absolute;
+    top: 23%;
+    right: 10px;
+  }
+}
+
+.right {
+  padding-left: 13%;
+}
+
+.student-ellipsis-table-cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.student-ellipsis-table-cell:focus,
+.student-ellipsis-table-cell:hover {
+  color: transparent;
+  &:after {
+    content: attr(data-homework);
+    overflow: visible;
+    text-overflow: inherit;
+    background: #fff;
+    position: absolute;
+    left: auto;
+    top: auto;
+    width: auto;
+    max-width: 20rem;
+    border: 1px solid #eaebec;
+    padding: 0 0.5rem;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.28);
+    white-space: normal;
+    word-wrap: break-word;
+    display: block;
+    color: black;
+    margin-top: -1.25rem;
+  }
+}

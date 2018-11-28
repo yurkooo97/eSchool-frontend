@@ -3,6 +3,7 @@ import { StudentsService } from '../../../services/admin-students.service';
 import { Student } from '../../../models/students.model';
 import { Class_ } from '../../../models/classesForStudents.model';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { TeachersService } from 'src/app/services/teachers.service';
 
 @Component({
   selector: 'app-students',
@@ -11,20 +12,22 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
   providers: [StudentsService]
 })
 export class StudentsComponent implements OnInit {
+  ua: object;
   classes: Class_[];
   students: Student[];
   newStudent: Student;
   isNew: boolean;
   loading: boolean;
   cols: any[];
-  selectedClass: number = 0;
   selectedClassName: string = '8-А класу';
+  selectedClassId: number = 0;
   displayForm: boolean;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
   constructor(
     private service_: StudentsService,
-    private notificationToasts: DataSharingService
+    private notificationToasts: DataSharingService,
+    private _teacherServices: TeachersService,
   ) {}
 
   ngOnInit() {
@@ -49,10 +52,12 @@ export class StudentsComponent implements OnInit {
     ];
 
     this.newStudent = new Student();
+    this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
   }
 
   loadStudents(classID: number) {
     this.loading = true;
+    this.selectedClassId = classID;
     this.service_
       .getStudents(classID)
       .subscribe(
@@ -61,7 +66,8 @@ export class StudentsComponent implements OnInit {
   }
 
   createStudent() {
-    this.newStudent = new Student();
+    this.newStudent.classId = this.selectedClassId;
+    // this.newStudent = new Student();
     this.isNew = true;
     this.showForm();
   }
@@ -71,7 +77,7 @@ export class StudentsComponent implements OnInit {
       student.firstname,
       student.lastname,
       student.patronymic,
-      student.classId,
+      student.classId = this.selectedClassId,
       student.dateOfBirth,
       student.email,
       student.phone,
@@ -82,12 +88,21 @@ export class StudentsComponent implements OnInit {
     this.isNew = false;
     this.showForm();
   }
-
+  formatDate(date) {
+    const d = new Date(date);
+    const  year = d.getFullYear();
+    let  month = '' + (d.getMonth() + 1);
+    let  day = '' + d.getDate();
+    if (month.length < 2) { month = '0' + month; }
+    if (day.length < 2) { day = '0' + day; }
+    return [year, month, day].join('-');
+}
   saveStudent() {
     if (this.isNew) {
+      this.newStudent.dateOfBirth = this.formatDate(this.newStudent.dateOfBirth);
       this.service_.addStudent(this.newStudent).subscribe(data => {
         console.log('Added!!!'),
-          this.loadStudents(21),
+          this.loadStudents(this.selectedClassId),
           (this.displayForm = false),
           this.notificationToasts.notify(
             'success',
@@ -96,9 +111,10 @@ export class StudentsComponent implements OnInit {
           );
       });
     } else {
+      this.newStudent.dateOfBirth = this.formatDate(this.newStudent.dateOfBirth);
       this.service_.changeStudent(this.newStudent).subscribe(data => {
         console.log('Updated!!!'),
-          this.loadStudents(21),
+          this.loadStudents(this.selectedClassId),
           (this.displayForm = false),
           this.notificationToasts.notify(
             'success',
@@ -109,11 +125,6 @@ export class StudentsComponent implements OnInit {
     }
   }
 
-  selectedClassHandler(event: any) {
-    this.selectedClass = event.target.value;
-    this.newStudent.classId = this.selectedClass;
-  }
-
   selectedClassNameHandler(nameOfClass: string) {
     this.selectedClassName = nameOfClass;
   }
@@ -121,12 +132,7 @@ export class StudentsComponent implements OnInit {
   showForm() {
     this.displayForm = true;
   }
-  hideForm() {
-    this.displayForm = false;
-    if (this.isNew) {
-      this.loadStudents(21);
-    }
-  }
+
   handlerFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
     const reader = new FileReader();

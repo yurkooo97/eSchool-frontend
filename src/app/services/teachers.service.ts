@@ -6,7 +6,6 @@ import { Observable, BehaviorSubject } from 'rxjs';
 @Injectable()
 export class TeachersService {
   constructor(private http: HttpClient) {}
-  private url = 'https://fierce-shore-32592.herokuapp.com/teachers';
   private calendarSource = new BehaviorSubject<object>({
     firstDayOfWeek: 1,
     dayNames: ['Неділя', 'Понеділок', 'Вівторок', 'Середа', 'Четвер', 'П\'ятниця', 'Субота'],
@@ -19,23 +18,22 @@ export class TeachersService {
     clear: 'Clear'
   });
   currentCalendar = this.calendarSource.asObservable();
-   public getTeachers(): Observable<Iteachers[]> {
-    return this.http.get<Iteachers[]>(this.url)
+  public getTeachers(): Observable<Iteachers[]> {
+    return this.http.get<Iteachers[]>('teachers')
       .map((response: any) => {
         return response.data;
       });
     }
   public postTeacher(teacher: Iteachers): Observable<Iteachers> {
-   return this.http.post<Iteachers>(this.url, teacher)
+   return this.http.post<Iteachers>('teachers', teacher)
       .map((response: any) => {
         return response.data;
       });
   }
   public putTeacher(teacher: Iteachers): Observable<Iteachers> {
-    return this.http.put<Iteachers>(`${this.url}/${teacher.id}`, teacher)
+    return this.http.put<Iteachers>(`teachers/${teacher.id}`, teacher)
     .map((response: any) => {
       return response.data;
     });
   }
-
 }
