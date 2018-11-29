@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { LoginGuard } from './login/login.guard';
+import { ShellGuard } from '../shell/shell.guard';
 
 const routes: Routes = [
   {
@@ -11,6 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'shell',
+    canLoad: [ShellGuard],
     loadChildren: '../shell/shell.module#ShellModule'
   }
 ];
