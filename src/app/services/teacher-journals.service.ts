@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
 import { Hometask } from '../models/hometask.model';
 import { JournalData } from '../models/journalData.model';
-import { Student } from '../models/students.model';
 
 @Injectable({
   providedIn: 'root'
@@ -87,11 +86,10 @@ export class TeacherJournalsService {
     })
   }
 
-  monthes(journal: JournalData[]): string[] {
-    let result: string[] = [];
-    
+  monthes(journal: JournalData[]): Month[] {
+    let res: Month[] = [];
     if (journal) {
-      let markDates: string[] =[];
+      let markDates: string[] = [];
       for (let studentIndex = 0; studentIndex < journal.length; studentIndex++) {
         for(let markIndex = 0; markIndex < journal[studentIndex].marks.length; markIndex++) {
           let markObject = journal[studentIndex].marks[markIndex];
@@ -99,25 +97,44 @@ export class TeacherJournalsService {
           if (markDates.indexOf(month) >= 0) {
             continue;
           } else {
-            markDates.push(markObject.dateMark);
+            markDates.push(month);
+            let formatedDate = markObject.dateMark;
+            let formatedMonth = formatedDate.slice(0, formatedDate.lastIndexOf('.'));
+            let monthElement: Month = {label: month, value: formatedMonth};
+            res.push(monthElement);
           }
         }
       }
-      
+      console.debug(res);
+      return res;      
     } else return [];
-    return result;
   }
 
   private month(date:string, separator: string): string {
-    let monthes = [''];
+    let monthes = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
     let res = date.split(separator);
     if (res[1]) {
-      return monthes[+res - 1];
+      return monthes[(+res[1] - 1)] + ' ' + res[0];
     }
     return;
   }
 
-  
+  monthJournal(month: Month, journalsData: JournalData[]) {
 
+    function isThisMonth(element, index, array) {
+      return (element.dateMark.indexOf(month) == 0);
+    }
+    for(let studentIndex = 0; studentIndex < journalsData.length; studentIndex++) {
+      let marks = journalsData[studentIndex].marks;
+      console.debug(journalsData[studentIndex].studentFullName, marks);
+      let marksFiltered = marks.filter(isThisMonth);
+      
+      console.debug('filtered:' + journalsData[studentIndex].studentFullName, marksFiltered);
+    }
+  }
 
+}
+export class Month {
+  label: string;
+  value: string
 }

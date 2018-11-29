@@ -1,3 +1,12 @@
-<p>
-  journal-data works!
-</p>
+<ng-container *ngIf="isDataRecived">
+  <p-dropdown [options]="journalMonthes" 
+  [(ngModel)]="selectedMonth" 
+  (onChange)="monthSelectedFor()"
+  [showClear]="true"></p-dropdown>
+  <p-table [value]="journalData">
+    <ng-template pTemplate="caption">
+      Журнал для: {{selectedMonth}}
+    </ng-template>
+
+  </p-table> 
+</ng-container>
