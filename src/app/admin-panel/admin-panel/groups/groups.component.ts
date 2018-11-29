@@ -41,15 +41,14 @@ export class GroupsComponent implements OnInit {
         const newGroup = !isNumber(this.editGroup.id);
         if (newGroup) {
           this.groups.push(this.editGroup);
-          this.notificationToasts.notify('success', 'Успішно виконано', 'Додано новий клас');
         }
         if (isActiveChanged || newGroup) {
           this.filterGroups();
-          this.notificationToasts.notify('success', 'Успішно виконано', 'Збережено зміни класу');
+          this.notificationToasts.notify('success', 'Успішно виконано', 'Зміни збережено');
         }
         this.showEditDialog = false;
       }, error => {
-        this.notificationToasts.notify('error', 'Відхилено', 'Невдалося зберегти зміни');
+        this.notificationToasts.notify('error', 'Відхилено', 'Доданий клас уже існує');
       });
   }
 
