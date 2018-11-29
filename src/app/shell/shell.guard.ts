@@ -11,14 +11,14 @@ export class ShellGuard implements CanLoad, CanActivate {
     private router: Router) { }
 
   canLoad() {
-    return this.canActivateInternal();
+    return this.isAllowed();
   }
 
   canActivate() {
-    return this.canActivateInternal();
+    return this.isAllowed();
   }
 
-  canActivateInternal(): boolean {
+  isAllowed(): boolean {
     if (this.authService.loggedIn()) {
       return true;
     }
