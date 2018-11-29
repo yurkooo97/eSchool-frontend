@@ -4,10 +4,6 @@
   justify-content: center;
 }
 
-button{  
-  margin: 20px;   
-}
-
 tr, td{
   text-align: center;
 }
@@ -15,4 +11,9 @@ tr, td{
 h1{
   font-family: "Open Sans", "Helvetica Neue", sans-serif;
   text-align: center;
+}
+
+.add-button-style{
+  text-align: left;
+  margin-left: 20px;
 }

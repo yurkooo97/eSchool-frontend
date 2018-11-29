@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Group } from '../models/group.model';
 import { ClassId } from '../models/classId.model';
+import { NewGroup } from '../models/transitional-groups.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,9 @@ export class NewStudingYearService {
     })
   };
 
-  getGroups(): Observable<Group[]> {
+  getGroups(): Observable<NewGroup[]> {
     return this.http
-      .get<Group[]>('classes', this.httpOptions)
+      .get<NewGroup[]>('classes', this.httpOptions)
       .map((response: any) => {
         return response.data;
       })
