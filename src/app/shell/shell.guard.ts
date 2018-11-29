@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Router, CanActivate } from '@angular/router';
+import { CanLoad, Router, CanActivate, Route } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 
 @Injectable({
@@ -10,14 +10,15 @@ export class ShellGuard implements CanLoad, CanActivate {
   constructor(private authService: AuthenticationService,
     private router: Router) { }
 
-  canLoad(): boolean {
-    if (this.authService.loggedIn()) {
-      return true;
-    }
-    this.router.navigate(['/login']);
-    return false;
+  canLoad() {
+    return this.canActivateInternal();
   }
-  canActivate(): boolean {
+
+  canActivate() {
+    return this.canActivateInternal();
+  }
+
+  canActivateInternal(): boolean {
     if (this.authService.loggedIn()) {
       return true;
     }
