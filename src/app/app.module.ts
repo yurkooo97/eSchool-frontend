@@ -13,8 +13,6 @@ import { LoginGuard } from './login/login/login.guard';
 import { AdminGuard } from './admin-panel/admin.guard';
 import { RefreshTokenInterceptorService } from './services/refresh-token-interceptor.service';
 
-
-
 @NgModule({
   declarations: [
     AppComponent

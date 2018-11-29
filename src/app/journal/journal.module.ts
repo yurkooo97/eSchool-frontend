@@ -11,6 +11,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { DropdownModule } from 'primeng/dropdown';
 import { DataViewModule } from 'primeng/dataview';
 import { ButtonModule } from 'primeng/button';
+import { JournalDataComponent } from './journal/journal-data/journal-data.component'
 
 @NgModule({
   imports: [
@@ -22,6 +23,6 @@ import { ButtonModule } from 'primeng/button';
     DataViewModule,
     ButtonModule
   ],
-  declarations: [JournalComponent, MenuComponent, HometaskComponent]
+  declarations: [JournalComponent, MenuComponent, HometaskComponent, JournalDataComponent]
 })
 export class JournalModule { }
