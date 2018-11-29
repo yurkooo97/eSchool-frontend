@@ -3,6 +3,8 @@ import { Journal } from '../models/journal.model';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
 import { Hometask } from '../models/hometask.model';
+import { JournalData } from '../models/journalData.model';
+import { Student } from '../models/students.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +18,7 @@ export class TeacherJournalsService {
   readonly baseUrl: string = 'https://fierce-shore-32592.herokuapp.com';
   readonly allJournals: string = '/journals';
   readonly activeJurnal: string = '/active';
+  
 
   private httpOptions = { headers: new HttpHeaders( {
       'Content-Type': 'application/json',
@@ -31,7 +34,7 @@ export class TeacherJournalsService {
     return this.baseUrl + '/homeworks/subjects/' + idSubject + '/classes/' + idClass;
   }
 
-  private url(teacherId?: number, isActive?: boolean): string {
+  private urlForTeacher(teacherId?: number, isActive?: boolean): string {
     if (teacherId > 0) {
       if (isActive) {
         return this.baseUrl + this.allJournals + '/teachers/' + teacherId + this.activeJurnal;
@@ -43,10 +46,16 @@ export class TeacherJournalsService {
     }
   }
 
-
+  private urlJournalSubject(idSubject: number, idClass: number) {
+    if (idSubject + idClass > 1) {
+      return this.baseUrl + this.allJournals + '/subjects/' + idSubject + '/classes/' + idClass;
+    } else {
+      return;
+    }
+  }
 
   getJournalsTeacher(id?: number, isActive?: boolean): Observable<Journal[]> {
-    const url = this.url(id, isActive);
+    const url = this.urlForTeacher(id, isActive);
     const observerResponse = this.http.get<Journal[]>(url, this.httpOptions)
     .map( (response: any) => {
       return response.data;
@@ -65,4 +74,50 @@ export class TeacherJournalsService {
         return throwError(error);
       });
   }
+
+  getjournals(idSubject: number, idClass: number): Observable<JournalData[]> {
+    return this.http.get<JournalData[]>(this.urlJournalSubject(idSubject, idClass), this.httpOptions)
+    .map( (response: any) => {
+      return response.data;
+    })
+    .catch( (error: any) => {
+      //MARK: remove in production
+      console.log('Error data from API:' + error);
+      return Observable.throwError(error);
+    })
+  }
+
+  monthes(journal: JournalData[]): string[] {
+    let result: string[] = [];
+    
+    if (journal) {
+      let markDates: string[] =[];
+      for (let studentIndex = 0; studentIndex < journal.length; studentIndex++) {
+        for(let markIndex = 0; markIndex < journal[studentIndex].marks.length; markIndex++) {
+          let markObject = journal[studentIndex].marks[markIndex];
+          let month = this.month(markObject.dateMark, '.');
+          if (markDates.indexOf(month) >= 0) {
+            continue;
+          } else {
+            markDates.push(markObject.dateMark);
+          }
+        }
+      }
+      
+    } else return [];
+    return result;
+  }
+
+  private month(date:string, separator: string): string {
+    let monthes = [''];
+    let res = date.split(separator);
+    if (res[1]) {
+      return monthes[+res - 1];
+    }
+    return;
+  }
+
+  
+
+
 }
