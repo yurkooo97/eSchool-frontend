@@ -8,10 +8,9 @@ export class LoginGuard implements CanLoad {
   constructor(private _authService: AuthenticationService,
     private router: Router) { }
 
-  canLoad(route: Route): boolean {
+  canLoad(): boolean {
     if (this._authService.loggedIn()) {
-      // TODO: get role from user service
-      this.router.navigate(['/shell/admin-panel/']);
+      this.router.navigate([this._authService.defaultRoute()]);
       return true;
     }
     return true;

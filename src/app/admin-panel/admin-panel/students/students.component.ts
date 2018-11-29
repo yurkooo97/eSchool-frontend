@@ -3,6 +3,8 @@ import { StudentsService } from '../../../services/admin-students.service';
 import { Student } from '../../../models/students.model';
 import { Class_ } from '../../../models/classesForStudents.model';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { TeachersService } from 'src/app/services/teachers.service';
+import { OverlayPanel } from 'primeng/primeng';
 
 @Component({
   selector: 'app-students',
@@ -11,9 +13,11 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
   providers: [StudentsService]
 })
 export class StudentsComponent implements OnInit {
+  ua: object;
   classes: Class_[];
   students: Student[];
   newStudent: Student;
+  selectedStudent: Student;
   isNew: boolean;
   loading: boolean;
   cols: any[];
@@ -24,7 +28,8 @@ export class StudentsComponent implements OnInit {
   fileToUpload: File = null;
   constructor(
     private service_: StudentsService,
-    private notificationToasts: DataSharingService
+    private notificationToasts: DataSharingService,
+    private _teacherServices: TeachersService,
   ) {}
 
   ngOnInit() {
@@ -42,13 +47,12 @@ export class StudentsComponent implements OnInit {
       { field: 'lastname', header: 'Прізвище' },
       { field: 'patronymic', header: 'По-батькові' },
       { field: 'classe', header: 'Клас' },
-      { field: 'dateOfBirth', header: 'Дата народження' },
-      { field: 'email', header: 'Email' },
-      { field: 'phone', header: 'Номер телефону' },
-      { field: 'login', header: 'Логін' }
+      { field: 'dateOfBirth', header: 'Дата народження' }
     ];
 
     this.newStudent = new Student();
+    this.selectedStudent = new Student();
+    this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
   }
 
   loadStudents(classID: number) {
@@ -84,9 +88,10 @@ export class StudentsComponent implements OnInit {
     this.isNew = false;
     this.showForm();
   }
-
   saveStudent() {
     if (this.isNew) {
+      this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
+      this.displayForm = false;
       this.service_.addStudent(this.newStudent).subscribe(data => {
         console.log('Added!!!'),
           this.loadStudents(this.selectedClassId),
@@ -98,6 +103,8 @@ export class StudentsComponent implements OnInit {
           );
       });
     } else {
+      this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
+      this.displayForm = false;
       this.service_.changeStudent(this.newStudent).subscribe(data => {
         console.log('Updated!!!'),
           this.loadStudents(this.selectedClassId),
@@ -117,6 +124,11 @@ export class StudentsComponent implements OnInit {
 
   showForm() {
     this.displayForm = true;
+  }
+
+  studentInfo(event, student: Student, overlaypanel: OverlayPanel) {
+    this.selectedStudent = student;
+    overlaypanel.toggle(event);
   }
 
   handlerFileInput(file: FileList) {

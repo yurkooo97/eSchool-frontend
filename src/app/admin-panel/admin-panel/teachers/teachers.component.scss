@@ -1,51 +1,61 @@
 $required: red;
-span.ui-button-text,.ui-clickable{
-	padding: 0px !important;
+span.ui-button-text,
+.ui-clickable {
+  padding: 0px !important;
 }
-::ng-deep .ui-state-highlight{
-	background-color: #f9f9f9 !important;
-	color: black !important;
+::ng-deep .ui-state-highlight {
+  background-color: #f9f9f9 !important;
+  color: black !important;
 }
-.ui-g-12{
-	padding: 0px !important;
+.ui-g-12 {
+  padding: 0px !important;
 }
-.is-invalid{
-	border-color: $required;
+.is-invalid {
+  border-color: $required;
 }
-.d-none{
-	display: none;
+.d-none {
+  display: none;
 }
-.requiredWrapper{
-	position: relative;
+.requiredWrapper {
+  position: relative;
+  margin-top: 6px;
 }
-.requiredMessage{
-	position: absolute;
-	left: 5%;
-	bottom: -10%;
-	color: $required;
-	font-size: 10px;
+.filds {
+  margin-top: 5px;
 }
-.teacher__cell{
-	line-height: 2.3;
+.mainInfo {
+  margin-top: 2px;
 }
-.teacher__edit{
-	 float: right;
-	visibility: hidden;
+.requiredMessage {
+  position: absolute;
+  right: 5%;
+  bottom: -19%;
+  color: $required;
+  font-size: 11px;
 }
- .teacher__cell:hover{
-	.teacher__edit{
-		visibility: visible;
-	}
+.teacher__cell {
+  line-height: 2.3;
 }
-.photoWrapper{
-	position: relative;
+.teacher__edit {
+  float: right;
+  visibility: hidden;
 }
-.photoError{
-	color: $required;
-	position: absolute;
-	width: 50%;
-	bottom: 25%;
-	right: 10%;
-} 
-
- 
+.teacher__cell:hover {
+  .teacher__edit {
+    visibility: visible;
+  }
+}
+.photoWrapper {
+  position: relative;
+}
+.photoImg {
+  width: 120px;
+  height: 120px
+}
+.photoError {
+  color: $required;
+  position: absolute;
+  width: 50%;
+  bottom: 25%;
+  right: 5%;
+}
