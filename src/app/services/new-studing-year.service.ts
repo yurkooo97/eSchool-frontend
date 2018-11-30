@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { Group } from '../models/group.model';
 import { ClassId } from '../models/classId.model';
 import { NewGroup } from '../models/transitional-groups.model';
 

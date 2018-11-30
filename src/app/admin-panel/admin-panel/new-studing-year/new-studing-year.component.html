@@ -1,43 +1,3 @@
-<!-- <div class="p-align-center">
-  <h1>Перехід на новий навчальний рік</h1>
-  <div class="aligner">
-      <button pButton type="button" class="ui-button-info" label="Перейти на новий навчальний рік" icon="pi pi-plus" 
-      (click)="displayNewGroups()" [disabled]="buttonAddDisabled"></button>
-  </div>  
-  <div class="aligner" style="border: 1px solid#c1bfbf">
-    <p-table [value]="activeGroups" [columns]="cols">
-      <ng-template pTemplate="header">
-        <tr>        
-          <th>Класи поточного року</th>        
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns">             
-        <tr *ngFor="let col of columns">          
-          <td>{{rowData[col.field]}} клас, {{rowData[col.field2]}} рік</td>          
-        </tr>          
-      </ng-template>      
-    </p-table>      
-    <p-table [value]="newActiveGroups" [columns]="cols">
-      <ng-template pTemplate="header">
-        <tr>                   
-          <th>Класи нового навчального року</th>
-        </tr>
-      </ng-template>
-        <ng-template pTemplate="body" let-rowData let-columns="columns">             
-          <tr *ngFor="let col of columns">            
-            <td style="color:#6ed65e; font-weight: bolder">              
-              {{rowData[col.field]}} клас, {{rowData[col.field2]}} рік
-            </td>            
-          </tr>          
-      </ng-template>         
-    </p-table>
-  </div>
-  <div class="aligner">
-    <button pButton type="button" (click)="saveGroup()" label="Зберегти" icon="pi pi-check" [disabled]="buttonSaveDisabled"></button>
-  </div>  
-</div> -->
-
-
 
 <p-table [value]="allGroupsList" [columns]="cols">
   <ng-template pTemplate="caption">Перехід на новий навчальний рік</ng-template>
@@ -47,18 +7,15 @@
       <th>Класи нового навчального року</th>
     </tr>
   </ng-template>
-
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr *ngFor="let col of columns">
       <td>{{rowData[col.field]}} клас, {{rowData[col.field2]}} рік</td>
-      <td>{{rowData[col.field3]}} клас, {{rowData[col.field4]}} рік</td>
+      <td><span *ngIf="hideTag">{{rowData[col.field3]}} клас у {{rowData[col.field4]}} році</span></td>
     </tr>
   </ng-template>
-
   <ng-template pTemplate="summary">
     <div class="add-button-style">
-      <button type="button" pButton icon="pi pi-plus" label="Перейти на новий навчальний рік" (click)="saveGroup()"></button>
+      <button type="button" pButton icon="pi pi-plus" label="Перейти на новий навчальний рік" (click)="addNewGroups()" [disabled]="buttonAddDisabled"></button>
     </div>
   </ng-template>
-
 </p-table>
