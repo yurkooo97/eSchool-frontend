@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Group } from 'src/app/models/group.model';
 import { NewStudingYearService } from 'src/app/services/new-studing-year.service';
 import { ClassId } from 'src/app/models/classId.model';
-import { Observable } from 'rxjs';
+import { Transition } from 'src/app/models/transitional-studing.model';
+import { Group } from 'src/app/models/group.model';
 
 @Component({
   selector: 'app-new-studing-year',
@@ -16,17 +16,19 @@ export class NewStudingYearComponent implements OnInit {
   activeGroupsWithoutYear: Group[];
   newActiveGroups: Group[];
   cols: Array<object>;
-  buttonSaveDisabled: boolean = true;
   buttonAddDisabled: boolean = false;
+  hideTag: boolean = false;
   currentYear: number;
   nextYear: number;
-  oldIdArray: Array<number> = [];
-  newIdArray: Array<number> = [];
   classIdArray: Array<ClassId> = [];
-  newGroupsName: Array<string> = [];
+  allGroupsList: Array<Transition> = [];
+  groupDigitsArrayStart: Array<string> = [];
+  groupDigitsArrayMidle: Array<any> = [];
+  groupDigitsArrayEnd: Array<string> = [];
+  groupDigitsArray: Array<number> = [];
+  counter: number;
 
   constructor(private httpService: NewStudingYearService) {}
-
   ngOnInit() {
     this.getGroupList();
   }
@@ -34,23 +36,40 @@ export class NewStudingYearComponent implements OnInit {
     this.httpService.getGroups().subscribe(data => {
       this.groupList = data;
       this.filterGroups();
-    });
-    this.cols = [{ field: 'className', field2: 'classYear' }];
+      });
+    this.cols = [{ field: 'className', field2: 'classYear', field3: 'newClassName' , field4: 'newClassYear' }];
   }
   filterGroups() {
     this.activeGroups = this.groupList.filter(g => g.isActive);
     this.currentYear = this.activeGroups[0].classYear;
-    this.activeGroups.forEach(item => {
-      this.oldIdArray.push(item.id);
+    this.activeGroups.forEach( item => {
+      this.allGroupsList.push({
+        oldClassId: item.id,
+        className: item.className,
+        classYear: item.classYear,
+        isActive: item.isActive,
+        numOfStudents: item.numOfStudents,
+        newClassId: null,
+        newClassName: null,
+        newClassYear: null,
+      });
+    });
+    this.allGroupsList.forEach((item, i) => {
+      this.groupDigitsArrayStart.push(item.className);
+      this.groupDigitsArrayMidle.push(this.groupDigitsArrayStart[i].split('-'));
+      this.groupDigitsArrayEnd.push(this.groupDigitsArrayMidle[i][0]);
+      this.groupDigitsArray.push(parseInt(this.groupDigitsArrayEnd[i]));
     });
   }
   addNewGroups() {
-    this.buttonSaveDisabled = false;
-    this.buttonAddDisabled = true;
     this.nextYear = this.currentYear + 1;
     this.httpService.postNewGroups().subscribe(data => {
       this.newGroupList = data;
       this.filterNewGroups();
+      this.httpService.putNewOldId(this.classIdArray).subscribe( () => {
+        this.hideTag = true;
+        this.buttonAddDisabled = true;
+      });
     });
   }
   filterNewGroups() {
@@ -59,18 +78,29 @@ export class NewStudingYearComponent implements OnInit {
       y => y.classYear > this.nextYear - 1
     );
     this.newActiveGroups.forEach(
-      item =>
-        this.newIdArray.push(item.id) & this.newGroupsName.push(item.className)
+      (item, i) => {
+        this.allGroupsList[i].newClassName = item.className;
+        this.allGroupsList[i].newClassYear = this.nextYear;
+      }
     );
-    this.newIdArray.forEach((item, i) =>
+    let counter = 0;
+    this.allGroupsList.forEach((item, i) => {
+      if (this.groupDigitsArray[i] > 10) {
+        item.newClassName = 'Випущений' ;
+        item.newClassId = 0;
+        item.newClassYear = item.classYear;
+      } else {
+          item.newClassName = this.newActiveGroups[counter].className;
+          item.newClassId = this.newActiveGroups[counter].id;
+          item.newClassYear = this.newActiveGroups[counter].classYear;
+          counter++;
+      }
+    });
+    this.allGroupsList.forEach((item, i) =>
       this.classIdArray.push({
-        oldClassId: this.oldIdArray[i],
-        newClassId: item
+        oldClassId: item.oldClassId,
+        newClassId: item.newClassId
       })
     );
-  }
-  saveGroup() {
-    this.buttonSaveDisabled = true;
-    this.httpService.putNewOldId(this.classIdArray).subscribe(data => data);
   }
 }

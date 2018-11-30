@@ -4,6 +4,7 @@ export class Group {
   classYear: number;
   classDescription: string;
   isActive: boolean;
+  numOfStudents: number;
 
   constructor() {
     this.id = null;
@@ -11,5 +12,6 @@ export class Group {
     this.classYear = null;
     this.classDescription = null;
     this.isActive = null;
+    this.numOfStudents = null;
   }
 }
