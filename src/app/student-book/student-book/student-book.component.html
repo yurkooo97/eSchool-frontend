@@ -1,4 +1,4 @@
-<div class="p-grid weekSchedule">
+<div class="p-grid weekSchedule" *ngIf="!notFound">
   <div class="p-col-12 p-grid p-align-center">
     <div class="p-col-3">
       <p-selectButton
@@ -8,36 +8,43 @@
       ></p-selectButton>
     </div>
     <div class="p-col-6 central">
-      <button
-        pButton
-        type="button"
-        (click)="changeWeekSchedule(false)"
-        label="Попередній"
-        class="prev ui-button-rounded ui-button-secondary"
-      ></button>
-      <h3>
+        <button
+          pButton
+          type="button"
+          (click)="switchSchedule(false)"
+          label="Попередній"
+          class="prev ui-button-rounded ui-button-secondary"
+        >
+        </button>
+         <label>
         {{ startAndEndOfWeek }} 
-      </h3>
-      <button
-        pButton
-        type="button"
-        (click)="changeWeekSchedule(true)"
-        label="Наступний"
-        class="next ui-button-rounded ui-button-secondary"
-      ></button>
+        </label>  
+        <button
+          pButton
+          type="button"
+          (click)="switchSchedule(true)"
+          label="Наступний"
+          class="next ui-button-rounded ui-button-secondary"
+          >
+        </button> 
     </div>
     <div class="p-col-3 right">
-      <fa-icon
+      <!-- <fa-icon
         [icon]="faListUl"
         size="2x"
         pull="left"
-        (click)="changeDaySchedule('list')"
+        (click)="changeScheduleView('list')"
       ></fa-icon>
       <fa-icon
         [icon]="faThLarge"
         size="2x"
-        (click)="changeDaySchedule('group')"
-      ></fa-icon>
+        (click)="changeScheduleView('group')"
+      ></fa-icon> -->
+      <p-selectButton
+        [options]="viewOptions"
+        [(ngModel)]="viewType"
+        [disabled]="selectedType === 'day' ? true : false" 
+        (click)='changeScheduleView()'></p-selectButton>
     </div>
   </div>
   <div
@@ -60,7 +67,7 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr>
+        <tr class="students-table-row">
           <td
             *ngFor="let col of columns"
             [ngClass]="
@@ -80,4 +87,7 @@
       </ng-template>
     </p-table>
   </div>
+</div>
+<div class="not-found p-grid p-justify-center p-align-center" *ngIf="notFound">
+  {{notFound}}
 </div>

@@ -61,7 +61,7 @@ export class StudentBookService {
           dayOfWeek: this.dayOfWeek[i],
           daySchedule: arr,
           dayDate: new Date(arr[0].date),
-          dayUkrDate:this.convertedDate(arr[0])
+          dayUkrDate: this.convertedDate(arr[0])
         });
       }
       arr = [];
@@ -83,12 +83,6 @@ export class StudentBookService {
       .map(response => {
         if (response.data.length) {
           const sortedWeekData = this.sortDataByWeekDay(response.data);
-          // const startEndOfWeek = {
-          //   startOfWeek: this.convertedDate(response.data[0]),
-          //   endOfWeek: this.convertedDate(
-          //     response.data[response.data.length - 1]
-          //   )
-          // };
           return [sortedWeekData];
         } else {
           return 'Наразі немає даних про розклад';
