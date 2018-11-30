@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NewStudingYearService } from 'src/app/services/new-studing-year.service';
 import { ClassId } from 'src/app/models/classId.model';
 import { Transition } from 'src/app/models/transitional-studing.model';
-import { NewGroup } from 'src/app/models/transitional-groups.model';
+import { Group } from 'src/app/models/group.model';
 
 @Component({
   selector: 'app-new-studing-year',
@@ -10,11 +10,11 @@ import { NewGroup } from 'src/app/models/transitional-groups.model';
   styleUrls: ['./new-studing-year.component.scss']
 })
 export class NewStudingYearComponent implements OnInit {
-  groupList: NewGroup[];
-  newGroupList: NewGroup[];
-  activeGroups: NewGroup[];
-  activeGroupsWithoutYear: NewGroup[];
-  newActiveGroups: NewGroup[];
+  groupList: Group[];
+  newGroupList: Group[];
+  activeGroups: Group[];
+  activeGroupsWithoutYear: Group[];
+  newActiveGroups: Group[];
   cols: Array<object>;
   buttonAddDisabled: boolean = false;
   hideTag: boolean = false;
