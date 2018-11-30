@@ -4,6 +4,7 @@ import { MenuItem } from 'primeng/api';
 import { SelectItem } from 'primeng/api';
 import { faListUl } from '@fortawesome/free-solid-svg-icons';
 import { faThLarge } from '@fortawesome/free-solid-svg-icons';
+import { group } from '@angular/animations';
 
 @Component({
   selector: 'app-student-book',
@@ -11,9 +12,9 @@ import { faThLarge } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./student-book.component.scss']
 })
 export class StudentBookComponent implements OnInit {
-  weekSchedule: Array<any>;
+  weekSchedule: any;
 
-  startAndEndOfWeek: object;
+  startAndEndOfWeek: string;
 
   offset = 0;
 
@@ -33,22 +34,35 @@ export class StudentBookComponent implements OnInit {
 
   selectedType = 'week';
 
+  private clonedWeekSchedule: any;
+
+  viewOptions: SelectItem[];
+
+  viewType = 'group';
+
   constructor(private studentBookService: StudentBookService) {}
 
   ngOnInit() {
     this.studentBookService.getDiariesList().subscribe(data => {
-      console.log(data);
-      [this.weekSchedule, this.startAndEndOfWeek] = data;
+      [this.weekSchedule] = data;
+      this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate}`;
     });
+
     this.cols = [
       { field: 'lessonNumber', header: '№' },
       { field: 'subjectName', header: 'Предмет' },
       { field: 'homeWork', header: 'Домашня робота' },
       { field: 'mark', header: 'Оцінка' }
     ];
+
     this.scheduleOptions = [
       { label: 'День', value: 'day' },
       { label: 'Тиждень', value: 'week' }
+    ];
+
+    this.viewOptions = [
+      { value: 'list', icon: 'pi pi-list' },
+      { value: 'group', icon: 'pi pi-th-large' }
     ];
   }
 
@@ -66,34 +80,61 @@ export class StudentBookComponent implements OnInit {
     this.studentBookService.getDiariesList(changedWeek).subscribe(data => {
       if (typeof data === 'string') {
         this.notFound = data;
-      }
-      [this.weekSchedule, this.startAndEndOfWeek] = data;
+      } else {
+      this.notFound = '';
+      [this.weekSchedule] = data;
+      this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate}`;
+      this.clonedWeekSchedule = [...this.weekSchedule];
+    }
     });
   }
 
-  changeDaySchedule(type: string): void {
-    if (type === 'list' && !this.view) {
+  changeScheduleView(): void {
+    if (this.viewType === 'list' && !this.view) {
       this.view = true;
       this.cols.push({ field: 'Note', header: 'Примітка' });
-    } else if (type === 'group' && this.view) {
+    } else if (this.viewType === 'group' && this.view) {
       this.view = false;
       this.cols.pop();
     }
   }
+
   changeDataView(): void {
     if (this.selectedType === 'day') {
-      const currDate = new Date().getDay();
-      const a = this.weekSchedule.filter(el => {
-        return currDate === el.dayDate.getDay();
+      this.viewType = 'list';
+      this.changeScheduleView();
+      const currDate = new Date().setHours(0, 0, 0, 0);
+      const today = this.weekSchedule.filter(el => {
+        return currDate === el.dayDate.getTime();
       });
-      this.weekSchedule = a.length ? a : [this.weekSchedule[0]];
+      this.clonedWeekSchedule = [...this.weekSchedule];
+      this.weekSchedule = today.length ? today : [this.weekSchedule[0]];
+      this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate}`;
     } else {
-      this.studentBookService.getDiariesList().subscribe(data => {
-        if (typeof data === 'string') {
-          this.notFound = data;
-        }
-        [this.weekSchedule, this.startAndEndOfWeek] = data;
-      });
+        this.weekSchedule = this.clonedWeekSchedule || this.weekSchedule;
+        this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate}`;
+        this.viewType = 'group';
+        this.changeScheduleView();
+      }
+  }
+
+  switchSchedule(direction: boolean): void {
+    if (this.selectedType === 'day') {
+       this.changeDaySchedule(direction);
+    } else {
+       this.changeWeekSchedule(direction);
     }
   }
+
+  changeDaySchedule(type: boolean): void {
+    const index = this.clonedWeekSchedule.indexOf(this.weekSchedule[0]);
+    if (type && index !== this.clonedWeekSchedule.length - 1) {
+    this.weekSchedule = [this.clonedWeekSchedule[index + 1]];
+    this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate}`;
+  } else if (!type && index !== 0) {
+        this.weekSchedule = [this.clonedWeekSchedule[index - 1]];
+        this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate}`;
+      }
+  }
+
 }
