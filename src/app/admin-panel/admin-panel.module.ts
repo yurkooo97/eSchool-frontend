@@ -18,6 +18,7 @@ import { AdminPanelRoutingModule } from './admin-panel-routing.module';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 
 import { TeachersService } from '../services/teachers.service';
+import { StudentsService } from '../services/admin-students.service';
 import { AdminSubjectsService } from '../services/admin-subjects.service';
 import { AdmingroupsService } from '../services/admingroups.service';
 
@@ -68,6 +69,7 @@ import { OverlayPanelModule } from 'primeng/primeng';
     AdmingroupsService,
     AdminSubjectsService,
     TeachersService,
+    StudentsService,
     NewStudingYearService
   ],
   declarations: [

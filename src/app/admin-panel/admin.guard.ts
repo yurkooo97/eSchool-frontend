@@ -13,7 +13,7 @@ export class AdminGuard implements CanLoad {
     if (this._authService.isAdmin()) {
       return true;
     }
-    this.router.navigate(['/shell/']);
+    this.router.navigate(['/shell']);
     return false;
   }
 }
