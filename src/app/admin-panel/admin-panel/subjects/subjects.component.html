@@ -37,32 +37,23 @@
                 </div>
                 <div *ngIf="submitted && f.subjectName.errors" class="invalid-feedback">
                     <div *ngIf="f.subjectName.errors.required">Назва предмета є обов'язковою *</div>
-                </div>
-                <div *ngIf="submitted && f.subjectName.errors" class="invalid-feedback">
                     <div *ngIf="f.subjectName.errors.minlength">Кількість символів має бути більше 3 *</div>
-                </div>
-                <div *ngIf="submitted && f.subjectName.errors" class="invalid-feedback">
                     <div *ngIf="f.subjectName.errors.maxlength">Кількість символів має бути менше 100 *</div>
-                </div>
-                <div *ngIf="submitted && f.subjectName.errors" class="invalid-feedback">
                     <div *ngIf="f.subjectName.errors.pattern">Поле має починатись із великої літери та повинен використовуватись український алфавіт! *</div>
                 </div>
             </div>
             <div class="ui-g-12">
                 <div class="ui-g-4">
-                    <label for="description">Опис:*</label>
+                    <label for="description">Опис:</label>
                 </div>
                 <div class="ui-g-8">
                     <textarea [rows]="6" [cols]="30" id="description" (change)="subject.subjectDescription = $event.target.value"  [value]="subject.subjectDescription || '' "   style="resize:none" pInputTextarea formControlName="subjectDescription" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.subjectDescription.errors }"></textarea>
                 </div>
                 <div *ngIf="submitted && f.subjectDescription.errors" class="invalid-feedback">
                     <div *ngIf="f.subjectDescription.errors.required">Назва предмета є обов'язковою *</div>
-                </div>
-                <div *ngIf="submitted && f.subjectDescription.errors" class="invalid-feedback">
                     <div *ngIf="f.subjectDescription.errors.minlength">Кількість символів має бути більше 3 *</div>
-                </div>
-                <div *ngIf="submitted && f.subjectDescription.errors" class="invalid-feedback">
                     <div *ngIf="f.subjectDescription.errors.maxlength">Кількість символів має бути не більше 300 *</div>
+                    <div *ngIf="f.subjectDescription.errors.pattern">Повинен використовуватись український алфавіт! *</div>
                 </div>
             </div>
         </div>

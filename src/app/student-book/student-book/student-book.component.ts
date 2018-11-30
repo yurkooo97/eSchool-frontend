@@ -81,6 +81,7 @@ export class StudentBookComponent implements OnInit {
       if (typeof data === 'string') {
         this.notFound = data;
       } else {
+      this.notFound = '';
       [this.weekSchedule] = data;
       this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate}`;
       this.clonedWeekSchedule = [...this.weekSchedule];
