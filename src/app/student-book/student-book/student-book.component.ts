@@ -4,7 +4,6 @@ import { MenuItem } from 'primeng/api';
 import { SelectItem } from 'primeng/api';
 import { faListUl } from '@fortawesome/free-solid-svg-icons';
 import { faThLarge } from '@fortawesome/free-solid-svg-icons';
-import { group } from '@angular/animations';
 
 @Component({
   selector: 'app-student-book',
@@ -40,7 +39,7 @@ export class StudentBookComponent implements OnInit {
 
   viewType = 'group';
 
-  constructor(private studentBookService: StudentBookService) {}
+  constructor(private studentBookService: StudentBookService) { }
 
   ngOnInit() {
     this.studentBookService.getDiariesList().subscribe(data => {
@@ -81,11 +80,11 @@ export class StudentBookComponent implements OnInit {
       if (typeof data === 'string') {
         this.notFound = data;
       } else {
-      this.notFound = '';
-      [this.weekSchedule] = data;
-      this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate}`;
-      this.clonedWeekSchedule = [...this.weekSchedule];
-    }
+        this.notFound = '';
+        [this.weekSchedule] = data;
+        this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate}`;
+        this.clonedWeekSchedule = [...this.weekSchedule];
+      }
     });
   }
 
@@ -111,30 +110,30 @@ export class StudentBookComponent implements OnInit {
       this.weekSchedule = today.length ? today : [this.weekSchedule[0]];
       this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate}`;
     } else {
-        this.weekSchedule = this.clonedWeekSchedule || this.weekSchedule;
-        this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate}`;
-        this.viewType = 'group';
-        this.changeScheduleView();
-      }
+      this.weekSchedule = this.clonedWeekSchedule || this.weekSchedule;
+      this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate}`;
+      this.viewType = 'group';
+      this.changeScheduleView();
+    }
   }
 
   switchSchedule(direction: boolean): void {
     if (this.selectedType === 'day') {
-       this.changeDaySchedule(direction);
+      this.changeDaySchedule(direction);
     } else {
-       this.changeWeekSchedule(direction);
+      this.changeWeekSchedule(direction);
     }
   }
 
   changeDaySchedule(type: boolean): void {
     const index = this.clonedWeekSchedule.indexOf(this.weekSchedule[0]);
     if (type && index !== this.clonedWeekSchedule.length - 1) {
-    this.weekSchedule = [this.clonedWeekSchedule[index + 1]];
-    this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate}`;
-  } else if (!type && index !== 0) {
-        this.weekSchedule = [this.clonedWeekSchedule[index - 1]];
-        this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate}`;
-      }
+      this.weekSchedule = [this.clonedWeekSchedule[index + 1]];
+      this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate}`;
+    } else if (!type && index !== 0) {
+      this.weekSchedule = [this.clonedWeekSchedule[index - 1]];
+      this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate}`;
+    }
   }
 
 }
