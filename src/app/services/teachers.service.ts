@@ -40,7 +40,7 @@ export class TeachersService {
       });
   }
   public putTeacher(teacher: Iteachers): Observable<Iteachers> {
-    return this.http.put<Iteachers>(`teachers/${teacher.id}`, teacher)
+    return this.http.put<Iteachers>(`/admin/teachers/${teacher.id}`, teacher)
     .map((response: any) => {
       return response.data;
     });
