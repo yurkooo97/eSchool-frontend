@@ -39,6 +39,6 @@ export class HometaskComponent implements OnInit, OnDestroy {
     ];
   }
   ngOnDestroy() {
-    this.teacherJournalService.journalChanged.unsubscribe();
+   // this.teacherJournalService.journalChanged.unsubscribe();
   }
 }

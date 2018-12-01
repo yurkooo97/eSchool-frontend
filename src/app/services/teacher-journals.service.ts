@@ -12,12 +12,8 @@ export class TeacherJournalsService {
 
   public journalChanged = new Subject<Journal>();
 
-  public selectedJournal: Journal;
-
-  readonly baseUrl: string = 'https://fierce-shore-32592.herokuapp.com';
   readonly allJournals: string = '/journals';
   readonly activeJurnal: string = '/active';
-  
 
   private httpOptions = { headers: new HttpHeaders( {
       'Content-Type': 'application/json',
@@ -30,24 +26,24 @@ export class TeacherJournalsService {
   }
 
   private homeTaskUrl(idSubject: number, idClass: number): string {
-    return this.baseUrl + '/homeworks/subjects/' + idSubject + '/classes/' + idClass;
+    return '/homeworks/subjects/' + idSubject + '/classes/' + idClass;
   }
 
   private urlForTeacher(teacherId?: number, isActive?: boolean): string {
     if (teacherId > 0) {
       if (isActive) {
-        return this.baseUrl + this.allJournals + '/teachers/' + teacherId + this.activeJurnal;
+        return this.allJournals + '/teachers/' + teacherId + this.activeJurnal;
       } else {
-        return this.baseUrl + this.allJournals + '/teachers/' + teacherId;
+        return this.allJournals + '/teachers/' + teacherId;
       }
     } else {
-      return this.baseUrl + this.allJournals; // all journals for current user/teacher
+      return this.allJournals; // all journals for current user/teacher
     }
   }
 
   private urlJournalSubject(idSubject: number, idClass: number) {
     if (idSubject + idClass > 1) {
-      return this.baseUrl + this.allJournals + '/subjects/' + idSubject + '/classes/' + idClass;
+      return this.allJournals + '/subjects/' + idSubject + '/classes/' + idClass;
     } else {
       return;
     }
@@ -83,36 +79,36 @@ export class TeacherJournalsService {
       //MARK: remove in production
       console.log('Error data from API:' + error);
       return Observable.throwError(error);
-    })
+    });
   }
 
   monthes(journal: JournalData[]): Month[] {
-    let res: Month[] = [];
+    const res: Month[] = [];
     if (journal) {
-      let markDates: string[] = [];
+      const markDates: string[] = [];
       for (let studentIndex = 0; studentIndex < journal.length; studentIndex++) {
-        for(let markIndex = 0; markIndex < journal[studentIndex].marks.length; markIndex++) {
-          let markObject = journal[studentIndex].marks[markIndex];
-          let month = this.month(markObject.dateMark, '.');
+        for (let markIndex = 0; markIndex < journal[studentIndex].marks.length; markIndex++) {
+          const markObject = journal[studentIndex].marks[markIndex];
+          const month = this.month(markObject.dateMark, '.');
           if (markDates.indexOf(month) >= 0) {
             continue;
           } else {
             markDates.push(month);
-            let formatedDate = markObject.dateMark;
-            let formatedMonth = formatedDate.slice(0, formatedDate.lastIndexOf('.'));
-            let monthElement: Month = {label: month, value: formatedMonth};
+            const formatedDate = markObject.dateMark;
+            const formatedMonth = formatedDate.slice(0, formatedDate.lastIndexOf('.'));
+            const monthElement: Month = {label: month, value: formatedMonth};
             res.push(monthElement);
           }
         }
       }
       console.debug(res);
-      return res;      
-    } else return [];
+      return res;
+    } else { return []; }
   }
 
   private month(date:string, separator: string): string {
-    let monthes = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
-    let res = date.split(separator);
+    const monthes = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
+    const res = date.split(separator);
     if (res[1]) {
       return monthes[(+res[1] - 1)] + ' ' + res[0];
     }
@@ -122,13 +118,13 @@ export class TeacherJournalsService {
   monthJournal(month: Month, journalsData: JournalData[]) {
 
     function isThisMonth(element, index, array) {
-      return (element.dateMark.indexOf(month) == 0);
+      return (element.dateMark.indexOf(month) === 0);
     }
-    for(let studentIndex = 0; studentIndex < journalsData.length; studentIndex++) {
-      let marks = journalsData[studentIndex].marks;
+    for (let studentIndex = 0; studentIndex < journalsData.length; studentIndex++) {
+      const marks = journalsData[studentIndex].marks;
       console.debug(journalsData[studentIndex].studentFullName, marks);
-      let marksFiltered = marks.filter(isThisMonth);
-      
+      const marksFiltered = marks.filter(isThisMonth);
+
       console.debug('filtered:' + journalsData[studentIndex].studentFullName, marksFiltered);
     }
   }
@@ -136,5 +132,5 @@ export class TeacherJournalsService {
 }
 export class Month {
   label: string;
-  value: string
+  value: string;
 }

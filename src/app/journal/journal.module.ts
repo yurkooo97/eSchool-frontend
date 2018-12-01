@@ -12,7 +12,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { DataViewModule } from 'primeng/dataview';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
-import { JournalDataComponent } from './journal/journal-data/journal-data.component'
+import { JournalDataComponent } from './journal/journal-data/journal-data.component';
 
 @NgModule({
   imports: [
