@@ -8,6 +8,7 @@ const routes: Routes = [
   {
     path: '',
     canLoad: [LoginGuard],
+    canActivate: [LoginGuard],
     component: LoginComponent
   },
   {
