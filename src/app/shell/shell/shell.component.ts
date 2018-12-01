@@ -3,6 +3,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class ShellComponent implements OnInit, OnDestroy {
   constructor(
     private _authService: AuthenticationService,
     private messageService: MessageService,
-    private notificationToasts: DataSharingService) { }
+    private notificationToasts: DataSharingService,
+    private router: Router) { }
 
   ngOnInit() {
     this.subscribeToNotifications();
@@ -46,6 +48,10 @@ export class ShellComponent implements OnInit, OnDestroy {
   subscribeToNotifications() {
     this.subscription = this.notificationToasts.showToasts
       .subscribe(notification => this.messageService.add(notification));
+  }
+
+  homeButtonClicked() {
+    this.router.navigate([this._authService.defaultRoute()]);
   }
 
   ngOnDestroy(): void {
