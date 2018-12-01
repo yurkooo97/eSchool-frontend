@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { StudentBookService } from 'src/app/services/student-book-services/student-book.service';
 import { MenuItem } from 'primeng/api';
 import { SelectItem } from 'primeng/api';
-import { faListUl } from '@fortawesome/free-solid-svg-icons';
-import { faThLarge } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPrint } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faPrint);
 
 @Component({
   selector: 'app-student-book',
@@ -27,10 +29,6 @@ export class StudentBookComponent implements OnInit {
 
   view = false;
 
-  faListUl = faListUl;
-
-  faThLarge = faThLarge;
-
   selectedType = 'week';
 
   private clonedWeekSchedule: any;
@@ -48,10 +46,9 @@ export class StudentBookComponent implements OnInit {
     });
 
     this.cols = [
-      { field: 'lessonNumber', header: '№' },
-      { field: 'subjectName', header: 'Предмет' },
-      { field: 'homeWork', header: 'Домашня робота' },
-      { field: 'mark', header: 'Оцінка' }
+      { field: 'lessonNumber', header: '№', class: 'lesson-number' },
+      { field: 'subjectName', header: 'Предмет', class: 'lesson-name' },
+      { field: 'homeWork', header: 'Домашня робота', class: 'lesson-description' }
     ];
 
     this.scheduleOptions = [
@@ -91,10 +88,13 @@ export class StudentBookComponent implements OnInit {
   changeScheduleView(): void {
     if (this.viewType === 'list' && !this.view) {
       this.view = true;
-      this.cols.push({ field: 'Note', header: 'Примітка' });
+      this.cols.push(
+        { field: 'mark', header: 'Оцінка', class: 'lesson-mark' },
+        { field: 'Note', header: 'Примітка' }
+      );
     } else if (this.viewType === 'group' && this.view) {
       this.view = false;
-      this.cols.pop();
+      this.cols.length = this.cols.length - 2;
     }
   }
 
@@ -136,4 +136,7 @@ export class StudentBookComponent implements OnInit {
     }
   }
 
+  printSchedule(): void {
+    window.print();
+  }
 }

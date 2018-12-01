@@ -1,5 +1,5 @@
 <div class="p-grid weekSchedule">
-  <div class="p-col-12 p-grid p-align-center">
+  <div class="p-col-12 p-grid p-align-center schedule-navigation">
     <div class="p-col-3">
       <p-selectButton
         [options]="scheduleOptions"
@@ -33,25 +33,27 @@
         [options]="viewOptions"
         [(ngModel)]="viewType"
         [disabled]="selectedType === 'day' ? true : false" 
-        (click)='changeScheduleView()'></p-selectButton>
+        (click)='changeScheduleView()'>
+      </p-selectButton>
+      <i class="fa fa-print student-print-icon" (click)="printSchedule()" *ngIf="viewType=='group'"></i>
     </div>
   </div>
   <div class="p-col-12 p-grid" *ngIf="!notFound">
     <div
         *ngFor="let daysOfWeek of weekSchedule"
-        [ngClass]="view ? 'p-col-12' : 'p-col-6'"
+        
+        [ngClass]="{'p-col-12': view, 'p-col-6': !view, 'ordering': !view}"
       >
         <p-table
           [columns]="cols"
           [value]="daysOfWeek.daySchedule"
-          [autoLayout]="true"
         >
           <ng-template pTemplate="caption">
             {{ daysOfWeek.dayOfWeek }}
           </ng-template>
           <ng-template pTemplate="header" let-columns>
             <tr>
-              <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+              <th *ngFor="let col of columns" [pSortableColumn]="col.field" [class]="col.class">
                 {{ col.header }}
               </th>
             </tr>
@@ -61,7 +63,7 @@
               <td
                 *ngFor="let col of columns"
                 [ngClass]="
-                  col.field === 'homeWork' && rowData[col.field]
+                  col.field === 'homeWork' && rowData[col.field]  
                     ? 'student-ellipsis-table-cell'
                     : null
                 "
@@ -79,6 +81,6 @@
       </div>
     </div>
     <div class="not-found p-col-12" *ngIf="notFound">
-      <div>{{notFound}}</div>
+      <p>{{notFound}}</p>
     </div>
   </div>  
