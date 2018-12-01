@@ -30,7 +30,7 @@
       </td>
       <td *ngFor="let col of cols">
         {{student[col.field]}}
-        <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'login'" (click)="editStudent(student)" class="ui-button-raised edit-student-btn"></button>
+        <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'dateOfBirth'" (click)="editStudent(student)" class="ui-button-raised edit-student-btn"></button>
       </td>
     </tr>
   </ng-template>

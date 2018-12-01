@@ -1,14 +1,26 @@
 body {
-	margin:0;
-	padding: 0;
-} 
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-family: "Open Sans", "Helvetica Neue", sans-serif;
+}
+
 @media print {
-  button, .sidenav, .ui-toolbar, .ui-table-summary, fieldset {
+
+  button,
+  .sidenav,
+  .ui-toolbar,
+  .ui-table-summary,
+  fieldset {
     display: none !important;
   }
+
   .ui-table {
     transform: scale(1, 1.1);
   }
+
   @page {
     margin-left: -115px;
   }
