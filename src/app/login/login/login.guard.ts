@@ -10,13 +10,12 @@ export class LoginGuard implements CanLoad, CanActivate {
     private router: Router) { }
 
   canLoad(): boolean {
-    if (this._authService.loggedIn()) {
-      this.router.navigate([this._authService.defaultRoute()]);
-      return true;
-    }
-    return true;
+    return this.isActivated();
   }
   canActivate(): boolean {
+    return this.isActivated();
+  }
+  isActivated(): boolean {
     if (this._authService.loggedIn()) {
       this.router.navigate([this._authService.defaultRoute()]);
       return true;
