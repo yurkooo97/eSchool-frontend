@@ -1,10 +1,10 @@
 <div class="p-grid">
-  <div class="p-col-2">
+  <div class="p-col-2 leftnav">
     <div class="sidenav">
-      <p-menu  [model]="items" [style]="{'border':'none', 'width':'100%'}" ></p-menu>
+      <p-menu  [model]="items"></p-menu>
     </div>
   </div>
-  <div class="p-col-10">
+  <div class="p-col-10 content">
     <router-outlet></router-outlet>
   </div> 
 </div>

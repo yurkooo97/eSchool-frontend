@@ -20,3 +20,20 @@
     margin-right: 0em;  
 }
 
+::ng-deep .sidenav .ui-menu{
+    border:none;
+    width:100%;
+}
+
+@media print {
+    .leftnav{
+        display: none;
+    }
+    .ui-table {
+      transform: scale(1, 1.1);
+      width: 100%;
+    }
+    .content {
+        margin-left: 8%;
+    }
+  }

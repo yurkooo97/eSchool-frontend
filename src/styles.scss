@@ -6,10 +6,4 @@ body {
   button, .sidenav, .ui-toolbar, .ui-table-summary, fieldset {
     display: none !important;
   }
-  .ui-table {
-    transform: scale(1, 1.1);
-  }
-  @page {
-    margin-left: -115px;
-  }
 }
