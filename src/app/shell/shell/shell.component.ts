@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { MenuItem, MessageService } from 'primeng/api';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-shell',
@@ -50,11 +50,11 @@ export class ShellComponent implements OnInit, OnDestroy {
       .subscribe(notification => this.messageService.add(notification));
   }
 
-  homeButtonClicked() {
-    this.router.navigate([this._authService.defaultRoute()]);
-  }
-
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  homeButtonClicked() {
+    this.router.navigate([this._authService.defaultRoute()]);
   }
 }

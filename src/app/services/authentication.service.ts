@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +13,10 @@ export class AuthenticationService {
   private tokenRefreshMinPeriod: number;
   private tokenRefreshTimestamp: number;
 
-  constructor(private httpClient: HttpClient,
-    private router: Router) {
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router
+    ) {
     this.tokenRefreshMinPeriod = 1000 * 60 * 5;
   }
 

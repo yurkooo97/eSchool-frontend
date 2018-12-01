@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { isString, isNumber } from 'util';
 import { Group } from '../../../models/group.model';
 import { AdmingroupsService } from 'src/app/services/admingroups.service';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
   selector: 'app-groups',
@@ -43,12 +44,17 @@ export class GroupsComponent implements OnInit {
         }
         if (isActiveChanged || newGroup) {
           this.filterGroups();
+          this.notificationToasts.notify('success', 'Успішно виконано', 'Зміни збережено');
         }
         this.showEditDialog = false;
+      }, error => {
+        this.notificationToasts.notify('error', 'Відхилено', 'Доданий клас уже існує');
       });
   }
 
-  constructor(private groupService: AdmingroupsService) {
+  constructor(
+    private groupService: AdmingroupsService,
+    private notificationToasts: DataSharingService) {
     this.editGroup = new Group();
   }
 
