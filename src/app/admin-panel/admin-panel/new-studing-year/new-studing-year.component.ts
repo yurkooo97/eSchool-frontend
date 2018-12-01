@@ -13,13 +13,10 @@ export class NewStudingYearComponent implements OnInit {
   groupList: Group[];
   newGroupList: Group[];
   activeGroups: Group[];
-  activeGroupsWithoutYear: Group[];
   newActiveGroups: Group[];
   cols: Array<object>;
-  buttonAddDisabled: boolean = false;
-  hideTag: boolean = false;
-  currentYear: number;
-  nextYear: number;
+  buttonAddDisabled = false;
+  hideTag = false;
   classIdArray: Array<ClassId> = [];
   allGroupsList: Array<Transition> = [];
   groupDigitsArrayStart: Array<string> = [];
@@ -41,7 +38,6 @@ export class NewStudingYearComponent implements OnInit {
   }
   filterGroups() {
     this.activeGroups = this.groupList.filter(g => g.isActive);
-    this.currentYear = this.activeGroups[0].classYear;
     this.activeGroups.forEach( item => {
       this.allGroupsList.push({
         oldClassId: item.id,
@@ -58,11 +54,10 @@ export class NewStudingYearComponent implements OnInit {
       this.groupDigitsArrayStart.push(item.className);
       this.groupDigitsArrayMidle.push(this.groupDigitsArrayStart[i].split('-'));
       this.groupDigitsArrayEnd.push(this.groupDigitsArrayMidle[i][0]);
-      this.groupDigitsArray.push(parseInt(this.groupDigitsArrayEnd[i]));
+      this.groupDigitsArray.push(parseInt(this.groupDigitsArrayEnd[i], 10));
     });
   }
   addNewGroups() {
-    this.nextYear = this.currentYear + 1;
     this.httpService.postNewGroups().subscribe(data => {
       this.newGroupList = data;
       this.filterNewGroups();
@@ -73,16 +68,7 @@ export class NewStudingYearComponent implements OnInit {
     });
   }
   filterNewGroups() {
-    this.activeGroupsWithoutYear = this.newGroupList.filter(gr => gr.isActive);
-    this.newActiveGroups = this.activeGroupsWithoutYear.filter(
-      y => y.classYear > this.nextYear - 1
-    );
-    this.newActiveGroups.forEach(
-      (item, i) => {
-        this.allGroupsList[i].newClassName = item.className;
-        this.allGroupsList[i].newClassYear = this.nextYear;
-      }
-    );
+    this.newActiveGroups = this.newGroupList.filter(gr => gr.isActive);
     let counter = 0;
     this.allGroupsList.forEach((item, i) => {
       if (this.groupDigitsArray[i] > 10) {
