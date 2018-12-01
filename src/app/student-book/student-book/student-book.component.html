@@ -35,7 +35,7 @@
         [disabled]="selectedType === 'day' ? true : false" 
         (click)='changeScheduleView()'>
       </p-selectButton>
-      <i class="fa fa-print student-print-icon" (click)="printSchedule()" *ngIf="viewType=='group'"></i>
+      <i class="fa fa-print student-print-icon" (click)="printSchedule()" *ngIf="viewType==='group'"></i>
     </div>
   </div>
   <div class="p-col-12 p-grid" *ngIf="!notFound">
@@ -63,7 +63,7 @@
               <td
                 *ngFor="let col of columns"
                 [ngClass]="
-                  col.field === 'homeWork' && rowData[col.field]  
+                col.field === 'homeWork' && rowData[col.field] && rowData[col.field].length > 35 
                     ? 'student-ellipsis-table-cell'
                     : null
                 "

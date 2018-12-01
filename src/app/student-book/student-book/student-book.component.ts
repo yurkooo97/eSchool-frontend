@@ -139,4 +139,5 @@ export class StudentBookComponent implements OnInit {
   printSchedule(): void {
     window.print();
   }
+
 }
