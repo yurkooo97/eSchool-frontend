@@ -16,6 +16,7 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
+      <th class="info-col"></th>
       <th *ngFor="let col of cols" [pSortableColumn]="col.field">
         {{col.header}}
         <p-sortIcon [field]="col.field"></p-sortIcon>
@@ -24,9 +25,12 @@
   </ng-template>
   <ng-template pTemplate="body" let-student>
     <tr class="studentRow">
+      <td>
+        <button type="button" pButton icon="pi pi-info" class="ui-button-raised ui-button-secondary student-info-btn" (click)="studentInfo($event, student, oPanel)"></button>
+      </td>
       <td *ngFor="let col of cols">
         {{student[col.field]}}
-        <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'login'" (click)="editStudent(student)" class="ui-button-raised edit-student-btn"></button>
+        <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'dateOfBirth'" (click)="editStudent(student)" class="ui-button-raised edit-student-btn"></button>
       </td>
     </tr>
   </ng-template>
@@ -37,7 +41,24 @@
   </ng-template>
 </p-table>
 
-<p-dialog header="Інформація Про Учня" [(visible)]="displayForm" [modal]="true" [responsive]="true" [width]="700" [minWidth]="200" [minY]="70" [maximizable]="false" [baseZIndex]="10000">
+<p-overlayPanel #oPanel>
+  <p-card header="Учень {{selectedClassName}}" subheader="{{selectedStudent.lastname}} {{selectedStudent.firstname}} {{selectedStudent.patronymic}}">
+    <p-header>
+      <img src="assets/avatar.png" class="student-avatar">
+    </p-header>
+    <div class="student-full-info">
+      <p><span class="student-data-record">Дата народження:</span> {{selectedStudent.dateOfBirth}}</p>
+      <p><span class="student-data-record">Номер телефону:</span> {{selectedStudent.phone}}</p>
+      <p><span class="student-data-record">Email:</span> {{selectedStudent.email}}</p>
+      <p><span class="student-data-record">Логін:</span> {{selectedStudent.login}}</p>
+    </div>
+    <p-footer>
+      <button type="button" pButton icon="pi pi-times" (click)="oPanel.hide()" class="ui-button-raised close-student-info" label="Закрити"></button>
+    </p-footer>
+  </p-card>
+</p-overlayPanel>
+
+<p-dialog header="Інформація Про Учня" [(visible)]="displayForm" [modal]="true" [responsive]="true" [width]="700" [height]="600" [minWidth]="200" [minY]="70" [maximizable]="false" [baseZIndex]="10000">
   <form class="studentsForm" #studentsForm="ngForm">
     <p-fieldset legend="Обов'язкові поля" class="mainInfo">
       <span class="ui-float-label">
@@ -62,18 +83,18 @@
       </span>
       <br>
       <span class="ui-float-label">
-        <input id="float-input-login" type="text" pInputText [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login" [(ngModel)]="newStudent.login" minlength="5" maxlength="20" required>
-        <label for="float-input-login">Логін *</label>
-      </span>
-      <span [class.hiddenBox]="login.valid || login.untouched" class="messageOfMistake">Введіть коректний логін (не менше 5 символів)</span>
-      <span class="dateLabel">Дата народження *</span>
-      <span class="ui-float-label">
-        <input id="float-input-date" type="date" pInputText [class.wrongData]="dateOfBirth.invalid && dateOfBirth.touched" #dateOfBirth="ngModel" name="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" required>
+        <p-calendar id="float-input-date"  [class.wrongData]="dateOfBirth.invalid && dateOfBirth.touched" #dateOfBirth="ngModel" name="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" required
+        dateFormat="yy-mm-dd" [yearNavigator]="true" [monthNavigator]="true" yearRange="1940:2017" [readonlyInput]="true" [locale]="ua" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"></p-calendar>
+        <label for="float-input-date">Дата народження *</label>
       </span>
       <span [class.hiddenBox]="dateOfBirth.valid || dateOfBirth.untouched" class="messageOfMistake">Некоректна дата народження</span>
       <br>
     </p-fieldset>
     <p-fieldset legend="Додаткова інформація" [toggleable]="true" [collapsed]="true" class="secondaryInfo">
+        <span class="ui-float-label">
+            <input id="float-input-login" type="text" pInputText [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login" [(ngModel)]="newStudent.login" minlength="5" maxlength="20">
+            <label for="float-input-login">Логін</label>
+          </span>
       <br>
       <span class="ui-float-label">
         <input id="float-input-phone" type="tel" pInputText name="phone" [(ngModel)]="newStudent.phone">
@@ -82,7 +103,7 @@
       <br>
       <span class="ui-float-label">
         <input id="float-input-email" type="email" pInputText name="email" [(ngModel)]="newStudent.email">
-        <label for="float-input-email">Email</label>
+        <label for="float-input-email">Електронна адреса</label>
       </span>
       <br>
       <input id="float-input-avatar" name="avatar" pInputText [(ngModel)]="newStudent.avatar"  type="file" #Image accept="image/*" (change)="handlerFileInput($event.target.files)"/>

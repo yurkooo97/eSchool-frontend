@@ -1,23 +1,25 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Route, Router } from '@angular/router';
+import { CanLoad, CanActivate, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 
+
 @Injectable()
-export class LoginGuard implements CanLoad {
+export class LoginGuard implements CanLoad, CanActivate {
 
   constructor(private _authService: AuthenticationService,
     private router: Router) { }
 
-  canLoad(route: Route): boolean {
+  canLoad(): boolean {
+    return this.isActivated();
+  }
+  canActivate(): boolean {
+    return this.isActivated();
+  }
+  isActivated(): boolean {
     if (this._authService.loggedIn()) {
-      // TODO: get role from user service
-      this.router.navigate(['/shell/admin-panel/']);
+      this.router.navigate([this._authService.defaultRoute()]);
       return true;
     }
     return true;
   }
 }
-
-
-
-
