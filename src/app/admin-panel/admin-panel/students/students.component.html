@@ -108,8 +108,11 @@
         <span class="ui-inputgroup-addon"><i class="fas fa-envelope"></i></span>
       </div>
       <br>
-      <input id="float-input-avatar" name="avatar" pInputText [(ngModel)]="newStudent.avatar"  type="file" #Image accept="image/*" (change)="handlerFileInput($event.target.files)"/>
-      <img [src]="imageUrl"  alt="Photo" style="width:120px; height:120px">
+      <div class="ui-inputgroup">
+        <input id="float-input-avatar" name="avatar" pInputText [(ngModel)]="newStudent.avatar"  type="file" #Image accept="image/*" (change)="handlerFileInput($event.target.files)"/>
+        <span class="ui-inputgroup-addon"><i class="fas fa-upload"></i></span>
+      </div>
+      <img [src]="imageUrl" alt="Photo" class="avatar-url">
     </p-fieldset>
     <br>
   </form>
