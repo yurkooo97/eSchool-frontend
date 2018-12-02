@@ -3,13 +3,17 @@
   <ng-template pTemplate="header">
     <tr>
       <th>Класи поточного року</th>
+      <th>Перевести класи з даного переліку</th>
       <th>Класи нового навчального року</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr *ngFor="let col of columns">
       <td>{{rowData[col.field]}} клас, {{rowData[col.field2]}} рік</td>
-      <td><span *ngIf="hideTag">{{rowData[col.field3]}} клас у {{rowData[col.field4]}} році</span></td>
+      <td>               
+        <p-checkbox [(ngModel)]="rowData[col.field5]" binary="true" ></p-checkbox>              
+      </td>
+      <td><span *ngIf="hideTag">{{rowData[col.field3]}} клас у {{rowData[col.field4]}} році</span></td>      
     </tr>
   </ng-template>
   <ng-template pTemplate="summary">
