@@ -41,21 +41,22 @@
   </ng-template>
 </p-table>
 
-<p-overlayPanel #oPanel>
-  <p-card header="Учень {{selectedClassName}}" subheader="{{selectedStudent.lastname}} {{selectedStudent.firstname}} {{selectedStudent.patronymic}}">
-    <p-header>
+<p-overlayPanel [showCloseIcon]="true" #oPanel>
+  <div class="student-data-container">
+    <div class="student-img">
       <img src="assets/avatar.png" class="student-avatar">
-    </p-header>
-    <div class="student-full-info">
-      <p><span class="student-data-record">Дата народження:</span> {{selectedStudent.dateOfBirth}}</p>
-      <p><span class="student-data-record">Номер телефону:</span> {{selectedStudent.phone}}</p>
-      <p><span class="student-data-record">Email:</span> {{selectedStudent.email}}</p>
-      <p><span class="student-data-record">Логін:</span> {{selectedStudent.login}}</p>
     </div>
-    <p-footer>
-      <button type="button" pButton icon="pi pi-times" (click)="oPanel.hide()" class="ui-button-raised close-student-info" label="Закрити"></button>
-    </p-footer>
-  </p-card>
+    <div class="student-data">
+      <span class="student-class-title">Учень {{selectedClassName}}</span><br>
+      <span class="student-name">{{selectedStudent.firstname}} {{selectedStudent.patronymic}}<br>{{selectedStudent.lastname}}</span>
+      <div class="student-full-info">
+        <p><span class="student-data-record">Дата народження:</span> {{selectedStudent.dateOfBirth}}</p>
+        <p><span class="student-data-record">Номер телефону:</span> {{selectedStudent.phone}}</p>
+        <p><span class="student-data-record">Email:</span> {{selectedStudent.email}}</p>
+        <p><span class="student-data-record">Логін:</span> {{selectedStudent.login}}</p>
+      </div>
+    </div>
+  </div>
 </p-overlayPanel>
 
 <p-dialog header="Інформація Про Учня" [(visible)]="displayForm" [modal]="true" [responsive]="true" [width]="700" [height]="600" [minWidth]="200" [minY]="70" [maximizable]="false" [baseZIndex]="10000">
