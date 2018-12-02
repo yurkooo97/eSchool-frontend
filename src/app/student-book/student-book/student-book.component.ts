@@ -4,6 +4,7 @@ import { MenuItem } from 'primeng/api';
 import { SelectItem } from 'primeng/api';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPrint } from '@fortawesome/free-solid-svg-icons';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 library.add(faPrint);
 
@@ -23,8 +24,6 @@ export class StudentBookComponent implements OnInit {
 
   cols;
 
-  notFound: string;
-
   scheduleOptions: SelectItem[];
 
   view = false;
@@ -37,7 +36,7 @@ export class StudentBookComponent implements OnInit {
 
   viewType = 'group';
 
-  constructor(private studentBookService: StudentBookService) { }
+  constructor(private studentBookService: StudentBookService, private notificationToasts: DataSharingService) { }
 
   ngOnInit() {
     this.studentBookService.getDiariesList().subscribe(data => {
@@ -67,17 +66,17 @@ export class StudentBookComponent implements OnInit {
     let currDay = day.getDate();
     if (week) {
       this.offset += 7;
-      currDay += this.offset;
-    } else {
+    } else  {
       this.offset -= 7;
-      currDay += this.offset;
     }
+    currDay += this.offset;
     const changedWeek = new Date(day.setDate(currDay));
     this.studentBookService.getDiariesList(changedWeek).subscribe(data => {
+      console.log(data);
       if (typeof data === 'string') {
-        this.notFound = data;
+        this.offset = week ? this.offset - 7 : this.offset + 7;
+        this.notificationToasts.notify('error', 'Помилка', 'Наразі немає даних про розклад на наступний тиждень ');
       } else {
-        this.notFound = '';
         [this.weekSchedule] = data;
         this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate}`;
         this.clonedWeekSchedule = [...this.weekSchedule];
