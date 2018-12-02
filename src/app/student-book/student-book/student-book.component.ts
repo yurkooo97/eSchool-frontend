@@ -72,7 +72,6 @@ export class StudentBookComponent implements OnInit {
     currDay += this.offset;
     const changedWeek = new Date(day.setDate(currDay));
     this.studentBookService.getDiariesList(changedWeek).subscribe(data => {
-      console.log(data);
       if (typeof data === 'string') {
         this.offset = week ? this.offset - 7 : this.offset + 7;
         this.notificationToasts.notify('error', 'Помилка', 'Наразі немає даних про розклад на наступний тиждень ');
