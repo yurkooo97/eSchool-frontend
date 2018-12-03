@@ -22,9 +22,9 @@
   position: relative;
 }
 
-.students-table-row{
+.students-table-row {
   height: 48px;
-  td{
+  td {
     text-align: center;
   }
 }
@@ -58,69 +58,68 @@
   }
 }
 
-.lesson-number{
+.lesson-number {
   width: 10%;
   text-align: center !important;
 }
 
-.lesson-name{
+.lesson-name {
   width: auto;
 }
 
-
-.lesson-description{
+.lesson-description {
   width: auto;
 }
 
-.lesson-mark{
+.lesson-mark {
   width: 10%;
 }
 
-.student-print-icon{
+.student-print-icon {
   font-size: 26px;
   position: relative;
   top: 4px;
   left: 6%;
-  &:hover{
+  &:hover {
     cursor: pointer;
   }
 }
 
-.ordering:nth-of-type(1){
+.ordering:nth-of-type(1) {
   order: 1;
 }
 
-.ordering:nth-of-type(2){
+.ordering:nth-of-type(2) {
   order: 3;
 }
 
-.ordering:nth-of-type(3){
+.ordering:nth-of-type(3) {
   order: 5;
 }
 
-.ordering:nth-of-type(4){
+.ordering:nth-of-type(4) {
   order: 2;
 }
 
-.ordering:nth-of-type(5){
+.ordering:nth-of-type(5) {
   order: 4;
 }
 
-.ordering:nth-of-type(6){
+.ordering:nth-of-type(6) {
   order: 6;
 }
 
-@media print{
-  .schedule-navigation{
+@media print {
+  .schedule-navigation {
     display: none;
   }
-  .students-table-row{
+  .students-table-row {
     height: 28px;
-    td{
+    td {
       text-align: unset;
-   }
+    }
   }
-  .tables{
-    margin-top:-80px;
+  .tables {
+    margin-top: -80px;
   }
-}  
+}

@@ -36,18 +36,27 @@ export class StudentBookComponent implements OnInit {
 
   viewType = 'group';
 
-  constructor(private studentBookService: StudentBookService, private notificationToasts: DataSharingService) { }
+  constructor(
+    private studentBookService: StudentBookService,
+    private notificationToasts: DataSharingService
+  ) {}
 
   ngOnInit() {
     this.studentBookService.getDiariesList().subscribe(data => {
       [this.weekSchedule] = data;
-      this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate}`;
+      this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${
+        this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate
+      }`;
     });
 
     this.cols = [
       { field: 'lessonNumber', header: '№', class: 'lesson-number' },
       { field: 'subjectName', header: 'Предмет', class: 'lesson-name' },
-      { field: 'homeWork', header: 'Домашня робота', class: 'lesson-description' }
+      {
+        field: 'homeWork',
+        header: 'Домашня робота',
+        class: 'lesson-description'
+      }
     ];
 
     this.scheduleOptions = [
@@ -66,7 +75,7 @@ export class StudentBookComponent implements OnInit {
     let currDay = day.getDate();
     if (week) {
       this.offset += 7;
-    } else  {
+    } else {
       this.offset -= 7;
     }
     currDay += this.offset;
@@ -74,10 +83,16 @@ export class StudentBookComponent implements OnInit {
     this.studentBookService.getDiariesList(changedWeek).subscribe(data => {
       if (typeof data === 'string') {
         this.offset = week ? this.offset - 7 : this.offset + 7;
-        this.notificationToasts.notify('error', 'Помилка', 'Наразі немає даних про розклад на наступний тиждень ');
+        this.notificationToasts.notify(
+          'error',
+          'Помилка',
+          'Наразі немає даних про розклад на наступний тиждень '
+        );
       } else {
         [this.weekSchedule] = data;
-        this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate}`;
+        this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${
+          this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate
+        }`;
         this.clonedWeekSchedule = [...this.weekSchedule];
       }
     });
@@ -109,7 +124,9 @@ export class StudentBookComponent implements OnInit {
       this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate}`;
     } else {
       this.weekSchedule = this.clonedWeekSchedule || this.weekSchedule;
-      this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate}`;
+      this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${
+        this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate
+      }`;
       this.viewType = 'group';
       this.changeScheduleView();
     }
@@ -137,5 +154,4 @@ export class StudentBookComponent implements OnInit {
   printSchedule(): void {
     window.print();
   }
-
 }
