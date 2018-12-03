@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Schedule } from '../models/class-schedule';
+import { Group } from '../models/group.model';
+import { Subject } from '../models/subjects.model';
 
 @Injectable()
 export class ClassScheduleService {
@@ -9,31 +11,41 @@ export class ClassScheduleService {
 
   constructor(private http: HttpClient) {}
 
-  public getClasses(): Observable<Schedule[]> {
+  public getClasses(): Observable<Group[]> {
+    return this.http.get<Group[]>('classes').map((response: any) => {
+      response.data.forEach(item => {
+        item.label = item.className;
+        item.value = item.id;
+      });
+      return response.data;
+    });
+  }
+
+  public getScheduleSubjects(): Observable<Subject[]> {
+    return this.http.get<Subject[]>('subjects').map((response: any) => {
+      response.data.forEach(item => {
+        item.label = item.subjectName;
+        item.value = item.subjectId;
+      });
+      return response.data;
+    });
+  }
+
+  public getSchedule(classId): Observable<Schedule[]> {
     return this.http
-      .get<Schedule[]>('classes')
+      .get<Schedule[]>('classes/' + classId + '/schedule')
       .map((response: any) => {
-        response.data.forEach(item => {
-          item.label = item.className;
-          item.value = item.id;
-        });
+        console.log(response.data.className);
         return response.data;
       });
   }
 
-  public getScheduleSubjects(): Observable<Schedule[]> {
+  /*public postSchedule(): Observable<Schedule[]> {
     return this.http
-      .get<Schedule[]>('subjects')
+      .post<Schedule[]>('classes/' + classId + '/schedule')
       .map((response: any) => {
-        response.data.forEach(item => {
-          item.label = item.subjectName;
-          item.value = item.subjectId;
-        });
+        console.log(response.data);
         return response.data;
       });
-  }
-
-  public saveClassSchedule(schedule: Schedule): Observable<Schedule[]> {
-    return this.http.post<Schedule[]>(this.url, schedule);
-  }
+  }*/
 }
