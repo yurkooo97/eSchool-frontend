@@ -44,42 +44,39 @@
     </ng-template>
   </p-table>
   <div>
-    <button
-        (click)="showDialog()"
-        type="button"
-        pButton
-        icon="pi pi-plus"
-        label="Додати клас"
-      ></button>
+    <button (click)="showDialog()" type="button" pButton icon="pi pi-plus" label="Додати клас"></button>
   </div>
 </div>
-<p-dialog header="Редагувати клас" [(visible)]="showEditDialog" [modal]="true" [responsive]="true" [width]="450"
-  [minWidth]="200" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
-  <h3>Назва класу</h3>
-  <input id="className" type="text" [class.is-invalid]="className.invalid && className.touched" required #className="ngModel"
-    size="30" pInputText [(ngModel)]="editGroup.className" minlength="1" maxlength="4" />
-  <span [class.d-none]="className.valid || className.untouched" class="requiredMessage">
-    Введіть назву класу
-  </span>
-  <label for="input"></label>
-  <label for="input">
-    <h3>Навчальний рік</h3>
-  </label>
-  <input id="classYear" type="text" [class.is-invalid]="classYear.invalid && classYear.touched" required #classYear="ngModel"
-    size="30" pInputText [(ngModel)]="editGroup.classYear" minlength="4" maxlength="4" />
-  <span [class.d-none]="classYear.valid || classYear.untouched" class="requiredMessage">
-    Введіть навчальний рік
-  </span>
-  <label for="input"></label>
-  <h3>Опис класу</h3>
-  <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="editGroup.classDescription"></textarea>
-  <div class="ui-g" style="width:250px;margin:10px 0 10px">
-    <p-radioButton name="isActivegroup" value="1" label="Активний" [(ngModel)]="editGroup.isActive"></p-radioButton>
-    <p-radioButton name="isActivegroup" value="0" label="Неактивний" [(ngModel)]="editGroup.isActive"></p-radioButton>
+<p-dialog header="Інформація про клас" [(visible)]="showEditDialog" showEffect="fade" [modal]="true" [responsive]="true"
+  [minWidth]="260">
+  <div class="p-grid p-dir-col p-justify-center">
+    <div class="p-col-12 requiredWrapper">
+      <span class="ui-float-label">
+        <input id="className" type="text" [class.is-invalid]="className.invalid && className.touched" required
+          #className="ngModel" pInputText [(ngModel)]="editGroup.className" minlength="1" maxlength="4" class="p-col-12" />
+        <label for="className">Назва класу *</label>
+      </span>
+      <span [class.d-none]="className.valid || className.untouched" class="requiredMessage">Введіть назву класу</span>
+    </div>
+    <div class="p-col-12 requiredWrapper">
+      <span class="ui-float-label">
+        <input id="classYear" type="text" [class.is-invalid]="classYear.invalid && classYear.touched" required
+          #classYear="ngModel" class="p-col-12" pInputText [(ngModel)]="editGroup.classYear" minlength="4" maxlength="4" />
+        <label for="classYear">Рік навчання *</label>
+      </span>
+      <span [class.d-none]="classYear.valid || classYear.untouched" class="requiredMessage">Введіть навчальний рік</span>
+    </div>
+    <div class="p-col-12 requiredWrapper">
+      <textarea id="classDescription" rows="5" cols="30" pInputTextarea [(ngModel)]="editGroup.classDescription"
+        placeholder="Додаткова інформація"></textarea>
+    </div>
+    <div class="p-col-12">
+      <p-radioButton name="isActivegroup" value="1" label="Активний" [(ngModel)]="editGroup.isActive"></p-radioButton>
+      <p-radioButton name="isActivegroup" value="0" label="Неактивний" [(ngModel)]="editGroup.isActive"></p-radioButton>
+    </div>
   </div>
   <p-footer>
-    <button type="button" pButton icon="pi pi-check" (click)="saveGroup()" [disabled]="(classYear.invalid && classYear.touched)||(className.invalid && className.touched)"
+    <button type="button" pButton icon="pi pi-check" (click)="saveGroup()" [disabled]="classYear.invalid && className.invalid"
       label="Зберегти"></button>
-    <button type="button" pButton icon="pi pi-close" (click)="showEditDialog=false" label="Відміна" class="ui-button-secondary"></button>
   </p-footer>
 </p-dialog>

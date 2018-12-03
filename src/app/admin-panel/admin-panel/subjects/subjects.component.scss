@@ -18,12 +18,23 @@
     }
     &:hover .subjects-custom-button{
         float: right;
-        display: inline-block;
+        display: block;
     }
 }
 .invalid-feedback{
-    padding-left: 35%;
+    // padding-left: 35%;
     color: red;
     font-size: 800;
 }
- 
+
+.requiredWrapper {
+    position: relative;
+    margin-top: 15px;
+}
+$required: red;
+
+.requiredMessage {
+    max-width: 250px;
+    color: $required;
+    font-size: 11px;
+}

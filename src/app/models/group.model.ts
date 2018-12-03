@@ -5,11 +5,11 @@ export class Group {
   classDescription: string;
   isActive: boolean;
 
-  constructor() {
+  constructor(defaultActive) {
     this.id = null;
     this.className = null;
     this.classYear = null;
     this.classDescription = null;
-    this.isActive = null;
+    this.isActive = defaultActive;
   }
 }

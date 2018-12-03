@@ -18,11 +18,12 @@ export class GroupsComponent implements OnInit {
   showEditDialog = false;
   editGroupOriginal: Group;
   editGroup: any;
+  defaultActive = '1';
 
 
   showDialog(rowData: Group) {
     if (!rowData) {
-      rowData = new Group();
+      rowData = new Group(this.defaultActive);
     }
     this.editGroupOriginal = rowData;
     this.editGroup = Object.assign({}, rowData);
@@ -55,7 +56,7 @@ export class GroupsComponent implements OnInit {
   constructor(
     private groupService: AdmingroupsService,
     private notificationToasts: DataSharingService) {
-    this.editGroup = new Group();
+    this.editGroup = new Group(this.defaultActive);
   }
 
   ngOnInit() {
