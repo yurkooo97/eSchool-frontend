@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { LoginGuard } from './login/login/login.guard';
 import { AdminGuard } from './admin-panel/admin.guard';
 import { RefreshTokenInterceptorService } from './services/refresh-token-interceptor.service';
+import { ShellGuard } from './shell/shell.guard';
 
 
 
@@ -27,7 +28,7 @@ import { RefreshTokenInterceptorService } from './services/refresh-token-interce
   ],
   providers: [AdmingroupsService,
     AdminSubjectsService, LoginGuard, ClassScheduleService,
-    AdminGuard,
+    AdminGuard, ShellGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RefreshTokenInterceptorService,

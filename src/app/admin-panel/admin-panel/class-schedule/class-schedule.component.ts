@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ClassScheduleService } from 'src/app/services/class-schedule.service';
 import { Schedule } from 'src/app/models/class-schedule';
+<<<<<<< HEAD
 import { Group } from 'src/app/models/group.model';
 import { Subject } from 'src/app/models/subjects.model';
+=======
+import { TeachersService } from 'src/app/services/teachers.service';
+>>>>>>> bdde551ed3674866ea3b1427a6ece3ebb0434d1f
 
 @Component({
   selector: 'app-class-schedule',
@@ -38,6 +42,7 @@ export class ClassScheduleComponent implements OnInit {
     saturdaySubjects: [1]
   };
 
+<<<<<<< HEAD
   constructor(private schedule: ClassScheduleService) {
     this.defaultDate = new Date();
     this.minDateValue = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
@@ -45,6 +50,10 @@ export class ClassScheduleComponent implements OnInit {
       new Date().getTime() + 12 * 31 * 24 * 60 * 60 * 1000
     );
   }
+=======
+  constructor(private schedule: ClassScheduleService,
+    private _teacherServices: TeachersService) {}
+>>>>>>> bdde551ed3674866ea3b1427a6ece3ebb0434d1f
 
   ngOnInit() {
     this.getClasses();
@@ -104,6 +113,7 @@ export class ClassScheduleComponent implements OnInit {
 
   // TODO: move to global scope for reusing
   calendar(): void {
+<<<<<<< HEAD
     this.ua = {
       firstDayOfWeek: 1,
       dayNames: [
@@ -148,5 +158,8 @@ export class ClassScheduleComponent implements OnInit {
       today: 'Сьогодні',
       clear: 'Clear'
     };
+=======
+    this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
+>>>>>>> bdde551ed3674866ea3b1427a6ece3ebb0434d1f
   }
 }

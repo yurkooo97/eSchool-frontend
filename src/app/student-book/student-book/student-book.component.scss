@@ -1,0 +1,125 @@
+.weekSchedule {
+  margin-top: 70px;
+  margin-left: 1%;
+}
+.central {
+  text-align: center;
+  position: relative;
+  .prev {
+    position: absolute;
+    top: -8%;
+    left: 82px;
+  }
+  .next {
+    position: absolute;
+    top: -8%;
+    right: 82px;
+  }
+}
+
+.right {
+  padding-left: 13%;
+  position: relative;
+}
+
+.students-table-row {
+  height: 48px;
+  td {
+    text-align: center;
+  }
+}
+.student-ellipsis-table-cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.student-ellipsis-table-cell:focus,
+.student-ellipsis-table-cell:hover {
+  color: transparent;
+  &:after {
+    content: attr(data-homework);
+    overflow: visible;
+    text-overflow: inherit;
+    background: #fff;
+    position: absolute;
+    left: auto;
+    top: auto;
+    width: auto;
+    max-width: 20rem;
+    border: 1px solid #eaebec;
+    padding: 0 0.5rem;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.28);
+    white-space: normal;
+    word-wrap: break-word;
+    display: block;
+    color: black;
+    margin-top: -1.25rem;
+  }
+}
+
+.lesson-number {
+  width: 10%;
+  text-align: center !important;
+}
+
+.lesson-name {
+  width: auto;
+}
+
+.lesson-description {
+  width: auto;
+}
+
+.lesson-mark {
+  width: 10%;
+}
+
+.student-print-icon {
+  font-size: 26px;
+  position: relative;
+  top: 4px;
+  left: 6%;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.ordering:nth-of-type(1) {
+  order: 1;
+}
+
+.ordering:nth-of-type(2) {
+  order: 3;
+}
+
+.ordering:nth-of-type(3) {
+  order: 5;
+}
+
+.ordering:nth-of-type(4) {
+  order: 2;
+}
+
+.ordering:nth-of-type(5) {
+  order: 4;
+}
+
+.ordering:nth-of-type(6) {
+  order: 6;
+}
+
+@media print {
+  .schedule-navigation {
+    display: none;
+  }
+  .students-table-row {
+    height: 28px;
+    td {
+      text-align: unset;
+    }
+  }
+  .tables {
+    margin-top: -80px;
+  }
+}

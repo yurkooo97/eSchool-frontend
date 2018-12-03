@@ -1,22 +1,39 @@
 .sidenav {
-    height: auto;
-    width: 16%;
-    position: fixed;
-    top: 70px;
-    left: 0;
-    background-color: white;
-    overflow-x: hidden; 
-    border: 1px solid rgb(235,235,235);
-    border-radius: 8px;
+  height: auto;
+  width: 16%;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  background-color: white;
+  overflow-x: hidden;
+  border: 1px solid rgb(235, 235, 235);
+  border-radius: 8px;
 }
-::ng-deep .ui-state-active{
-    background-color: #f0efef;
+::ng-deep .ui-state-active {
+  background-color: #f0efef;
 }
-.p-col-10{
-    padding: 0;
-    margin-top: 78px;
+.p-col-10 {
+  padding: 0;
+  margin-top: 78px;
 }
-.p-grid{
-    margin-right: 0em;  
+.p-grid {
+  margin-right: 0em;
 }
 
+::ng-deep .sidenav .ui-menu {
+  border: none;
+  width: 100%;
+}
+
+@media print {
+  .leftnav {
+    display: none;
+  }
+  .ui-table {
+    transform: scale(1, 1.1);
+    width: 100%;
+  }
+  .content {
+    margin-left: 8%;
+  }
+}
