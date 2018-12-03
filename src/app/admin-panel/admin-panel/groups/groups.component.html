@@ -11,7 +11,6 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
-      <!-- <tr style="cursor:pointer" (click)="showDialog(rowData)"> -->
       <tr class="class-table-row">
         <td *ngFor="let col of cols">
           {{rowData[col.field]}}
