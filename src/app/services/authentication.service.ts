@@ -16,7 +16,7 @@ export class AuthenticationService {
   constructor(
     private httpClient: HttpClient,
     private router: Router
-    ) {
+  ) {
     this.tokenRefreshMinPeriod = 1000 * 60 * 5;
   }
 
@@ -70,7 +70,7 @@ export class AuthenticationService {
         route = '/shell/journal';
         break;
       case 'ROLE_USER':
-        route = '/shell/';
+        route = '/shell/student-book';
         break;
     }
     return route;
