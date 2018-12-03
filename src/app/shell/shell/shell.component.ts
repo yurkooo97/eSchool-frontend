@@ -20,8 +20,7 @@ export class ShellComponent implements OnInit, OnDestroy {
     private _authService: AuthenticationService,
     private messageService: MessageService,
     private notificationToasts: DataSharingService,
-    private router: Router
-    ) { }
+    private router: Router) { }
 
   ngOnInit() {
     this.subscribeToNotifications();

@@ -1,5 +1,5 @@
 <div class="p-grid weekSchedule">
-  <div class="p-col-12 p-grid p-align-center">
+  <div class="p-col-12 p-grid p-align-center schedule-navigation">
     <div class="p-col-3">
       <p-selectButton
         [options]="scheduleOptions"
@@ -8,77 +8,79 @@
       ></p-selectButton>
     </div>
     <div class="p-col-6 central">
-        <button
-          pButton
-          type="button"
-          (click)="switchSchedule(false)"
-          label="Попередній"
-          class="prev ui-button-rounded ui-button-secondary"
-        >
-        </button>
-         <label>
-        {{ startAndEndOfWeek }} 
-        </label>  
-        <button
-          pButton
-          type="button"
-          (click)="switchSchedule(true)"
-          label="Наступний"
-          class="next ui-button-rounded ui-button-secondary"
-          >
-        </button> 
+      <button
+        pButton
+        type="button"
+        (click)="switchSchedule(false)"
+        label="Попередній"
+        class="prev ui-button-rounded ui-button-secondary"
+      ></button>
+      <label> {{ startAndEndOfWeek }} </label>
+      <button
+        pButton
+        type="button"
+        (click)="switchSchedule(true)"
+        label="Наступний"
+        class="next ui-button-rounded ui-button-secondary"
+      ></button>
     </div>
     <div class="p-col-3 right">
       <p-selectButton
         [options]="viewOptions"
         [(ngModel)]="viewType"
-        [disabled]="selectedType === 'day' ? true : false" 
-        (click)='changeScheduleView()'></p-selectButton>
+        [disabled]="selectedType === 'day' ? true : false"
+        (click)="changeScheduleView()"
+      >
+      </p-selectButton>
+      <i
+        class="fa fa-print student-print-icon"
+        (click)="printSchedule()"
+        *ngIf="viewType === 'group'"
+      ></i>
     </div>
   </div>
-  <div class="p-col-12 p-grid" *ngIf="!notFound">
+  <div class="p-col-12 p-grid tables">
     <div
-        *ngFor="let daysOfWeek of weekSchedule"
-        [ngClass]="view ? 'p-col-12' : 'p-col-6'"
-      >
-        <p-table
-          [columns]="cols"
-          [value]="daysOfWeek.daySchedule"
-          [autoLayout]="true"
-        >
-          <ng-template pTemplate="caption">
-            {{ daysOfWeek.dayOfWeek }}
-          </ng-template>
-          <ng-template pTemplate="header" let-columns>
-            <tr>
-              <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                {{ col.header }}
-              </th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr class="students-table-row">
-              <td
-                *ngFor="let col of columns"
-                [ngClass]="
-                  col.field === 'homeWork' && rowData[col.field]
-                    ? 'student-ellipsis-table-cell'
-                    : null
-                "
-                [attr.data-homeWork]="
-                  col.field === 'homeWork' && rowData[col.field]
-                    ? rowData[col.field]
-                    : null
-                "
-              >
-                {{ rowData[col.field] ? rowData[col.field] : '' }}
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
+      *ngFor="let daysOfWeek of weekSchedule"
+      [ngClass]="{ 'p-col-12': view, 'p-col-6': !view, ordering: !view }"
+    >
+      <p-table [columns]="cols" [value]="daysOfWeek.daySchedule">
+        <ng-template pTemplate="caption">
+          {{ daysOfWeek.dayOfWeek }}
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th
+              *ngFor="let col of columns"
+              [pSortableColumn]="col.field"
+              [class]="col.class"
+            >
+              {{ col.header }}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr class="students-table-row">
+            <td
+              *ngFor="let col of columns"
+              [ngClass]="
+                col.field === 'homeWork' &&
+                rowData[col.field] &&
+                rowData[col.field].length > 35
+                  ? 'student-ellipsis-table-cell'
+                  : null
+              "
+              [attr.data-homeWork]="
+                col.field === 'homeWork' && rowData[col.field]
+                  ? rowData[col.field]
+                  : null
+              "
+            >
+              {{ rowData[col.field] ? rowData[col.field] : "" }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
-    <div class="not-found p-col-12" *ngIf="notFound">
-      <div>{{notFound}}</div>
-    </div>
-  </div>  
+  </div>
+</div>
