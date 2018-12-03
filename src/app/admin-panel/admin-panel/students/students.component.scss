@@ -37,6 +37,10 @@
   border-radius: 0 !important;
   border-bottom: 1px solid #c0c0c0 !important;
 }
+.studentsForm ::ng-deep input:hover
+{
+  border-bottom-color: #000000 !important;
+}
 .avatar-url
 {
   width: 120px;
