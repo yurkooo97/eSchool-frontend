@@ -49,7 +49,7 @@ export class GroupsComponent implements OnInit {
         }
         this.showEditDialog = false;
       }, error => {
-        this.notificationToasts.notify('error', 'Відхилено', 'Доданий клас уже існує');
+        this.notificationToasts.notify('error', 'Відхилено', 'Невдалось зберегти зміни, або введений клас уже існує');
       });
   }
 

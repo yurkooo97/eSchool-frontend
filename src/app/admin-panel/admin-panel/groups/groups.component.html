@@ -48,7 +48,7 @@
   </div>
 </div>
 <p-dialog header="Інформація про клас" [(visible)]="showEditDialog" showEffect="fade" [modal]="true" [responsive]="true"
-  [minWidth]="260">
+  [minWidth]="300">
   <div class="p-grid p-dir-col p-justify-center">
     <div class="p-col-12 requiredWrapper">
       <span class="ui-float-label">
@@ -67,7 +67,7 @@
       <span [class.d-none]="classYear.valid || classYear.untouched" class="requiredMessage">Введіть навчальний рік</span>
     </div>
     <div class="p-col-12 requiredWrapper">
-      <textarea id="classDescription" rows="5" cols="30" pInputTextarea [(ngModel)]="editGroup.classDescription"
+      <textarea id="classDescription" class="p-col-12" rows="5" cols="30" pInputTextarea [(ngModel)]="editGroup.classDescription"
         placeholder="Додаткова інформація"></textarea>
     </div>
     <div class="p-col-12">

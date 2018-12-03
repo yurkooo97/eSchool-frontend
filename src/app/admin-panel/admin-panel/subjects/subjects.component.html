@@ -25,14 +25,13 @@
     </div>
   </ng-template>
 </p-table>
-
-<p-dialog header="Предмет" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [minWidth]="260">
+<p-dialog header="Предмет" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [minWidth]="300">
   <form [formGroup]="subjectForm" (ngSubmit)="onSubmit()">
     <div class="p-grid p-dir-col" *ngIf="subject">
-      <div class="p-col-12 requiredWrapper">
+      <div class="p-col-12 marginWrapper">
         <span class="ui-float-label">
           <input pInputText id="name" (change)="subject.subjectName = $event.target.value" [value]="subject.subjectName || '' "
-            formControlName="subjectName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.subjectName.errors }" class="p-col-12"/>
+            formControlName="subjectName" class="form-control p-col-12" [ngClass]="{ 'is-invalid': submitted && f.subjectName.errors }" />
           <label for="name">Назва предмету *</label>
         </span>
         <div *ngIf="submitted && f.subjectName.errors" class="requiredMessage">
@@ -43,9 +42,9 @@
             український алфавіт! *</div>
         </div>
       </div>
-      <div class="p-col-12 requiredWrapper">
+      <div class="p-col-12 marginWrapper">
         <textarea [rows]="5" [cols]="30" id="description" placeholder="Опис предмету" (change)="subject.subjectDescription = $event.target.value"
-          [value]="subject.subjectDescription || '' " pInputTextarea formControlName="subjectDescription" class="form-control"
+          [value]="subject.subjectDescription || '' " pInputTextarea formControlName="subjectDescription" class="form-control p-col-12"
           [ngClass]="{ 'is-invalid': submitted && f.subjectDescription.errors }"></textarea>
         <div *ngIf="submitted && f.subjectDescription.errors" class="requiredMessage">
           <!-- <div *ngIf="f.subjectDescription.errors.required" class="p-col">Назва предмета є обов'язковою *</div> -->
@@ -57,7 +56,7 @@
     </div>
     <p-footer>
       <div class="p-grid p-dir-col p-align-end">
-        <div class="p-col .ui-dialog-footer">
+        <div class="p-col">
           <button type="submit" pButton icon="pi pi-check" label="Зберегти"></button>
         </div>
       </div>
