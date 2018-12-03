@@ -25,6 +25,7 @@ export class NewStudingYearComponent implements OnInit {
   groupDigitsArrayEnd: Array<string> = [];
   groupDigitsArray: Array<number> = [];
   counter: number;
+  val: boolean;
 
   constructor(private httpService: NewStudingYearService) {}
   ngOnInit() {
@@ -58,19 +59,16 @@ export class NewStudingYearComponent implements OnInit {
       this.groupDigitsArrayEnd.push(this.groupDigitsArrayMidle[i][0]);
       this.groupDigitsArray.push(parseInt(this.groupDigitsArrayEnd[i], 10));
     });
-  console.log(this.allGroupsList);
   }
   addNewGroups() {
     this.filterFalseCheckedGroups();
     this.httpService.putNewOldId(this.classIdArrayBefore).subscribe( () => {
       this.httpService.postNewGroups().subscribe(data => {
         this.newGroupList = data;
-        console.log(this.newGroupList);
         this.filterNewGroups();
         this.httpService.putNewOldId(this.classIdArray).subscribe( () => {
           this.hideTag = true;
           this.buttonAddDisabled = true;
-          console.log(this.allGroupsList);
         });
       });
     });
@@ -86,7 +84,6 @@ export class NewStudingYearComponent implements OnInit {
         });
       }
     });
-    console.log(this.classIdArrayBefore);
   }
   filterNewGroups() {
     this.newActiveGroups = this.newGroupList.filter(gr => gr.isActive);
@@ -113,5 +110,10 @@ export class NewStudingYearComponent implements OnInit {
         });
       }
     });
+  }
+  checkboxEvent(val) {
+    this.allGroupsList.forEach( item =>
+      item.checkbox = val
+    );
   }
 }
