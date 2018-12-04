@@ -37,6 +37,7 @@ import { DayComponent } from './admin-panel/class-schedule/day/day.component';
 import { NewStudingYearService } from '../services/new-studing-year.service';
 import { OverlayPanelModule } from 'primeng/primeng';
 import { CheckboxModule } from 'primeng/primeng';
+import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
 
 @NgModule({
   imports: [
@@ -83,7 +84,8 @@ import { CheckboxModule } from 'primeng/primeng';
     NewStudingYearComponent,
     ClassScheduleComponent,
     AttachTeacherComponent,
-    DayComponent
+    DayComponent,
+    DashboardComponent
   ]
 })
 export class AdminPanelModule {}

@@ -9,6 +9,7 @@ import { ClassScheduleComponent } from './admin-panel/class-schedule/class-sched
 import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teacher.component';
 import { NewStudingYearComponent } from '../admin-panel/admin-panel/new-studing-year/new-studing-year.component';
 import { AdminGuard } from './admin.guard';
+import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
     component: AdminPanelComponent,
     canLoad: [AdminGuard],
     children: [
+      {
+        path: '',
+        component: DashboardComponent
+      },
       {
         path: 'students',
         component: StudentsComponent
@@ -52,4 +57,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AdminPanelRoutingModule {}
+export class AdminPanelRoutingModule { }
