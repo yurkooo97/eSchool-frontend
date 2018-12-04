@@ -7,7 +7,6 @@ import { WeekSchedule } from 'src/app/models/student-book-models/WeekSchedule.mo
   providedIn: 'root'
 })
 export class StudentBookService {
-
   constructor(private _http: HttpClient) {}
 
   private months = [
@@ -47,7 +46,7 @@ export class StudentBookService {
     return `${monday.getFullYear()}-${mondayMonth}-${mondayDate}`;
   }
 
-  private sortDataByWeekDay(data: Diary[]):WeekSchedule[] {
+  private sortDataByWeekDay(data: Diary[]): WeekSchedule[] {
     let arr = [];
     const sortedArray = [];
     for (let i = 0; i < this.dayOfWeek.length; i++) {
@@ -70,7 +69,7 @@ export class StudentBookService {
     return sortedArray;
   }
 
-  private convertedDate(data:Diary): string {
+  private convertedDate(data: Diary): string {
     const day = new Date(data.date.join('-')).getDate();
     const month = this.months[new Date(data.date.join('-')).getMonth()];
     const year = new Date(data.date.join('-')).getFullYear();
@@ -86,7 +85,7 @@ export class StudentBookService {
           const sortedWeekData = this.sortDataByWeekDay(response.data);
           return [...sortedWeekData];
         } else {
-          throw new Error("Data didn't come");
+          throw new Error('Data didn\'t come');
         }
       });
   }

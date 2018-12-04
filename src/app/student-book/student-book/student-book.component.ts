@@ -43,17 +43,19 @@ export class StudentBookComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.studentBookService.getDiariesList().subscribe(data => {
-      this.weekSchedule = data;
-      this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${
-        this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate
-      }`;
-    },
-    err => this.notificationToasts.notify(
-      'error',
-      'Помилка',
-      'Наразі немає даних про розклад'
-    )
+    this.studentBookService.getDiariesList().subscribe(
+      data => {
+        this.weekSchedule = data;
+        this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${
+          this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate
+        }`;
+      },
+      err =>
+        this.notificationToasts.notify(
+          'error',
+          'Помилка',
+          'Наразі немає даних про розклад'
+        )
     );
 
     this.cols = [
@@ -98,11 +100,12 @@ export class StudentBookComponent implements OnInit {
       err => {
         this.offset = week ? this.offset - 7 : this.offset + 7;
         this.notificationToasts.notify(
-        'error',
-        'Помилка',
-        'Наразі немає даних про розклад'
-      );
-  });
+          'error',
+          'Помилка',
+          'Наразі немає даних про розклад'
+        );
+      }
+    );
   }
 
   changeScheduleView(): void {
