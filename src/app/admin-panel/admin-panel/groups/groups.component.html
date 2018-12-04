@@ -10,10 +10,12 @@
         </th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowData let-columns="columns">
-      <tr style="cursor:pointer" (click)="showDialog(rowData)">
-        <td *ngFor="let col of columns">
+    <ng-template pTemplate="body" let-rowData>
+      <tr class="class-table-row">
+        <td *ngFor="let col of cols">
           {{rowData[col.field]}}
+          <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'classYear'" (click)="showDialog(rowData)"
+            class="ui-button-raised edit-class-button"></button>
         </td>
       </tr>
     </ng-template>

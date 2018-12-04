@@ -24,7 +24,7 @@
   float: right;
 }
 
-:host ::ng-deep .ui-table .ui-table-tbody>tr:hover {
+:host ::ng-deep .ui-table .ui-table-tbody {
   background: rgb(194, 192, 190);
 }
 
@@ -58,4 +58,16 @@ span.ui-button-text,
 
 .is-invalid {
   border-color: $required;
+}
+
+.class-table-row {
+  .edit-class-button {
+    visibility: hidden;
+    float: right;
+    margin-right: 1em;
+  }
+
+  &:hover .edit-class-button {
+    visibility: visible;
+  }
 }
