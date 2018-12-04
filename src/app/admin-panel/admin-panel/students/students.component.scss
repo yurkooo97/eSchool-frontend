@@ -105,15 +105,14 @@
 .editButton{
  text-align: center;
 }
-.action-tools
+.action-tools {
+  visibility: hidden;
+  float: right;
+  margin-right: 1em;
+}
+.studentRow:hover .action-tools
 {
-    visibility: hidden;
-    float: right;
-    margin-right: 1em;
-  &:hover .action-tools
-  {
-    visibility: visible;
-  }
+  visibility: visible;
 }
 .ui-card
 {
