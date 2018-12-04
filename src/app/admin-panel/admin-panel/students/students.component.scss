@@ -106,11 +106,10 @@
  text-align: center;
 }
 .action-tools
-  {
+{
     visibility: hidden;
     float: right;
     margin-right: 1em;
-  }
   &:hover .action-tools
   {
     visibility: visible;
