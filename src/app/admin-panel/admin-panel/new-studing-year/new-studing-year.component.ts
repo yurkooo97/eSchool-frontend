@@ -20,9 +20,6 @@ export class NewStudingYearComponent implements OnInit {
   classIdArray: Array<ClassId> = [];
   classIdArrayBefore: Array<ClassId> = [];
   allGroupsList: Array<Transition> = [];
-  groupDigitsArrayStart: Array<string> = [];
-  groupDigitsArrayMidle: Array<any> = [];
-  groupDigitsArrayEnd: Array<string> = [];
   groupDigitsArray: Array<number> = [];
   counter: number;
   val = true;
@@ -48,11 +45,8 @@ export class NewStudingYearComponent implements OnInit {
         newClassName: null, newClassYear: null, checkbox: true, colorStyle: null,
       });
     });
-    this.allGroupsList.forEach((item, i) => {
-      this.groupDigitsArrayStart.push(item.className);
-      this.groupDigitsArrayMidle.push(this.groupDigitsArrayStart[i].split('-'));
-      this.groupDigitsArrayEnd.push(this.groupDigitsArrayMidle[i][0]);
-      this.groupDigitsArray.push(parseInt(this.groupDigitsArrayEnd[i], 10));
+    this.allGroupsList.forEach( item => {
+      this.groupDigitsArray.push(parseInt(item.className, 10));
     });
   }
   addNewGroups() {
@@ -61,6 +55,7 @@ export class NewStudingYearComponent implements OnInit {
       this.httpService.postNewGroups().subscribe(data => {
         this.newGroupList = data;
         this.filterNewGroups();
+        this.passOldAndNewId();
         this.httpService.putNewOldId(this.classIdArray).subscribe( () => {
           this.hideTag = true;
           this.buttonAddDisabled = true;
@@ -99,6 +94,8 @@ export class NewStudingYearComponent implements OnInit {
         }
       }
     });
+  }
+  passOldAndNewId() {
     this.allGroupsList.forEach( item => {
       if (item.checkbox === true) {
         this.classIdArray.push({
