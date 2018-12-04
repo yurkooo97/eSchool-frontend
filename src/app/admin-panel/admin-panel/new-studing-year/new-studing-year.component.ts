@@ -13,20 +13,19 @@ export class NewStudingYearComponent implements OnInit {
   groupList: Group[];
   newGroupList: Group[];
   activeGroups: Group[];
-  activeGroupsWithoutYear: Group[];
   newActiveGroups: Group[];
   cols: Array<object>;
-  buttonAddDisabled: boolean = false;
-  hideTag: boolean = false;
-  currentYear: number;
-  nextYear: number;
+  buttonAddDisabled = false;
+  hideTag = false;
   classIdArray: Array<ClassId> = [];
+  classIdArrayBefore: Array<ClassId> = [];
   allGroupsList: Array<Transition> = [];
   groupDigitsArrayStart: Array<string> = [];
   groupDigitsArrayMidle: Array<any> = [];
   groupDigitsArrayEnd: Array<string> = [];
   groupDigitsArray: Array<number> = [];
   counter: number;
+  val: boolean;
 
   constructor(private httpService: NewStudingYearService) {}
   ngOnInit() {
@@ -37,11 +36,11 @@ export class NewStudingYearComponent implements OnInit {
       this.groupList = data;
       this.filterGroups();
       });
-    this.cols = [{ field: 'className', field2: 'classYear', field3: 'newClassName' , field4: 'newClassYear' }];
+    this.cols = [{ classNameField: 'className', classYearField: 'classYear',
+      newClassNameField: 'newClassName' , newClassYearField: 'newClassYear', checkboxField: 'checkbox' }];
   }
   filterGroups() {
     this.activeGroups = this.groupList.filter(g => g.isActive);
-    this.currentYear = this.activeGroups[0].classYear;
     this.activeGroups.forEach( item => {
       this.allGroupsList.push({
         oldClassId: item.id,
@@ -52,55 +51,70 @@ export class NewStudingYearComponent implements OnInit {
         newClassId: null,
         newClassName: null,
         newClassYear: null,
+        checkbox: false,
       });
     });
     this.allGroupsList.forEach((item, i) => {
       this.groupDigitsArrayStart.push(item.className);
       this.groupDigitsArrayMidle.push(this.groupDigitsArrayStart[i].split('-'));
       this.groupDigitsArrayEnd.push(this.groupDigitsArrayMidle[i][0]);
-      this.groupDigitsArray.push(parseInt(this.groupDigitsArrayEnd[i]));
+      this.groupDigitsArray.push(parseInt(this.groupDigitsArrayEnd[i], 10));
     });
   }
   addNewGroups() {
-    this.nextYear = this.currentYear + 1;
-    this.httpService.postNewGroups().subscribe(data => {
-      this.newGroupList = data;
-      this.filterNewGroups();
-      this.httpService.putNewOldId(this.classIdArray).subscribe( () => {
-        this.hideTag = true;
-        this.buttonAddDisabled = true;
+    this.filterFalseCheckedGroups();
+    this.httpService.putNewOldId(this.classIdArrayBefore).subscribe( () => {
+      this.httpService.postNewGroups().subscribe(data => {
+        this.newGroupList = data;
+        this.filterNewGroups();
+        this.httpService.putNewOldId(this.classIdArray).subscribe( () => {
+          this.hideTag = true;
+          this.buttonAddDisabled = true;
+        });
       });
     });
   }
-  filterNewGroups() {
-    this.activeGroupsWithoutYear = this.newGroupList.filter(gr => gr.isActive);
-    this.newActiveGroups = this.activeGroupsWithoutYear.filter(
-      y => y.classYear > this.nextYear - 1
-    );
-    this.newActiveGroups.forEach(
-      (item, i) => {
-        this.allGroupsList[i].newClassName = item.className;
-        this.allGroupsList[i].newClassYear = this.nextYear;
-      }
-    );
-    let counter = 0;
-    this.allGroupsList.forEach((item, i) => {
-      if (this.groupDigitsArray[i] > 10) {
-        item.newClassName = 'Випущений' ;
-        item.newClassId = 0;
-        item.newClassYear = item.classYear;
-      } else {
-          item.newClassName = this.newActiveGroups[counter].className;
-          item.newClassId = this.newActiveGroups[counter].id;
-          item.newClassYear = this.newActiveGroups[counter].classYear;
-          counter++;
+  filterFalseCheckedGroups() {
+    this.allGroupsList.forEach( item => {
+      if (item.checkbox !== true) {
+        item.newClassName = 'Не діючий';
+        item.newClassYear = item.classYear + 1;
+        this.classIdArrayBefore.push({
+          oldClassId: item.oldClassId,
+          newClassId: 0
+        });
       }
     });
-    this.allGroupsList.forEach((item, i) =>
-      this.classIdArray.push({
-        oldClassId: item.oldClassId,
-        newClassId: item.newClassId
-      })
+  }
+  filterNewGroups() {
+    this.newActiveGroups = this.newGroupList.filter(gr => gr.isActive);
+    let counter = 0;
+    this.allGroupsList.forEach((item, i) => {
+      if (item.checkbox === true) {
+        if (this.groupDigitsArray[i] > 10) {
+          item.newClassName = 'Випущений' ;
+          item.newClassId = 0;
+          item.newClassYear = item.classYear;
+        } else {
+            item.newClassName = this.newActiveGroups[counter].className;
+            item.newClassId = this.newActiveGroups[counter].id;
+            item.newClassYear = this.newActiveGroups[counter].classYear;
+            counter++;
+        }
+      }
+    });
+    this.allGroupsList.forEach( item => {
+      if (item.checkbox === true) {
+        this.classIdArray.push({
+          oldClassId: item.oldClassId,
+          newClassId: item.newClassId
+        });
+      }
+    });
+  }
+  checkboxEvent(val) {
+    this.allGroupsList.forEach( item =>
+      item.checkbox = val
     );
   }
 }

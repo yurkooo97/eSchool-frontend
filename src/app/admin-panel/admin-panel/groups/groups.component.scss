@@ -2,27 +2,27 @@
   margin:10px 0px ;
   width:150px ;
   height:40px ;
-	font-size:15px;
+  font-size:15px;
 }
 
 ::ng-deep body .ui-button.ui-state-default.ui-button-success {
 
   &:enabled:active, &:enabled:hover{
-	background-color: blue;
-	}
-	background-color: blue;
+  background-color: blue;
+  }
+  background-color: blue;
 }
 
 .groups-container {
   width:100%;
-	margin:0 auto;
+  margin:0 auto;
 }
 
 .btn {
   float:right;
 }
 
-:host ::ng-deep  .ui-table .ui-table-tbody > tr:hover {
+:host ::ng-deep  .ui-table .ui-table-tbody {
   background: rgb(194, 192, 190);
 } 
 
@@ -32,15 +32,28 @@ div.pointer {
 
 $required: red;
 span.ui-button-text,.ui-clickable{
-	padding: 0px !important;
+  padding: 0px !important;
 }
 
 .requiredMessage{
-	color: $required;
-	font-size: 15px;
-	margin-left:10px;
+  color: $required;
+  font-size: 15px;
+  margin-left:10px;
 }
 
 .d-none{
-	display: none;
+  display: none;
+}
+.class-table-row
+{
+  .edit-class-button 
+  {
+    visibility: hidden;
+    float: right;
+    margin-right: 1em;
+  }
+  &:hover .edit-class-button 
+  {
+    visibility: visible;
+  }
 }

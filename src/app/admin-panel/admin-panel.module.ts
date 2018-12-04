@@ -36,6 +36,7 @@ import { DayComponent } from './admin-panel/class-schedule/day/day.component';
 
 import { NewStudingYearService } from '../services/new-studing-year.service';
 import { OverlayPanelModule } from 'primeng/primeng';
+import { CheckboxModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -62,7 +63,8 @@ import { OverlayPanelModule } from 'primeng/primeng';
     FormsModule,
     ReactiveFormsModule,
     AutoCompleteModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    CheckboxModule,
   ],
 
   providers: [
