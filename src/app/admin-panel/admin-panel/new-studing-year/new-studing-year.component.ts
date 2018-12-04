@@ -36,22 +36,16 @@ export class NewStudingYearComponent implements OnInit {
       this.groupList = data;
       this.filterGroups();
       });
-    this.cols = [{ classNameField: 'className', classYearField: 'classYear',
-      newClassNameField: 'newClassName' , newClassYearField: 'newClassYear', checkboxField: 'checkbox' }];
+    this.cols = [{ classNameField: 'className', classYearField: 'classYear', newClassNameField: 'newClassName',
+      newClassYearField: 'newClassYear', checkboxField: 'checkbox', colorStyleField: 'colorStyle' }];
   }
   filterGroups() {
     this.activeGroups = this.groupList.filter(g => g.isActive);
     this.activeGroups.forEach( item => {
       this.allGroupsList.push({
-        oldClassId: item.id,
-        className: item.className,
-        classYear: item.classYear,
-        isActive: item.isActive,
-        numOfStudents: item.numOfStudents,
-        newClassId: null,
-        newClassName: null,
-        newClassYear: null,
-        checkbox: true,
+        oldClassId: item.id, className: item.className, classYear: item.classYear,
+        isActive: item.isActive, numOfStudents: item.numOfStudents, newClassId: null,
+        newClassName: null, newClassYear: null, checkbox: true, colorStyle: null,
       });
     });
     this.allGroupsList.forEach((item, i) => {
@@ -79,6 +73,7 @@ export class NewStudingYearComponent implements OnInit {
       if (item.checkbox !== true) {
         item.newClassName = 'Не діючий';
         item.newClassYear = item.classYear + 1;
+        item.colorStyle = '#a9a39e';
         this.classIdArrayBefore.push({
           oldClassId: item.oldClassId,
           newClassId: 0
@@ -95,6 +90,7 @@ export class NewStudingYearComponent implements OnInit {
           item.newClassName = 'Випущений' ;
           item.newClassId = 0;
           item.newClassYear = item.classYear;
+          item.colorStyle = '#ff9c33';
         } else {
             item.newClassName = this.newActiveGroups[counter].className;
             item.newClassId = this.newActiveGroups[counter].id;

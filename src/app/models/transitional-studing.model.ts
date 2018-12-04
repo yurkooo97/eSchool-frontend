@@ -8,4 +8,5 @@ export class Transition {
   newClassName: string;
   newClassYear: number;
   checkbox: boolean;
+  colorStyle: string;
 }
