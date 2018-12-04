@@ -8,7 +8,6 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
   templateUrl: './teachers.component.html',
   styleUrls: ['./teachers.component.scss']
 })
-
 export class TeachersComponent implements OnInit {
   loading: boolean;
   displayDialog: boolean;
@@ -37,7 +36,7 @@ export class TeachersComponent implements OnInit {
       { field: 'patronymic', header: 'По батькові' },
       { field: 'dateOfBirth', header: 'Дата народження' }
     ];
-    this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
+    this._teacherServices.currentCalendar.subscribe(data => (this.ua = data));
   }
   handlerFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
@@ -59,7 +58,8 @@ export class TeachersComponent implements OnInit {
     this.newTeacher = true;
     this.teacher = {};
   }
-  onRowSelect(rowData) {
+  onRowSelect(rowData: Iteachers) {
+    this.selectedTeacher = rowData;
     this.newTeacher = false;
     this.teacher = {
       ...rowData
@@ -68,7 +68,9 @@ export class TeachersComponent implements OnInit {
   }
   create() {
     this.displayDialog = false;
-    this.teacher.dateOfBirth = this._teacherServices.formatDate(this.teacher.dateOfBirth);
+    this.teacher.dateOfBirth = this._teacherServices.formatDate(
+      this.teacher.dateOfBirth
+    );
     this._teacherServices.postTeacher(this.teacher).subscribe(
       teacher => {
         this.teachers.push(teacher);
@@ -90,7 +92,11 @@ export class TeachersComponent implements OnInit {
   }
   save() {
     this.displayDialog = false;
-    this.teacher.dateOfBirth = this._teacherServices.formatDate(this.teacher.dateOfBirth);
+    this.teacher.dateOfBirth = this._teacherServices.formatDate(
+      this.teacher.dateOfBirth
+    );
+    this.teacher.newPass = '';
+    this.teacher.oldPass = '';
     this._teacherServices.putTeacher(this.teacher).subscribe(
       teacher => {
         const teachers = [...this.teachers];
