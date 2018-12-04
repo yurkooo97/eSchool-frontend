@@ -5,21 +5,20 @@
 .central {
   text-align: center;
   position: relative;
-  .prev {
-    position: absolute;
-    top: -8%;
-    left: 82px;
-  }
-  .next {
-    position: absolute;
-    top: -8%;
-    right: 82px;
+  label {
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 }
 
+.left {
+  margin-left: 0.1em;
+}
 .right {
   padding-left: 13%;
   position: relative;
+  button {
+    margin-left: 3%;
+  }
 }
 
 .students-table-row {
