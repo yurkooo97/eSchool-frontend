@@ -10,10 +10,10 @@
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr *ngFor="let col of columns">
       <td class="checkbox-class">               
-        <p-checkbox [(ngModel)]="rowData[col.field5]" binary="true"></p-checkbox>              
+        <p-checkbox [(ngModel)]="rowData[col.checkboxField]" binary="true"></p-checkbox>              
       </td>
-      <td>{{rowData[col.field]}} клас, {{rowData[col.field2]}} рік</td>      
-      <td><span *ngIf="hideTag">{{rowData[col.field3]}} клас у {{rowData[col.field4]}} році</span></td>      
+      <td>{{rowData[col.classNameField]}} клас, {{rowData[col.classYearField]}} рік</td>      
+      <td><span *ngIf="hideTag">{{rowData[col.newClassNameField]}} клас у {{rowData[col.newClassYearField]}} році</span></td>      
     </tr>
   </ng-template>
   <ng-template pTemplate="summary">

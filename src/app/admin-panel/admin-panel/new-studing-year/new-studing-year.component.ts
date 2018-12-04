@@ -36,7 +36,8 @@ export class NewStudingYearComponent implements OnInit {
       this.groupList = data;
       this.filterGroups();
       });
-    this.cols = [{ field: 'className', field2: 'classYear', field3: 'newClassName' , field4: 'newClassYear', field5: 'checkbox' }];
+    this.cols = [{ classNameField: 'className', classYearField: 'classYear',
+      newClassNameField: 'newClassName' , newClassYearField: 'newClassYear', checkboxField: 'checkbox' }];
   }
   filterGroups() {
     this.activeGroups = this.groupList.filter(g => g.isActive);
