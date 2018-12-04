@@ -16,7 +16,6 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th class="info-col"></th>
       <th *ngFor="let col of cols" [pSortableColumn]="col.field">
         {{col.header}}
         <p-sortIcon [field]="col.field"></p-sortIcon>
@@ -25,12 +24,10 @@
   </ng-template>
   <ng-template pTemplate="body" let-student>
     <tr class="studentRow">
-      <td>
-        <button type="button" pButton icon="pi pi-info" class="ui-button-raised ui-button-secondary student-info-btn" (click)="studentInfo($event, student, oPanel)"></button>
-      </td>
       <td *ngFor="let col of cols">
         {{student[col.field]}}
-        <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'dateOfBirth'" (click)="editStudent(student)" class="ui-button-raised edit-student-btn"></button>
+        <button type="button" pButton icon="pi pi-info" *ngIf="col.field == 'dateOfBirth'" (click)="studentInfo($event, student, oPanel)" class="ui-button-raised ui-button-secondary action-tools"></button>
+        <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'dateOfBirth'" (click)="editStudent(student)" class="ui-button-raised action-tools"></button>
       </td>
     </tr>
   </ng-template>
@@ -40,7 +37,6 @@
       </div>
   </ng-template>
 </p-table>
-
 <p-overlayPanel #oPanel>
   <p-card header="Учень {{selectedClassName}}" subheader="{{selectedStudent.lastname}} {{selectedStudent.firstname}} {{selectedStudent.patronymic}}">
     <p-header>
@@ -57,7 +53,6 @@
     </p-footer>
   </p-card>
 </p-overlayPanel>
-
 <p-dialog header="Інформація Про Учня" [(visible)]="displayForm" [modal]="true" [responsive]="true" [width]="700" [height]="600" [minWidth]="200" [minY]="70" [maximizable]="false" [baseZIndex]="10000">
   <form class="studentsForm" #studentsForm="ngForm">
     <p-fieldset legend="Обов'язкові поля" class="mainInfo">
@@ -115,5 +110,3 @@
   <button type="button" pButton icon="pi pi-check" (click)="saveStudent(); studentsForm.reset();" class="ui-button-raised" label="Зберегти" [disabled]="studentsForm.invalid"></button>
 </p-footer>
 </p-dialog>
-
-

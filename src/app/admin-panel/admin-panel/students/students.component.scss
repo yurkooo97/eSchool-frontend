@@ -54,20 +54,18 @@
 }
 .studentRow
 {
-  .edit-student-btn
+  .action-tools
   {
     visibility: hidden;
     float: right;
+    margin-right: 1em;
   }
-  &:hover .edit-student-btn
+  &:hover .action-tools
   {
     visibility: visible;
   }
 }
-.info-col
-{
-  width: 4em;
-}
+
 .ui-card
 {
   overflow: auto;
