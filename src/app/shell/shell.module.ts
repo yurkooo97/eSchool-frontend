@@ -7,6 +7,7 @@ import { ToolbarModule, ButtonModule, SplitButtonModule, MenubarModule, MenuModu
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { DataSharingService } from '../services/data-sharing.service';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { DataSharingService } from '../services/data-sharing.service';
     SplitButtonModule,
     MenubarModule,
     MenuModule,
-    ToastModule
+    ToastModule,
+    DropdownModule,
   ],
   declarations: [ShellComponent],
   providers: [MessageService, DataSharingService]

@@ -1,3 +1,24 @@
-<p>
-  progress works!
-</p>
+<div class="container">
+	<div class="menu"> 
+		
+		  <p-dropdown [options]="years" placeholder="Виберіть рік" [(ngModel)]="selectedYear"  (onChange)="onYearChange()" [showClear]="true"></p-dropdown>
+
+			<p-dropdown [options]="visibleGroups" [(ngModel)]="selectedGroup" (onChange)="onClassChange()" placeholder="Виберіть клас" optionLabel="className" [showClear]="true"></p-dropdown>
+				
+			<p-dropdown [options]="visibleSubjects" placeholder="Виберіть предмет" [showClear]="true"></p-dropdown>
+			
+      <p-dropdown [options]="visibleStudents" [(ngModel)]="selectedStudent" (onChange)="onSubjectChange()" placeholder="Виберіть учня"  [showClear]="true"></p-dropdown>
+		
+			<div class=calendar-group-left>
+			<p-calendar [(ngModel)]="start" placeholder="Виберіть початок періоду"  dateFormat="dd.mm.yy" [showIcon]="true"></p-calendar>
+			</div>
+			
+			<div class=calendar-group-right>
+			<p-calendar [(ngModel)]="end" dateFormat="dd.mm.yy" placeholder="Виберіть кінець періоду" [showIcon]="true"></p-calendar>
+			</div>
+			</div>
+    			
+	<div class="chartContainer">
+		it works
+	</div>
+</div>
