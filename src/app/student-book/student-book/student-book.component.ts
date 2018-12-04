@@ -5,6 +5,7 @@ import { SelectItem } from 'primeng/api';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPrint } from '@fortawesome/free-solid-svg-icons';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { WeekSchedule } from 'src/app/models/student-book-models/WeekSchedule.model';
 
 library.add(faPrint);
 
@@ -14,27 +15,27 @@ library.add(faPrint);
   styleUrls: ['./student-book.component.scss']
 })
 export class StudentBookComponent implements OnInit {
-  weekSchedule: any;
+  public weekSchedule: WeekSchedule[];
 
-  startAndEndOfWeek: string;
+  public startAndEndOfWeek: string;
 
-  offset = 0;
+  public offset = 0;
 
-  menuItems: MenuItem[];
+  public menuItems: MenuItem[];
 
-  cols;
+  public cols: Array<object>;
 
-  scheduleOptions: SelectItem[];
+  public scheduleOptions: SelectItem[];
 
-  view = false;
+  public view = false;
 
-  selectedType = 'week';
+  public selectedType = 'week';
 
-  private clonedWeekSchedule: any;
+  private clonedWeekSchedule: WeekSchedule[];
 
-  viewOptions: SelectItem[];
+  public viewOptions: SelectItem[];
 
-  viewType = 'group';
+  public viewType = 'group';
 
   constructor(
     private studentBookService: StudentBookService,
@@ -43,11 +44,17 @@ export class StudentBookComponent implements OnInit {
 
   ngOnInit() {
     this.studentBookService.getDiariesList().subscribe(data => {
-      [this.weekSchedule] = data;
+      this.weekSchedule = data;
       this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${
         this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate
       }`;
-    });
+    },
+    err => this.notificationToasts.notify(
+      'error',
+      'Помилка',
+      'Наразі немає даних про розклад'
+    )
+    );
 
     this.cols = [
       { field: 'lessonNumber', header: '№', class: 'lesson-number' },
@@ -80,22 +87,22 @@ export class StudentBookComponent implements OnInit {
     }
     currDay += this.offset;
     const changedWeek = new Date(day.setDate(currDay));
-    this.studentBookService.getDiariesList(changedWeek).subscribe(data => {
-      if (typeof data === 'string') {
-        this.offset = week ? this.offset - 7 : this.offset + 7;
-        this.notificationToasts.notify(
-          'error',
-          'Помилка',
-          'Наразі немає даних про розклад на наступний тиждень '
-        );
-      } else {
-        [this.weekSchedule] = data;
+    this.studentBookService.getDiariesList(changedWeek).subscribe(
+      data => {
+        this.weekSchedule = data;
         this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${
           this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate
         }`;
         this.clonedWeekSchedule = [...this.weekSchedule];
-      }
-    });
+      },
+      err => {
+        this.offset = week ? this.offset - 7 : this.offset + 7;
+        this.notificationToasts.notify(
+        'error',
+        'Помилка',
+        'Наразі немає даних про розклад'
+      );
+  });
   }
 
   changeScheduleView(): void {
