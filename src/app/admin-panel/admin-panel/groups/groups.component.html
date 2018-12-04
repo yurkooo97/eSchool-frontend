@@ -10,10 +10,11 @@
         </th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowData let-columns="columns">
-      <tr style="cursor:pointer" (click)="showDialog(rowData)">
-        <td *ngFor="let col of columns">
+    <ng-template pTemplate="body" let-rowData>
+      <tr class="class-table-row">
+        <td *ngFor="let col of cols">
           {{rowData[col.field]}}
+          <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'classYear'" (click)="showDialog(rowData)" class="ui-button-raised edit-class-button"></button>
         </td>
       </tr>
     </ng-template>
@@ -58,18 +59,18 @@
   <h3>Назва класу</h3>
   <input id="className" type="text" [class.is-invalid]="className.invalid && className.touched" required #className="ngModel"
     size="30" pInputText [(ngModel)]="editGroup.className" minlength="1" maxlength="4" />
-  <span [class.d-none]="className.valid || className.untouched" class="requiredMessage">
-    Введіть назву класу
-  </span>
+    <span [class.d-none]="className.valid || className.untouched" class="requiredMessage">
+      Введіть назву класу
+    </span>
   <label for="input"></label>
   <label for="input">
     <h3>Навчальний рік</h3>
   </label>
   <input id="classYear" type="text" [class.is-invalid]="classYear.invalid && classYear.touched" required #classYear="ngModel"
     size="30" pInputText [(ngModel)]="editGroup.classYear" minlength="4" maxlength="4" />
-  <span [class.d-none]="classYear.valid || classYear.untouched" class="requiredMessage">
-    Введіть навчальний рік
-  </span>
+    <span [class.d-none]="classYear.valid || classYear.untouched" class="requiredMessage">
+      Введіть навчальний рік
+    </span>
   <label for="input"></label>
   <h3>Опис класу</h3>
   <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="editGroup.classDescription"></textarea>
