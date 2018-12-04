@@ -25,7 +25,7 @@ export class NewStudingYearComponent implements OnInit {
   groupDigitsArrayEnd: Array<string> = [];
   groupDigitsArray: Array<number> = [];
   counter: number;
-  val: boolean;
+  val = true;
 
   constructor(private httpService: NewStudingYearService) {}
   ngOnInit() {
@@ -51,7 +51,7 @@ export class NewStudingYearComponent implements OnInit {
         newClassId: null,
         newClassName: null,
         newClassYear: null,
-        checkbox: false,
+        checkbox: true,
       });
     });
     this.allGroupsList.forEach((item, i) => {
