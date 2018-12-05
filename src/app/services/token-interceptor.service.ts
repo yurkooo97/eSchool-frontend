@@ -14,11 +14,12 @@ import { Observable } from 'rxjs/Rx';
   providedIn: 'root'
 })
 export class TokenInterceptorService implements HttpInterceptor {
-
   baseUrl = 'https://fierce-shore-32592.herokuapp.com';
 
-  constructor(private authService: AuthenticationService,
-    private router: Router) { }
+  constructor(
+    private authService: AuthenticationService,
+    private router: Router
+  ) {}
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -64,4 +65,3 @@ export class TokenInterceptorService implements HttpInterceptor {
     return this.baseUrl + url;
   }
 }
-

@@ -16,8 +16,8 @@ export class NewStudingYearComponent implements OnInit {
   activeGroupsWithoutYear: Group[];
   newActiveGroups: Group[];
   cols: Array<object>;
-  buttonAddDisabled: boolean = false;
-  hideTag: boolean = false;
+  buttonAddDisabled = false;
+  hideTag = false;
   currentYear: number;
   nextYear: number;
   classIdArray: Array<ClassId> = [];
@@ -36,13 +36,20 @@ export class NewStudingYearComponent implements OnInit {
     this.httpService.getGroups().subscribe(data => {
       this.groupList = data;
       this.filterGroups();
-      });
-    this.cols = [{ field: 'className', field2: 'classYear', field3: 'newClassName' , field4: 'newClassYear' }];
+    });
+    this.cols = [
+      {
+        field: 'className',
+        field2: 'classYear',
+        field3: 'newClassName',
+        field4: 'newClassYear'
+      }
+    ];
   }
   filterGroups() {
     this.activeGroups = this.groupList.filter(g => g.isActive);
     this.currentYear = this.activeGroups[0].classYear;
-    this.activeGroups.forEach( item => {
+    this.activeGroups.forEach(item => {
       this.allGroupsList.push({
         oldClassId: item.id,
         className: item.className,
@@ -51,7 +58,7 @@ export class NewStudingYearComponent implements OnInit {
         numOfStudents: item.numOfStudents,
         newClassId: null,
         newClassName: null,
-        newClassYear: null,
+        newClassYear: null
       });
     });
     this.allGroupsList.forEach((item, i) => {
@@ -66,7 +73,7 @@ export class NewStudingYearComponent implements OnInit {
     this.httpService.postNewGroups().subscribe(data => {
       this.newGroupList = data;
       this.filterNewGroups();
-      this.httpService.putNewOldId(this.classIdArray).subscribe( () => {
+      this.httpService.putNewOldId(this.classIdArray).subscribe(() => {
         this.hideTag = true;
         this.buttonAddDisabled = true;
       });
@@ -77,23 +84,21 @@ export class NewStudingYearComponent implements OnInit {
     this.newActiveGroups = this.activeGroupsWithoutYear.filter(
       y => y.classYear > this.nextYear - 1
     );
-    this.newActiveGroups.forEach(
-      (item, i) => {
-        this.allGroupsList[i].newClassName = item.className;
-        this.allGroupsList[i].newClassYear = this.nextYear;
-      }
-    );
+    this.newActiveGroups.forEach((item, i) => {
+      this.allGroupsList[i].newClassName = item.className;
+      this.allGroupsList[i].newClassYear = this.nextYear;
+    });
     let counter = 0;
     this.allGroupsList.forEach((item, i) => {
       if (this.groupDigitsArray[i] > 10) {
-        item.newClassName = 'Випущений' ;
+        item.newClassName = 'Випущений';
         item.newClassId = 0;
         item.newClassYear = item.classYear;
       } else {
-          item.newClassName = this.newActiveGroups[counter].className;
-          item.newClassId = this.newActiveGroups[counter].id;
-          item.newClassYear = this.newActiveGroups[counter].classYear;
-          counter++;
+        item.newClassName = this.newActiveGroups[counter].className;
+        item.newClassId = this.newActiveGroups[counter].id;
+        item.newClassYear = this.newActiveGroups[counter].classYear;
+        counter++;
       }
     });
     this.allGroupsList.forEach((item, i) =>

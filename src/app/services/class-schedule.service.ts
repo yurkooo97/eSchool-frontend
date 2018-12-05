@@ -5,10 +5,10 @@ import { Schedule } from '../models/class-schedule';
 import { Group } from '../models/group.model';
 import { Subject } from '../models/subjects.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ClassScheduleService {
-  private url = 'https://fierce-shore-32592.herokuapp.com';
-
   constructor(private http: HttpClient) {}
 
   public getClasses(): Observable<Group[]> {
@@ -35,14 +35,17 @@ export class ClassScheduleService {
     return this.http
       .get<Schedule[]>('classes/' + classId + '/schedule')
       .map((response: any) => {
-        console.log(response.data.className);
+        console.log(response.data);
         return response.data;
       });
   }
 
-  /*public postSchedule(): Observable<Schedule[]> {
+  /*public postSchedule(schedule: Schedule): Observable<Schedule> {
+		const schedule = {
+
+		}
     return this.http
-      .post<Schedule[]>('classes/' + classId + '/schedule')
+      .post<Schedule>(`classes/${classId}/schedule`, schedule)
       .map((response: any) => {
         console.log(response.data);
         return response.data;

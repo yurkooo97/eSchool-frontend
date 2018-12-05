@@ -1,66 +1,66 @@
-<form class="form" (ngSubmit)="submitForm(form)" #form="ngForm">
+<form class="form" #form="ngForm">
   <p-header>
     <div class="ui-helper-clearfix">
       <span class="ui-panel-title">Розклад уроків</span>
     </div>
   </p-header>
 
-	<div class="form-control classes">
-		<p-dropdown
-			name="class"
+  <div class="form-control classes">
+    <p-dropdown
+      name="class"
       [options]="classes"
-			[(ngModel)]="selectedClass"
-			(onChange)=getSchedule($event)
-			placeholder="Виберіть клас"
-			#class="ngModel"
-			require
+      [(ngModel)]="group"
+      (onChange)="getSchedule($event)"
+      placeholder="Виберіть клас"
+      #class="ngModel"
+      required
     >
-		</p-dropdown>
-		<div [hidden]="class.valid || class.untouched" class="alert alert-danger">
-			Виберіть клас
-		</div>
-	</div>
-		
+    </p-dropdown>
+    <div [hidden]="class.valid || class.untouched" class="alert alert-danger">
+      Виберіть клас
+    </div>
+  </div>
 
   <div class="form-group calendar-group-left">
-		<p-calendar
-			class="form-control"
-			[(ngModel)]="startOfSem"
-			(onSelect)="addFromDate($event)"
+    <p-calendar
+      class="form-control"
+      [(ngModel)]="startOfSemester"
       [defaultDate]="defaultDate"
       [minDate]="minDateValue"
-			[maxDate]="maxDateValue"
+      [maxDate]="maxDateValue"
       [placeholder]="'Дата початку семестру'"
       [locale]="ua"
       dateFormat="dd.mm.yy"
-			[showIcon]="true"
-			name="fromDate"
-			#fromDate="ngModel"
-			required
-		></p-calendar>
-		<div [hidden]="fromDate.valid || fromDate.untouched" class="alert alert-danger">
-			Введіть дату
-		</div>
-	</div>
-	
+      [showIcon]="true"
+      name="fromDate"
+      #fromDate="ngModel"
+      required
+    ></p-calendar>
+    <div
+      [hidden]="fromDate.valid || fromDate.untouched"
+      class="alert alert-danger"
+    >
+      Введіть дату
+    </div>
+  </div>
+
   <div class="form-group calendar-group-right">
-		<p-calendar
-			class="form-control"
-			[(ngModel)]="endOfSemester"
-			(onSelect)="addToDate($event)"
+    <p-calendar
+      class="form-control"
+      [(ngModel)]="endOfSemester"
       [minDate]="minDateValue"
       [maxDate]="maxDateValue"
       [placeholder]="'Дата закінчення семестру'"
       [locale]="ua"
       dateFormat="dd.mm.yy"
-			[showIcon]="true"
-			name="toDate"
-			#toDate="ngModel"
-			required
-		></p-calendar>
-		<div [hidden]="toDate.valid || toDate.untouched" class="alert alert-danger">
-			Введіть дату
-		</div>
+      [showIcon]="true"
+      name="toDate"
+      #toDate="ngModel"
+      required
+    ></p-calendar>
+    <div [hidden]="toDate.valid || toDate.untouched" class="alert alert-danger">
+      Введіть дату
+    </div>
   </div>
 
   <div class="left-panel">
@@ -70,17 +70,24 @@
         *ngFor="let subj of classSchedule.mondaySubjects; let i = index"
       >
         <span>{{ i + 1 }}</span>
-				<p-dropdown
-					name="subject"
+        <p-dropdown
+          name="subject"
           [options]="subjects"
           [(ngModel)]="classSchedule.mondaySubjects[i]"
           [optionLabel]="'subjectName'"
           (onChange)="addSubject($event, classSchedule.mondaySubjects, i)"
           placeholder="Виберіть предмет"
           [ngModelOptions]="{ standalone: true }"
+          [style]="{ width: '190px' }"
         >
-				</p-dropdown>
-				<button pButton type="button" (click)="delSubject($event, classSchedule.mondaySubjects, i)"><i class="far fa-trash-alt"></i></button>
+        </p-dropdown>
+        <button
+          pButton
+          type="button"
+          (click)="delSubject($event, classSchedule.mondaySubjects, i)"
+        >
+          <i class="far fa-trash-alt"></i>
+        </button>
       </p>
     </p-fieldset>
     <p-fieldset legend="Вівторок">
@@ -96,8 +103,16 @@
           (onChange)="addSubject($event, classSchedule.tuesdaySubjects, i)"
           placeholder="Виберіть предмет"
           [ngModelOptions]="{ standalone: true }"
+          [style]="{ width: '190px' }"
         >
-				</p-dropdown>
+        </p-dropdown>
+        <button
+          pButton
+          type="button"
+          (click)="delSubject($event, classSchedule.tuesdaySubjects, i)"
+        >
+          <i class="far fa-trash-alt"></i>
+        </button>
       </p>
     </p-fieldset>
     <p-fieldset legend="Середа">
@@ -113,8 +128,16 @@
           (onChange)="addSubject($event, classSchedule.wednesdaySubjects, i)"
           placeholder="Виберіть предмет"
           [ngModelOptions]="{ standalone: true }"
+          [style]="{ width: '190px' }"
         >
         </p-dropdown>
+        <button
+          pButton
+          type="button"
+          (click)="delSubject($event, classSchedule.wednesdaySubjects, i)"
+        >
+          <i class="far fa-trash-alt"></i>
+        </button>
       </p>
     </p-fieldset>
   </div>
@@ -133,8 +156,16 @@
           (onChange)="addSubject($event, classSchedule.thursdaySubjects, i)"
           placeholder="Виберіть предмет"
           [ngModelOptions]="{ standalone: true }"
+          [style]="{ width: '190px' }"
         >
         </p-dropdown>
+        <button
+          pButton
+          type="button"
+          (click)="delSubject($event, classSchedule.thursdaySubjects, i)"
+        >
+          <i class="far fa-trash-alt"></i>
+        </button>
       </p>
     </p-fieldset>
     <p-fieldset legend="П'ятниця">
@@ -150,8 +181,16 @@
           (onChange)="addSubject($event, classSchedule.fridaySubjects, i)"
           placeholder="Виберіть предмет"
           [ngModelOptions]="{ standalone: true }"
+          [style]="{ width: '190px' }"
         >
         </p-dropdown>
+        <button
+          pButton
+          type="button"
+          (click)="delSubject($event, classSchedule.fridaySubjects, i)"
+        >
+          <i class="far fa-trash-alt"></i>
+        </button>
       </p>
     </p-fieldset>
     <p-fieldset legend="Субота" [toggleable]="true" [collapsed]="true">
@@ -167,22 +206,30 @@
           (onChange)="addSubject($event, classSchedule.saturdaySubjects, i)"
           placeholder="Виберіть предмет"
           [ngModelOptions]="{ standalone: true }"
+          [style]="{ width: '190px' }"
         >
         </p-dropdown>
+        <button
+          pButton
+          type="button"
+          (click)="delSubject($event, classSchedule.saturdaySubjects, i)"
+        >
+          <i class="far fa-trash-alt"></i>
+        </button>
       </p>
     </p-fieldset>
   </div>
 
   <p-footer>
-		<button
-			pButton
-			class="submit-button"
+    <button
+      pButton
+      class="submit-button"
       type="submit"
       pButton
       icon="pi pi-check"
-      (onClick)="saveSchedule()"
-			label="Зберегти"
-			[disabled]="class.invalid || fromDate.invalid || toDate.invalid"
+      (click)="submitForm(form)"
+      label="Зберегти"
+      [disabled]="class.invalid || fromDate.invalid || toDate.invalid"
     ></button>
   </p-footer>
 </form>
