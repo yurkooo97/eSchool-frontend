@@ -1,5 +1,7 @@
 export class Marks {
-  weight: number;
-  x: Date;
-  y: Date;
+  start: Date;
+  end: Date;
+  subject_id: number;
+  class_id: number;
+  student_id: number;
 }

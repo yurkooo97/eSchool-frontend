@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AdmingroupsService } from 'src/app/services/admingroups.service';
-import { Group } from '../../../app/models/group.model';
-import { Subject } from 'src/app/models/subjects.model';
+import { MarksService } from 'src/app/services/marks.service';
 import { AdminSubjectsService } from 'src/app/services/admin-subjects.service';
 import { StudentsService } from 'src/app/services/admin-students.service';
 import { SelectItem } from 'primeng/api';
-
-
+import { Group } from '../../../app/models/group.model';
+import { Subject } from 'src/app/models/subjects.model';
+import { Marks } from 'src/app/models/marks.model';
 
 @Component({
   selector: 'app-progress',
@@ -21,6 +21,7 @@ export class ProgressComponent implements OnInit {
   classID: number;
   selectedGroup: any;
   selectedYear: any;
+  selectedDate: Date;
   selectedStudent: any;
   selectedSubjects: any;
   visibleStudents: SelectItem[];
@@ -28,15 +29,16 @@ export class ProgressComponent implements OnInit {
   visibleGroups: Group[];
   start: Date;
   end: Date;
+  mark = new Marks();
 
   constructor(private groupService: AdmingroupsService,
     private _subjectsService: AdminSubjectsService,
-    private studentService: StudentsService) {
+    private studentService: StudentsService,
+    private marksService: MarksService) {
     this.visibleGroups = new Array<Group>();
     this.visibleStudents = new Array<SelectItem>();
 
   }
-
 
   ngOnInit() {
 
@@ -51,13 +53,29 @@ export class ProgressComponent implements OnInit {
       });
 
   }
+  onStartDateChange() {
+    this.mark.start = this.start;
+    console.log(this.start);
+
+  }
+  onEndDateChange() {
+    this.mark.end = this.end;
+    console.log(this.end);
+    this.marksService.getMarks(this.mark)
+      .subscribe(data => {
+        console.log(data);
+      });
+  }
+
   onSubjectChange() {
+    console.log(this.selectedSubjects.subjectId);
+    this.mark.subject_id = this.selectedSubjects.subjectId;
   }
 
   onYearChange() {
     if (this.selectedYear) {
       this.start = new Date(this.selectedYear, 0);
-      this.end = new Date(this.selectedYear, 11);
+      this.end = new Date(this.selectedYear, 1);
       this.visibleGroups = this.groups.filter(g => g.classYear === this.selectedYear);
     } else {
       this.visibleGroups = new Array<Group>();
@@ -66,10 +84,16 @@ export class ProgressComponent implements OnInit {
     this.selectedGroup = null;
     this.onClassChange();
   }
+  onStudentChange() {
+    this.mark.student_id = this.selectedStudent.id;
+    console.log(this.mark.student_id);
+  }
 
-    onClassChange() {
+  onClassChange() {
     if (this.selectedGroup) {
-				this._subjectsService.getSubjectsListForClass(this.selectedGroup.id).subscribe(data => {
+      this.mark.class_id = this.selectedGroup.id;
+      console.log(this.mark.class_id);
+      this._subjectsService.getSubjectsListForClass(this.selectedGroup.id).subscribe(data => {
         this.visibleSubjects = data.map(function (subject) {
           return {
             label: `${subject.subjectName}`, value: subject
@@ -85,8 +109,8 @@ export class ProgressComponent implements OnInit {
         });
       });
     } else {
-			this.visibleStudents = new Array<SelectItem>();
-			this.visibleSubjects = new Array<SelectItem>();
+      this.visibleStudents = new Array<SelectItem>();
+      this.visibleSubjects = new Array<SelectItem>();
     }
     this.selectedStudent = null;
   }
