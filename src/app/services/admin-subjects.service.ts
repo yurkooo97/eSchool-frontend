@@ -9,7 +9,7 @@ import { Subject } from '../models/subjects.model';
 export class AdminSubjectsService {
   private url = 'https://fierce-shore-32592.herokuapp.com/subjects';
 
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) { }
 
   public getSubjectsList(): Observable<Subject[]> {
     return this._http.get<any>('subjects').map(response => response.data);
@@ -23,5 +23,9 @@ export class AdminSubjectsService {
 
   public putSubject(subject: Subject): Observable<Subject> {
     return this._http.put<any>(`subjects/${subject.subjectId}`, subject).map(response => response.data);
+  }
+
+  public getSubjectsListForClass(classId): Observable<Subject[]> {
+    return this._http.get<any>(`subjects?classId=${classId}`).map(response => response.data);
   }
 }

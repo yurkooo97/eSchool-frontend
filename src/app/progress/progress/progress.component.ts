@@ -34,7 +34,7 @@ export class ProgressComponent implements OnInit {
     private studentService: StudentsService) {
     this.visibleGroups = new Array<Group>();
     this.visibleStudents = new Array<SelectItem>();
-    
+
   }
 
 
@@ -49,33 +49,33 @@ export class ProgressComponent implements OnInit {
         this.years = uniqueYears
           .map(year => ({ label: year.toString(), value: year }));
       });
-    
+
   }
   onSubjectChange() {
-    if (this.selectedGroup) {
-      this.visibleSubjects = new Array<SelectItem>();
-      this._subjectsService.getSubjectsList().subscribe(data => {
-        this.visibleSubjects = data.map(function (subject) {
-          return {
-            label: `${subject}`, value: subject
-          };
-    }
-  }
-    }
   }
 
   onYearChange() {
     if (this.selectedYear) {
+      this.start = new Date(this.selectedYear, 0);
+      this.end = new Date(this.selectedYear, 11);
       this.visibleGroups = this.groups.filter(g => g.classYear === this.selectedYear);
     } else {
       this.visibleGroups = new Array<Group>();
+      this.start = null;
     }
     this.selectedGroup = null;
     this.onClassChange();
   }
 
-  onClassChange() {
+    onClassChange() {
     if (this.selectedGroup) {
+				this._subjectsService.getSubjectsListForClass(this.selectedGroup.id).subscribe(data => {
+        this.visibleSubjects = data.map(function (subject) {
+          return {
+            label: `${subject.subjectName}`, value: subject
+          };
+        });
+      });
       this.visibleStudents = new Array<SelectItem>();
       this.studentService.getStudents(this.selectedGroup.id).subscribe(data => {
         this.visibleStudents = data['data'].map(function (student) {
@@ -85,7 +85,8 @@ export class ProgressComponent implements OnInit {
         });
       });
     } else {
-      this.visibleStudents = new Array<SelectItem>();
+			this.visibleStudents = new Array<SelectItem>();
+			this.visibleSubjects = new Array<SelectItem>();
     }
     this.selectedStudent = null;
   }
