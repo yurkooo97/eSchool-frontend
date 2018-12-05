@@ -87,12 +87,12 @@ export class ClassScheduleComponent implements OnInit {
     console.log(this.classes);
   }*/
 
-  getSchedule(classId): void {
+  /*getSchedule(classId): void {
     console.log('hello');
     this.schedule.getSchedule(classId).subscribe(data => {
       this.classes = data;
     });
-  }
+  }*/
 
   /*submitForm(): void {
     console.log(this.selectedClass);

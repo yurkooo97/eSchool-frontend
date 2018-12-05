@@ -1,16 +1,19 @@
-
 <p-table [value]="allGroupsList" [columns]="cols">
   <ng-template pTemplate="caption">Перехід на новий навчальний рік</ng-template>
   <ng-template pTemplate="header">
     <tr>
+      <th class="checkbox-class"><p>Вибрати всі</p><p-checkbox [(ngModel)]="val" binary="true" (click)="checkboxEvent(val)"></p-checkbox></th>
       <th>Класи поточного року</th>
       <th>Класи нового навчального року</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr *ngFor="let col of columns">
-      <td>{{rowData[col.field]}} клас, {{rowData[col.field2]}} рік</td>
-      <td><span *ngIf="hideTag">{{rowData[col.field3]}} клас у {{rowData[col.field4]}} році</span></td>
+      <td class="checkbox-class">               
+        <p-checkbox [(ngModel)]="rowData[col.checkboxField]" binary="true"></p-checkbox>              
+      </td>
+      <td>{{rowData[col.classNameField]}} клас, {{rowData[col.classYearField]}} рік</td>      
+      <td><span *ngIf="hideTag">{{rowData[col.newClassNameField]}} клас у {{rowData[col.newClassYearField]}} році</span></td>      
     </tr>
   </ng-template>
   <ng-template pTemplate="summary">

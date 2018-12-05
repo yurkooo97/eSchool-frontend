@@ -19,25 +19,6 @@
     display: inline-block;
   }
 }
-
-::ng-deep .ui-state-highlight {
-  background-color: #f9f9f9 !important;
-  color: black !important;
-}
-.subjects-table-row {
-  height: 48px;
-  .subjects-table-cell {
-    position: relative;
-    line-height: 2.3;
-  }
-  .subjects-custom-button {
-    display: none;
-  }
-  &:hover .subjects-custom-button {
-    float: right;
-    display: inline-block;
-  }
-}
 .invalid-feedback {
   padding-left: 35%;
   color: red;

@@ -7,4 +7,5 @@ export class Transition {
   newClassId: number;
   newClassName: string;
   newClassYear: number;
+  checkbox: boolean;
 }
