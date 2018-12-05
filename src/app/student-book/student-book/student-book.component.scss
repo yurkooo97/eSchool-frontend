@@ -1,25 +1,47 @@
+%ellipsis-shared {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+%ellipsis-after {
+  overflow: visible;
+  text-overflow: inherit;
+  background: #fff;
+  position: absolute;
+  left: auto;
+  top: auto;
+  width: auto;
+  max-width: 20rem;
+  border: 1px solid #eaebec;
+  padding: 0 0.5rem;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.28);
+  white-space: normal;
+  word-wrap: break-word;
+  display: block;
+  color: black;
+  margin-top: -1.25rem;  
+}
+
 .weekSchedule {
   margin-top: 70px;
   margin-left: 1%;
-}
-.central {
-  text-align: center;
-  position: relative;
-  .prev {
-    position: absolute;
-    top: -8%;
-    left: 82px;
-  }
-  .next {
-    position: absolute;
-    top: -8%;
-    right: 82px;
-  }
-}
 
-.right {
-  padding-left: 13%;
-  position: relative;
+  .central {
+    text-align: center;
+    position: relative;
+    label {
+      font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+  }
+  .left {
+    margin-left: 0.1em;
+  }
+  .right {
+    padding-left: 13%;
+    button {
+      margin-left: 3%;
+    }
+  }
 }
 
 .students-table-row {
@@ -28,33 +50,28 @@
     text-align: center;
   }
 }
+
 .student-ellipsis-table-cell {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  @extend %ellipsis-shared;
+  &:hover,
+  &:focus {
+    color: transparent;
+    &:after {
+      content: attr(data-homework);
+      @extend %ellipsis-after;
+    }
+  }
 }
 
-.student-ellipsis-table-cell:focus,
-.student-ellipsis-table-cell:hover {
-  color: transparent;
-  &:after {
-    content: attr(data-homework);
-    overflow: visible;
-    text-overflow: inherit;
-    background: #fff;
-    position: absolute;
-    left: auto;
-    top: auto;
-    width: auto;
-    max-width: 20rem;
-    border: 1px solid #eaebec;
-    padding: 0 0.5rem;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.28);
-    white-space: normal;
-    word-wrap: break-word;
-    display: block;
-    color: black;
-    margin-top: -1.25rem;
+.note-ellipsis-table-cell {
+  @extend %ellipsis-shared;
+  &:hover,
+  &:focus {
+    color: transparent;
+    &:after {
+      content: attr(data-note);
+      @extend %ellipsis-after;
+    }
   }
 }
 
@@ -114,7 +131,7 @@
     display: none;
   }
   .students-table-row {
-    height: 28px;
+    height: 24px;
     td {
       text-align: unset;
     }

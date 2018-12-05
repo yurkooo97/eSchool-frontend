@@ -1,30 +1,36 @@
 <div class="p-grid weekSchedule">
   <div class="p-col-12 p-grid p-align-center schedule-navigation">
-    <div class="p-col-3">
+    <div class="p-col-3 p-grid p-align-center left">
       <p-selectButton
         [options]="scheduleOptions"
         [(ngModel)]="selectedType"
         (click)="changeDataView()"
       ></p-selectButton>
     </div>
-    <div class="p-col-6 central">
-      <button
-        pButton
-        type="button"
-        (click)="switchSchedule(false)"
-        label="Попередній"
-        class="prev ui-button-rounded ui-button-secondary"
-      ></button>
-      <label> {{ startAndEndOfWeek }} </label>
-      <button
-        pButton
-        type="button"
-        (click)="switchSchedule(true)"
-        label="Наступний"
-        class="next ui-button-rounded ui-button-secondary"
-      ></button>
+    <div class="p-col-6 p-grid p-align-center central">
+      <div class="p-col-3">
+        <button
+          pButton
+          type="button"
+          (click)="switchSchedule(false)"
+          label="Попередній"
+          class="ui-button-rounded ui-button-secondary"
+        ></button>
+      </div>
+      <div class="p-col-6">
+        <label> {{ startAndEndOfWeek }} </label>
+      </div>
+      <div class="p-col-3">
+        <button
+          pButton
+          type="button"
+          (click)="switchSchedule(true)"
+          label="Наступний"
+          class="ui-button-rounded ui-button-secondary"
+        ></button>
+      </div>
     </div>
-    <div class="p-col-3 right">
+    <div class="p-col-3 p-grid p-align-center p-justify-end right">
       <p-selectButton
         [options]="viewOptions"
         [(ngModel)]="viewType"
@@ -32,11 +38,13 @@
         (click)="changeScheduleView()"
       >
       </p-selectButton>
-      <i
-        class="fa fa-print student-print-icon"
+      <button
+        pButton
+        type="button"
+        icon="fa fa-print"
+        [disabled]="viewType === 'list'"
         (click)="printSchedule()"
-        *ngIf="viewType === 'group'"
-      ></i>
+      ></button>
     </div>
   </div>
   <div class="p-col-12 p-grid tables">
@@ -63,20 +71,25 @@
           <tr class="students-table-row">
             <td
               *ngFor="let col of columns"
-              [ngClass]="
-                col.field === 'homeWork' &&
-                rowData[col.field] &&
-                rowData[col.field].length > 35
-                  ? 'student-ellipsis-table-cell'
+              [ngClass]="{
+                'student-ellipsis-table-cell':
+                  (col.field === 'homeWork' &&
+                    rowData[col.field].length > 35),
+                 'note-ellipsis-table-cell': 
+                  (col.field === 'note' && rowData[col.field].length > 49)
+              }"
+              [attr.data-homeWork]="
+                col.field === 'homeWork' && rowData[col.field].length > 35
+                  ? rowData[col.field]
                   : null
               "
-              [attr.data-homeWork]="
-                col.field === 'homeWork' && rowData[col.field]
+              [attr.data-note]="
+                col.field === 'note' && rowData[col.field].length > 49
                   ? rowData[col.field]
                   : null
               "
             >
-              {{ rowData[col.field] ? rowData[col.field] : "" }}
+              {{ rowData[col.field] ? rowData[col.field] : '' }}
             </td>
           </tr>
         </ng-template>
