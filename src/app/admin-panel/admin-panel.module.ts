@@ -38,6 +38,7 @@ import { NewStudingYearService } from '../services/new-studing-year.service';
 import { OverlayPanelModule } from 'primeng/primeng';
 import { CheckboxModule } from 'primeng/primeng';
 import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
+import { HttpAttachTeacherService } from '../services/http-attach-teacher.service';
 
 @NgModule({
   imports: [
@@ -73,7 +74,8 @@ import { DashboardComponent } from './admin-panel/dashboard/dashboard.component'
     AdminSubjectsService,
     TeachersService,
     StudentsService,
-    NewStudingYearService
+    NewStudingYearService,
+    HttpAttachTeacherService
   ],
   declarations: [
     AdminPanelComponent,
@@ -88,4 +90,4 @@ import { DashboardComponent } from './admin-panel/dashboard/dashboard.component'
     DashboardComponent
   ]
 })
-export class AdminPanelModule {}
+export class AdminPanelModule { }
