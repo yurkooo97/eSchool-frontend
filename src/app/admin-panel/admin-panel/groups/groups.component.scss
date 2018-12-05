@@ -1,59 +1,73 @@
-::ng-deep .groups-container  {
-  margin:10px 0px ;
-  width:150px ;
-  height:40px ;
-  font-size:15px;
+::ng-deep .groups-container {
+  margin: 10px 0px;
+  width: 150px;
+  height: 40px;
+  font-size: 15px;
 }
 
 ::ng-deep body .ui-button.ui-state-default.ui-button-success {
 
-  &:enabled:active, &:enabled:hover{
-  background-color: blue;
+  &:enabled:active,
+  &:enabled:hover {
+    background-color: blue;
   }
+
   background-color: blue;
 }
 
 .groups-container {
-  width:100%;
-  margin:0 auto;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .btn {
-  float:right;
+  float: right;
 }
 
-:host ::ng-deep  .ui-table .ui-table-tbody {
+:host ::ng-deep .ui-table .ui-table-tbody {
   background: rgb(194, 192, 190);
-} 
+}
 
 div.pointer {
   pointer-events: auto;
 }
 
 $required: red;
-span.ui-button-text,.ui-clickable{
+
+span.ui-button-text,
+.ui-clickable {
   padding: 0px !important;
 }
 
-.requiredMessage{
+.requiredMessage {
+  position: absolute;
+  right: 4%;
+  bottom: -19%;
   color: $required;
-  font-size: 15px;
-  margin-left:10px;
+  font-size: 11px;
 }
 
-.d-none{
+.d-none {
   display: none;
 }
-.class-table-row
-{
-  .edit-class-button 
-  {
+
+.requiredWrapper {
+  position: relative;
+  margin-top: 15px;
+}
+
+.is-invalid {
+  border-color: $required;
+}
+
+.class-table-row {
+  .edit-class-button {
     visibility: hidden;
     float: right;
     margin-right: 1em;
   }
-  &:hover .edit-class-button 
-  {
+
+  &:hover .edit-class-button {
     visibility: visible;
   }
 }

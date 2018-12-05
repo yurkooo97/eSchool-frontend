@@ -2,8 +2,10 @@
   background-color: #f9f9f9 !important;
   color: black !important;
 }
+
 .subjects-table-row {
   height: 48px;
+
   .subjects-table-cell {
     position: relative;
     line-height: 2.3;
@@ -11,16 +13,25 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
   .subjects-custom-button {
     display: none;
   }
+
   &:hover .subjects-custom-button {
     float: right;
-    display: inline-block;
+    display: block;
   }
 }
-.invalid-feedback {
-  padding-left: 35%;
-  color: red;
-  font-size: 800;
+
+.marginWrapper {
+  margin-top: 15px;
+}
+
+$required: red;
+
+.requiredMessage {
+  max-width: 250px;
+  color: $required;
+  font-size: 11px;
 }
