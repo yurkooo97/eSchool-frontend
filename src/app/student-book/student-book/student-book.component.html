@@ -30,7 +30,7 @@
         ></button>
       </div>
     </div>
-    <div class="p-col-3 p-grid p-align-center right">
+    <div class="p-col-3 p-grid p-align-center p-justify-end right">
       <p-selectButton
         [options]="viewOptions"
         [(ngModel)]="viewType"
@@ -71,15 +71,20 @@
           <tr class="students-table-row">
             <td
               *ngFor="let col of columns"
-              [ngClass]="
-                col.field === 'homeWork' &&
-                rowData[col.field] &&
-                rowData[col.field].length > 35
-                  ? 'student-ellipsis-table-cell'
+              [ngClass]="{
+                'student-ellipsis-table-cell':
+                  (col.field === 'homeWork' &&
+                    rowData[col.field].length > 35),
+                 'note-ellipsis-table-cell': 
+                  (col.field === 'note' && rowData[col.field].length > 49)
+              }"
+              [attr.data-homeWork]="
+                col.field === 'homeWork' && rowData[col.field].length > 35
+                  ? rowData[col.field]
                   : null
               "
-              [attr.data-homeWork]="
-                col.field === 'homeWork' && rowData[col.field]
+              [attr.data-note]="
+                col.field === 'note' && rowData[col.field].length > 49
                   ? rowData[col.field]
                   : null
               "

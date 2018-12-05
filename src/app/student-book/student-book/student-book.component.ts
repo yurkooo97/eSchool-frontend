@@ -113,7 +113,7 @@ export class StudentBookComponent implements OnInit {
       this.view = true;
       this.cols.push(
         { field: 'mark', header: 'Оцінка', class: 'lesson-mark' },
-        { field: 'Note', header: 'Примітка' }
+        { field: 'note', header: 'Примітка' }
       );
     } else if (this.viewType === 'group' && this.view) {
       this.view = false;
