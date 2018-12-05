@@ -3,6 +3,7 @@ import { NewStudingYearService } from 'src/app/services/new-studing-year.service
 import { ClassId } from 'src/app/models/classId.model';
 import { Transition } from 'src/app/models/transitional-studing.model';
 import { Group } from 'src/app/models/group.model';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
   selector: 'app-new-studing-year',
@@ -21,10 +22,12 @@ export class NewStudingYearComponent implements OnInit {
   classIdArrayBefore: Array<ClassId> = [];
   allGroupsList: Array<Transition> = [];
   groupDigitsArray: Array<number> = [];
+  numOfStudentsArray: Array<number> = [];
   counter: number;
   val = true;
 
-  constructor(private httpService: NewStudingYearService) {}
+  constructor(private httpService: NewStudingYearService,
+    private notificationToasts: DataSharingService) {}
   ngOnInit() {
     this.getGroupList();
   }
@@ -33,8 +36,9 @@ export class NewStudingYearComponent implements OnInit {
       this.groupList = data;
       this.filterGroups();
       });
-    this.cols = [{ classNameField: 'className', classYearField: 'classYear', newClassNameField: 'newClassName',
-      newClassYearField: 'newClassYear', checkboxField: 'checkbox', colorStyleField: 'colorStyle' }];
+    this.cols = [{ classNameField: 'className', classYearField: 'classYear',
+      newClassNameField: 'newClassName', newClassYearField: 'newClassYear',
+      checkboxField: 'checkbox', colorStyleField: 'colorStyle' }];
   }
   filterGroups() {
     this.activeGroups = this.groupList.filter(g => g.isActive);
@@ -109,5 +113,18 @@ export class NewStudingYearComponent implements OnInit {
     this.allGroupsList.forEach( item =>
       item.checkbox = val
     );
+  }
+  checkNumOfStudents() {
+    this.allGroupsList.forEach( item =>
+      this.numOfStudentsArray.push(item.numOfStudents)
+    );
+    if (this.numOfStudentsArray.includes(0)) {
+      this.buttonAddDisabled = true;
+      this.notificationToasts.notify('error', 'Відхилено', 'В даному переліку класів є такі, ' +
+      'в яких немає жодного учня. Будь ласка, додайте хоча б одного учня до класу або видаліть ' +
+      'такий клас з переліку активних');
+    } else {
+      this.addNewGroups();
+    }
   }
 }
