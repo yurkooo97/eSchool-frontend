@@ -6,7 +6,7 @@ import { StudentsService } from 'src/app/services/admin-students.service';
 import { SelectItem } from 'primeng/api';
 import { Group } from '../../../app/models/group.model';
 import { Subject } from 'src/app/models/subjects.model';
-import { Marks } from 'src/app/models/marks.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-progress',
@@ -29,7 +29,7 @@ export class ProgressComponent implements OnInit {
   visibleGroups: Group[];
   start: Date;
   end: Date;
-  mark = new Marks();
+  marks: any;
 
   constructor(private groupService: AdmingroupsService,
     private _subjectsService: AdminSubjectsService,
@@ -53,23 +53,20 @@ export class ProgressComponent implements OnInit {
       });
 
   }
-  onStartDateChange() {
-    this.mark.start = this.start;
-    console.log(this.start);
+  onStartDateChange() { }
 
-  }
   onEndDateChange() {
-    this.mark.end = this.end;
-    console.log(this.end);
-    this.marksService.getMarks(this.mark)
+    const pipe = new DatePipe('en-US');
+    const startStr = pipe.transform(this.start, 'yyyy-MM-dd');
+    const endStr = pipe.transform(this.end, 'yyyy-MM-dd');
+    this.marksService.getMarks(startStr, endStr, this.selectedSubjects.subjectId, this.selectedGroup.id, this.selectedStudent.id)
       .subscribe(data => {
-        console.log(data);
+        const marks = data.map(mark => mark.y);
+        console.log(marks);
       });
   }
 
   onSubjectChange() {
-    console.log(this.selectedSubjects.subjectId);
-    this.mark.subject_id = this.selectedSubjects.subjectId;
   }
 
   onYearChange() {
@@ -85,14 +82,10 @@ export class ProgressComponent implements OnInit {
     this.onClassChange();
   }
   onStudentChange() {
-    this.mark.student_id = this.selectedStudent.id;
-    console.log(this.mark.student_id);
   }
 
   onClassChange() {
     if (this.selectedGroup) {
-      this.mark.class_id = this.selectedGroup.id;
-      console.log(this.mark.class_id);
       this._subjectsService.getSubjectsListForClass(this.selectedGroup.id).subscribe(data => {
         this.visibleSubjects = data.map(function (subject) {
           return {
@@ -113,5 +106,13 @@ export class ProgressComponent implements OnInit {
       this.visibleSubjects = new Array<SelectItem>();
     }
     this.selectedStudent = null;
+  }
+  StudentAverageMark() {
+    let average = 0;
+    for (let i = 0; i < this.marks.length; i++) {
+      average += this.marks[i];
+    }
+  const result = average / this.marks.length;
+    console.log(result);
   }
 }
