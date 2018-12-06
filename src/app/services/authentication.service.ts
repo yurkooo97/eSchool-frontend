@@ -45,7 +45,6 @@ export class AuthenticationService {
         const jwtHelper = new JwtHelperService();
         const decodedToken = jwtHelper.decodeToken(token);
         this._idUser = decodedToken.jti;
-        console.log(this._idUser);
         return this._idUser;
       } else {
         console.error('Token not found!!!');

@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
 import { Hometask } from '../models/hometask.model';
 import { JournalData } from '../models/journalData.model';
+import { Month } from '../models/month.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,6 @@ export class TeacherJournalsService {
 
   readonly allJournals: string = '/journals';
   readonly activeJurnal: string = '/active';
-
-  private httpOptions = { headers: new HttpHeaders( {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE'} )};
 
   constructor(private http: HttpClient) { }
 
@@ -49,9 +46,9 @@ export class TeacherJournalsService {
     }
   }
 
-  getJournalsTeacher(id?: number, isActive?: boolean): Observable<Journal[]> {
+  public getJournalsTeacher(id?: number, isActive?: boolean): Observable<Journal[]> {
     const url = this.urlForTeacher(id, isActive);
-    const observerResponse = this.http.get<Journal[]>(url, this.httpOptions)
+    const observerResponse = this.http.get<Journal[]>(url)
     .map( (response: any) => {
       return response.data;
     })
@@ -61,8 +58,8 @@ export class TeacherJournalsService {
     return observerResponse;
   }
 
-  getHomeworks(idSubject: number, idClass: number): Observable<Hometask[]> {
-    return this.http.get<Hometask[]>(this.homeTaskUrl(idSubject, idClass), this.httpOptions)
+  public getHomeworks(idSubject: number, idClass: number): Observable<Hometask[]> {
+    return this.http.get<Hometask[]>(this.homeTaskUrl(idSubject, idClass))
       .map( (response: any) => {
         return response.data;
       }).catch( (error: any) => {
@@ -70,8 +67,8 @@ export class TeacherJournalsService {
       });
   }
 
-  getjournals(idSubject: number, idClass: number): Observable<JournalData[]> {
-    return this.http.get<JournalData[]>(this.urlJournalSubject(idSubject, idClass), this.httpOptions)
+  public getjournals(idSubject: number, idClass: number): Observable<JournalData[]> {
+    return this.http.get<JournalData[]>(this.urlJournalSubject(idSubject, idClass))
     .map( (response: any) => {
       return response.data;
     })
@@ -82,14 +79,14 @@ export class TeacherJournalsService {
     });
   }
 
-  monthes(journal: JournalData[]): Month[] {
+  public getPreparedMonths(journal: JournalData[]): Month[] {
     const res: Month[] = [];
     if (journal) {
       const markDates: string[] = [];
       for (let studentIndex = 0; studentIndex < journal.length; studentIndex++) {
         for (let markIndex = 0; markIndex < journal[studentIndex].marks.length; markIndex++) {
           const markObject = journal[studentIndex].marks[markIndex];
-          const month = this.month(markObject.dateMark, '.');
+          const month = this.getMonths(markObject.dateMark, '.');
           if (markDates.indexOf(month) >= 0) {
             continue;
           } else {
@@ -101,36 +98,28 @@ export class TeacherJournalsService {
           }
         }
       }
-      console.debug(res);
       return res;
     } else { return []; }
   }
 
-  private month(date:string, separator: string): string {
-    const monthes = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
+  private getMonths(date:string, separator: string): string {
+    const months = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
     const res = date.split(separator);
     if (res[1]) {
-      return monthes[(+res[1] - 1)] + ' ' + res[0];
+      return months[(+res[1] - 1)] + ' ' + res[0];
     }
     return;
   }
 
-  monthJournal(month: Month, journalsData: JournalData[]) {
+  public getExistingJournalMonths(month: Month, journalsData: JournalData[]) {
 
-    function isThisMonth(element, index, array) {
+    const isThisMonth = (element, index, array) => {
       return (element.dateMark.indexOf(month) === 0);
-    }
+    };
     for (let studentIndex = 0; studentIndex < journalsData.length; studentIndex++) {
       const marks = journalsData[studentIndex].marks;
-      console.debug(journalsData[studentIndex].studentFullName, marks);
       const marksFiltered = marks.filter(isThisMonth);
-
-      console.debug('filtered:' + journalsData[studentIndex].studentFullName, marksFiltered);
     }
   }
 
-}
-export class Month {
-  label: string;
-  value: string;
 }

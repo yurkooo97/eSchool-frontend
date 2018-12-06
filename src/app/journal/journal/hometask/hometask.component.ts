@@ -11,13 +11,13 @@ import { Journal } from '../../../models/journal.model';
 })
 export class HometaskComponent implements OnInit, OnDestroy {
 
-  public hometasks: Hometask[];
+  hometasks: Hometask[];
   sortKey: string;
   sortOptions: SelectItem[];
   sortField: string;
   sortOrder: number;
 
-  public activeJournal: Journal;
+  activeJournal: Journal;
 
   constructor(private teacherJournalService: TeacherJournalsService) { }
 
@@ -29,8 +29,6 @@ export class HometaskComponent implements OnInit, OnDestroy {
         .subscribe(hometasks =>
         this.hometasks = hometasks);
     });
-    // this.teacherJournalService.getHomeworks(21, 11).subscribe(hometasks =>
-    //   this.hometasks = hometasks);
 
     this.sortOptions = [
       {label: 'Спочатку нові', value: '!year'},
@@ -39,6 +37,6 @@ export class HometaskComponent implements OnInit, OnDestroy {
     ];
   }
   ngOnDestroy() {
-   // this.teacherJournalService.journalChanged.unsubscribe();
+   this.teacherJournalService.journalChanged.unsubscribe();
   }
 }

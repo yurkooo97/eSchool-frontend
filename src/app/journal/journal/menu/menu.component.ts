@@ -66,11 +66,13 @@ export class MenuComponent implements OnInit {
       this.displayJournalsByClass = this.removeDuplicates(this.journals, 'className');
     });
   }
+
   setSelectedJournal(): void {
     console.log('clicked');
     console.log(this.selectedSubjectName);
     this.teacherJournalService.emitJournalChanged(this.selectedSubjectName);
   }
+
   showSubjects(): void {
     if (this.selectedClassName) {
       this.selectedSubjectName = undefined;
