@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.http.getClasses().subscribe(data => {
-      const activeClasses = data.filter((classes) => classes.isActive === true);
+      const activeClasses = data.filter(classes => classes.isActive);
       this.classes = activeClasses.length;
       this.students = activeClasses.reduce((sumStudents, currentClass) => sumStudents + currentClass.numOfStudents, 0);
     });
