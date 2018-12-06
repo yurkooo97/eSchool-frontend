@@ -10,8 +10,7 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 @Component({
   selector: 'app-attach-teacher',
   templateUrl: './attach-teacher.component.html',
-  styleUrls: ['./attach-teacher.component.scss'],
-  providers: [HttpAttachTeacherService]
+  styleUrls: ['./attach-teacher.component.scss']
 })
 export class AttachTeacherComponent implements OnInit {
   @ViewChild('AttachTeacherForm') form: NgForm;
