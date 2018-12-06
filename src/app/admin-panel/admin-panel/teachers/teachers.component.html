@@ -67,6 +67,7 @@
               minlength="3"
               maxlength="20"
               name="firstname"
+              pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+"
               class="p-col-12"
             />
             <label for="float-input-firstname">Ім'я *</label>
@@ -89,6 +90,7 @@
               maxlength="20"
               required
               name="lastname"
+              pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+"
               class="p-col-12"
             />
             <label for="float-input-lastname">Прізвище *</label>
@@ -111,6 +113,7 @@
               maxlength="20"
               required
               name="patronymic"
+              pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+"
               class="p-col-12"
             />
             <label for="float-input-patronymic">По батькові *</label>
@@ -166,20 +169,28 @@
             <label for="float-input-login">Логін</label>
           </span>
         </div>
-        <div class="p-col-12 filds">
+        <div class="p-col-12 filds requiredWrapper">
           <span class="ui-float-label">
             <input
               pInputText
               id="float-input-email"
               [(ngModel)]="teacher.email"
               type="email"
+              #email="ngModel"
+              [class.is-invalid]="email.invalid && email.touched"
               name="email"
               class="p-col-12"
+              pattern="^([\w\-\.]+)@((\[([0-9]{1,3}\.){3}[0-9]{1,3}\])|(([\w\-]+\.)+)([a-zA-Z]{2,4}))$"
             />
             <label for="float-input-email">Електронна адреса</label>
           </span>
+          <span
+            [class.d-none]="email.valid || email.untouched"
+            class="requiredMessage"
+            >Некоректна електронна адреса</span
+          >
         </div>
-        <div class="p-col-12 filds">
+        <div class="p-col-12 filds requiredWrapper">
           <span class="ui-float-label">
             <p-inputMask
               [(ngModel)]="teacher.phone"
@@ -202,7 +213,18 @@
             name="photo"
           />
           <span class="photoError">{{ photoData }}</span>
-          <img [src]="imageUrl" alt="Photo" class="photoImg" />
+          <img
+            *ngIf="teacher.avatar != null"
+            [src]="teacher.avatar"
+            alt="Photo"
+            class="photoImg"
+          />
+          <img
+            *ngIf="teacher.avatar == null"
+            [src]="imageUrl"
+            alt="Photo"
+            class="photoImg"
+          />
         </div>
       </p-fieldset>
     </div>

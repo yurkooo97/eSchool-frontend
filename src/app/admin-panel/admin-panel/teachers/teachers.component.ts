@@ -42,13 +42,12 @@ export class TeachersComponent implements OnInit {
     this.fileToUpload = file.item(0);
     const reader = new FileReader();
     reader.onload = (event: any) => {
-      this.teacher.avatar = event.target.result;
       if (file.item(0).size > 500000) {
         this.photoData = 'Перевищено максимальний розмір 500 кб';
         this.imageUrl = 'assets/avatar.png';
       } else {
         this.photoData = '';
-        this.imageUrl = event.target.result;
+        this.teacher.avatar = event.target.result;
       }
     };
     reader.readAsDataURL(this.fileToUpload);
