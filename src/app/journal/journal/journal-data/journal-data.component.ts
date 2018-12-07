@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { TeacherJournalsService, Month } from 'src/app/services/teacher-journals.service';
+import { TeacherJournalsService } from 'src/app/services/teacher-journals.service';
 import { JournalData } from 'src/app/models/journalData.model';
 import { Journal } from 'src/app/models/journal.model';
+import { Month } from 'src/app/models/month.model';
 
 @Component({
   selector: 'app-journal-data',
@@ -11,7 +12,7 @@ import { Journal } from 'src/app/models/journal.model';
 export class JournalDataComponent implements OnInit {
 
   constructor(private teacherJournalService: TeacherJournalsService) { }
-  
+
   journalData: JournalData[] = [];
   journalMonthes: Month[];
   isActiveJournal: boolean;
@@ -25,6 +26,7 @@ export class JournalDataComponent implements OnInit {
     this.subscribeData();
     this._isMonthSelected = false;
   }
+
   subscribeData() {
     this.teacherJournalService
     .journalChanged
@@ -34,13 +36,13 @@ export class JournalDataComponent implements OnInit {
       .subscribe( data => {
         this.journalData = data;
         this.isDataRecived = true;
-        this.journalMonthes = this.teacherJournalService.monthes(data);
+        this.journalMonthes = this.teacherJournalService.getPreparedMonths(data);
       });
     });
   }
   monthSelectedFor() {
     const monthData = this.teacherJournalService
-    .monthJournal(this.selectedMonth, this.journalData);
+    .getExistingJournalMonths(this.selectedMonth, this.journalData);
     if (monthData.length > 1) {
       this.selectedJournalData = monthData;
       const marksDays = monthData[0].marks.map( (mark) => {

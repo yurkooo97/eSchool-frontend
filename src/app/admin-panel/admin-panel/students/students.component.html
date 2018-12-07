@@ -16,7 +16,6 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th class="info-col"></th>
       <th *ngFor="let col of cols" [pSortableColumn]="col.field">
         {{col.header}}
         <p-sortIcon [field]="col.field"></p-sortIcon>
@@ -25,89 +24,92 @@
   </ng-template>
   <ng-template pTemplate="body" let-student>
     <tr class="studentRow">
-      <td>
-        <button type="button" pButton icon="pi pi-info" class="ui-button-raised ui-button-secondary student-info-btn" (click)="studentInfo($event, student, oPanel)"></button>
-      </td>
       <td *ngFor="let col of cols">
         {{student[col.field]}}
-        <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'dateOfBirth'" (click)="editStudent(student)" class="ui-button-raised edit-student-btn"></button>
+        <button type="button" pButton icon="pi pi-info" *ngIf="col.field == 'dateOfBirth'" (click)="studentInfo($event, student, oPanel)" class="ui-button-raised ui-button-secondary action-tools"></button>
+        <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'dateOfBirth'" (click)="editStudent(student)" class="ui-button-raised action-tools"></button>
       </td>
     </tr>
   </ng-template>
   <ng-template pTemplate="summary">
       <div style="text-align:left">
-    <button type="button" (click)="createStudent()" pButton icon="pi pi-plus" class="ui-button-raised" label="Додати учня"></button>
+        <button type="button" (click)="createStudent(); this.firstname.reset(); this.lastname.reset(); this.patronymic.reset(); this.dateOfBirth.reset()" pButton icon="pi pi-plus" class="ui-button-raised" label="Додати учня"></button>
       </div>
   </ng-template>
 </p-table>
 
-<p-overlayPanel #oPanel>
-  <p-card header="Учень {{selectedClassName}}" subheader="{{selectedStudent.lastname}} {{selectedStudent.firstname}} {{selectedStudent.patronymic}}">
-    <p-header>
+<p-overlayPanel [showCloseIcon]="true" #oPanel>
+  <div class="student-data-container">
+    <div class="student-img">
       <img src="assets/avatar.png" class="student-avatar">
-    </p-header>
-    <div class="student-full-info">
-      <p><span class="student-data-record">Дата народження:</span> {{selectedStudent.dateOfBirth}}</p>
-      <p><span class="student-data-record">Номер телефону:</span> {{selectedStudent.phone}}</p>
-      <p><span class="student-data-record">Email:</span> {{selectedStudent.email}}</p>
-      <p><span class="student-data-record">Логін:</span> {{selectedStudent.login}}</p>
     </div>
-    <p-footer>
-      <button type="button" pButton icon="pi pi-times" (click)="oPanel.hide()" class="ui-button-raised close-student-info" label="Закрити"></button>
-    </p-footer>
-  </p-card>
+    <div class="student-data">
+      <span class="student-class-title">Учень {{selectedClassName}}</span><br>
+      <span class="student-name">{{selectedStudent.firstname}} {{selectedStudent.patronymic}}<br>{{selectedStudent.lastname}}</span>
+      <div class="student-full-info">
+        <p><span class="student-data-record">Дата народження:</span> {{selectedStudent.dateOfBirth}}</p>
+        <p><span class="student-data-record">Номер телефону:</span> {{selectedStudent.phone}}</p>
+        <p><span class="student-data-record">Email:</span> {{selectedStudent.email}}</p>
+        <p><span class="student-data-record">Логін:</span> {{selectedStudent.login}}</p>
+      </div>
+    </div>
+  </div>
 </p-overlayPanel>
 
 <p-dialog header="Інформація Про Учня" [(visible)]="displayForm" [modal]="true" [responsive]="true" [width]="700" [height]="600" [minWidth]="200" [minY]="70" [maximizable]="false" [baseZIndex]="10000">
-  <form class="studentsForm" #studentsForm="ngForm">
+  <form class="studentsForm" #studentsForm="ngForm" autocomplete="off">
     <p-fieldset legend="Обов'язкові поля" class="mainInfo">
-      <span class="ui-float-label">
-        <input id="float-input-firstname" type="text" pInputText [class.wrongData]="firstname.invalid && firstname.touched" #firstname="ngModel" name="firstname" [(ngModel)]="newStudent.firstname" minlength="3" maxlength="20" required>
-        <label for="float-input-firstname">Ім'я *</label>
-      </span>
+      <div class="ui-inputgroup">
+        <input id="float-input-firstname" class="student-data-field" type="text" placeholder="Ім'я *" pInputText [class.wrongData]="firstname.invalid && firstname.touched" #firstname="ngModel" name="firstname" [(ngModel)]="newStudent.firstname" minlength="3" maxlength="20" required>
+        <span class="ui-inputgroup-addon" [class.wrongData1]="firstname.invalid && firstname.touched" [class.correctData1]="firstname.valid && firstname.touched"><i class="fas fa-user"></i></span>
+      </div>
       <span [class.hiddenBox]="firstname.valid || firstname.untouched" class="messageOfMistake">Некоректне ім'я</span>
       <br>
-      <span class="ui-float-label">
-        <input id="float-input-lastname" type="text" pInputText [class.wrongData]="lastname.invalid && lastname.touched" #lastname="ngModel" name="lastname" [(ngModel)]="newStudent.lastname" minlength="3" maxlength="20" required>
-        <label for="float-input-lastname">Прізвище *</label>
-      </span>
+      <div class="ui-inputgroup">
+        <input id="float-input-lastname" class="student-data-field" type="text" placeholder="Прізвище *" pInputText [class.wrongData]="lastname.invalid && lastname.touched" #lastname="ngModel" name="lastname" [(ngModel)]="newStudent.lastname" minlength="3" maxlength="20" required>
+        <span class="ui-inputgroup-addon" [class.wrongData1]="lastname.invalid && lastname.touched" [class.correctData1]="lastname.valid && lastname.touched"><i class="fas fa-user"></i></span>
+      </div>
       <span [class.hiddenBox]="lastname.valid || lastname.untouched" class="messageOfMistake">Некоректне прізвище</span>
       <br>
-      <span class="ui-float-label">
-        <input id="float-input-patronymic" type="text" pInputText [class.wrongData]="patronymic.invalid && patronymic.touched" #patronymic="ngModel" name="patronymic" [(ngModel)]="newStudent.patronymic" minlength="6" maxlength="20" required>
-        <label for="float-input-patronymic">По батькові *</label>
-      </span>
+      <div class="ui-inputgroup">
+        <input id="float-input-patronymic" class="student-data-field" type="text" placeholder="По батькові *" pInputText [class.wrongData]="patronymic.invalid && patronymic.touched" #patronymic="ngModel" name="patronymic" [(ngModel)]="newStudent.patronymic" minlength="6" maxlength="20" required>
+        <span class="ui-inputgroup-addon" [class.wrongData1]="patronymic.invalid && patronymic.touched" [class.correctData1]="patronymic.valid && patronymic.touched"><i class="fas fa-user"></i></span>
+      </div>
       <span [class.hiddenBox]="patronymic.valid || patronymic.untouched" class="messageOfMistake">Некоректне по-батькові</span>
       <span class="ui-float-label">
         <input id="float-input-class" type="text" pInputText name="classId" [(ngModel)]="newStudent.classId" class="classID" disabled>
       </span>
       <br>
-      <span class="ui-float-label">
-        <p-calendar id="float-input-date"  [class.wrongData]="dateOfBirth.invalid && dateOfBirth.touched" #dateOfBirth="ngModel" name="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" required
+      <div class="ui-inputgroup">
+        <p-calendar id="float-input-date" class="student-date-of-birth" placeholder="Дата народження *" [class.wrongData]="dateOfBirth.invalid && dateOfBirth.touched" #dateOfBirth="ngModel" name="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" required
         dateFormat="yy-mm-dd" [yearNavigator]="true" [monthNavigator]="true" yearRange="1940:2017" [readonlyInput]="true" [locale]="ua" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"></p-calendar>
-        <label for="float-input-date">Дата народження *</label>
-      </span>
+        <span class="ui-inputgroup-addon" [class.wrongData1]="dateOfBirth.invalid && dateOfBirth.touched" [class.correctData1]="dateOfBirth.valid && dateOfBirth.touched"><i class="fas fa-calendar-alt"></i></span>
+      </div>
       <span [class.hiddenBox]="dateOfBirth.valid || dateOfBirth.untouched" class="messageOfMistake">Некоректна дата народження</span>
       <br>
     </p-fieldset>
     <p-fieldset legend="Додаткова інформація" [toggleable]="true" [collapsed]="true" class="secondaryInfo">
-        <span class="ui-float-label">
-            <input id="float-input-login" type="text" pInputText [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login" [(ngModel)]="newStudent.login" minlength="5" maxlength="20">
-            <label for="float-input-login">Логін</label>
-          </span>
+      <div class="ui-inputgroup">
+        <input id="float-input-login" type="text" placeholder="Логін" pInputText [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login" [(ngModel)]="newStudent.login" minlength="5" maxlength="20">
+        <span class="ui-inputgroup-addon"><i class="fas fa-key"></i></span>
+      </div>
+      <span [class.hiddenBox]="login.valid || login.untouched" class="messageOfMistake">Некоректний логін (не менше 5 символів)</span>
       <br>
-      <span class="ui-float-label">
-        <input id="float-input-phone" type="tel" pInputText name="phone" [(ngModel)]="newStudent.phone">
-        <label for="float-input-phone">Номер телефону</label>
-      </span>
+      <div class="ui-inputgroup">
+        <input id="float-input-phone" type="tel" placeholder="Номер телефону" pInputText name="phone" [(ngModel)]="newStudent.phone">
+        <span class="ui-inputgroup-addon"><i class="fas fa-phone"></i></span>
+      </div>
       <br>
-      <span class="ui-float-label">
-        <input id="float-input-email" type="email" pInputText name="email" [(ngModel)]="newStudent.email">
-        <label for="float-input-email">Електронна адреса</label>
-      </span>
+      <div class="ui-inputgroup">
+        <input id="float-input-email" type="email" placeholder="Електронна адреса" pInputText name="email" [(ngModel)]="newStudent.email">
+        <span class="ui-inputgroup-addon"><i class="fas fa-envelope"></i></span>
+      </div>
       <br>
-      <input id="float-input-avatar" name="avatar" pInputText [(ngModel)]="newStudent.avatar"  type="file" #Image accept="image/*" (change)="handlerFileInput($event.target.files)"/>
-      <img [src]="imageUrl"  alt="Photo" style="width:120px; height:120px">
+      <div class="ui-inputgroup">
+        <input id="float-input-avatar" name="avatar" pInputText [(ngModel)]="newStudent.avatar"  type="file" #Image accept="image/*" (change)="handlerFileInput($event.target.files)"/>
+        <span class="ui-inputgroup-addon"><i class="fas fa-upload"></i></span>
+      </div>
+      <img [src]="imageUrl" alt="Photo" class="avatar-url">
     </p-fieldset>
     <br>
   </form>
@@ -115,5 +117,3 @@
   <button type="button" pButton icon="pi pi-check" (click)="saveStudent(); studentsForm.reset();" class="ui-button-raised" label="Зберегти" [disabled]="studentsForm.invalid"></button>
 </p-footer>
 </p-dialog>
-
-
