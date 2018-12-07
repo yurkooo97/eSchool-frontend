@@ -13,4 +13,13 @@ export class Schedule {
   thursdaySubjects: Subject[];
   fridaySubjects: Subject[];
   saturdaySubjects: Subject[];
+
+  constructor() {
+    this.mondaySubjects = [new Subject(-1, '')];
+    this.tuesdaySubjects = [new Subject(-1, '')];
+    this.wednesdaySubjects = [new Subject(-1, '')];
+    this.thursdaySubjects = [new Subject(-1, '')];
+    this.fridaySubjects = [new Subject(-1, '')];
+    this.saturdaySubjects = [new Subject(-1, '')];
+  }
 }

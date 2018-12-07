@@ -31,24 +31,24 @@ export class ClassScheduleService {
     });
   }
 
-  public getSchedule(classId): Observable<Schedule[]> {
+  /*public getScheduleClass(schedule: Schedule): Observable<Schedule[]> {
     return this.http
-      .get<Schedule[]>('classes/' + classId + '/schedule')
-      .map((response: any) => {
-        console.log(response.data);
-        return response.data;
-      });
-  }
-
-  /*public postSchedule(schedule: Schedule): Observable<Schedule> {
-		const schedule = {
-
-		}
-    return this.http
-      .post<Schedule>(`classes/${classId}/schedule`, schedule)
+      .get<Schedule>('classes/' + schedule.className.id + '/schedule')
       .map((response: any) => {
         console.log(response.data);
         return response.data;
       });
   }*/
+
+  public postSchedule(schedule: Schedule): Observable<Schedule> {
+    return this.http
+      .post<Schedule>(
+        'classes/' + schedule.className.id + '/schedule',
+        schedule
+      )
+      .map((response: any) => {
+        console.log(response.data);
+        return response.data;
+      });
+  }
 }

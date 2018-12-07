@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ClassScheduleService } from 'src/app/services/class-schedule.service';
 import { Schedule } from 'src/app/models/class-schedule';
 import { Group } from 'src/app/models/group.model';
 import { Subject } from 'src/app/models/subjects.model';
 import { TeachersService } from 'src/app/services/teachers.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-class-schedule',
@@ -11,97 +12,104 @@ import { TeachersService } from 'src/app/services/teachers.service';
   styleUrls: ['./class-schedule.component.scss']
 })
 export class ClassScheduleComponent implements OnInit {
+  @ViewChild('form') form: NgForm;
+
   subjects: Subject[];
+  classes: Group[];
+  selectedClass: any;
 
   ua: any;
 
-  startSemester: Schedule[];
-  startOfSemester: string;
   fromDate: Date;
-  endSemester: Schedule[];
-  endOfSemester: string;
   toDate: Date;
-  defaultDate: Date;
   minDateValue: Date;
   maxDateValue: Date;
 
-  classes: Group[];
-
-  Schedule: Schedule[];
-  classSchedule = {
-    mondaySubjects: [1],
-    tuesdaySubjects: [1],
-    wednesdaySubjects: [1],
-    thursdaySubjects: [1],
-    fridaySubjects: [1],
-    saturdaySubjects: [1]
-  };
+  schedule: Schedule;
 
   constructor(
     private _teacherServices: TeachersService,
-    private schedule: ClassScheduleService
+    private scheduleService: ClassScheduleService
   ) {}
 
   ngOnInit() {
     this.getClasses();
     this.calendar();
     this.getScheduleSubjects();
-    this.defaultDate = new Date();
-    this.minDateValue = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+    this.minDateValue = new Date(new Date().getTime() + 24 * 60 * 60 * 1000); // minDate is tomorrow
     this.maxDateValue = new Date(
-      new Date().getTime() + 12 * 31 * 24 * 60 * 60 * 1000
+      new Date().getTime() + 12 * 31 * 24 * 60 * 60 * 1000 // maxDate is a day in a year ahead
     );
+    this.schedule = new Schedule();
   }
 
+  // event for button to delete subject
   delSubject(subject, day, i) {
     day[i] = subject.value;
     day.splice(i, 1);
   }
 
-  addSubject(subject, day, i) {
-    day[i] = subject.value;
-    day[i + 1] = {};
+  // event to add new dropdown with subjects
+  addSubject(subjectEvent, daySubjects, i) {
+    daySubjects[i] = subjectEvent.value;
+    daySubjects[i + 1] = {};
+  }
+
+  onClassSelected(selectedClassEvent): void {
+    this.schedule.className = this.classes.find(
+      item => item.id === selectedClassEvent.value
+    );
   }
 
   calendar(): void {
     this._teacherServices.currentCalendar.subscribe(data => (this.ua = data));
   }
 
+  formatDate(date) {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+    if (day.length < 2) {
+      day = '0' + day;
+    }
+    return [year, month, day].join('-');
+  }
+
+  // request to add a list of subjects
   getScheduleSubjects(): void {
-    this.schedule.getScheduleSubjects().subscribe(data => {
+    this.scheduleService.getScheduleSubjects().subscribe(data => {
       this.subjects = data;
+      // add an empty field
       // this.subjects = [new Subject('', '-'), ...data];
     });
   }
 
+  // request to add a list of classes
   getClasses(): void {
-    this.schedule.getClasses().subscribe(data => {
+    this.scheduleService.getClasses().subscribe(data => {
       this.classes = data;
-      console.log(this.classes);
     });
   }
 
-  /*getSchedule(selectedClass) {
-    console.log('hello');
-    this.classes = selectedClass;
-    console.log(this.classes);
-  }*/
-
-  /*getSchedule(classId): void {
-    console.log('hello');
-    this.schedule.getSchedule(classId).subscribe(data => {
-      this.classes = data;
+  // request to save schedule
+  submitForm(form: NgForm): void {
+    console.log(form);
+    Object.keys(this.schedule).forEach((item: any) => {
+      if (this.schedule[item].pop) {
+        this.schedule[item].pop();
+      }
     });
-  }*/
-
-  /*submitForm(): void {
-    console.log(this.selectedClass);
-    this.startOfSemester = this._teacherServices.formatDate(
-      this.startOfSemester
+    this.schedule.startOfSemester = this.formatDate(
+      this.schedule.startOfSemester
     );
-    this.endOfSemester = this._teacherServices.formatDate(this.endOfSemester);
-    this.schedule.postSchedule(className.Id).subscribe(data => {
-      this.Schedule = data;
+    this.schedule.endOfSemester = this.formatDate(this.schedule.endOfSemester);
+    this.scheduleService.postSchedule(this.schedule).subscribe(data => {
+      // this.schedule;
     });
-  }*/
+    this.form.reset();
+  }
 }
