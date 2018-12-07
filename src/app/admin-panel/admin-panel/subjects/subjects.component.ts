@@ -65,7 +65,7 @@ export class SubjectsComponent implements OnInit {
         Validators.compose([
           Validators.minLength(3),
           Validators.maxLength(300),
-          Validators.pattern('[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+')
+          Validators.pattern('[А-ЯІЇЄҐа-яіїє]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+')
         ])
       ]
     });

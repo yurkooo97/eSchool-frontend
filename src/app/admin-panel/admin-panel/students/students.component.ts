@@ -29,7 +29,7 @@ export class StudentsComponent implements OnInit {
   constructor(
     private service_: StudentsService,
     private notificationToasts: DataSharingService,
-    private _teacherServices: TeachersService,
+    private _teacherServices: TeachersService
   ) { }
 
   ngOnInit() {
@@ -66,8 +66,18 @@ export class StudentsComponent implements OnInit {
   }
 
   createStudent() {
-    this.newStudent.classId = this.selectedClassId;
-    // this.newStudent = new Student();
+    this.newStudent = new Student(
+      '',
+      '',
+      '',
+      this.selectedClassId,
+      '',
+      '',
+      '',
+      '',
+      0,
+      ''
+    );
     this.isNew = true;
     this.showForm();
   }
@@ -93,13 +103,13 @@ export class StudentsComponent implements OnInit {
       this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
       this.displayForm = false;
       this.service_.addStudent(this.newStudent).subscribe(data => {
-        this.loadStudents(this.selectedClassId),
-          (this.displayForm = false),
-          this.notificationToasts.notify(
-            'success',
-            'Успішно виконано',
-            'Додано нового учня'
-          );
+        this.loadStudents(this.selectedClassId);
+        this.displayForm = false;
+        this.notificationToasts.notify(
+          'success',
+          'Успішно виконано',
+          'Додано нового учня'
+        );
       }, error => {
         this.notificationToasts.notify('error', 'Відхилено', 'Невдалося додати нового учня');
       });
@@ -107,13 +117,13 @@ export class StudentsComponent implements OnInit {
       this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
       this.displayForm = false;
       this.service_.changeStudent(this.newStudent).subscribe(data => {
-        this.loadStudents(this.selectedClassId),
-          (this.displayForm = false),
-          this.notificationToasts.notify(
-            'success',
-            'Успішно виконано',
-            'Збережено зміни учня'
-          );
+        this.loadStudents(this.selectedClassId);
+        this.displayForm = false;
+        this.notificationToasts.notify(
+          'success',
+          'Успішно виконано',
+          'Збережено зміни учня'
+        );
       }, error => {
         this.notificationToasts.notify('error', 'Відхилено', 'Невдалося зберегти учня');
       });
