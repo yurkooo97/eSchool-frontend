@@ -33,7 +33,7 @@ export class StudentBookService {
     'Субота'
   ];
 
-  public getFormattedMonday(date: Date = new Date()): string {
+  public getFormattedMonday(date: Date): string {
     const day = date.getDay(),
       diff = date.getDate() - day + 1;
     const monday = new Date(date.setDate(diff));
@@ -76,14 +76,13 @@ export class StudentBookService {
     return `${day} ${month} ${year}`;
   }
 
-  public getDiariesList(date?: Date): Observable<WeekSchedule[]> {
+  public getDiariesList(date: Date = new Date()): Observable<WeekSchedule[]> {
     const formattedDate = this.getFormattedMonday(date);
     return this._http
       .get<any>(`/diaries?weekStartDate=${formattedDate}`)
       .map(response => {
         if (response.data.length) {
           const sortedWeekData = this.sortDataByWeekDay(response.data);
-          console.log(sortedWeekData);
           return [...sortedWeekData];
         } else {
           throw new Error('Data didn\'t come');

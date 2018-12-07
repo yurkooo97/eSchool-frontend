@@ -21,6 +21,8 @@ export class StudentBookComponent implements OnInit {
 
   public offset = 0;
 
+  public saveOffset: number;
+
   public menuItems: MenuItem[];
 
   public cols: Array<object>;
@@ -79,7 +81,7 @@ export class StudentBookComponent implements OnInit {
     ];
   }
 
-  changeWeekSchedule(week: boolean): void {
+  changeWeekSchedule(week: boolean, lengthOfCalls: number): void {
     const day = new Date();
     let currDay = day.getDate();
     if (week) {
@@ -96,14 +98,19 @@ export class StudentBookComponent implements OnInit {
           this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate
         }`;
         this.clonedWeekSchedule = [...this.weekSchedule];
+        this.saveOffset = this.offset;
       },
       err => {
-        this.offset = week ? this.offset - 7 : this.offset + 7;
-        this.notificationToasts.notify(
-          'error',
-          'Помилка',
-          'Наразі немає даних про розклад'
-        );
+        if (lengthOfCalls >= 0) {
+          this.changeWeekSchedule(week, lengthOfCalls - 1);
+        } else {
+          this.offset = this.saveOffset;
+          this.notificationToasts.notify(
+            'error',
+            'Помилка',
+            'Наразі немає даних про розклад'
+          );
+        }
       }
     );
   }
@@ -146,7 +153,7 @@ export class StudentBookComponent implements OnInit {
     if (this.selectedType === 'day') {
       this.changeDaySchedule(direction);
     } else {
-      this.changeWeekSchedule(direction);
+      this.changeWeekSchedule(direction, 5);
     }
   }
 
