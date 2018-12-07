@@ -7,6 +7,7 @@ import { SelectItem } from 'primeng/api';
 import { Group } from '../../../app/models/group.model';
 import { Subject } from 'src/app/models/subjects.model';
 import { DatePipe } from '@angular/common';
+import { TeachersService } from 'src/app/services/teachers.service';
 
 @Component({
   selector: 'app-progress',
@@ -30,17 +31,22 @@ export class ProgressComponent implements OnInit {
   start: Date;
   end: Date;
   marks: any;
+  disabled = true;
+  average: number;
+  ua: any;
 
-  constructor(private groupService: AdmingroupsService,
+  constructor(
+    private groupService: AdmingroupsService,
     private _subjectsService: AdminSubjectsService,
     private studentService: StudentsService,
-    private marksService: MarksService) {
+    private marksService: MarksService,
+    private _teacherServices: TeachersService) {
     this.visibleGroups = new Array<Group>();
     this.visibleStudents = new Array<SelectItem>();
-
   }
 
   ngOnInit() {
+    this.calendar();
 
     this.groupService.getClasses()
       .subscribe(data => {
@@ -51,8 +57,8 @@ export class ProgressComponent implements OnInit {
         this.years = uniqueYears
           .map(year => ({ label: year.toString(), value: year }));
       });
-
   }
+
   onStartDateChange() { }
 
   onEndDateChange() {
@@ -62,12 +68,11 @@ export class ProgressComponent implements OnInit {
     this.marksService.getMarks(startStr, endStr, this.selectedSubjects.subjectId, this.selectedGroup.id, this.selectedStudent.id)
       .subscribe(data => {
         const marks = data.map(mark => mark.y);
-        console.log(marks);
+        this.StudentAverageMark(marks);
       });
   }
 
-  onSubjectChange() {
-  }
+  onSubjectChange() { }
 
   onYearChange() {
     if (this.selectedYear) {
@@ -81,8 +86,8 @@ export class ProgressComponent implements OnInit {
     this.selectedGroup = null;
     this.onClassChange();
   }
-  onStudentChange() {
-  }
+
+  onStudentChange() { }
 
   onClassChange() {
     if (this.selectedGroup) {
@@ -107,12 +112,16 @@ export class ProgressComponent implements OnInit {
     }
     this.selectedStudent = null;
   }
-  StudentAverageMark() {
-    let average = 0;
-    for (let i = 0; i < this.marks.length; i++) {
-      average += this.marks[i];
+
+  StudentAverageMark(marks) {
+    let summ = 0;
+    for (let i = 0; i < marks.length; i++) {
+      summ += marks[i];
     }
-  const result = average / this.marks.length;
-    console.log(result);
+    this.average = summ / marks.length;
+  }
+
+  calendar(): void {
+    this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
   }
 }

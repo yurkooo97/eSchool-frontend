@@ -1,6 +1,22 @@
+.title {
+	margin-top:90px;
+	text-align:center;
+}
+
 .menu {
-	float:left;
-	
-	margin-top:70px;
-	
+	*{
+		margin:10px;
+	}
+}
+
+::ng-deep .ui-calendar {
+	vertical-align: bottom;
+	margin-right:30px;
+}
+
+.showMarks {
+	border: 1px solid black;
+	width:30%;
+	margin-top:30px;
+	background-color: lightgrey;
 }

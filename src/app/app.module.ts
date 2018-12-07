@@ -14,6 +14,7 @@ import { LoginGuard } from './login/login/login.guard';
 import { AdminGuard } from './admin-panel/admin.guard';
 import { RefreshTokenInterceptorService } from './services/refresh-token-interceptor.service';
 import { ShellGuard } from './shell/shell.guard';
+import { TeachersService } from './services/teachers.service';
 
 
 
@@ -31,7 +32,7 @@ import { ShellGuard } from './shell/shell.guard';
   ],
   providers: [AdmingroupsService,
     AdminSubjectsService, StudentsService, LoginGuard, ClassScheduleService,
-    AdminGuard, ShellGuard,
+    AdminGuard, ShellGuard, TeachersService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RefreshTokenInterceptorService,
