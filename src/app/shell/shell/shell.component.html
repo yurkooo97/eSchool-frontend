@@ -1,19 +1,23 @@
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
 <p-toolbar>
-
   <div class="ui-toolbar-group-left">
     <button pButton type="button" (click)="homeButtonClicked()"><i class="fas fa-home home"></i></button>
   </div>
-
   <div class="ui-toolbar-group-right">
-    <i class="fas fa-user user"></i>
+    <button type="text" (click)="displaySidebar = !displaySidebar" pButton icon="fas fa-user user"></button>
   </div>
-
-  <div class="ui-toolbar-group-right">
-    <p-menubar [model]="items" [autoDisplay]="false">
-    </p-menubar>
-  </div>
-
 </p-toolbar>
+<!-- Sidebar setup -->
+<p-sidebar [(visible)]="displaySidebar" position="right">
+  <div class="student-img">
+      <img src="assets/avatar.png" class="sidebar-avatar">
+  </div>
+  <h3>{{userRoleLabel}}</h3>
+  <h1 *ngIf='userFullName != ""'>{{userFullName}}</h1>
+  <div class="action-buttons">
+    <button type="text" (click)="editActiveUser()" pButton icon="pi pi-pencil" label="{{editActiveUserLabel}}" class="ui-button ui-button-info"></button>
+    <button type="text" (click)="LogOut()" pButton icon="pi pi-sign-out" label="{{logOutLabel}}" class="ui-button-warning"></button>
+  </div>
+</p-sidebar>
 
 <router-outlet></router-outlet>
