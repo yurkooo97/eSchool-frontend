@@ -10,3 +10,7 @@ export class Transition {
   checkbox: boolean;
   colorStyle: string;
 }
+export class SmallGroup {
+  className: string;
+  classYear: number;
+}

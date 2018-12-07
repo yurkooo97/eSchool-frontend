@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NewStudingYearService } from 'src/app/services/new-studing-year.service';
 import { ClassId } from 'src/app/models/classId.model';
-import { Transition } from 'src/app/models/transitional-studing.model';
+import { Transition, SmallGroup } from 'src/app/models/transitional-studing.model';
 import { Group } from 'src/app/models/group.model';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 
@@ -25,6 +25,8 @@ export class NewStudingYearComponent implements OnInit {
   numOfStudentsArray: Array<number> = [];
   counter: number;
   val = true;
+  groupsExistArray: Array<SmallGroup> = [];
+  isCurrentStudingYear: Array<boolean> = [];
 
   constructor(private httpService: NewStudingYearService,
     private notificationToasts: DataSharingService) {}
@@ -35,6 +37,9 @@ export class NewStudingYearComponent implements OnInit {
     this.httpService.getGroups().subscribe(data => {
       this.groupList = data;
       this.filterGroups();
+      this.checkStudingYear();
+      this.checkNumOfStudents();
+      this.checkGroupsExisting();
       });
     this.cols = [{ classNameField: 'className', classYearField: 'classYear',
       newClassNameField: 'newClassName', newClassYearField: 'newClassYear',
@@ -63,6 +68,7 @@ export class NewStudingYearComponent implements OnInit {
         this.httpService.putNewOldId(this.classIdArray).subscribe( () => {
           this.hideTag = true;
           this.buttonAddDisabled = true;
+          this.notificationToasts.notify('success', 'Успішно виконано', 'Перехід на новий навчальний рік');
         });
       });
     });
@@ -123,8 +129,34 @@ export class NewStudingYearComponent implements OnInit {
       this.notificationToasts.notify('error', 'Відхилено', 'В даному переліку класів є такі, ' +
       'в яких немає жодного учня. Будь ласка, додайте хоча б одного учня до класу або видаліть ' +
       'такий клас з переліку активних');
-    } else {
-      this.addNewGroups();
+    }
+  }
+  checkGroupsExisting() {
+    this.allGroupsList.forEach( (item, i) => {
+      if (this.groupDigitsArray[i] < 11) {
+        this.groupsExistArray.push({
+          className: [parseInt(item.className, 10) + 1 ,
+          (item.className.split('-')[1])].join('-'),
+          classYear: item.classYear + 1 });
+      }
+    });
+    this.groupList.forEach( item => {
+      this.groupsExistArray.forEach( item2 => {
+        if ((item.className === item2.className) && (item.classYear === item2.classYear)) {
+          this.buttonAddDisabled = true;
+          this.notificationToasts.notify('error', 'Відхилено', 'В даному переліку класів є такі, ' +
+            'які перейшли на новий навчальний рік раніше.');
+        }
+      });
+    });
+  }
+  checkStudingYear() {
+    this.allGroupsList.forEach( item =>
+      this.isCurrentStudingYear.push(item.classYear === this.allGroupsList[0].classYear)
+    );
+    if (this.isCurrentStudingYear.includes(false)) {
+      this.notificationToasts.notify('warn', 'Попередження', 'В даному переліку класів є такі, ' +
+      'які відносяться до різних навчальних років');
     }
   }
 }
