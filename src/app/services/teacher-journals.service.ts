@@ -115,20 +115,17 @@ export class TeacherJournalsService {
     return;
   }
 
-  monthJournal(month: Month, journalsData: JournalData[]) {
+  monthJournal(month: Month, journalsData: JournalData[]): JournalData[] {
 
-    function isThisMonth(element, index, array) {
-      return (element.dateMark.indexOf(month) === 0);
+    function isThisMonth(dayObject) {
+      return (dayObject.dateMark.indexOf(month) === 0);
     }
-    for (let studentIndex = 0; studentIndex < journalsData.length; studentIndex++) {
-      const marks = journalsData[studentIndex].marks;
-      console.debug(journalsData[studentIndex].studentFullName, marks);
-      const marksFiltered = marks.filter(isThisMonth);
-
-      console.debug('filtered:' + journalsData[studentIndex].studentFullName, marksFiltered);
-    }
+    const filteredData: JournalData[] = journalsData.map( student => {
+      const filteredStudent = new JournalData(student.idStudent, student.marks.filter(isThisMonth), student.studentFullName);
+      return filteredStudent;
+    });
+    return filteredData;
   }
-
 }
 export class Month {
   label: string;

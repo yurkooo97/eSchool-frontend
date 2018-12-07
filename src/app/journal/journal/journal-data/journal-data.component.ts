@@ -17,11 +17,13 @@ export class JournalDataComponent implements OnInit {
   isActiveJournal: boolean;
   isDataRecived: boolean = false;
   selectedMonth: Month;
-  
+  selectedJournalData: JournalData[] = [];
+  days: {day: string, name: string} [];
+  private _isMonthSelected: boolean;
 
   ngOnInit() {
     this.subscribeData();
-
+    this._isMonthSelected = false;
   }
   subscribeData() {
     this.teacherJournalService
@@ -30,22 +32,38 @@ export class JournalDataComponent implements OnInit {
       this.teacherJournalService
       .getjournals(journal.idSubject, journal.idClass)
       .subscribe( data => {
-        console.debug('data:',data);
         this.journalData = data;
         this.isDataRecived = true;
         this.journalMonthes = this.teacherJournalService.monthes(data);
-        // console.debug('months:', this.journalMonthes);
-        
       });
     });
   }
-
   monthSelectedFor() {
-    this.teacherJournalService.monthJournal(this.selectedMonth, this.journalData);
+    const monthData = this.teacherJournalService
+    .monthJournal(this.selectedMonth, this.journalData);
+    if (monthData.length > 1) {
+      this.selectedJournalData = monthData;
+      const marksDays = monthData[0].marks.map( (mark) => {
+        const day = mark.dateMark.split('.').pop();
+        const name = this.daysForMonth(mark.dateMark);
+        const result = {day, name};
+        return result;
+      });
+      this.days = marksDays
+    }
   }
- 
-  daysOfMonth(date: string): string[] {
-    return[]
+  get isSelectedMonth(): boolean {
+    this._isMonthSelected = (this.selectedJournalData.length > 0);
+    return this._isMonthSelected;
   }
-
+  daysForMonth(date: string) {
+    const weakDay = new Date(date).getDay();
+    const days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пя', 'Сб'];
+    return days[weakDay];
+  }
+  changeMark(student: JournalData, mark: any) {
+    //MARK: For debug, in prod - revove
+    console.log(student.studentFullName);
+    console.log(mark);
+  }
 }
