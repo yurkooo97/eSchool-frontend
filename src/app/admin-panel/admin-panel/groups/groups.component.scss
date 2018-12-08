@@ -71,3 +71,49 @@ span.ui-button-text,
     visibility: visible;
   }
 }
+.ui-inputgroup
+{
+  display: flex;
+  flex-direction: row-reverse;
+}
+.ui-inputgroup-addon
+{
+  border-radius: 3px;
+  -webkit-transition: all .7s ease;
+  -moz-transition: all .7s ease;
+  -o-transition: all .7s ease;
+  transition: all .7s ease;
+  margin-right: 5px;
+}
+#className,
+#classYear
+{
+  width: 100%;
+  border: none !important;
+  border-radius: 0 !important;
+  border-bottom: 1px solid #c0c0c0 !important;
+}
+#className:hover,
+#classYear:hover
+{
+  border-bottom-color: #000000 !important;
+}
+#className:focus + .ui-inputgroup-addon,
+#classYear:focus + .ui-inputgroup-addon
+{
+  background-color: #007ad9 !important;
+  color: white !important;
+  border-color: #007ad9 !important;
+}
+.wrongData1
+{
+  background-color: #ff0000 !important;
+  color: white !important;
+  border-color: #ff0000 !important;
+}
+.correctData1
+{
+  background-color: #00aa00 !important;
+  color: white !important;
+  border-color: #00aa00 !important;
+}

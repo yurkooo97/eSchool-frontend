@@ -6,6 +6,7 @@ import { ShellComponent } from './shell/shell.component';
 import { ToolbarModule, ButtonModule, SplitButtonModule, MenubarModule, MenuModule } from 'primeng/primeng';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { SidebarModule } from 'primeng/sidebar';
 import { DataSharingService } from '../services/data-sharing.service';
 
 
@@ -18,7 +19,8 @@ import { DataSharingService } from '../services/data-sharing.service';
     SplitButtonModule,
     MenubarModule,
     MenuModule,
-    ToastModule
+    ToastModule,
+    SidebarModule
   ],
   declarations: [ShellComponent],
   providers: [MessageService, DataSharingService]

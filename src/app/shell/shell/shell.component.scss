@@ -5,23 +5,28 @@
 }
 
 
-.ui-toolbar-group-right .user {
-  font-size: 20px;
-  padding: 10px;
-  color: #007ad9;
-  position: relative;
-  right: 400px; 
-  z-index: 1;
+.ui-toolbar-group-right {
+  font-size: 22px;
+
+  .ui-button {
+    width: fit-content;
+    display:block;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: #8f8f8f;
+    border-color: #8f8f8f;
+  }
 }
 
 :host ::ng-deep .ui-toolbar {
-	position: fixed; 
-	left: 0; 
-	top: 0; 
+	position: fixed;
+	left: 0;
+	top: 0;
 	width: 100%;
 	padding: 10px;
 	z-index: 2;
-} 
+}
 
 :host ::ng-deep .ui-toolbar .ui-button {
 	margin-left: 10px;
@@ -34,13 +39,21 @@
 
 :host ::ng-deep .ui-toolbar .ui-menuitem-text {
 	padding-left: 30px;
-} 
+}
 
 :host ::ng-deep .ui-toolbar .ui-menuitem:nth-child(2) .ui-menuitem-text {
   font-weight: bold;
 }
-
-
+:host ::ng-deep .ui-sidebar {
+  .ui-button {
+    width: fit-content;
+    margin: 5px 5px 5px 0px;
+  }
+}
+.sidebar-avatar {
+  width: 240px;
+  height: 240px;
+}
 
 
 

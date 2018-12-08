@@ -75,14 +75,12 @@ span.ui-button-text,
   display: flex;
   flex-direction: row-reverse;
 }
-.ui-inputgroup-addon {
-  border-radius: 3px;
-}
 .teacher-date-of-birth,
 .phone-number {
   width: 100%;
 }
 .ui-inputgroup-addon {
+  border-radius: 3px;
   -webkit-transition: all 0.7s ease;
   -moz-transition: all 0.7s ease;
   -o-transition: all 0.7s ease;
