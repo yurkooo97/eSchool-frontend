@@ -18,7 +18,7 @@ export class TeachersService {
     clear: 'Clear'
   });
   currentCalendar = this.calendarSource.asObservable();
-   formatDate(date) {
+  public formatDate(date) {
       const d = new Date(date);
       const  year = d.getFullYear();
       let  month = '' + (d.getMonth() + 1);
@@ -40,7 +40,7 @@ export class TeachersService {
       });
   }
   public putTeacher(teacher: Iteachers): Observable<Iteachers> {
-    return this.http.put<Iteachers>(`admin/teachers/${teacher.id}`, teacher)
+    return this.http.put<Iteachers>(`/admin/teachers/${teacher.id}`, teacher)
     .map((response: any) => {
       return response.data;
     });

@@ -1,4 +1,4 @@
-$required: red;
+$required: #ff0000;
 span.ui-button-text,
 .ui-clickable {
   padding: 0px !important;
@@ -16,20 +16,11 @@ span.ui-button-text,
 .d-none {
   display: none;
 }
-.requiredWrapper {
-  position: relative;
-  margin-top: 6px;
-}
-.filds {
-  margin-top: 5px;
-}
 .mainInfo {
   margin-top: 2px;
 }
 .requiredMessage {
-  position: absolute;
-  right: 5%;
-  bottom: -19%;
+  float: right;
   color: $required;
   font-size: 11px;
 }
@@ -50,12 +41,56 @@ span.ui-button-text,
 }
 .photoImg {
   width: 120px;
-  height: 120px
+  height: 120px;
+  float: right;
+  margin-top: 10px;
 }
 .photoError {
   color: $required;
   position: absolute;
   width: 50%;
-  bottom: 25%;
-  right: 5%;
+  bottom: -100px;
+  right: 45%;
+}
+.wrongData1 {
+  background-color: $required !important;
+  color: white !important;
+  border-color: $required !important;
+}
+.correctData1 {
+  background-color: #00aa00 !important;
+  color: white !important;
+  border-color: #00aa00 !important;
+}
+.teachersForm ::ng-deep input {
+  width: 100% !important;
+  border: none !important;
+  border-radius: 0 !important;
+  border-bottom: 1px solid #c0c0c0 !important;
+}
+.teachersForm ::ng-deep input:hover {
+  border-bottom-color: #000000 !important;
+}
+.ui-inputgroup {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.ui-inputgroup-addon {
+  border-radius: 3px;
+}
+.teacher-date-of-birth,
+.phone-number {
+  width: 100%;
+}
+.ui-inputgroup-addon {
+  -webkit-transition: all 0.7s ease;
+  -moz-transition: all 0.7s ease;
+  -o-transition: all 0.7s ease;
+  transition: all 0.7s ease;
+  margin-right: 5px;
+}
+.teachersForm input:focus + .ui-inputgroup-addon {
+  background-color: #007ad9 !important;
+  color: white !important;
+  border-color: #007ad9 !important;
 }

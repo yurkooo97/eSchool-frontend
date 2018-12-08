@@ -52,104 +52,121 @@
   [height]="600"
   [minWidth]="200"
 >
-  <form #teacherForm="ngForm">
+  <form #teacherForm="ngForm" class="teachersForm">
     <div class="p-grid" *ngIf="teacher">
       <p-fieldset legend="Обов'язкові поля" class="mainInfo p-col-6">
-        <div class="p-col-12 requiredWrapper">
-          <span class="ui-float-label">
-            <input
-              pInputText
-              [class.is-invalid]="firstname.invalid && firstname.touched"
-              #firstname="ngModel"
-              id="float-input-firstname"
-              [(ngModel)]="teacher.firstname"
-              required
-              minlength="3"
-              maxlength="20"
-              name="firstname"
-              pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+"
-              class="p-col-12"
-            />
-            <label for="float-input-firstname">Ім'я *</label>
-          </span>
+        <div class="ui-inputgroup">
+          <input
+            pInputText
+            placeholder="Ім'я *"
+            [class.is-invalid]="firstname.invalid && firstname.touched"
+            #firstname="ngModel"
+            id="float-input-firstname"
+            [(ngModel)]="teacher.firstname"
+            required
+            minlength="3"
+            maxlength="20"
+            name="firstname"
+            pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+"
+          />
           <span
-            [class.d-none]="firstname.valid || firstname.untouched"
-            class="requiredMessage"
-            >Некоректне ім'я</span
-          >
+            class="ui-inputgroup-addon"
+            [class.wrongData1]="firstname.invalid && firstname.touched"
+            [class.correctData1]="firstname.valid && firstname.touched"
+            ><i class="fas fa-user"></i
+          ></span>
         </div>
-        <div class="p-col-12 requiredWrapper">
-          <span class="ui-float-label">
-            <input
-              pInputText
-              id="float-input-lastname"
-              [class.is-invalid]="lastname.invalid && lastname.touched"
-              #lastname="ngModel"
-              [(ngModel)]="teacher.lastname"
-              minlength="3"
-              maxlength="20"
-              required
-              name="lastname"
-              pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+"
-              class="p-col-12"
-            />
-            <label for="float-input-lastname">Прізвище *</label>
-          </span>
+        <span
+          [class.d-none]="firstname.valid || firstname.untouched"
+          class="requiredMessage"
+          >Некоректне ім'я</span
+        >
+        <br />
+        <div class="ui-inputgroup">
+          <input
+            pInputText
+            placeholder="Прізвище *"
+            id="float-input-lastname"
+            [class.is-invalid]="lastname.invalid && lastname.touched"
+            #lastname="ngModel"
+            [(ngModel)]="teacher.lastname"
+            minlength="3"
+            maxlength="20"
+            required
+            name="lastname"
+            pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+"
+          />
           <span
-            [class.d-none]="lastname.valid || lastname.untouched"
-            class="requiredMessage"
-            >Некоректне прізвище</span
-          >
+            class="ui-inputgroup-addon"
+            [class.wrongData1]="lastname.invalid && lastname.touched"
+            [class.correctData1]="lastname.valid && lastname.touched"
+            ><i class="fas fa-user"></i
+          ></span>
         </div>
-        <div class="p-col-12 requiredWrapper">
-          <span class="ui-float-label">
-            <input
-              pInputText
-              id="patronymic"
-              [class.is-invalid]="patronymic.invalid && patronymic.touched"
-              #patronymic="ngModel"
-              [(ngModel)]="teacher.patronymic"
-              minlength="7"
-              maxlength="20"
-              required
-              name="patronymic"
-              pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+"
-              class="p-col-12"
-            />
-            <label for="float-input-patronymic">По батькові *</label>
-          </span>
+        <span
+          [class.d-none]="lastname.valid || lastname.untouched"
+          class="requiredMessage"
+          >Некоректне прізвище</span
+        >
+        <br />
+        <div class="ui-inputgroup">
+          <input
+            pInputText
+            placeholder="По батькові *"
+            id="patronymic"
+            [class.is-invalid]="patronymic.invalid && patronymic.touched"
+            #patronymic="ngModel"
+            [(ngModel)]="teacher.patronymic"
+            minlength="7"
+            maxlength="20"
+            required
+            name="patronymic"
+            pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+"
+          />
           <span
-            [class.d-none]="patronymic.valid || patronymic.untouched"
-            class="requiredMessage"
-            >Некоректне по батькові</span
-          >
+            class="ui-inputgroup-addon"
+            [class.wrongData1]="patronymic.invalid && patronymic.touched"
+            [class.correctData1]="patronymic.valid && patronymic.touched"
+            ><i class="fas fa-user"></i
+          ></span>
         </div>
-        <div class="p-col-12 requiredWrapper">
-          <span class="ui-float-label">
-            <p-calendar
-              id="float-input-date"
-              [(ngModel)]="teacher.dateOfBirth"
-              name="dateOfBirth"
-              #dateOfBirth="ngModel"
-              [class.is-invalid]="dateOfBirth.invalid && dateOfBirth.touched"
-              [readonlyInput]="true"
-              [locale]="ua"
-              required
-              dateFormat="yy-mm-dd"
-              [yearNavigator]="true"
-              [monthNavigator]="true"
-              yearRange="1940:2017"
-              [style]="{ width: '100%' }"
-              [inputStyle]="{ width: '100%' }"
-            ></p-calendar>
-            <label for="float-input-date">Дата народження *</label>
-          </span>
+        <span
+          [class.d-none]="patronymic.valid || patronymic.untouched"
+          class="requiredMessage"
+          >Некоректне по батькові</span
+        >
+        <br />
+        <div class="ui-inputgroup">
+          <p-calendar
+            id="float-input-date"
+            class="teacher-date-of-birth"
+            placeholder="Дата народження *"
+            [(ngModel)]="teacher.dateOfBirth"
+            name="dateOfBirth"
+            #dateOfBirth="ngModel"
+            [class.is-invalid]="dateOfBirth.invalid && dateOfBirth.touched"
+            [readonlyInput]="true"
+            [locale]="ua"
+            required
+            dateFormat="yy-mm-dd"
+            [yearNavigator]="true"
+            [monthNavigator]="true"
+            yearRange="1940:2017"
+            [style]="{ width: '100%' }"
+            [inputStyle]="{ width: '100%' }"
+          ></p-calendar>
           <span
-            [class.d-none]="dateOfBirth.valid || dateOfBirth.untouched"
-            class="requiredMessage"
-            >Некоректна дата народження</span
-          >
+            class="ui-inputgroup-addon"
+            [class.wrongData1]="dateOfBirth.invalid && dateOfBirth.touched"
+            [class.correctData1]="dateOfBirth.valid && dateOfBirth.touched"
+            ><i class="fas fa-calendar-alt"></i
+          ></span>
         </div>
+        <span
+          [class.d-none]="dateOfBirth.valid || dateOfBirth.untouched"
+          class="requiredMessage"
+          >Некоректна дата народження</span
+        >
       </p-fieldset>
       <p-fieldset
         legend="Додаткова інформація"
@@ -157,52 +174,62 @@
         [collapsed]="true"
         class="p-col-6"
       >
-        <div class="p-col-12 filds">
-          <span class="ui-float-label">
-            <input
-              pInputText
-              id="float-input-login"
-              [(ngModel)]="teacher.login"
-              name="login"
-              class="p-col-12"
-            />
-            <label for="float-input-login">Логін</label>
-          </span>
+        <div class="ui-inputgroup">
+          <input
+            pInputText
+            placeholder="Логін"
+            id="float-input-login"
+            [(ngModel)]="teacher.login"
+            name="login"
+            [class.is-invalid]="login.invalid && login.touched"
+            #login="ngModel"
+            minlength="5"
+            maxlength="20"
+          />
+          <span class="ui-inputgroup-addon"><i class="fas fa-key"></i></span>
         </div>
-        <div class="p-col-12 filds requiredWrapper">
-          <span class="ui-float-label">
-            <input
-              pInputText
-              id="float-input-email"
-              [(ngModel)]="teacher.email"
-              type="email"
-              #email="ngModel"
-              [class.is-invalid]="email.invalid && email.touched"
-              name="email"
-              class="p-col-12"
-              pattern="^([\w\-\.]+)@((\[([0-9]{1,3}\.){3}[0-9]{1,3}\])|(([\w\-]+\.)+)([a-zA-Z]{2,4}))$"
-            />
-            <label for="float-input-email">Електронна адреса</label>
-          </span>
-          <span
-            [class.d-none]="email.valid || email.untouched"
-            class="requiredMessage"
-            >Некоректна електронна адреса</span
-          >
+        <span
+          [class.d-none]="login.valid || login.untouched"
+          class="requiredMessage"
+          >Некоректний логін (не менше 5 символів)</span
+        >
+        <br />
+        <div class="ui-inputgroup">
+          <input
+            pInputText
+            placeholder="Електронна адреса"
+            id="float-input-email"
+            [(ngModel)]="teacher.email"
+            type="email"
+            #email="ngModel"
+            [class.is-invalid]="email.invalid && email.touched"
+            name="email"
+            pattern="^([\w\-\.]+)@((\[([0-9]{1,3}\.){3}[0-9]{1,3}\])|(([\w\-]+\.)+)([a-zA-Z]{2,4}))$"
+          />
+          <span class="ui-inputgroup-addon"
+            ><i class="fas fa-envelope"></i
+          ></span>
         </div>
-        <div class="p-col-12 filds requiredWrapper">
-          <span class="ui-float-label">
-            <p-inputMask
-              [(ngModel)]="teacher.phone"
-              id="tel"
-              mask="999-999-9999"
-              name="phone"
-              [style]="{ width: '100%' }"
-            ></p-inputMask>
-            <label for="float-input-phone">Номер телефону</label>
-          </span>
+        <span
+          [class.d-none]="email.valid || email.untouched"
+          class="requiredMessage"
+          >Некоректна електронна адреса</span
+        >
+        <br />
+        <div class="ui-inputgroup">
+          <p-inputMask
+            placeholder="Номер телефону"
+            class="phone-number"
+            [(ngModel)]="teacher.phone"
+            id="tel"
+            mask="999-999-9999"
+            name="phone"
+            [style]="{ width: '100%' }"
+          ></p-inputMask>
+          <span class="ui-inputgroup-addon"><i class="fas fa-phone"></i></span>
         </div>
-        <div class="p-col-12 photoWrapper filds">
+        <br />
+        <div class="ui-inputgroup photoWrapper">
           <input
             pInputText
             id="photo"
@@ -212,20 +239,21 @@
             (change)="handlerFileInput($event.target.files)"
             name="photo"
           />
+          <span class="ui-inputgroup-addon"><i class="fas fa-upload"></i></span>
           <span class="photoError">{{ photoData }}</span>
-          <img
-            *ngIf="teacher.avatar != null"
-            [src]="teacher.avatar"
-            alt="Photo"
-            class="photoImg"
-          />
-          <img
-            *ngIf="teacher.avatar == null"
-            [src]="imageUrl"
-            alt="Photo"
-            class="photoImg"
-          />
         </div>
+        <img
+          *ngIf="teacher.avatar != null"
+          [src]="teacher.avatar"
+          alt="Photo"
+          class="photoImg"
+        />
+        <img
+          *ngIf="teacher.avatar == null"
+          [src]="imageUrl"
+          alt="Photo"
+          class="photoImg"
+        />
       </p-fieldset>
     </div>
   </form>

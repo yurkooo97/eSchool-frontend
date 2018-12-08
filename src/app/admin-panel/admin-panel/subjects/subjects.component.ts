@@ -65,6 +65,7 @@ export class SubjectsComponent implements OnInit {
         Validators.compose([
           Validators.minLength(3),
           Validators.maxLength(300),
+          Validators.pattern('[А-ЯІЇЄҐа-яіїє]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+')
         ])
       ]
     });
@@ -101,18 +102,24 @@ export class SubjectsComponent implements OnInit {
 
   create() {
     this.displayDialog = false;
-    this._subjectsService
-      .postSubject(this.subject)
-      .subscribe(
-        subject => {
-          this.subjects.push(subject);
-          this.notificationToasts.notify('success', 'Успішно виконано', 'Додано новий предмет');
-        },
-        err => {
-          console.error(err);
-          this.notificationToasts.notify('error', 'Відхилено', 'Невдалося додати новий предмет');
-        }
-      );
+    this._subjectsService.postSubject(this.subject).subscribe(
+      subject => {
+        this.subjects.push(subject);
+        this.notificationToasts.notify(
+          'success',
+          'Успішно виконано',
+          'Додано новий предмет'
+        );
+      },
+      err => {
+        console.error(err);
+        this.notificationToasts.notify(
+          'error',
+          'Відхилено',
+          'Невдалося додати новий предмет'
+        );
+      }
+    );
   }
 
   save() {
@@ -122,11 +129,19 @@ export class SubjectsComponent implements OnInit {
         const subjects = [...this.subjects];
         subjects[this.subjects.indexOf(this.selectedSubject)] = subject;
         this.subjects = subjects;
-        this.notificationToasts.notify('success', 'Успішно виконано', 'Збережено зміни до предмету');
+        this.notificationToasts.notify(
+          'success',
+          'Успішно виконано',
+          'Збережено зміни до предмету'
+        );
       },
       err => {
         console.error(err);
-        this.notificationToasts.notify('error', 'Відхилено', 'Невдалося зберегти зміни до предмету');
+        this.notificationToasts.notify(
+          'error',
+          'Відхилено',
+          'Невдалося зберегти зміни до предмету'
+        );
       }
     );
     this.subject = null;

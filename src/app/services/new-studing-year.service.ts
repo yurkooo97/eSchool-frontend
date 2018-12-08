@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { Group } from '../models/group.model';
+import { Observable } from 'rxjs';
 import { ClassId } from '../models/classId.model';
+import { Group } from '../models/group.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,35 +14,25 @@ export class NewStudingYearService {
       'Content-Type': 'application/json'
     })
   };
-
   getGroups(): Observable<Group[]> {
     return this.http
       .get<Group[]>('classes', this.httpOptions)
       .map((response: any) => {
         return response.data;
-      })
-      .catch((error: any) => {
-        return throwError(error);
       });
   }
-  postNewGroups(): Observable<any> {
+  postNewGroups(): Observable<Group[]> {
     return this.http
-      .post<any>('transition', this.httpOptions)
+      .post<Group[]>('students/transition', this.httpOptions)
       .map((response: any) => {
         return response.data;
-      })
-      .catch((error: any) => {
-        return throwError(error);
       });
   }
-  putNewOldId(idObject: any[]): Observable<any[]> {
+  putNewOldId(idObject: ClassId[]): Observable<ClassId[]> {
     return this.http
-      .put<any[]>('transition', idObject)
+      .put<ClassId[]>('students/transition', idObject)
       .map((response: any) => {
         return response.data;
-      })
-      .catch((error: any) => {
-        return throwError(error);
       });
   }
 }

@@ -18,6 +18,7 @@ import { AdminPanelRoutingModule } from './admin-panel-routing.module';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 
 import { TeachersService } from '../services/teachers.service';
+import { StudentsService } from '../services/admin-students.service';
 import { AdminSubjectsService } from '../services/admin-subjects.service';
 import { AdmingroupsService } from '../services/admingroups.service';
 
@@ -34,6 +35,8 @@ import { CardModule } from 'primeng/card';
 import { DayComponent } from './admin-panel/class-schedule/day/day.component';
 
 import { NewStudingYearService } from '../services/new-studing-year.service';
+import { OverlayPanelModule } from 'primeng/primeng';
+import { CheckboxModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -59,13 +62,16 @@ import { NewStudingYearService } from '../services/new-studing-year.service';
     RadioButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    OverlayPanelModule,
+    CheckboxModule,
   ],
 
   providers: [
     AdmingroupsService,
     AdminSubjectsService,
     TeachersService,
+    StudentsService,
     NewStudingYearService
   ],
   declarations: [

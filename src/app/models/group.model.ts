@@ -4,12 +4,14 @@ export class Group {
   classYear: number;
   classDescription: string;
   isActive: boolean;
+  numOfStudents: number;
 
-  constructor() {
+  constructor(defaultActive) {
     this.id = null;
     this.className = null;
     this.classYear = null;
     this.classDescription = null;
-    this.isActive = null;
+    this.isActive = defaultActive;
+    this.numOfStudents = null;
   }
 }
