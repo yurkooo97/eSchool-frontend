@@ -12,6 +12,7 @@ export class AuthenticationService {
   private refreshUrl = 'refresh';
   private tokenRefreshMinPeriod: number;
   private tokenRefreshTimestamp: number;
+  private _idUser: number;
 
   constructor(
     private httpClient: HttpClient,
@@ -35,7 +36,21 @@ export class AuthenticationService {
         return response;
       });
   }
-
+  get idUser(): number {
+    if (this._idUser) {
+      return this._idUser;
+    } else {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        const jwtHelper = new JwtHelperService();
+        const decodedToken = jwtHelper.decodeToken(token);
+        this._idUser = decodedToken.jti;
+        return this._idUser;
+      } else {
+        console.error('Token not found!!!');
+      }
+    }
+  }
   getToken() {
     return localStorage.getItem('authToken');
   }
@@ -43,6 +58,7 @@ export class AuthenticationService {
   logOut() {
     this.tokenRefreshTimestamp = null;
     localStorage.removeItem('authToken');
+    this.router.navigate(['/login']);
   }
 
   loggedIn() {
@@ -50,13 +66,18 @@ export class AuthenticationService {
   }
 
   getRole(): string {
-    const token = localStorage.getItem('authToken');
-    if (!token) {
-      return null;
+    return this.getDecodedToken().Roles.authority;
+  }
+
+  getRoleLocalizedName (): string {
+    switch (this.getRole()) {
+      case 'ROLE_ADMIN':
+        return 'Адміністратор';
+      case 'ROLE_TEACHER':
+        return 'Вчитель';
+      case 'ROLE_USER':
+        return 'Користувач';
     }
-    const jwtHelper = new JwtHelperService();
-    const decodedToken = jwtHelper.decodeToken(token);
-    return decodedToken.Roles.authority;
   }
 
   defaultRoute() {
@@ -100,5 +121,20 @@ export class AuthenticationService {
         (err) => {
           console.warn('failed to refresh token with error: ' + err);
         });
+  }
+
+  getDecodedToken(): any {
+    const token = this.getToken();
+    if (!token) {
+      return null;
+    }
+    const jwtHelper = new JwtHelperService();
+    const decodedToken = jwtHelper.decodeToken(token);
+    console.log('decoded Token', decodedToken);
+    console.log(token);
+    return decodedToken;
+  }
+  getCurrentUserId(): string {
+    return this.getDecodedToken().jti;
   }
 }

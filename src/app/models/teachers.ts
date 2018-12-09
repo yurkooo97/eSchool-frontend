@@ -8,4 +8,6 @@ export interface Iteachers {
   avatar: string;
   login: string;
   phone: string;
+  newPass: string;
+  oldPass: string;
 }

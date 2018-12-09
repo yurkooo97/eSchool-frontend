@@ -18,8 +18,6 @@ import { TeachersService } from './services/teachers.service';
 
 
 
-
-
 @NgModule({
   declarations: [
     AppComponent

@@ -7,7 +7,6 @@ import { Subject } from '../models/subjects.model';
   providedIn: 'root'
 })
 export class AdminSubjectsService {
-  private url = 'https://fierce-shore-32592.herokuapp.com/subjects';
 
   constructor(private _http: HttpClient) { }
 
