@@ -2,7 +2,7 @@
 
   <div class="title">
     <span>
-      <h2>Успішність учнів</h2>
+      <h2 class="stat">Статистика <i class="fas fa-chart-line"></i></h2>
     </span>
   </div>
 
@@ -24,11 +24,17 @@
       dateFormat="yy.mm.dd" [showIcon]="true"></p-calendar>
 
     <p-calendar class="calendar" [(ngModel)]="end" [locale]="ua" (onSelect)="onEndDateChange()" dateFormat="yy.mm.dd"
-      placeholder="Кінець періоду" [showIcon]="true"></p-calendar>
-
-    <div class="showMarks">
+			placeholder="Кінець періоду" [showIcon]="true"></p-calendar>
+		
+  	<p-button  class="button" icon="pi pi-check" [disabled]="isButtonDisabled" label="Показати оцінку"></p-button>	
+	
+	  <div class="showMarks">
       <h3 class="averageMark">Середня оцінка учня по предмету: {{average | number:'.1-2'}} </h3>
-    </div>
+		</div>
 
+		<div class="showMarks">
+      <h3 class="averageMark">Середня оцінка учня по всіх предметах:{{avgMarkAllSubjects | number:'.1-2'}}  </h3>
+		</div>
+		
   </div>
 </div>

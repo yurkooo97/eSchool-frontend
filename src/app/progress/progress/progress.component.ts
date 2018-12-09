@@ -34,6 +34,9 @@ export class ProgressComponent implements OnInit {
   disabled = true;
   average: number;
   ua: any;
+  avgMark: number[];
+  avgMarkAllSubjects: number;
+  isButtonDisabled: boolean;
 
   constructor(
     private groupService: AdmingroupsService,
@@ -41,6 +44,7 @@ export class ProgressComponent implements OnInit {
     private studentService: StudentsService,
     private marksService: MarksService,
     private _teacherServices: TeachersService) {
+    this.isButtonDisabled = true;
     this.visibleGroups = new Array<Group>();
     this.visibleStudents = new Array<SelectItem>();
   }
@@ -68,11 +72,17 @@ export class ProgressComponent implements OnInit {
     this.marksService.getMarks(startStr, endStr, this.selectedSubjects.subjectId, this.selectedGroup.id, this.selectedStudent.id)
       .subscribe(data => {
         const marks = data.map(mark => mark.y);
-        this.StudentAverageMark(marks);
-      });
+       });
+    this.marksService.getAvgMarks(this.selectedStudent.id, startStr, endStr).subscribe(data => {
+      this.avgMark = data;
+      this.avgMarkAllSubjects = this.StudentAverageMark(data.map(mark => mark.avgMark));
+      this.average = data.find(i => i.subjectId = this.selectedSubjects.subjectId).avgMark;
+    });
   }
 
-  onSubjectChange() { }
+  onSubjectChange() {
+    this.updateIsButtonDisabled();
+  }
 
   onYearChange() {
     if (this.selectedYear) {
@@ -85,9 +95,12 @@ export class ProgressComponent implements OnInit {
     }
     this.selectedGroup = null;
     this.onClassChange();
+    this.updateIsButtonDisabled();
   }
 
-  onStudentChange() { }
+  onStudentChange() {
+    this.updateIsButtonDisabled();
+   }
 
   onClassChange() {
     if (this.selectedGroup) {
@@ -111,17 +124,22 @@ export class ProgressComponent implements OnInit {
       this.visibleSubjects = new Array<SelectItem>();
     }
     this.selectedStudent = null;
+    this.updateIsButtonDisabled();
   }
 
-  StudentAverageMark(marks) {
+  StudentAverageMark(marks): number {
     let summ = 0;
     for (let i = 0; i < marks.length; i++) {
       summ += marks[i];
     }
-    this.average = summ / marks.length;
+    return  summ / marks.length;
   }
 
   calendar(): void {
     this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
+  }
+
+  updateIsButtonDisabled() {
+    this.isButtonDisabled =  !(this.selectedYear  != null && this.selectedGroup != null && this.selectedStudent != null);
   }
 }
