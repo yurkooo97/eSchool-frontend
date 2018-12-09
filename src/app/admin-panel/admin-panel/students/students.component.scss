@@ -32,7 +32,7 @@
 }
 .studentsForm ::ng-deep input
 {
-  width: 100%;
+  width: 100% !important;
   border: none !important;
   border-radius: 0 !important;
   border-bottom: 1px solid #c0c0c0 !important;
@@ -53,9 +53,10 @@
   display: flex;
   flex-direction: row-reverse;
 }
-.student-date-of-birth
+.student-date-of-birth,
+.phone-number
 {
-  width: 100%;
+  width: 100% !important;
 }
 .ui-inputgroup-addon
 {

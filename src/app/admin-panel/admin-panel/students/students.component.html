@@ -33,7 +33,7 @@
   </ng-template>
   <ng-template pTemplate="summary">
       <div style="text-align:left">
-        <button type="button" (click)="createStudent(); this.firstname.reset(); this.lastname.reset(); this.patronymic.reset(); this.dateOfBirth.reset()" pButton icon="pi pi-plus" class="ui-button-raised" label="Додати учня"></button>
+        <button type="button" (click)="createStudent(); this.firstname.reset(); this.lastname.reset(); this.patronymic.reset(); this.dateOfBirth.reset(); this.email.reset(); this.login.reset()" pButton icon="pi pi-plus" class="ui-button-raised" label="Додати учня"></button>
       </div>
   </ng-template>
 </p-table>
@@ -60,19 +60,19 @@
   <form class="studentsForm" #studentsForm="ngForm" autocomplete="off">
     <p-fieldset legend="Обов'язкові поля" class="mainInfo">
       <div class="ui-inputgroup">
-        <input id="float-input-firstname" class="student-data-field" type="text" placeholder="Ім'я *" pInputText [class.wrongData]="firstname.invalid && firstname.touched" #firstname="ngModel" name="firstname" [(ngModel)]="newStudent.firstname" minlength="3" maxlength="20" required>
+        <input id="float-input-firstname" class="student-data-field" type="text" placeholder="Ім'я *" pInputText [class.wrongData]="firstname.invalid && firstname.touched" #firstname="ngModel" name="firstname" [(ngModel)]="newStudent.firstname" minlength="3" maxlength="20" required pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+" />
         <span class="ui-inputgroup-addon" [class.wrongData1]="firstname.invalid && firstname.touched" [class.correctData1]="firstname.valid && firstname.touched"><i class="fas fa-user"></i></span>
       </div>
       <span [class.hiddenBox]="firstname.valid || firstname.untouched" class="messageOfMistake">Некоректне ім'я</span>
       <br>
       <div class="ui-inputgroup">
-        <input id="float-input-lastname" class="student-data-field" type="text" placeholder="Прізвище *" pInputText [class.wrongData]="lastname.invalid && lastname.touched" #lastname="ngModel" name="lastname" [(ngModel)]="newStudent.lastname" minlength="3" maxlength="20" required>
+        <input id="float-input-lastname" class="student-data-field" type="text" placeholder="Прізвище *" pInputText [class.wrongData]="lastname.invalid && lastname.touched" #lastname="ngModel" name="lastname" [(ngModel)]="newStudent.lastname" minlength="3" maxlength="20" required pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+" />
         <span class="ui-inputgroup-addon" [class.wrongData1]="lastname.invalid && lastname.touched" [class.correctData1]="lastname.valid && lastname.touched"><i class="fas fa-user"></i></span>
       </div>
       <span [class.hiddenBox]="lastname.valid || lastname.untouched" class="messageOfMistake">Некоректне прізвище</span>
       <br>
       <div class="ui-inputgroup">
-        <input id="float-input-patronymic" class="student-data-field" type="text" placeholder="По батькові *" pInputText [class.wrongData]="patronymic.invalid && patronymic.touched" #patronymic="ngModel" name="patronymic" [(ngModel)]="newStudent.patronymic" minlength="6" maxlength="20" required>
+        <input id="float-input-patronymic" class="student-data-field" type="text" placeholder="По батькові *" pInputText [class.wrongData]="patronymic.invalid && patronymic.touched" #patronymic="ngModel" name="patronymic" [(ngModel)]="newStudent.patronymic" minlength="6" maxlength="20" required pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+" />
         <span class="ui-inputgroup-addon" [class.wrongData1]="patronymic.invalid && patronymic.touched" [class.correctData1]="patronymic.valid && patronymic.touched"><i class="fas fa-user"></i></span>
       </div>
       <span [class.hiddenBox]="patronymic.valid || patronymic.untouched" class="messageOfMistake">Некоректне по-батькові</span>
@@ -90,23 +90,24 @@
     </p-fieldset>
     <p-fieldset legend="Додаткова інформація" [toggleable]="true" [collapsed]="true" class="secondaryInfo">
       <div class="ui-inputgroup">
-        <input id="float-input-login" type="text" placeholder="Логін" pInputText [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login" [(ngModel)]="newStudent.login" minlength="5" maxlength="20">
-        <span class="ui-inputgroup-addon"><i class="fas fa-key"></i></span>
+        <input id="float-input-login" type="text" placeholder="Логін" pInputText [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login" [(ngModel)]="newStudent.login" minlength="5" maxlength="20" />
+        <span class="ui-inputgroup-addon" [class.wrongData1]="login.invalid && login.touched" [class.correctData1]="login.valid && login.touched"><i class="fas fa-key"></i></span>
       </div>
       <span [class.hiddenBox]="login.valid || login.untouched" class="messageOfMistake">Некоректний логін (не менше 5 символів)</span>
       <br>
       <div class="ui-inputgroup">
-        <input id="float-input-phone" type="tel" placeholder="Номер телефону" pInputText name="phone" [(ngModel)]="newStudent.phone">
+        <p-inputMask id="float-input-phone" class="phone-number" mask="(999)-999-9999" placeholder="Номер телефону" name="phone" [(ngModel)]="newStudent.phone"></p-inputMask>
         <span class="ui-inputgroup-addon"><i class="fas fa-phone"></i></span>
       </div>
       <br>
       <div class="ui-inputgroup">
-        <input id="float-input-email" type="email" placeholder="Електронна адреса" pInputText name="email" [(ngModel)]="newStudent.email">
-        <span class="ui-inputgroup-addon"><i class="fas fa-envelope"></i></span>
+        <input id="float-input-email" type="email" placeholder="Електронна адреса" pInputText #email="ngModel" name="email" [(ngModel)]="newStudent.email" pattern="^([\w\-\.]+)@((\[([0-9]{1,3}\.){3}[0-9]{1,3}\])|(([\w\-]+\.)+)([a-zA-Z]{2,4}))$" />
+        <span class="ui-inputgroup-addon" [class.wrongData1]="email.invalid && email.touched" [class.correctData1]="email.valid && email.touched"><i class="fas fa-envelope"></i></span>
       </div>
+      <span [class.hiddenBox]="email.valid || email.untouched" class="messageOfMistake">Некоректна електронна адреса</span>
       <br>
       <div class="ui-inputgroup">
-        <input id="float-input-avatar" name="avatar" pInputText [(ngModel)]="newStudent.avatar"  type="file" #Image accept="image/*" (change)="handlerFileInput($event.target.files)"/>
+        <input id="float-input-avatar" name="avatar" pInputText [(ngModel)]="newStudent.avatar"  type="file" #Image accept="image/*" (change)="handlerFileInput($event.target.files)" />
         <span class="ui-inputgroup-addon"><i class="fas fa-upload"></i></span>
       </div>
       <img [src]="imageUrl" alt="Photo" class="avatar-url">
