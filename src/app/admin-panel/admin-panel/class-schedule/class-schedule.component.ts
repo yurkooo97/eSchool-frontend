@@ -27,7 +27,7 @@ export class ClassScheduleComponent implements OnInit {
   };
 
   constructor(private schedule: ClassScheduleService,
-    private _teacherServices: TeachersService) {}
+    private _teacherServices: TeachersService) { }
 
   ngOnInit() {
     this.getClasses();
@@ -43,5 +43,10 @@ export class ClassScheduleComponent implements OnInit {
   // TODO: move to global scope for reusing
   calendar(): void {
     this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
+  }
+
+  // TODO: save Schedule
+  saveClassSchedule() {
+
   }
 }

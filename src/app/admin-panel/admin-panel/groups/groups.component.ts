@@ -21,7 +21,7 @@ export class GroupsComponent implements OnInit {
   defaultActive = '1';
 
 
-  showDialog(rowData: Group) {
+  showDialog(rowData?: Group) {
     if (!rowData) {
       rowData = new Group(this.defaultActive);
     }
