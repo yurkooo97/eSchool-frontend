@@ -2,6 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { StudentsService } from './admin-students.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Student } from '../models/students.model';
+import { Class_ } from '../models/classesForStudents.model';
 
 const mockStudents: Student[] = [
   {
@@ -64,10 +65,10 @@ describe('StudentsService', () => {
       backend.expectOne({
         method: 'GET',
         url: 'students/classes/1'
-      }).flush(mockStudents);
+      }).flush({data: mockStudents});
   }));
 
-  it('should post one student', inject(
+  it('should return student', inject(
     [StudentsService, HttpTestingController],
     (service: StudentsService, backend: HttpTestingController) => {
       service.addStudent(mockStudents[2]).subscribe(student => {
@@ -76,6 +77,6 @@ describe('StudentsService', () => {
       backend.expectOne({
         method: 'POST',
         url: 'students'
-      }).flush(mockStudents[2]);
-    }));
+      }).flush({data: mockStudents[2]});
+  }));
 });
