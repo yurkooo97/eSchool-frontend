@@ -1,4 +1,4 @@
-<div class="p-grid weekSchedule" *ngIf='startAndEndOfWeek'> 
+<div class="p-grid weekSchedule" *ngIf="startAndEndOfWeek">
   <div class="p-col-12 p-grid p-align-center schedule-navigation">
     <div class="p-col-3 p-grid p-align-center left">
       <p-selectButton
@@ -15,6 +15,7 @@
           (click)="switchSchedule(false)"
           label="Попередній"
           class="ui-button-rounded ui-button-secondary"
+          [disabled]="disabledButton === 'prev'"
         ></button>
       </div>
       <div class="p-col-6">
@@ -27,6 +28,7 @@
           (click)="switchSchedule(true)"
           label="Наступний"
           class="ui-button-rounded ui-button-secondary"
+          [disabled]="disabledButton === 'next'"
         ></button>
       </div>
     </div>
@@ -73,13 +75,12 @@
               *ngFor="let col of columns"
               [ngClass]="{
                 'student-ellipsis-table-cell':
-                  (col.field === 'homeWork' &&
-                    rowData[col.field].length > 35),
-                 'note-ellipsis-table-cell': 
-                  (col.field === 'note' && rowData[col.field].length > 49)
+                  col.field === 'homeWork' && rowData[col.field].length > 32,
+                'note-ellipsis-table-cell':
+                  col.field === 'note' && rowData[col.field].length > 49
               }"
               [attr.data-homeWork]="
-                col.field === 'homeWork' && rowData[col.field].length > 35
+                col.field === 'homeWork' && rowData[col.field].length > 32
                   ? rowData[col.field]
                   : null
               "
@@ -90,6 +91,12 @@
               "
             >
               {{ rowData[col.field] ? rowData[col.field] : '' }}
+              <a
+                class="download fa fa-download"
+                [href]="sanitizer.bypassSecurityTrustUrl(rowData['blobUrl'])"
+                [download]="rowData['fileName']"
+                *ngIf="col.field === 'homeWork' && rowData['blobUrl']"
+              ></a>
             </td>
           </tr>
         </ng-template>
@@ -97,3 +104,4 @@
     </div>
   </div>
 </div>
+<ngx-loading [show]="loading"></ngx-loading>

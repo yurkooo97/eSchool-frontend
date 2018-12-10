@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxLoadingModule } from 'ngx-loading';
 
 import { StudentBookRoutingModule } from './student-book-routing.module';
 import { StudentBookComponent } from './student-book/student-book.component';
@@ -19,7 +20,8 @@ import { StudentBookService } from '../services/student-book-services/student-bo
     FontAwesomeModule,
     SelectButtonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxLoadingModule
   ],
   providers: [StudentBookService],
   declarations: [StudentBookComponent]
