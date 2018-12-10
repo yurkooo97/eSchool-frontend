@@ -184,10 +184,4 @@ export class StudentBookComponent implements OnInit {
   printSchedule(): void {
     window.print();
   }
-
-  getLessonFile(lessonId) {
-    this.studentBookService.getFileById(lessonId).subscribe(file => {
-      console.log(file);
-    });
-  }
 }
