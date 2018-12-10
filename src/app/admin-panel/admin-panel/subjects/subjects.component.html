@@ -25,14 +25,14 @@
 </p-table>
 
 <p-dialog header="Предмет" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [minWidth]="300">
-  <form [formGroup]="subjectForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="subjectForm" class="subjectsForm" (ngSubmit)="onSubmit()">
     <div class="p-grid p-dir-col" *ngIf="subject">
       <div class="p-col-12 marginWrapper">
-        <span class="ui-float-label">
-          <input pInputText id="name" (change)="subject.subjectName = $event.target.value" [value]="subject.subjectName || '' "
-            formControlName="subjectName" class="form-control p-col-12" [ngClass]="{ 'is-invalid': submitted && f.subjectName.errors }" />
-          <label for="name">Назва предмету *</label>
-        </span>
+        <div class="ui-inputgroup">
+          <input pInputText id="name" placeholder="Назва предмету *" (change)="subject.subjectName = $event.target.value" [value]="subject.subjectName || '' "
+            formControlName="subjectName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.subjectName.errors }" />
+          <span class="ui-inputgroup-addon"><i class="fas fa-pencil-alt"></i></span>
+        </div>
         <div *ngIf="submitted && f.subjectName.errors" class="requiredMessage">
           <div *ngIf="f.subjectName.errors.required">Назва предмета є обов'язковою *</div>
           <div *ngIf="f.subjectName.errors.minlength">Кількість символів має бути більше 3 *</div>

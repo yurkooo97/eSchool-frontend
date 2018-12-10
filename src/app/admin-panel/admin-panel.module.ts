@@ -35,6 +35,8 @@ import { CardModule } from 'primeng/card';
 import { NewStudingYearService } from '../services/new-studing-year.service';
 import { OverlayPanelModule } from 'primeng/primeng';
 import { CheckboxModule } from 'primeng/primeng';
+import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
+import { HttpAttachTeacherService } from '../services/http-attach-teacher.service';
 
 @NgModule({
   imports: [
@@ -62,7 +64,7 @@ import { CheckboxModule } from 'primeng/primeng';
     ReactiveFormsModule,
     AutoCompleteModule,
     OverlayPanelModule,
-    CheckboxModule,
+    CheckboxModule
   ],
 
   providers: [
@@ -70,7 +72,8 @@ import { CheckboxModule } from 'primeng/primeng';
     AdminSubjectsService,
     TeachersService,
     StudentsService,
-    NewStudingYearService
+    NewStudingYearService,
+    HttpAttachTeacherService
   ],
   declarations: [
     AdminPanelComponent,
@@ -80,7 +83,8 @@ import { CheckboxModule } from 'primeng/primeng';
     SubjectsComponent,
     NewStudingYearComponent,
     ClassScheduleComponent,
-    AttachTeacherComponent
+    AttachTeacherComponent,
+    DashboardComponent
   ]
 })
 export class AdminPanelModule {}

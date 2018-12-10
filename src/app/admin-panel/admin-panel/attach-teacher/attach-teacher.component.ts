@@ -9,8 +9,7 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 @Component({
   selector: 'app-attach-teacher',
   templateUrl: './attach-teacher.component.html',
-  styleUrls: ['./attach-teacher.component.scss'],
-  providers: [HttpAttachTeacherService]
+  styleUrls: ['./attach-teacher.component.scss']
 })
 export class AttachTeacherComponent implements OnInit {
   @ViewChild('AttachTeacherForm') form: NgForm;
@@ -18,15 +17,15 @@ export class AttachTeacherComponent implements OnInit {
 
   public teacher: Teacher;
   private teachers: Teacher[] = [];
-  private filteredTeachers: Teacher[];
+  public filteredTeachers: Teacher[];
 
   public subject: Subject;
   private subjects: Subject[] = [];
-  private filteredSubjects: Subject[];
+  public filteredSubjects: Subject[];
 
   public _class: Group;
   private classes: Group[] = [];
-  private filteredClasses: Group[];
+  public filteredClasses: Group[];
 
   constructor(
     private attachService: HttpAttachTeacherService,

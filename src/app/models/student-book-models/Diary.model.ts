@@ -1,5 +1,5 @@
 export interface Diary {
-  date: [];
+  date: Array<number>;
   homeWork: string;
   homeworkFileId: number;
   lessonId: number;
