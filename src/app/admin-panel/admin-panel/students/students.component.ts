@@ -76,6 +76,8 @@ export class StudentsComponent implements OnInit {
       '',
       '',
       0,
+      '',
+      '',
       ''
     );
     this.isNew = true;
@@ -87,12 +89,14 @@ export class StudentsComponent implements OnInit {
       student.firstname,
       student.lastname,
       student.patronymic,
-      student.classId = this.selectedClassId,
+      student.classId = null,
       student.dateOfBirth,
       student.email,
       student.phone,
       student.login,
       student.id,
+      student.oldPass,
+      student.newPass,
       student.avatar
     );
     this.isNew = false;

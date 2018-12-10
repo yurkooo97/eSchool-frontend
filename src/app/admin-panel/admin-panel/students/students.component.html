@@ -79,6 +79,12 @@
       <span class="ui-float-label">
         <input id="float-input-class" type="text" pInputText name="classId" [(ngModel)]="newStudent.classId" class="classID" disabled>
       </span>
+      <span class="ui-float-label">
+        <input id="float-input-oldPass" type="text" pInputText name="oldPass" [(ngModel)]="newStudent.oldPass" class="oldPass" disabled>
+      </span>
+      <span class="ui-float-label">
+        <input id="float-input-newPass" type="text" pInputText name="newPass" [(ngModel)]="newStudent.newPass" class="newPass" disabled>
+      </span>
       <br>
       <div class="ui-inputgroup">
         <p-calendar id="float-input-date" class="student-date-of-birth" placeholder="Дата народження *" [class.wrongData]="dateOfBirth.invalid && dateOfBirth.touched" #dateOfBirth="ngModel" name="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" required
