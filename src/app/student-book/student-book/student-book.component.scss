@@ -142,6 +142,10 @@
     height: 24px;
     td {
       text-align: unset;
+      position: static;
+      .download {
+        display: none;
+      }
     }
   }
   .tables {
