@@ -140,7 +140,7 @@ export class NewStudingYearComponent implements OnInit {
       this.buttonAddDisabled = true;
       this.notificationToasts.notify('error', 'Відхилено', 'В даному переліку класів є такі, ' +
         'в яких немає жодного учня. Будь ласка, додайте хоча б одного учня до класу або видаліть ' +
-        'такий клас з переліку активних');
+        'такий клас з переліку активних', true);
     }
   }
 
@@ -159,7 +159,7 @@ export class NewStudingYearComponent implements OnInit {
         if ((item.className === item2.className) && (item.classYear === item2.classYear)) {
           this.buttonAddDisabled = true;
           this.notificationToasts.notify('error', 'Відхилено', 'В даному переліку класів є такі, ' +
-            'які перейшли на новий навчальний рік раніше.');
+            'які перейшли на новий навчальний рік раніше.', true);
         }
       });
     });
@@ -171,7 +171,7 @@ export class NewStudingYearComponent implements OnInit {
     );
     if (this.isCurrentStudingYear.includes(false)) {
       this.notificationToasts.notify('warn', 'Попередження', 'В даному переліку класів є такі, ' +
-        'які відносяться до різних навчальних років');
+        'які відносяться до різних навчальних років', true);
     }
   }
 
