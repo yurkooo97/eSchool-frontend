@@ -14,8 +14,6 @@ import { AdminGuard } from './admin-panel/admin.guard';
 import { RefreshTokenInterceptorService } from './services/refresh-token-interceptor.service';
 import { ShellGuard } from './shell/shell.guard';
 
-
-
 @NgModule({
   declarations: [
     AppComponent

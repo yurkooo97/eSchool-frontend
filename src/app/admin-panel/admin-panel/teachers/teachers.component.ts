@@ -8,7 +8,6 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
   templateUrl: './teachers.component.html',
   styleUrls: ['./teachers.component.scss']
 })
-
 export class TeachersComponent implements OnInit {
   loading: boolean;
   displayDialog: boolean;
@@ -37,19 +36,18 @@ export class TeachersComponent implements OnInit {
       { field: 'patronymic', header: 'По батькові' },
       { field: 'dateOfBirth', header: 'Дата народження' }
     ];
-    this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
+    this._teacherServices.currentCalendar.subscribe(data => (this.ua = data));
   }
   handlerFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
     const reader = new FileReader();
     reader.onload = (event: any) => {
-      this.teacher.avatar = event.target.result;
       if (file.item(0).size > 500000) {
         this.photoData = 'Перевищено максимальний розмір 500 кб';
         this.imageUrl = 'assets/avatar.png';
       } else {
         this.photoData = '';
-        this.imageUrl = event.target.result;
+        this.teacher.avatar = event.target.result;
       }
     };
     reader.readAsDataURL(this.fileToUpload);
@@ -59,7 +57,8 @@ export class TeachersComponent implements OnInit {
     this.newTeacher = true;
     this.teacher = {};
   }
-  onRowSelect(rowData) {
+  onRowSelect(rowData: Iteachers) {
+    this.selectedTeacher = rowData;
     this.newTeacher = false;
     this.teacher = {
       ...rowData
@@ -68,7 +67,9 @@ export class TeachersComponent implements OnInit {
   }
   create() {
     this.displayDialog = false;
-    this.teacher.dateOfBirth = this._teacherServices.formatDate(this.teacher.dateOfBirth);
+    this.teacher.dateOfBirth = this._teacherServices.formatDate(
+      this.teacher.dateOfBirth
+    );
     this._teacherServices.postTeacher(this.teacher).subscribe(
       teacher => {
         this.teachers.push(teacher);
@@ -90,7 +91,11 @@ export class TeachersComponent implements OnInit {
   }
   save() {
     this.displayDialog = false;
-    this.teacher.dateOfBirth = this._teacherServices.formatDate(this.teacher.dateOfBirth);
+    this.teacher.dateOfBirth = this._teacherServices.formatDate(
+      this.teacher.dateOfBirth
+    );
+    this.teacher.newPass = '';
+    this.teacher.oldPass = '';
     this._teacherServices.putTeacher(this.teacher).subscribe(
       teacher => {
         const teachers = [...this.teachers];
