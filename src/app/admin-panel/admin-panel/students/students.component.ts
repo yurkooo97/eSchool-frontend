@@ -18,6 +18,7 @@ export class StudentsComponent implements OnInit {
   students: Student[];
   newStudent: Student;
   selectedStudent: Student;
+  numberOfStudents: number;
   isNew: boolean;
   loading: boolean;
   cols: any[];
@@ -61,7 +62,7 @@ export class StudentsComponent implements OnInit {
     this.service_
       .getStudents(classID)
       .subscribe(
-        data => ((this.students = data), (this.loading = false))
+        data => ((this.students = data), (this.loading = false), (this.numberOfStudents = data.length))
       );
   }
 

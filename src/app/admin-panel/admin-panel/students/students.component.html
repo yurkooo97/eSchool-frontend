@@ -12,7 +12,7 @@
 <br>
 <p-table [value]="students" [loading]="loading">
   <ng-template pTemplate="caption">
-    Учні {{selectedClassName}}
+    Учні {{selectedClassName}} <span class="number-of-students"><i class="fas fa-users"></i> {{numberOfStudents}}</span>
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
