@@ -3,21 +3,21 @@
   flex-wrap: nowrap;
 }
 
+// select class
 .classes {
-  // select class
   margin-top: 3%;
   margin-left: 20%;
   width: 150px;
 }
 
+// calendar 'from date'
 .calendar-group-left {
-  // calendar 'from date
   margin-top: 3%;
   margin-left: 5%;
 }
 
+// calendar 'to date'
 .calendar-group-right {
-  // calendar 'to date'
   margin-top: 3%;
   margin-left: 7%;
 }
@@ -39,8 +39,8 @@
   margin-left: 2%;
 }
 
+// header of form
 .ui-helper-clearfix {
-  // header of form
   width: 100%;
   height: 39px;
   background-color: #f4f4f4;
@@ -49,8 +49,8 @@
   border: 1px solid #c8c8c8;
 }
 
+// heading of form
 .ui-panel-title {
-  // heading of form
   color: black;
   font-weight: bold;
   margin-left: 45%;
@@ -81,8 +81,8 @@ p-fieldset {
   margin-bottom: 2%;
 }
 
+// heading of week days
 :host ::ng-deep .ui-fieldset-legend {
-  //heading of week days
   text-align: center;
 }
 
@@ -102,26 +102,34 @@ p-footer button {
 
 .classes div {
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   padding-top: 2px;
-  padding-left: 7px;
+  padding-left: 2px;
   color: red;
 }
 
 .calendar-group-left div {
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   padding-top: 2px;
-  padding-left: 7px;
+  padding-left: 2px;
   color: red;
 }
 
 .calendar-group-right div {
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   padding-top: 2px;
-  padding-left: 7px;
+  padding-left: 2px;
   color: red;
+}
+
+.schedule-alert {
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  padding-top: 2px;
+  padding-left: 2px;
+  //color: #007ad9;
 }
 
 // delete subject button

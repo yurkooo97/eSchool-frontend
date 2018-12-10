@@ -18,6 +18,7 @@ export class ClassScheduleComponent implements OnInit {
   classes: Group[];
   selectedClass: any;
 
+  reset: any;
   ua: any;
 
   fromDate: Date;
@@ -49,12 +50,16 @@ export class ClassScheduleComponent implements OnInit {
     day.splice(i, 1);
   }
 
-  // event to add new dropdown with subjects
+  // event to add new subject element to array
   addSubject(subjectEvent, daySubjects, i) {
     daySubjects[i] = subjectEvent.value;
-    daySubjects[i + 1] = {};
+    if (daySubjects[i + 1] === undefined) {
+      daySubjects[i + 1] = {};
+    }
+    console.log(daySubjects);
   }
 
+  // event to select group
   onClassSelected(selectedClassEvent): void {
     this.schedule.className = this.classes.find(
       item => item.id === selectedClassEvent.value
@@ -97,7 +102,6 @@ export class ClassScheduleComponent implements OnInit {
 
   // request to save schedule
   submitForm(form: NgForm): void {
-    console.log(form);
     Object.keys(this.schedule).forEach((item: any) => {
       if (this.schedule[item].pop) {
         this.schedule[item].pop();
@@ -107,9 +111,9 @@ export class ClassScheduleComponent implements OnInit {
       this.schedule.startOfSemester
     );
     this.schedule.endOfSemester = this.formatDate(this.schedule.endOfSemester);
-    this.scheduleService.postSchedule(this.schedule).subscribe(data => {
-      // this.schedule;
-    });
+    this.scheduleService.postSchedule(this.schedule).subscribe(data => {});
+
     this.form.reset();
+    this.schedule = new Schedule();
   }
 }

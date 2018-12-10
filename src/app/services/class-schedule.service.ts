@@ -31,15 +31,6 @@ export class ClassScheduleService {
     });
   }
 
-  /*public getScheduleClass(schedule: Schedule): Observable<Schedule[]> {
-    return this.http
-      .get<Schedule>('classes/' + schedule.className.id + '/schedule')
-      .map((response: any) => {
-        console.log(response.data);
-        return response.data;
-      });
-  }*/
-
   public postSchedule(schedule: Schedule): Observable<Schedule> {
     return this.http
       .post<Schedule>(

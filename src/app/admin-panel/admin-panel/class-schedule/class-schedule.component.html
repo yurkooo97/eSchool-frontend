@@ -64,28 +64,32 @@
       >
         Введіть дату
       </div>
+      <div
+        [hidden]="
+          fromDate.invalid || toDate.invalid || toDate.value > fromDate.value
+        "
+        class="date-alert alert-danger"
+      >
+        Дата закінчення повинна бути більшою <br />за дату початку семестру
+      </div>
     </div>
   </div>
 
   <div class="left-panel">
-    <p-fieldset class="day" legend="Понеділок">
+    <p-fieldset class="form-control day" legend="Понеділок">
       <p
         class="subjects"
         *ngFor="let subj of schedule.mondaySubjects; let i = index"
       >
         <span>{{ i + 1 }}</span>
         <p-dropdown
-          class="form-control"
           [options]="subjects"
           [(ngModel)]="schedule.mondaySubjects[i]"
           [optionLabel]="'subjectName'"
           (onChange)="addSubject($event, schedule.mondaySubjects, i)"
           placeholder="Виберіть предмет"
           [ngModelOptions]="{ standalone: true }"
-					[style]="{ width: '190px' }"
-					name="mondaySubjects"
-        	#mondaySubjects="ngModel"
-					
+          [style]="{ width: '190px' }"
         >
         </p-dropdown>
         <button
@@ -97,7 +101,8 @@
         </button>
       </p>
     </p-fieldset>
-    <p-fieldset legend="Вівторок">
+
+    <p-fieldset class="form-control day" legend="Вівторок">
       <p
         class="subjects"
         *ngFor="let subj of schedule.tuesdaySubjects; let i = index"
@@ -123,7 +128,7 @@
         </button>
       </p>
     </p-fieldset>
-    <p-fieldset legend="Середа">
+    <p-fieldset class="form-control day" legend="Середа">
       <p
         class="subjects"
         *ngFor="let subj of schedule.wednesdaySubjects; let i = index"
@@ -149,10 +154,22 @@
         </button>
       </p>
     </p-fieldset>
+    <div
+      [hidden]="
+        schedule.mondaySubjects.length > 1 &&
+        schedule.tuesdaySubjects.length > 1 &&
+        schedule.wednesdaySubjects.length > 1 &&
+        schedule.thursdaySubjects.length > 1 &&
+        schedule.fridaySubjects.length > 1
+      "
+      class="schedule-alert alert-danger"
+    >
+      Розклад повинен бути заповненим для всіх робочих днів тижня
+    </div>
   </div>
 
   <div class="right-panel">
-    <p-fieldset legend="Четвер">
+    <p-fieldset class="form-control day" legend="Четвер">
       <p
         class="subjects"
         *ngFor="let subj of schedule.thursdaySubjects; let i = index"
@@ -178,7 +195,7 @@
         </button>
       </p>
     </p-fieldset>
-    <p-fieldset legend="П'ятниця">
+    <p-fieldset class="form-control day" legend="П'ятниця">
       <p
         class="subjects"
         *ngFor="let subj of schedule.fridaySubjects; let i = index"
@@ -204,7 +221,12 @@
         </button>
       </p>
     </p-fieldset>
-    <p-fieldset legend="Субота" [toggleable]="true" [collapsed]="true">
+    <p-fieldset
+      class="form-control day"
+      legend="Субота"
+      [toggleable]="true"
+      [collapsed]="true"
+    >
       <p
         class="subjects"
         *ngFor="let subj of schedule.saturdaySubjects; let i = index"
@@ -244,7 +266,13 @@
       [disabled]="
         class.invalid ||
         fromDate.invalid ||
-        toDate.invalid"
+        toDate.invalid ||
+        schedule.mondaySubjects.length < 2 ||
+        schedule.tuesdaySubjects.length < 2 ||
+        schedule.wednesdaySubjects.length < 2 ||
+        schedule.thursdaySubjects.length < 2 ||
+        schedule.fridaySubjects.length < 2
+      "
     ></button>
   </p-footer>
 </form>
