@@ -3,11 +3,13 @@ import { StudentBookService } from 'src/app/services/student-book-services/stude
 import { MenuItem } from 'primeng/api';
 import { SelectItem } from 'primeng/api';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPrint } from '@fortawesome/free-solid-svg-icons';
+import { faPrint, faDownload } from '@fortawesome/free-solid-svg-icons';
+
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { WeekSchedule } from 'src/app/models/student-book-models/WeekSchedule.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
-library.add(faPrint);
+library.add(faPrint, faDownload);
 
 @Component({
   selector: 'app-student-book',
@@ -39,25 +41,34 @@ export class StudentBookComponent implements OnInit {
 
   public viewType = 'group';
 
+  public loading = true;
+
+  public disabledButton: string;
+
   constructor(
     private studentBookService: StudentBookService,
-    private notificationToasts: DataSharingService
+    private notificationToasts: DataSharingService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
     this.studentBookService.getDiariesList().subscribe(
       data => {
+        console.log(data);
         this.weekSchedule = data;
         this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${
           this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate
         }`;
+        this.loading = false;
       },
-      err =>
+      err => {
+        this.changeWeekSchedule(true, 5);
         this.notificationToasts.notify(
           'error',
           'Помилка',
           'Наразі немає даних про розклад'
-        )
+        );
+      }
     );
 
     this.cols = [
@@ -102,8 +113,10 @@ export class StudentBookComponent implements OnInit {
       },
       err => {
         if (lengthOfCalls >= 0) {
+          this.disabledButton = week && lengthOfCalls >= 0 ? 'next' : 'prev';
           this.changeWeekSchedule(week, lengthOfCalls - 1);
         } else {
+          this.disabledButton = '';
           this.offset = this.saveOffset;
           this.notificationToasts.notify(
             'error',
