@@ -52,9 +52,9 @@
     position: relative;
     .download {
       position: absolute;
-      top: calc((65%-14px) / 2);
+      top: calc((100% - 14px) / 2);
       right: 8px;
-      font-size: 18px;
+      font-size: 20px;
     }
   }
 }
@@ -142,6 +142,10 @@
     height: 24px;
     td {
       text-align: unset;
+      position: static;
+      .download {
+        display: none;
+      }
     }
   }
   .tables {
