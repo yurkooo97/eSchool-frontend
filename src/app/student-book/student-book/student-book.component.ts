@@ -54,7 +54,6 @@ export class StudentBookComponent implements OnInit {
   ngOnInit() {
     this.studentBookService.getDiariesList().subscribe(
       data => {
-        console.log(data);
         this.weekSchedule = data;
         this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${
           this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate
