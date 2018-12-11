@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NewStudingYearService } from 'src/app/services/new-studing-year.service';
 import { ClassId } from 'src/app/models/classId.model';
-import { Transition, SmallGroup } from 'src/app/models/transitional-studing.model';
+import {
+  Transition,
+  SmallGroup
+} from 'src/app/models/transitional-studing.model';
 import { Group } from 'src/app/models/group.model';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 
@@ -10,7 +13,6 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
   templateUrl: './new-studing-year.component.html',
   styleUrls: ['./new-studing-year.component.scss']
 })
-
 export class NewStudingYearComponent implements OnInit {
   groupList: Group[];
   newGroupList: Group[];
@@ -29,8 +31,10 @@ export class NewStudingYearComponent implements OnInit {
   groupsExistArray: Array<SmallGroup> = [];
   isCurrentStudingYear: Array<boolean> = [];
 
-  constructor(private httpService: NewStudingYearService,
-    private notificationToasts: DataSharingService) { }
+  constructor(
+    private httpService: NewStudingYearService,
+    private notificationToasts: DataSharingService
+  ) {}
 
   ngOnInit() {
     this.getGroupList();
@@ -44,20 +48,32 @@ export class NewStudingYearComponent implements OnInit {
       this.checkNumOfStudents();
       this.checkGroupsExisting();
     });
-    this.cols = [{
-      classNameField: 'className', classYearField: 'classYear',
-      newClassNameField: 'newClassName', newClassYearField: 'newClassYear',
-      checkboxField: 'checkbox', colorStyleField: 'colorStyle'
-    }];
+    this.cols = [
+      {
+        classNameField: 'className',
+        classYearField: 'classYear',
+        newClassNameField: 'newClassName',
+        newClassYearField: 'newClassYear',
+        checkboxField: 'checkbox',
+        colorStyleField: 'colorStyle'
+      }
+    ];
   }
 
   filterGroups() {
     this.activeGroups = this.groupList.filter(g => g.isActive);
     this.activeGroups.forEach(item => {
       this.allGroupsList.push({
-        oldClassId: item.id, className: item.className, classYear: item.classYear,
-        isActive: item.isActive, numOfStudents: item.numOfStudents, newClassId: null,
-        newClassName: null, newClassYear: null, checkbox: true, colorStyle: null,
+        oldClassId: item.id,
+        className: item.className,
+        classYear: item.classYear,
+        isActive: item.isActive,
+        numOfStudents: item.numOfStudents,
+        newClassId: null,
+        newClassName: null,
+        newClassYear: null,
+        checkbox: true,
+        colorStyle: null
       });
     });
     this.allGroupsList.forEach(item => {
@@ -75,7 +91,11 @@ export class NewStudingYearComponent implements OnInit {
         this.httpService.putNewOldId(this.classIdArray).subscribe(() => {
           this.hideTag = true;
           this.buttonAddDisabled = true;
-          this.notificationToasts.notify('success', 'Успішно виконано', 'Перехід на новий навчальний рік');
+          this.notificationToasts.notify(
+            'success',
+            'Успішно виконано',
+            'Перехід на новий навчальний рік'
+          );
         });
       });
     });
@@ -127,9 +147,7 @@ export class NewStudingYearComponent implements OnInit {
   }
 
   checkboxEvent(val) {
-    this.allGroupsList.forEach(item =>
-      item.checkbox = val
-    );
+    this.allGroupsList.forEach(item => (item.checkbox = val));
   }
 
   checkNumOfStudents() {
@@ -138,9 +156,14 @@ export class NewStudingYearComponent implements OnInit {
     );
     if (this.numOfStudentsArray.includes(0)) {
       this.buttonAddDisabled = true;
-      this.notificationToasts.notify('error', 'Відхилено', 'В даному переліку класів є такі, ' +
-        'в яких немає жодного учня. Будь ласка, додайте хоча б одного учня до класу або видаліть ' +
-        'такий клас з переліку активних', true);
+      this.notificationToasts.notify(
+        'error',
+        'Відхилено',
+        'В даному переліку класів є такі, ' +
+          'в яких немає жодного учня. Будь ласка, додайте хоча б одного учня до класу або видаліть ' +
+          'такий клас з переліку активних',
+        true
+      );
     }
   }
 
@@ -148,18 +171,28 @@ export class NewStudingYearComponent implements OnInit {
     this.allGroupsList.forEach((item, i) => {
       if (this.groupDigitsArray[i] < 11) {
         this.groupsExistArray.push({
-          className: [parseInt(item.className, 10) + 1,
-          (item.className.split('-')[1])].join('-'),
+          className: [
+            parseInt(item.className, 10) + 1,
+            item.className.split('-')[1]
+          ].join('-'),
           classYear: item.classYear + 1
         });
       }
     });
     this.groupList.forEach(item => {
       this.groupsExistArray.forEach(item2 => {
-        if ((item.className === item2.className) && (item.classYear === item2.classYear)) {
+        if (
+          item.className === item2.className &&
+          item.classYear === item2.classYear
+        ) {
           this.buttonAddDisabled = true;
-          this.notificationToasts.notify('error', 'Відхилено', 'В даному переліку класів є такі, ' +
-            'які перейшли на новий навчальний рік раніше.', true);
+          this.notificationToasts.notify(
+            'error',
+            'Відхилено',
+            'В даному переліку класів є такі, ' +
+              'які перейшли на новий навчальний рік раніше.',
+            true
+          );
         }
       });
     });
@@ -167,12 +200,18 @@ export class NewStudingYearComponent implements OnInit {
 
   checkStudingYear() {
     this.allGroupsList.forEach(item =>
-      this.isCurrentStudingYear.push(item.classYear === this.allGroupsList[0].classYear)
+      this.isCurrentStudingYear.push(
+        item.classYear === this.allGroupsList[0].classYear
+      )
     );
     if (this.isCurrentStudingYear.includes(false)) {
-      this.notificationToasts.notify('warn', 'Попередження', 'В даному переліку класів є такі, ' +
-        'які відносяться до різних навчальних років', true);
+      this.notificationToasts.notify(
+        'warn',
+        'Попередження',
+        'В даному переліку класів є такі, ' +
+          'які відносяться до різних навчальних років',
+        true
+      );
     }
   }
-
 }

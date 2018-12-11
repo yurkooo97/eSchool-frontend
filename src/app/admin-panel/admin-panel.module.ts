@@ -32,8 +32,6 @@ import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-stud
 import { ClassScheduleComponent } from './admin-panel/class-schedule/class-schedule.component';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
-import { DayComponent } from './admin-panel/class-schedule/day/day.component';
-
 import { NewStudingYearService } from '../services/new-studing-year.service';
 import { OverlayPanelModule } from 'primeng/primeng';
 import { CheckboxModule } from 'primeng/primeng';
@@ -66,7 +64,7 @@ import { HttpAttachTeacherService } from '../services/http-attach-teacher.servic
     ReactiveFormsModule,
     AutoCompleteModule,
     OverlayPanelModule,
-    CheckboxModule,
+    CheckboxModule
   ],
 
   providers: [
@@ -86,8 +84,7 @@ import { HttpAttachTeacherService } from '../services/http-attach-teacher.servic
     NewStudingYearComponent,
     ClassScheduleComponent,
     AttachTeacherComponent,
-    DayComponent,
     DashboardComponent
   ]
 })
-export class AdminPanelModule { }
+export class AdminPanelModule {}
