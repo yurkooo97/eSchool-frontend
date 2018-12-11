@@ -13,7 +13,7 @@
         <p-checkbox [(ngModel)]="rowData[col.checkboxField]" binary="true"></p-checkbox>              
       </td>
       <td>{{rowData[col.classNameField]}} клас, {{rowData[col.classYearField]}} рік</td>      
-      <td><span *ngIf="hideTag">{{rowData[col.newClassNameField]}} клас у {{rowData[col.newClassYearField]}} році</span></td>      
+      <td><span *ngIf="hideTag" [style.color]="rowData[col.colorStyleField]">{{rowData[col.newClassNameField]}} клас у {{rowData[col.newClassYearField]}} році</span></td>      
     </tr>
   </ng-template>
   <ng-template pTemplate="summary">

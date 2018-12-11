@@ -56,7 +56,6 @@ export class ClassScheduleComponent implements OnInit {
     if (daySubjects[i + 1] === undefined) {
       daySubjects[i + 1] = {};
     }
-    console.log(daySubjects);
   }
 
   // event to select group

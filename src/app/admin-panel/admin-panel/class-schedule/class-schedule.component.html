@@ -17,9 +17,6 @@
         required
       >
       </p-dropdown>
-      <div [hidden]="class.valid || class.untouched" class="alert alert-danger">
-        Виберіть клас
-      </div>
     </div>
 
     <div class="form-group calendar-group-left">
@@ -36,12 +33,6 @@
         #fromDate="ngModel"
         required
       ></p-calendar>
-      <div
-        [hidden]="fromDate.valid || fromDate.untouched"
-        class="alert alert-danger"
-      >
-        Введіть дату
-      </div>
     </div>
 
     <div class="form-group calendar-group-right">
@@ -58,12 +49,6 @@
         #toDate="ngModel"
         required
       ></p-calendar>
-      <div
-        [hidden]="toDate.valid || toDate.untouched"
-        class="alert alert-danger"
-      >
-        Введіть дату
-      </div>
       <div
         [hidden]="
           fromDate.invalid || toDate.invalid || toDate.value > fromDate.value
