@@ -18,6 +18,7 @@ export class HometaskComponent implements OnInit, OnDestroy {
   sortOrder: number;
 
   activeJournal: Journal;
+  selectedLessons: Hometask[];
 
   constructor(private teacherJournalService: TeacherJournalsService) { }
 
@@ -31,12 +32,23 @@ export class HometaskComponent implements OnInit, OnDestroy {
     });
 
     this.sortOptions = [
-      {label: 'Спочатку нові', value: '!year'},
-      {label: 'Спочатку старі', value: 'year'},
-      {label: 'По опису', value: 'description'}
+      {label: 'Спочатку нові', value: '!date'},
+      {label: 'Спочатку старі', value: 'date'},
+      {label: 'По опису', value: 'homework'}
     ];
   }
   ngOnDestroy() {
    this.teacherJournalService.journalChanged.unsubscribe();
+  }
+  onSortChange(event) {
+    const value = event.value;
+    console.log('value', value);
+    if (value.indexOf('!') === 0) {
+      this.sortOrder = -1;
+      this.sortField = value.substring(1, value.length);
+    } else {
+      this.sortOrder = 1;
+      this.sortField = value;
+    }
   }
 }
