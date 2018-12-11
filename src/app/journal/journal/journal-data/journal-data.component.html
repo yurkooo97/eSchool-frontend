@@ -1,37 +1,23 @@
 <ng-container *ngIf="isDataRecived">
-  <p-dropdown [options]="journalMonthes" 
-  [(ngModel)]="selectedMonth" 
-  (onChange)="monthSelectedFor()"
-  [showClear]="true"></p-dropdown>
-  <ng-container *ngIf="isSelectedMonth">
-  <p-table [value]="selectedJournalData">
-    <ng-template pTemplate="caption">
-      Журнал для: {{selectedMonth}}
+ <p-table [columns]="scrollableCols" [frozenColumns]="frozenCols" [value]="journalData" [scrollable]="true" scrollHeight="200px" frozenWidth="300px">
+    <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+            <col *ngFor="let col of columns"  style="width:150px">
+        </colgroup>
     </ng-template>
-    <ng-template pTemplate="header">
+    <ng-template pTemplate="header" let-columns>
         <tr>
-            <th >Ім'я студента</th>
-            <th>Середня/Рейтинг</th>
-            <th *ngFor="let elem of days">{{elem.day}}<br>{{elem.name}}</th>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowData>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr>
-            <td>{{rowData.studentFullName}} </td>
-            <td>-</td>
-            <td *ngFor="let markObject of rowData.marks" pEditableColumn>
-                <p-cellEditor>
-                    <ng-template pTemplate="input">
-                        <input pInputText type="text" [(ngModel)]="markObject.mark" (onchange)="changeMark(rowData, markObject)">
-                    </ng-template>
-                    <ng-template pTemplate="output">
-                        {{markObject.mark}}
-                        <span *ngIf="markObject.mark">{{markObject.typeMark[0]}}</span>
-                    </ng-template>
-                </p-cellEditor>
+            <td *ngFor="let col of columns">
+                <div>{{markStudent(rowData, col.field)}}</div>                
             </td>
         </tr>
     </ng-template>
-  </p-table> 
-</ng-container>
+</p-table>
 </ng-container>
