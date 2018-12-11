@@ -90,12 +90,12 @@
                   : null
               "
             >
-              {{ rowData[col.field] ? rowData[col.field] : '' }}
+              {{ rowData[col.field] ? rowData[col.field] : "" }}
               <a
                 class="download fa fa-download"
                 [href]="sanitizer.bypassSecurityTrustUrl(rowData['blobUrl'])"
                 [download]="rowData['fileName']"
-                *ngIf="col.field === 'homeWork' && rowData['blobUrl']"
+                *ngIf="col.field === 'homeWork' && rowData['homeworkFileId']"
               ></a>
             </td>
           </tr>
