@@ -61,8 +61,12 @@
   </div>
 
   <div class="left-panel">
-    <p-fieldset class="form-control day" legend="Понеділок">
-      <p
+    <p-fieldset
+      class="form-control day"
+      *ngFor="let subj of schedule.mondaySubjects; let i = index"
+      legend="Понеділок"
+    >
+      <div
         class="subjects"
         *ngFor="let subj of schedule.mondaySubjects; let i = index"
       >
@@ -84,11 +88,11 @@
         >
           <i class="far fa-trash-alt"></i>
         </button>
-      </p>
+      </div>
     </p-fieldset>
 
     <p-fieldset class="form-control day" legend="Вівторок">
-      <p
+      <div
         class="subjects"
         *ngFor="let subj of schedule.tuesdaySubjects; let i = index"
       >
@@ -111,10 +115,10 @@
         >
           <i class="far fa-trash-alt"></i>
         </button>
-      </p>
+      </div>
     </p-fieldset>
     <p-fieldset class="form-control day" legend="Середа">
-      <p
+      <div
         class="subjects"
         *ngFor="let subj of schedule.wednesdaySubjects; let i = index"
       >
@@ -137,7 +141,7 @@
         >
           <i class="far fa-trash-alt"></i>
         </button>
-      </p>
+      </div>
     </p-fieldset>
     <div
       [hidden]="
@@ -155,7 +159,7 @@
 
   <div class="right-panel">
     <p-fieldset class="form-control day" legend="Четвер">
-      <p
+      <div
         class="subjects"
         *ngFor="let subj of schedule.thursdaySubjects; let i = index"
       >
@@ -178,10 +182,10 @@
         >
           <i class="far fa-trash-alt"></i>
         </button>
-      </p>
+      </div>
     </p-fieldset>
     <p-fieldset class="form-control day" legend="П'ятниця">
-      <p
+      <div
         class="subjects"
         *ngFor="let subj of schedule.fridaySubjects; let i = index"
       >
@@ -204,7 +208,7 @@
         >
           <i class="far fa-trash-alt"></i>
         </button>
-      </p>
+      </div>
     </p-fieldset>
     <p-fieldset
       class="form-control day"
@@ -212,7 +216,7 @@
       [toggleable]="true"
       [collapsed]="true"
     >
-      <p
+      <div
         class="subjects"
         *ngFor="let subj of schedule.saturdaySubjects; let i = index"
       >
@@ -235,7 +239,7 @@
         >
           <i class="far fa-trash-alt"></i>
         </button>
-      </p>
+      </div>
     </p-fieldset>
   </div>
 

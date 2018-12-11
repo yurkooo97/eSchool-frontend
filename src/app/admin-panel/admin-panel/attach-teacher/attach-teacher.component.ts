@@ -13,7 +13,7 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 })
 export class AttachTeacherComponent implements OnInit {
   @ViewChild('AttachTeacherForm') form: NgForm;
-  public title = 'Прив\'язка вчителя до журналу';
+  public title = "Прив'язка вчителя до журналу";
 
   public teacher: Teacher;
   private teachers: Teacher[] = [];
@@ -84,14 +84,14 @@ export class AttachTeacherComponent implements OnInit {
           this.notificationToasts.notify(
             'success',
             'Успішно виконано',
-            'Прив\'язку вчителя до журналу'
+            "Прив'язку вчителя до журналу"
           );
         },
         error => {
           this.notificationToasts.notify(
             'error',
             'Відхилено',
-            'Невдалося виконати прив\'язку вчителя до журналу'
+            "Невдалося виконати прив'язку вчителя до журналу"
           );
         }
       );

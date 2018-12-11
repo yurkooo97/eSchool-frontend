@@ -87,8 +87,6 @@ export class ClassScheduleComponent implements OnInit {
   getScheduleSubjects(): void {
     this.scheduleService.getScheduleSubjects().subscribe(data => {
       this.subjects = data;
-      // add an empty field
-      // this.subjects = [new Subject('', '-'), ...data];
     });
   }
 

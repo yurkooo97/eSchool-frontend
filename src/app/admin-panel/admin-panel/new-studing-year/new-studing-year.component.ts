@@ -21,8 +21,6 @@ export class NewStudingYearComponent implements OnInit {
   cols: Array<object>;
   buttonAddDisabled = false;
   hideTag = false;
-  currentYear: number;
-  nextYear: number;
   classIdArray: Array<ClassId> = [];
   classIdArrayBefore: Array<ClassId> = [];
   allGroupsList: Array<Transition> = [];
@@ -163,7 +161,8 @@ export class NewStudingYearComponent implements OnInit {
         'Відхилено',
         'В даному переліку класів є такі, ' +
           'в яких немає жодного учня. Будь ласка, додайте хоча б одного учня до класу або видаліть ' +
-          'такий клас з переліку активних'
+          'такий клас з переліку активних',
+        true
       );
     }
   }
@@ -191,7 +190,8 @@ export class NewStudingYearComponent implements OnInit {
             'error',
             'Відхилено',
             'В даному переліку класів є такі, ' +
-              'які перейшли на новий навчальний рік раніше.'
+              'які перейшли на новий навчальний рік раніше.',
+            true
           );
         }
       });
@@ -209,7 +209,8 @@ export class NewStudingYearComponent implements OnInit {
         'warn',
         'Попередження',
         'В даному переліку класів є такі, ' +
-          'які відносяться до різних навчальних років'
+          'які відносяться до різних навчальних років',
+        true
       );
     }
   }
