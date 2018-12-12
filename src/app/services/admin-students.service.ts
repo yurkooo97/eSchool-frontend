@@ -10,18 +10,26 @@ export class StudentsService {
   constructor (private http: HttpClient) { }
 
   public getClasses(): Observable<Class_[]> {
-    return this.http.get<Class_[]>('classes');
+    return this.http.get<Class_[]>('classes').map((response: any) => {
+      return response.data;
+    });
   }
 
   public getStudents(idClass): Observable<Student[]> {
-    return this.http.get<Student[]>('students/classes/' + idClass);
+    return this.http.get<Student[]>('students/classes/' + idClass).map((response: any) => {
+      return response.data;
+    });
   }
 
   public addStudent(student: Student): Observable<Student> {
-    return this.http.post<Student>('students', student);
+    return this.http.post<Student>('students', student).map((response: any) => {
+      return response.data;
+    });
   }
 
   public changeStudent(student: Student): Observable<Student> {
-    return this.http.put<Student>(`students/${student.id}`, student);
+    return this.http.put<Student>(`/admin/students/${student.id}`, student).map((response: any) => {
+      return response.data;
+    });
   }
 }

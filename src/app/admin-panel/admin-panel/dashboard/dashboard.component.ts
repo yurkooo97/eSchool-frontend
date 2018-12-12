@@ -7,10 +7,10 @@ import { HttpAttachTeacherService } from 'src/app/services/http-attach-teacher.s
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  private students: number;
-  private teachers: number;
-  private classes: number;
-  private subjects: number;
+  public students: number;
+  public teachers: number;
+  public classes: number;
+  public subjects: number;
 
   constructor(private http: HttpAttachTeacherService) { }
 

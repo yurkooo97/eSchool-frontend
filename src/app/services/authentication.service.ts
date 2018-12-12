@@ -69,7 +69,7 @@ export class AuthenticationService {
     return this.getDecodedToken().Roles.authority;
   }
 
-  getRoleLocalizedName (): string {
+  getRoleLocalizedName(): string {
     switch (this.getRole()) {
       case 'ROLE_ADMIN':
         return 'Адміністратор';
@@ -115,7 +115,6 @@ export class AuthenticationService {
     this.httpClient.get(this.refreshUrl)
       .subscribe(
         (response) => {
-          console.log('token refreshed: ');
           this.tokenRefreshTimestamp = curTime;
         },
         (err) => {
@@ -130,8 +129,6 @@ export class AuthenticationService {
     }
     const jwtHelper = new JwtHelperService();
     const decodedToken = jwtHelper.decodeToken(token);
-    console.log('decoded Token', decodedToken);
-    console.log(token);
     return decodedToken;
   }
   getCurrentUserId(): string {
