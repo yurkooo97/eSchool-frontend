@@ -16,7 +16,7 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr>
             <td *ngFor="let col of columns">
-                <div ng-click="singleClick(rowData,col.field)" ng-dblclick="doubleClick(rowData,col.field)">{{markStudent(rowData, col.field)}}</div>                
+                <div (click)="singleClick(rowData,col.field)" (dblclick)="doubleClick(rowData,col.field)">{{markStudent(rowData, col.field)}}</div>
             </td>
         </tr>
     </ng-template>

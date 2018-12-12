@@ -19,7 +19,7 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   scrollableCols: { field: string, header: string } [];
   isSingleClick = true;
   preventSimpleClick: boolean;
-  timerDoubleClick: NodeJS.Timer;
+  timerDoubleClick: number;
   frozenCols: { field: string, header: string, width: string } [] = [
     {field: 'studentFullName', header: 'Студент', width: '14em'},
     {field: 'count', header: 'Рейтинг Підсумок', width: '6em'}];
@@ -67,7 +67,7 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   }
   edit(student: JournalData, mark: any) {
     // MARK: For debug, in prod - revove
-    console.log('Select');
+    console.log('Edit');
     console.log(student.studentFullName);
     console.log(mark);
   }
