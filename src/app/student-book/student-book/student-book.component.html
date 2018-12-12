@@ -8,31 +8,33 @@
       ></p-selectButton>
     </div>
     <div class="p-col-12 p-md-7 p-lg-6 p-grid p-align-center central">
-      <div class=" p-sm-3 p-lg-2">
+      <div class="p-md-2">
         <button
           pButton
           type="button"
           (click)="switchSchedule(false)"
-          label="Попередній"
+          icon="fa fa-arrow-left"
           class="ui-button-rounded ui-button-secondary"
           [disabled]="disabledButton === 'prev'"
         ></button>
       </div>
-      <div class="p-col-12 p-sm-6 p-lg-8">
+      <div class="p-col-12 p-md-8">
         <label> {{ startAndEndOfWeek }} </label>
       </div>
-      <div class=" p-sm-3 p-lg-2">
+      <div class="p-md-2">
         <button
           pButton
           type="button"
           (click)="switchSchedule(true)"
-          label="Наступний"
+          icon="fa fa-arrow-right"
           class="ui-button-rounded ui-button-secondary"
           [disabled]="disabledButton === 'next'"
         ></button>
       </div>
     </div>
-    <div class="p-col-3 p-md-2 p-lg-3 p-grid p-align-center p-justify-end right">
+    <div
+      class="p-col-3 p-md-2 p-lg-3 p-grid p-align-center p-justify-end right"
+    >
       <p-selectButton
         [options]="viewOptions"
         [(ngModel)]="viewType"
@@ -91,7 +93,7 @@
                   : null
               "
             >
-              {{ rowData[col.field] ? rowData[col.field] : "" }}
+              {{ rowData[col.field] ? rowData[col.field] : '' }}
               <a
                 class="download fas fa-download"
                 [href]="sanitizer.bypassSecurityTrustUrl(rowData['blobUrl'])"
