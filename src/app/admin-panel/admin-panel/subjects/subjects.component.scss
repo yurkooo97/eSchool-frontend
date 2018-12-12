@@ -35,34 +35,29 @@ $required: red;
   color: $required;
   font-size: 11px;
 }
-.ui-inputgroup
-{
+.ui-inputgroup {
   display: flex;
   flex-direction: row-reverse;
 }
-.ui-inputgroup-addon
-{
+.ui-inputgroup-addon {
   border-radius: 3px;
-  -webkit-transition: all .7s ease;
-  -moz-transition: all .7s ease;
-  -o-transition: all .7s ease;
-  transition: all .7s ease;
+  -webkit-transition: all 0.7s ease;
+  -moz-transition: all 0.7s ease;
+  -o-transition: all 0.7s ease;
+  transition: all 0.7s ease;
   margin-right: 5px;
 }
-.subjectsForm ::ng-deep input
-{
+.subjectsForm ::ng-deep input {
   width: 100%;
   border: none !important;
   border-radius: 0 !important;
   border-bottom: 1px solid #c0c0c0 !important;
 }
-.subjectsForm input:focus + .ui-inputgroup-addon
-{
+.subjectsForm input:focus + .ui-inputgroup-addon {
   background-color: #007ad9 !important;
   color: white !important;
   border-color: #007ad9 !important;
 }
-.subjectsForm ::ng-deep input:hover
-{
+.subjectsForm ::ng-deep input:hover {
   border-bottom-color: #000000 !important;
 }

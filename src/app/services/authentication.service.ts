@@ -58,6 +58,7 @@ export class AuthenticationService {
   logOut() {
     this.tokenRefreshTimestamp = null;
     localStorage.removeItem('authToken');
+    this.router.navigate(['/login']);
   }
 
   loggedIn() {
@@ -65,13 +66,18 @@ export class AuthenticationService {
   }
 
   getRole(): string {
-    const token = localStorage.getItem('authToken');
-    if (!token) {
-      return null;
+    return this.getDecodedToken().Roles.authority;
+  }
+
+  getRoleLocalizedName(): string {
+    switch (this.getRole()) {
+      case 'ROLE_ADMIN':
+        return 'Адміністратор';
+      case 'ROLE_TEACHER':
+        return 'Вчитель';
+      case 'ROLE_USER':
+        return 'Користувач';
     }
-    const jwtHelper = new JwtHelperService();
-    const decodedToken = jwtHelper.decodeToken(token);
-    return decodedToken.Roles.authority;
   }
 
   defaultRoute() {
@@ -109,11 +115,23 @@ export class AuthenticationService {
     this.httpClient.get(this.refreshUrl)
       .subscribe(
         (response) => {
-          console.log('token refreshed: ');
           this.tokenRefreshTimestamp = curTime;
         },
         (err) => {
           console.warn('failed to refresh token with error: ' + err);
         });
+  }
+
+  getDecodedToken(): any {
+    const token = this.getToken();
+    if (!token) {
+      return null;
+    }
+    const jwtHelper = new JwtHelperService();
+    const decodedToken = jwtHelper.decodeToken(token);
+    return decodedToken;
+  }
+  getCurrentUserId(): string {
+    return this.getDecodedToken().jti;
   }
 }

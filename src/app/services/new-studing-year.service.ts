@@ -7,6 +7,7 @@ import { Group } from '../models/group.model';
 @Injectable({
   providedIn: 'root'
 })
+
 export class NewStudingYearService {
   constructor(private http: HttpClient) { }
   private httpOptions = {
@@ -14,6 +15,7 @@ export class NewStudingYearService {
       'Content-Type': 'application/json'
     })
   };
+
   getGroups(): Observable<Group[]> {
     return this.http
       .get<Group[]>('classes', this.httpOptions)
@@ -21,6 +23,7 @@ export class NewStudingYearService {
         return response.data;
       });
   }
+
   postNewGroups(): Observable<Group[]> {
     return this.http
       .post<Group[]>('students/transition', this.httpOptions)
@@ -28,6 +31,7 @@ export class NewStudingYearService {
         return response.data;
       });
   }
+
   putNewOldId(idObject: ClassId[]): Observable<ClassId[]> {
     return this.http
       .put<ClassId[]>('students/transition', idObject)
@@ -35,4 +39,5 @@ export class NewStudingYearService {
         return response.data;
       });
   }
+
 }

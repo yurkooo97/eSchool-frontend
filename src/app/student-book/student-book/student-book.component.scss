@@ -19,7 +19,7 @@
   word-wrap: break-word;
   display: block;
   color: black;
-  margin-top: -1.25rem;  
+  margin-top: -1.25rem;
 }
 
 .weekSchedule {
@@ -46,8 +46,17 @@
 
 .students-table-row {
   height: 48px;
+  text-align: center;
   td {
     text-align: center;
+    padding-right: 4%;
+    position: relative;
+    .download {
+      position: absolute;
+      top: calc((100% - 14px) / 2);
+      right: 8px;
+      font-size: 20px;
+    }
   }
 }
 
@@ -126,6 +135,7 @@
   order: 6;
 }
 
+// Styles for print page
 @media print {
   .schedule-navigation {
     display: none;
@@ -134,9 +144,170 @@
     height: 24px;
     td {
       text-align: unset;
+      position: static;
+      .download {
+        display: none;
+      }
     }
   }
   .tables {
     margin-top: -80px;
+  }
+}
+
+// Responsive styles 
+@media (min-width: 1281px) {
+  
+  //CSS
+  
+}
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 992px) and (max-width: 1280px) {
+  
+    .schedule-navigation {
+      div:nth-child(2) {
+        label{
+          margin-left: 10%;
+        }
+      }
+    }  
+  
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+  
+  @media (min-width: 768px) and (max-width: 992px) {
+  
+    .weekSchedule .right {
+      padding: 0%;
+    }
+    .right button {
+      display: none;
+    }
+  }
+
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+// @media (min-width: 768px) and (max-width: 992px) and (orientation: landscape) {
+  
+//   .right button {
+//     display: none;
+//   }
+//   .weekSchedule .right {
+//     padding: 0%;
+//   }
+  
+// }
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .central {
+    display: flex;
+    justify-content: center;
+    div:nth-of-type(1) {
+      order: 2;
+    }
+    
+    div:nth-of-type(2) {
+      order: 1;
+    }
+    
+    div:nth-of-type(3) {
+      order: 3;
+    }
+  }
+  .left, .right {
+    display: none;
+  }
+  .ordering:nth-of-type(1) {
+    order: 1;
+  }
+  
+  .ordering:nth-of-type(2) {
+    order: 2;
+  }
+  
+  .ordering:nth-of-type(3) {
+    order: 3;
+  }
+  
+  .ordering:nth-of-type(4) {
+    order: 4;
+  }
+  
+  .ordering:nth-of-type(5) {
+    order: 5;
+  }
+  
+  .ordering:nth-of-type(6) {
+    order: 6;
+  }    
+}
+
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (max-width: 480px) {
+  
+  .left, .right {
+    display: none;
+  }  
+  .central {
+    display: flex;
+    justify-content: center;
+    div:nth-of-type(1) {
+      order: 2;
+    }
+    
+    div:nth-of-type(2) {
+      order: 1;
+    }
+    
+    div:nth-of-type(3) {
+      order: 3;
+    }
+  }
+  .ordering:nth-of-type(1) {
+    order: 1;
+  }
+  
+  .ordering:nth-of-type(2) {
+    order: 2;
+  }
+  
+  .ordering:nth-of-type(3) {
+    order: 3;
+  }
+  
+  .ordering:nth-of-type(4) {
+    order: 4;
+  }
+  
+  .ordering:nth-of-type(5) {
+    order: 5;
+  }
+  
+  .ordering:nth-of-type(6) {
+    order: 6;
   }
 }

@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 })
 export class DataSharingService {
   public showToasts = new Subject<Object>();
-  public notify(severity: Severities, summary: string, detail: string): void {
-    this.showToasts.next({ severity, summary, detail });
+  public notify(severity: string, summary: string, detail: string, sticky?: boolean): void {
+    this.showToasts.next({ severity, summary, detail, sticky });
   }
 }

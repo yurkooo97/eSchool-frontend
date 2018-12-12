@@ -53,9 +53,10 @@
   display: flex;
   flex-direction: row-reverse;
 }
-.student-date-of-birth
+.student-date-of-birth,
+.phone-number
 {
-  width: 100%;
+  width: 100% !important;
 }
 .ui-inputgroup-addon
 {
@@ -82,7 +83,7 @@
 {
   margin: 0 5px 5px 0;
 }
-.classID
+.classID, .oldPass, .newPass
 {
   width: 20% !important;
   float: right;
@@ -169,5 +170,8 @@
     }
   }
 }
-
+.number-of-students
+{
+  float: left;
+}
 
