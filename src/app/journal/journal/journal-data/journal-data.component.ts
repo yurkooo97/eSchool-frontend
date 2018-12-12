@@ -17,7 +17,12 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   isActiveJournal: boolean;
   isDataRecived = false;
   scrollableCols: { field: string, header: string } [];
-  frozenCols: { field: string, header: string } [] = [{field: 'studentFullName', header: 'Студент'}, {field: 'count', header: 'Рейтинг'}];
+  isSingleClick = true;
+  preventSimpleClick: boolean;
+  timerDoubleClick: NodeJS.Timer;
+  frozenCols: { field: string, header: string, width: string } [] = [
+    {field: 'studentFullName', header: 'Студент', width: '14em'},
+    {field: 'count', header: 'Рейтинг Підсумок', width: '6em'}];
 
   ngOnInit() {
     this.subscribeData();
@@ -40,9 +45,9 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   get journalDeys(): { field: string, header: string } [] {
     if (this.journalData) {
       return this.journalData[0].marks.map( (mark, index) => {
-        const weekDay = this.daysForMonth(mark.dateMark) + ' ';
+        const weekDay = this.daysForMonth(mark.dateMark) + '/';
         const day = mark.dateMark.slice(mark.dateMark.indexOf('.') + 1);
-        return {field: '' + index, header: weekDay + day};
+        return {field: '' + index, header: weekDay + day, width: '5em'};
       });
     } else {
       console.log('Journal data is empty!');
@@ -54,8 +59,15 @@ export class JournalDataComponent implements OnInit, OnDestroy {
     const days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пя', 'Сб'];
     return days[weakDay];
   }
-  changeMark(student: JournalData, mark: any) {
+  selected(student: JournalData, mark: any) {
     // MARK: For debug, in prod - revove
+    console.log('Select');
+    console.log(student.studentFullName);
+    console.log(mark);
+  }
+  edit(student: JournalData, mark: any) {
+    // MARK: For debug, in prod - revove
+    console.log('Select');
     console.log(student.studentFullName);
     console.log(mark);
   }
@@ -74,5 +86,22 @@ export class JournalDataComponent implements OnInit, OnDestroy {
     } else {
       return student[markIndex];
     }
+  }
+
+
+  singleClick(student: JournalData, mark: number) {
+    this.preventSimpleClick = false;
+    const delay = 200;
+    this.timerDoubleClick = setTimeout(() => {
+      if (!this.preventSimpleClick) {
+        this.selected(student, mark);
+      }
+    }, delay);
+  }
+
+  doubleClick(student: JournalData, mark: number): void {
+    this.preventSimpleClick = true;
+    clearTimeout(this.timerDoubleClick);
+    this.edit(student, mark);
   }
 }

@@ -1,21 +1,22 @@
 <ng-container *ngIf="isDataRecived">
- <p-table [columns]="scrollableCols" [frozenColumns]="frozenCols" [value]="journalData" [scrollable]="true" scrollHeight="200px" frozenWidth="300px">
+ <p-table [columns]="scrollableCols" [frozenColumns]="frozenCols" [value]="journalData" [scrollable]="true" scrollHeight="200px" frozenWidth="20em">
     <ng-template pTemplate="colgroup" let-columns>
         <colgroup>
-            <col *ngFor="let col of columns"  style="width:150px">
+            <col *ngFor="let col of columns" [style.width]="col.width">
         </colgroup>
     </ng-template>
-    <ng-template pTemplate="header" let-columns>
+    <ng-template pTemplate="header" let-columns >
         <tr>
             <th *ngFor="let col of columns">
-                {{col.header}}
+                <div *ngIf="+col.field!==NaN">{{col.header.split('/')[0]}}</div>
+                <div *ngIf="+col.field!==NaN">{{col.header.split('/')[1]}}</div>
             </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr>
             <td *ngFor="let col of columns">
-                <div>{{markStudent(rowData, col.field)}}</div>                
+                <div ng-click="singleClick(rowData,col.field)" ng-dblclick="doubleClick(rowData,col.field)">{{markStudent(rowData, col.field)}}</div>                
             </td>
         </tr>
     </ng-template>
