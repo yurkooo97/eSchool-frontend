@@ -1,3 +1,8 @@
+<ng-container *ngIf="selectedLessons">
+  <h3>
+    <span>Домашнє завдання для обраних уроків</span>
+  </h3>
+</ng-container>
 <ng-container *ngIf="activeJournal">
   <h3>
     <span>Домашнє завдання для </span>
@@ -5,24 +10,40 @@
       {{activeJournal ? activeJournal.className + ' класу з предмету "' + activeJournal.subjectName + '"' : 'Відсутні дані'}}
     </span>
   </h3>
-  <p-dataView [value]="hometasks" [paginator]="true" [rows]="5" paginatorPosition="both" >
+  <p-dataView #dv
+              [value]="hometasks"
+              [paginator]="true"
+              [rows]="10"
+              paginatorPosition="both"
+              filterBy="homework"
+              [sortField]="sortField"
+              [sortOrder]="sortOrder">
     <p-header>
       <div class="ui-helper-clearfix">
         <div class="ui-g">
           <div class="ui-g-12 ui-md-4">
-            <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Сортування:" (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}">
+            <p-dropdown [options]="sortOptions"
+                        [(ngModel)]="sortKey"
+                        placeholder="Сортування:"
+                        (onChange)="onSortChange($event)"
+                        [autoWidth]="false"
+                        [style]="{'min-width':'15em'}">
             </p-dropdown>
           </div>
           <div class="ui-g-6 ui-md-4 filter-container">
             <div style="position:relative">
-              <input class="ui-inputtext ui-corner-all ui-state-default ui-widget" type="search" pInputText placeholder="Шукати по опису" (keyup)="dv.filter($event.target.value)">
+              <input class="ui-inputtext ui-corner-all ui-state-default ui-widget"
+                     type="search"
+                     pInputText
+                     placeholder="Шукати по опису"
+                     (keyup)="dv.filter($event.target.value)">
             </div>
           </div>
         </div>
       </div>
     </p-header>
     <ng-template let-hometask pTemplate="listItem">
-      <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
+      <div class="ui-g" style="border-bottom: 1px solid #d9d9d9">
         <div class="ui-g-12 ui-md-3" style="text-align:center">
           {{hometask.date}}
         </div>

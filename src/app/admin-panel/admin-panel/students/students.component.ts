@@ -18,6 +18,7 @@ export class StudentsComponent implements OnInit {
   students: Student[];
   newStudent: Student;
   selectedStudent: Student;
+  numberOfStudents: number;
   isNew: boolean;
   loading: boolean;
   cols: any[];
@@ -37,7 +38,7 @@ export class StudentsComponent implements OnInit {
     this.service_
       .getClasses()
       .subscribe(
-        data => ((this.classes = data['data']), (this.loading = false))
+        data => ((this.classes = data), (this.loading = false))
       );
 
     this.loadStudents(1);
@@ -61,7 +62,7 @@ export class StudentsComponent implements OnInit {
     this.service_
       .getStudents(classID)
       .subscribe(
-        data => ((this.students = data['data']), (this.loading = false))
+        data => ((this.students = data), (this.loading = false), (this.numberOfStudents = data.length))
       );
   }
 
@@ -76,6 +77,8 @@ export class StudentsComponent implements OnInit {
       '',
       '',
       0,
+      '',
+      '',
       ''
     );
     this.isNew = true;
@@ -87,12 +90,14 @@ export class StudentsComponent implements OnInit {
       student.firstname,
       student.lastname,
       student.patronymic,
-      student.classId = this.selectedClassId,
+      student.classId = null,
       student.dateOfBirth,
       student.email,
       student.phone,
       student.login,
       student.id,
+      student.oldPass,
+      student.newPass,
       student.avatar
     );
     this.isNew = false;
@@ -111,7 +116,10 @@ export class StudentsComponent implements OnInit {
           'Додано нового учня'
         );
       }, error => {
-        this.notificationToasts.notify('error', 'Відхилено', 'Невдалося додати нового учня');
+        this.notificationToasts.notify(
+          'error',
+          'Відхилено',
+          'Невдалося додати нового учня');
       });
     } else {
       this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
@@ -125,7 +133,10 @@ export class StudentsComponent implements OnInit {
           'Збережено зміни учня'
         );
       }, error => {
-        this.notificationToasts.notify('error', 'Відхилено', 'Невдалося зберегти учня');
+        this.notificationToasts.notify(
+          'error',
+          'Відхилено',
+          'Невдалося зберегти учня');
       });
     }
   }
