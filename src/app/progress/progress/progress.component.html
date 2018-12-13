@@ -20,22 +20,20 @@
     <p-dropdown [options]="visibleSubjects" [(ngModel)]="selectedSubjects" (onChange)="onSubjectChange()" placeholder="Виберіть предмет"
       [showClear]="true"></p-dropdown>
 
+    <p-calendar class="calendar" [(ngModel)]="start" [locale]="ua" placeholder="Початок періоду" dateFormat="yy.mm.dd"
+      [showIcon]="true"></p-calendar>
 
+    <p-calendar class="calendar" [(ngModel)]="end" [locale]="ua" dateFormat="yy.mm.dd" placeholder="Кінець періоду"
+      [showIcon]="true"></p-calendar>
 
-    <p-calendar class="calendar" [(ngModel)]="start" [locale]="ua" (onSelect)="onStartDateChange()" placeholder="Початок періоду"
-      dateFormat="yy.mm.dd" [showIcon]="true"></p-calendar>
-
-    <p-calendar class="calendar" [(ngModel)]="end" [locale]="ua" (onSelect)="onEndDateChange()" dateFormat="yy.mm.dd"
-      placeholder="Кінець періоду" [showIcon]="true"></p-calendar>
-
-    <p-button class="button" icon="pi pi-check" [disabled]="isButtonDisabled" label="Показати оцінку"></p-button>
+    <p-button class="button" icon="pi pi-check" [disabled]="isButtonDisabled" (onClick)="onClickShow()" label="Показати оцінку"></p-button>
 
     <div class="showMarks">
       <h3 class="averageMark">Середня оцінка учня по предмету: {{average | number:'.1-2'}} </h3>
     </div>
 
     <div class="showMarks">
-      <h3 class="averageMark">Середня оцінка учня по всіх предметах:{{avgMarkAllSubjects | number:'.1-2'}} </h3>
+      <h3 class="averageMark">Середня оцінка учня по всіх предметах: {{avgMarkAllSubjects | number:'.1-2'}} </h3>
     </div>
 
   </div>

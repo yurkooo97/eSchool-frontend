@@ -8,7 +8,7 @@ import {
 
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class TokenInterceptorService implements HttpInterceptor {
   constructor(
     private authService: AuthenticationService,
     private router: Router
-  ) {}
+  ) { }
 
   private httpOptions = {
     headers: new HttpHeaders({

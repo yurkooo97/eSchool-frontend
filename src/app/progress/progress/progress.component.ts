@@ -63,20 +63,19 @@ export class ProgressComponent implements OnInit {
       });
   }
 
-  onStartDateChange() { }
-
-  onEndDateChange() {
+  onClickShow() {
     const pipe = new DatePipe('en-US');
     const startStr = pipe.transform(this.start, 'yyyy-MM-dd');
     const endStr = pipe.transform(this.end, 'yyyy-MM-dd');
     this.marksService.getMarks(startStr, endStr, this.selectedSubjects.subjectId, this.selectedGroup.id, this.selectedStudent.id)
       .subscribe(data => {
         const marks = data.map(mark => mark.y);
-       });
+      });
     this.marksService.getAvgMarks(this.selectedStudent.id, startStr, endStr).subscribe(data => {
       this.avgMark = data;
       this.avgMarkAllSubjects = this.StudentAverageMark(data.map(mark => mark.avgMark));
-      this.average = data.find(i => i.subjectId = this.selectedSubjects.subjectId).avgMark;
+      const subject = data.find(i => i.subjectId === this.selectedSubjects.subjectId);
+      this.average = subject ? subject.avgMark : null;
     });
   }
 
@@ -92,6 +91,7 @@ export class ProgressComponent implements OnInit {
     } else {
       this.visibleGroups = new Array<Group>();
       this.start = null;
+      this.end = null;
     }
     this.selectedGroup = null;
     this.onClassChange();
@@ -100,7 +100,7 @@ export class ProgressComponent implements OnInit {
 
   onStudentChange() {
     this.updateIsButtonDisabled();
-   }
+  }
 
   onClassChange() {
     if (this.selectedGroup) {
@@ -113,7 +113,7 @@ export class ProgressComponent implements OnInit {
       });
       this.visibleStudents = new Array<SelectItem>();
       this.studentService.getStudents(this.selectedGroup.id).subscribe(data => {
-        this.visibleStudents = data['data'].map(function (student) {
+        this.visibleStudents = data.map(function (student) {
           return {
             label: `${student.firstname} ${student.lastname}`, value: student
           };
@@ -132,7 +132,7 @@ export class ProgressComponent implements OnInit {
     for (let i = 0; i < marks.length; i++) {
       summ += marks[i];
     }
-    return  summ / marks.length;
+    return summ / marks.length;
   }
 
   calendar(): void {
@@ -140,6 +140,7 @@ export class ProgressComponent implements OnInit {
   }
 
   updateIsButtonDisabled() {
-    this.isButtonDisabled =  !(this.selectedYear  != null && this.selectedGroup != null && this.selectedStudent != null);
+    this.isButtonDisabled = !(this.selectedSubjects != null && this.selectedYear != null &&
+      this.selectedGroup != null && this.selectedStudent != null);
   }
 }
