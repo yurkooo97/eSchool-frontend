@@ -8,7 +8,7 @@ import {
 
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +51,7 @@ export class TokenInterceptorService implements HttpInterceptor {
           this.authService.logOut();
           this.router.navigate(['/login']);
         }
-        return Observable.throw(errorResponse);
+        return throwError(errorResponse);
       });
   }
 
