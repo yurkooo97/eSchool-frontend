@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class StudentsService {
 
-  constructor (private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   public getClasses(): Observable<Class_[]> {
     return this.http.get<Class_[]>('classes').map((response: any) => {
@@ -17,6 +17,12 @@ export class StudentsService {
 
   public getStudents(idClass): Observable<Student[]> {
     return this.http.get<Student[]>('students/classes/' + idClass).map((response: any) => {
+      return response.data;
+    });
+  }
+
+  public getStudent(idStudent): Observable<Student> {
+    return this.http.get<Student>('students/' + idStudent).map((response: any) => {
       return response.data;
     });
   }
