@@ -17,9 +17,8 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   isActiveJournal: boolean;
   isDataRecived = false;
   scrollableCols: { field: string, header: string } [];
-  isSingleClick = true;
   preventSimpleClick: boolean;
-  timerDoubleClick: number;
+  timerDoubleClick: any;
   frozenCols: { field: string, header: string, width: string } [] = [
     {field: 'studentFullName', header: 'Студент', width: '14em'},
     {field: 'count', header: 'Рейтинг Підсумок', width: '6em'}];
@@ -64,8 +63,12 @@ export class JournalDataComponent implements OnInit, OnDestroy {
     console.log('Select');
     console.log(student.studentFullName);
     console.log(mark);
+    if (student.marks[mark].mark) {
+      student.marks[mark].isSelected = !(student.marks[mark].isSelected);
+    }
   }
   edit(student: JournalData, mark: any) {
+    student.marks[mark].isEdit = true;
     // MARK: For debug, in prod - revove
     console.log('Edit');
     console.log(student.studentFullName);
@@ -99,9 +102,29 @@ export class JournalDataComponent implements OnInit, OnDestroy {
     }, delay);
   }
 
-  doubleClick(student: JournalData, mark: number): void {
+  doubleClick(student: JournalData, mark: number) {
     this.preventSimpleClick = true;
     clearTimeout(this.timerDoubleClick);
     this.edit(student, mark);
   }
+
+  isEditMode(student: JournalData, mark: number): boolean {
+    if (student.marks[mark]) {
+      if (student.marks[mark].isEdit) {
+        return student.marks[mark].isEdit;
+      }
+    }
+  }
+
+  isSelected(student: JournalData, mark: number): boolean {
+    return ((student.marks[mark]) && (student.marks[mark].isSelected) && student.marks[mark].isSelected);
+  }
+  markEditExit(student: JournalData, mark: number) {
+    if (student.marks[mark]) {
+      if (student.marks[mark].isEdit) {
+        student.marks[mark].isEdit = false;
+      }
+    }
+  }
+
 }

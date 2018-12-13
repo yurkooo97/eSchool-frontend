@@ -5,3 +5,14 @@ p-dropdown {
 .ui-table-scrollable-header {
   overflow-y: scroll;
   }
+
+.cellContainer {
+  height: 18px;
+  align-content: center;
+}
+.selectedCell {
+  position: relative;
+  left:3px;
+  top: 3px;
+  color: aqua;
+}

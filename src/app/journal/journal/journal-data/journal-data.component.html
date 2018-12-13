@@ -15,8 +15,13 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr>
-            <td *ngFor="let col of columns">
-                <div (click)="singleClick(rowData,col.field)" (dblclick)="doubleClick(rowData,col.field)">{{markStudent(rowData, col.field)}}</div>
+            <td *ngFor="let col of columns" class="ui-resizable-column">
+                <div (click)="singleClick(rowData,col.field)" (dblclick)="doubleClick(rowData,col.field)" class="cellContainer">
+                    
+                        <div *ngIf="!isEditMode(rowData, col.field)"><span>{{markStudent(rowData, col.field)}} <span *ngIf="isSelected(rowData,col.field)" class="selectedCell">+</span></span></div>
+                        <div *ngIf="isEditMode(rowData, col.field)" class="inputCell" contenteditable="true" (blur)="markEditExit(rowData, col.field)"></div>
+                    
+                </div>
             </td>
         </tr>
     </ng-template>
