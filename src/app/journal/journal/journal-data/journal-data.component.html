@@ -1,29 +1,33 @@
 <ng-container *ngIf="isDataRecived">
- <p-table [columns]="scrollableCols" [frozenColumns]="frozenCols" [value]="journalData" [scrollable]="true" scrollHeight="200px" frozenWidth="20em">
-    <ng-template pTemplate="colgroup" let-columns>
-        <colgroup>
-            <col *ngFor="let col of columns" [style.width]="col.width">
-        </colgroup>
-    </ng-template>
-    <ng-template pTemplate="header" let-columns >
-        <tr>
-            <th *ngFor="let col of columns">
-                <div *ngIf="+col.field!==NaN">{{col.header.split('/')[0]}}</div>
-                <div *ngIf="+col.field!==NaN">{{col.header.split('/')[1]}}</div>
-            </th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr>
-            <td *ngFor="let col of columns" class="ui-resizable-column">
-                <div (click)="singleClick(rowData,col.field)" (dblclick)="doubleClick(rowData,col.field)" class="cellContainer">
-                    
-                        <div *ngIf="!isEditMode(rowData, col.field)"><span>{{markStudent(rowData, col.field)}} <span *ngIf="isSelected(rowData,col.field)" class="selectedCell">+</span></span></div>
-                        <div *ngIf="isEditMode(rowData, col.field)" class="inputCell" contenteditable="true" (blur)="markEditExit(rowData, col.field)"></div>
-                    
-                </div>
-            </td>
-        </tr>
-    </ng-template>
-</p-table>
+    <p-table [columns]="scrollableCols" [frozenColumns]="frozenCols" [value]="journalData" [scrollable]="true"
+        scrollHeight="200px" frozenWidth="20em">
+        <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+                <col *ngFor="let col of columns" [style.width]="col.width">
+            </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    <div *ngIf="+col.field!==NaN">{{col.header.split('/')[0]}}</div>
+                    <div *ngIf="+col.field!==NaN">{{col.header.split('/')[1]}}</div>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns" 
+                    [style.background-color]="isSelected(rowData,col.field) ? '#bcdfff' : '#fff'" 
+                    (click)="singleClick(rowData,col.field)" 
+                    (dblclick)="doubleClick(rowData,col.field)">
+                        <div *ngIf="!isEditMode(rowData, col.field)" class="mark">
+                            {{markStudent(rowData, col.field)}}
+                        </div>
+                        <div *ngIf="isEditMode(rowData, col.field)">
+                            <p-slider [(ngModel)]="rowData.marks[col.field]" orientation="vertical"></p-slider>
+                        </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
 </ng-container>

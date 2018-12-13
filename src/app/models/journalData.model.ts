@@ -1,17 +1,11 @@
+import { Mark } from './journalMark.model';
+
 export class JournalData {
   idStudent: number;
-  marks: {
-    dateMark: string;
-    idLesson: number;
-    mark: string;
-    note?: string;
-    typeMark: string;
-    isEdit?: boolean;
-    isSelected?: boolean
-  }[];
+  marks: Mark[];
   studentFullName: string;
 
-  constructor(id, marks, fullName) {
+  constructor(id: number, marks: Mark[], fullName: string) {
     this.idStudent = id;
     this.marks = marks.map( mark => {
       mark.isEdit = false;

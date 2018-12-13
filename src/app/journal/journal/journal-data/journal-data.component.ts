@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TeacherJournalsService } from 'src/app/services/teacher-journals.service';
 import { JournalData } from 'src/app/models/journalData.model';
 import { Journal } from 'src/app/models/journal.model';
-import { Month } from 'src/app/models/month.model';
+import { Mark } from 'src/app/models/journalMark.model';
 
 @Component({
   selector: 'app-journal-data',
@@ -69,6 +69,7 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   }
   edit(student: JournalData, mark: any) {
     student.marks[mark].isEdit = true;
+    student.marks[mark].isSelected = false;
     // MARK: For debug, in prod - revove
     console.log('Edit');
     console.log(student.studentFullName);
@@ -127,4 +128,11 @@ export class JournalDataComponent implements OnInit, OnDestroy {
     }
   }
 
+  resetMarks(marks: Mark[]): Mark[] {
+    return marks.map( mark => {
+      mark.isSelected = false;
+      mark.isEdit = false;
+      return mark;
+    });
+  }
 }
