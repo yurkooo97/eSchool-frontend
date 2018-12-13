@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { Diary } from 'src/app/models/student-book-models/Diary.model';
 import { WeekSchedule } from 'src/app/models/student-book-models/WeekSchedule.model';
+import { File } from 'src/app/models/student-book-models/File.model';
 import { Url } from 'url';
 @Injectable({
   providedIn: 'root'
@@ -95,12 +96,16 @@ export class StudentBookService {
     return window.URL.createObjectURL(blob);
   }
 
-  private addFilesToScheduleArray(data: Diary[]) {
+  private addFilesToScheduleArray(data: Diary[]): Diary[] {
     const scheduleWithFiles = data.map(el => {
       if (el.homeworkFileId) {
         this.getFileById(el.lessonId).subscribe(response => {
           el.blobUrl = this.b64toBlob(response.fileData, response.fileType);
           el.fileName = response.fileName;
+        },
+        err => {
+          console.error(err);
+          throw new Error('Дані не прийшли');
         });
       }
       return el;
@@ -114,7 +119,7 @@ export class StudentBookService {
     return `${day} ${month} ${year}`;
   }
 
-  public getFileById(lessonId) {
+  public getFileById(lessonId: number): Observable<File> {
     return this._http.get<any>(`/homeworks/files/${lessonId}`).map(response => {
       return response.data;
     });
@@ -130,7 +135,7 @@ export class StudentBookService {
           const sortedWeekData = this.sortDataByWeekDay(scheduleWithFiles);
           return [...sortedWeekData];
         } else {
-          throw new Error('Data didn\'t come');
+          throw new Error('Дані не прийшли');
         }
       });
   }
