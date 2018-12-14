@@ -1,4 +1,4 @@
-<div class="p-grid weekSchedule" *ngIf="startAndEndOfWeek">
+<div class="p-grid weekSchedule" *ngIf="!loading">
   <div class="p-col-12 p-grid p-align-center schedule-navigation">
     <div class="p-col-12 p-md-3 p-lg-3 p-grid p-align-center left">
       <p-selectButton
@@ -51,7 +51,7 @@
       ></button>
     </div>
   </div>
-  <div class="p-col-12 p-grid tables">
+  <div class="p-col-12 p-grid tables" (swipeleft)="switchSchedule(true)" (swiperight)="switchSchedule(false)">
     <div
       *ngFor="let daysOfWeek of weekSchedule"
       [ngClass]="{ 'p-md-12': view, 'p-md-6': !view, ordering: !view }"
@@ -107,4 +107,5 @@
     </div>
   </div>
 </div>
-<ngx-loading [show]="loading"></ngx-loading>
+<!-- <ngx-loading [show]="loading"></ngx-loading> -->
+<app-spinner-kit *ngIf="loading"></app-spinner-kit>

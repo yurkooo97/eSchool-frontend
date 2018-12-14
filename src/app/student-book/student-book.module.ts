@@ -10,6 +10,7 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { StudentBookRoutingModule } from './student-book-routing.module';
 import { StudentBookComponent } from './student-book/student-book.component';
 import { StudentBookService } from '../services/student-book-services/student-book.service';
+import { SpinnerKitComponent } from './spinner-kit/spinner-kit.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,6 @@ import { StudentBookService } from '../services/student-book-services/student-bo
     NgxLoadingModule
   ],
   providers: [StudentBookService],
-  declarations: [StudentBookComponent]
+  declarations: [StudentBookComponent, SpinnerKitComponent]
 })
 export class StudentBookModule {}

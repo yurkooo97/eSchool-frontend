@@ -109,6 +109,7 @@ export class StudentBookComponent implements OnInit {
         }`;
         this.clonedWeekSchedule = [...this.weekSchedule];
         this.saveOffset = this.offset;
+        this.loading = false;
       },
       err => {
         if (lengthOfCalls >= 0) {
@@ -122,6 +123,7 @@ export class StudentBookComponent implements OnInit {
             'Помилка',
             'Наразі немає даних про розклад'
           );
+          this.loading = false;
         }
       }
     );
@@ -165,6 +167,7 @@ export class StudentBookComponent implements OnInit {
     if (this.selectedType === 'day') {
       this.changeDaySchedule(direction);
     } else {
+      this.loading = true;
       this.changeWeekSchedule(direction, 5);
     }
   }
