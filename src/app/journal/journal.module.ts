@@ -12,6 +12,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { DataViewModule } from 'primeng/dataview';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
+import { InputMaskModule } from 'primeng/inputmask';
 import { JournalDataComponent } from './journal/journal-data/journal-data.component';
 
 @NgModule({
@@ -23,6 +24,7 @@ import { JournalDataComponent } from './journal/journal-data/journal-data.compon
     FormsModule,
     DataViewModule,
     TableModule,
+    InputMaskModule,
     ButtonModule
   ],
   declarations: [JournalComponent, MenuComponent, HometaskComponent, JournalDataComponent]

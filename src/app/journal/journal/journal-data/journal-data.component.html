@@ -23,8 +23,9 @@
                         <div *ngIf="!isEditMode(rowData, col.field)" class="mark">
                             {{markStudent(rowData, col.field)}}
                         </div>
-                        <div *ngIf="isEditMode(rowData, col.field)">
-                            <p-slider [(ngModel)]="rowData.marks[col.field]" orientation="vertical"></p-slider>
+                        <div *ngIf="isEditMode(rowData, col.field)" >
+                            <p-inputMask class="editCell" mask="99" autoFocus="true" characterPattern="[^[1-9]{0,1}[0-2]?$]" maxlenght="2" size="2" pInputText [(ngModel)]="rowData.marks[col.field].mark" 
+                            (onBlur)="markEditExit(rowData, col.field)" #box (keyup.enter)="markEditExit(rowData, col.field)" ></p-inputMask>
                         </div>
                 </td>
             </tr>

@@ -19,6 +19,7 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   scrollableCols: { field: string, header: string } [];
   preventSimpleClick: boolean;
   timerDoubleClick: any;
+  markEditValue: string;
   frozenCols: { field: string, header: string, width: string } [] = [
     {field: 'studentFullName', header: 'Студент', width: '14em'},
     {field: 'count', header: 'Рейтинг Підсумок', width: '6em'}];
@@ -58,6 +59,40 @@ export class JournalDataComponent implements OnInit, OnDestroy {
     const days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пя', 'Сб'];
     return days[weakDay];
   }
+  
+  ngOnDestroy(): void {
+    this.teacherJournalService.journalChanged.unsubscribe();
+  }
+
+  markStudent(student: JournalData, markIndex: number): string {
+    if (!isNaN(markIndex)) {
+      const mark = student.marks[markIndex].mark;
+      if (mark) {
+        return mark;
+      } else {
+        return '';
+      }
+    } else {
+      return student[markIndex];
+    }
+  }
+  singleClick(student: JournalData, mark: number) {
+    if (student.marks[mark].isEdit) {
+      return;
+    }
+    this.preventSimpleClick = false;
+    const delay = 200;
+    this.timerDoubleClick = setTimeout(() => {
+      if (!this.preventSimpleClick) {
+        this.selected(student, mark);
+      }
+    }, delay);
+  }
+  doubleClick(student: JournalData, mark: number) {
+    this.preventSimpleClick = true;
+    clearTimeout(this.timerDoubleClick);
+    this.edit(student, mark);
+  }
   selected(student: JournalData, mark: any) {
     // MARK: For debug, in prod - revove
     console.log('Select');
@@ -75,40 +110,6 @@ export class JournalDataComponent implements OnInit, OnDestroy {
     console.log(student.studentFullName);
     console.log(mark);
   }
-  ngOnDestroy(): void {
-    this.teacherJournalService.journalChanged.unsubscribe();
-  }
-
-  markStudent(student: JournalData, markIndex: number): string {
-    if (!isNaN(markIndex)) {
-      const mark = student.marks[markIndex].mark;
-      if (mark) {
-        return mark;
-      } else {
-        return '';
-      }
-    } else {
-      return student[markIndex];
-    }
-  }
-
-
-  singleClick(student: JournalData, mark: number) {
-    this.preventSimpleClick = false;
-    const delay = 200;
-    this.timerDoubleClick = setTimeout(() => {
-      if (!this.preventSimpleClick) {
-        this.selected(student, mark);
-      }
-    }, delay);
-  }
-
-  doubleClick(student: JournalData, mark: number) {
-    this.preventSimpleClick = true;
-    clearTimeout(this.timerDoubleClick);
-    this.edit(student, mark);
-  }
-
   isEditMode(student: JournalData, mark: number): boolean {
     if (student.marks[mark]) {
       if (student.marks[mark].isEdit) {
@@ -124,10 +125,19 @@ export class JournalDataComponent implements OnInit, OnDestroy {
     if (student.marks[mark]) {
       if (student.marks[mark].isEdit) {
         student.marks[mark].isEdit = false;
+        this.markEditValue = '';
       }
     }
   }
-
+  onKey(event: any) {
+    if (event.target.value) {
+      if (this.markEditValue) {
+        
+      } else {
+        this.markEditValue = '';
+      }
+    }
+  }
   resetMarks(marks: Mark[]): Mark[] {
     return marks.map( mark => {
       mark.isSelected = false;
