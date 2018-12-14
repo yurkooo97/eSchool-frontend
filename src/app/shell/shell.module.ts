@@ -8,6 +8,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { SidebarModule } from 'primeng/sidebar';
 import { DataSharingService } from '../services/data-sharing.service';
+import { DropdownModule } from 'primeng/dropdown';
 import { StudentsService } from '../services/admin-students.service';
 
 
@@ -21,6 +22,7 @@ import { StudentsService } from '../services/admin-students.service';
     MenubarModule,
     MenuModule,
     ToastModule,
+    DropdownModule,
     SidebarModule
   ],
   declarations: [ShellComponent],
