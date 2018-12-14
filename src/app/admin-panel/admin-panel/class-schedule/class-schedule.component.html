@@ -139,18 +139,6 @@
         </button>
       </div>
     </p-fieldset>
-    <div
-      [hidden]="
-        schedule.mondaySubjects.length > 1 &&
-        schedule.tuesdaySubjects.length > 1 &&
-        schedule.wednesdaySubjects.length > 1 &&
-        schedule.thursdaySubjects.length > 1 &&
-        schedule.fridaySubjects.length > 1
-      "
-      class="schedule-alert alert-danger"
-    >
-      Розклад повинен бути заповненим для всіх робочих днів тижня
-    </div>
   </div>
 
   <div class="right-panel">
