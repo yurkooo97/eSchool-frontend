@@ -15,8 +15,11 @@ export class ClassScheduleComponent implements OnInit {
   @ViewChild('form') form: NgForm;
 
   subjects: Subject[];
+  subjectNames: any;
+
   classes: Group[];
   selectedClass: any;
+  selectedSubject: any;
 
   reset: any;
   ua: any;
@@ -51,9 +54,14 @@ export class ClassScheduleComponent implements OnInit {
   }
 
   // event to add new subject element to array
-  addSubject(subjectEvent, daySubjects, i) {
-    daySubjects[i] = subjectEvent.value;
-    if (daySubjects[i + 1] === undefined) {
+  addSubject(selectedSubjectNew, daySubjects, i) {
+    let subj = this.subjects.find(
+      item => item.subjectId === selectedSubjectNew.value
+    );
+
+    daySubjects[i] = new Subject(subj.subjectId, subj.subjectName);
+    daySubjects[i].description = subj.subjectDescription;
+    if (i === daySubjects.length - 1) {
       daySubjects[i + 1] = {};
     }
   }
@@ -87,6 +95,7 @@ export class ClassScheduleComponent implements OnInit {
   getScheduleSubjects(): void {
     this.scheduleService.getScheduleSubjects().subscribe(data => {
       this.subjects = data;
+      console.log(this.subjects);
     });
   }
 

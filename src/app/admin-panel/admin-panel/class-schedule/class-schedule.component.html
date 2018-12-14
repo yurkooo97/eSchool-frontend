@@ -61,10 +61,7 @@
   </div>
 
   <div class="left-panel">
-    <p-fieldset
-      class="form-control day"
-      legend="Понеділок"
-    >
+    <p-fieldset class="form-control day" legend="Понеділок">
       <div
         class="subjects"
         *ngFor="let subj of schedule.mondaySubjects; let i = index"
@@ -72,8 +69,8 @@
         <span>{{ i + 1 }}</span>
         <p-dropdown
           [options]="subjects"
-          [(ngModel)]="schedule.mondaySubjects[i]"
-          [optionLabel]="'subjectName'"
+          [(ngModel)]="schedule.mondaySubjects[i].subjectId"
+          [optionLabel]="label"
           (onChange)="addSubject($event, schedule.mondaySubjects, i)"
           placeholder="Виберіть предмет"
           [ngModelOptions]="{ standalone: true }"
@@ -99,8 +96,8 @@
         <p-dropdown
           class="form-control"
           [options]="subjects"
-          [(ngModel)]="schedule.tuesdaySubjects[i]"
-          [optionLabel]="'subjectName'"
+          [(ngModel)]="schedule.tuesdaySubjects[i].subjectId"
+          [optionLabel]="label"
           (onChange)="addSubject($event, schedule.tuesdaySubjects, i)"
           placeholder="Виберіть предмет"
           [ngModelOptions]="{ standalone: true }"
@@ -125,8 +122,8 @@
         <p-dropdown
           class="form-control"
           [options]="subjects"
-          [(ngModel)]="schedule.wednesdaySubjects[i]"
-          [optionLabel]="'subjectName'"
+          [(ngModel)]="schedule.wednesdaySubjects[i].subjectId"
+          [optionLabel]="label"
           (onChange)="addSubject($event, schedule.wednesdaySubjects, i)"
           placeholder="Виберіть предмет"
           [ngModelOptions]="{ standalone: true }"
@@ -166,8 +163,8 @@
         <p-dropdown
           class="form-control"
           [options]="subjects"
-          [(ngModel)]="schedule.thursdaySubjects[i]"
-          [optionLabel]="'subjectName'"
+          [(ngModel)]="schedule.thursdaySubjects[i].subjectId"
+          [optionLabel]="label"
           (onChange)="addSubject($event, schedule.thursdaySubjects, i)"
           placeholder="Виберіть предмет"
           [ngModelOptions]="{ standalone: true }"
@@ -192,8 +189,8 @@
         <p-dropdown
           class="form-control"
           [options]="subjects"
-          [(ngModel)]="schedule.fridaySubjects[i]"
-          [optionLabel]="'subjectName'"
+          [(ngModel)]="schedule.fridaySubjects[i].subjectId"
+          [optionLabel]="label"
           (onChange)="addSubject($event, schedule.fridaySubjects, i)"
           placeholder="Виберіть предмет"
           [ngModelOptions]="{ standalone: true }"
@@ -223,8 +220,8 @@
         <p-dropdown
           class="form-control"
           [options]="subjects"
-          [(ngModel)]="schedule.saturdaySubjects[i]"
-          [optionLabel]="'subjectName'"
+          [(ngModel)]="schedule.saturdaySubjects[i].subjectId"
+          [optionLabel]="label"
           (onChange)="addSubject($event, schedule.saturdaySubjects, i)"
           placeholder="Виберіть предмет"
           [ngModelOptions]="{ standalone: true }"
