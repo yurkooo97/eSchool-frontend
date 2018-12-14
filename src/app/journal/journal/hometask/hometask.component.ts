@@ -16,6 +16,7 @@ export class HometaskComponent implements OnInit, OnDestroy {
   sortOptions: SelectItem[];
   sortField: string;
   sortOrder: number;
+  showPastTasks = false;
 
   activeJournal: Journal;
   selectedLessons: Hometask[];
@@ -23,7 +24,6 @@ export class HometaskComponent implements OnInit, OnDestroy {
   constructor(private teacherJournalService: TeacherJournalsService) { }
 
   ngOnInit() {
-    // HERE IS WORKING SUBSCRIBER
     this.teacherJournalService.journalChanged.subscribe((journal: Journal) => {
       this.activeJournal = journal;
       this.teacherJournalService.getHomeworks(this.activeJournal.idSubject, this.activeJournal.idClass)
@@ -37,12 +37,15 @@ export class HometaskComponent implements OnInit, OnDestroy {
       {label: 'По опису', value: 'homework'}
     ];
   }
+
   ngOnDestroy() {
    this.teacherJournalService.journalChanged.unsubscribe();
   }
-  onSortChange(event) {
+
+  onSortChange(event): void {
     const value = event.value;
     console.log('value', value);
+    console.log(this.hometasks);
     if (value.indexOf('!') === 0) {
       this.sortOrder = -1;
       this.sortField = value.substring(1, value.length);
@@ -50,5 +53,18 @@ export class HometaskComponent implements OnInit, OnDestroy {
       this.sortOrder = 1;
       this.sortField = value;
     }
+  }
+  openHomeTask(fileSrc: string): void {
+
+    // after filling DB by urls google placeholder should be removed
+    if (!fileSrc) {
+      fileSrc = 'http://www.google.com';
+    }
+    window.open(fileSrc);
+    console.log(fileSrc);
+  }
+
+  onPastTasksChange(): void {
+    console.log('show past tasks', this.showPastTasks);
   }
 }

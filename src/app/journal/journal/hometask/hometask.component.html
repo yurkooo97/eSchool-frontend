@@ -21,17 +21,16 @@
     <p-header>
       <div class="ui-helper-clearfix">
         <div class="ui-g">
-          <div class="ui-g-12 ui-md-4">
+          <div class="ui-g-12 ui-md-4 order-selector">
             <p-dropdown [options]="sortOptions"
                         [(ngModel)]="sortKey"
                         placeholder="Сортування:"
                         (onChange)="onSortChange($event)"
-                        [autoWidth]="false"
-                        [style]="{'min-width':'15em'}">
+                        [autoWidth]="false">
             </p-dropdown>
           </div>
           <div class="ui-g-6 ui-md-4 filter-container">
-            <div style="position:relative">
+            <div>
               <input class="ui-inputtext ui-corner-all ui-state-default ui-widget"
                      type="search"
                      pInputText
@@ -39,19 +38,27 @@
                      (keyup)="dv.filter($event.target.value)">
             </div>
           </div>
+          <div class="ui-g-6 ui-md-4 past-task-enabler">
+            <p-checkbox [(ngModel)]="showPastTasks"
+                        (onChange)="onPastTasksChange()"
+                        binary="true"></p-checkbox>
+            <span>Відображати минулі домашні завдання</span>
+          </div>
         </div>
       </div>
     </p-header>
     <ng-template let-hometask pTemplate="listItem">
-      <div class="ui-g" style="border-bottom: 1px solid #d9d9d9">
-        <div class="ui-g-12 ui-md-3" style="text-align:center">
+      <div class="ui-g hometask-row">
+        <div class="ui-g-12 ui-md-3">
           {{hometask.date}}
         </div>
-        <div class="ui-g-12 ui-md-6" style="text-align:center">
+        <div class="ui-g-12 ui-md-6">
           {{hometask.homework}}
         </div>
-        <div class="ui-g-12 ui-md-3" style="text-align:center">
-          {{hometask.fileName}}
+        <div class="ui-g-12 ui-md-3">
+          <p-button *ngIf="!hometask.fileName" icon="pi pi-file"
+                    (click)="openHomeTask(hometask.fileName)">
+          </p-button>
         </div>
       </div>
     </ng-template>
