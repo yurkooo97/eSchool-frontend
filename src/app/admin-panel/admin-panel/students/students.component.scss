@@ -81,7 +81,8 @@
 }
 .classButton
 {
-  margin: 0 5px 5px 0;
+  margin: 0 2.5px 5px 2.5px;
+  width: calc(8.3333333% - 5px);
 }
 .classID, .oldPass, .newPass
 {
@@ -189,4 +190,84 @@
 .activeButton
 {
   background-color: black !important;
+}
+@media screen and (max-width: 1800px)
+{
+  .classButton
+  {
+    margin: 0 2.5px 5px 2.5px;
+    width: calc(9.0909090% - 5px);
+  }
+}
+@media screen and (max-width: 1660px)
+{
+  .classButton
+  {
+    margin: 0 2.5px 5px 2.5px;
+    width: calc(10% - 5px);
+  }
+}
+@media screen and (max-width: 1510px)
+{
+  .classButton
+  {
+    margin: 0 2px 4px 2px;
+    width: calc(11.1111111% - 4px);
+  }
+}
+@media screen and (max-width: 1360px)
+{
+  .classButton
+  {
+    margin: 0 2px 4px 2px;
+    width: calc(12.5% - 4px);
+  }
+}
+@media screen and (max-width: 1220px)
+{
+  .classButton
+  {
+    margin: 0 2px 4px 2px;
+    width: calc(14.2857142% - 4px);
+  }
+}
+@media screen and (max-width: 1070px)
+{
+  .classButton
+  {
+    margin: 0 2px 4px 2px;
+    width: calc(16.6666666% - 4px);
+  }
+}
+@media screen and (max-width: 920px)
+{
+  .classButton
+  {
+    margin: 0 1.5px 3px 1.5px;
+    width: calc(20% - 3px);
+  }
+}
+@media screen and (max-width: 780px)
+{
+  .classButton
+  {
+    margin: 0 1.5px 3px 1.5px;
+    width: calc(25% - 3px);
+  }
+}
+@media screen and (max-width: 625px)
+{
+  .classButton
+  {
+    margin: 0 1.5px 3px 1.5px;
+    width: calc(33.3333333% - 3px);
+  }
+}
+@media screen and (max-width: 495px)
+{
+  .classButton
+  {
+    margin: 0 1.5px 3px 1.5px;
+    width: calc(50% - 3px);
+  }
 }

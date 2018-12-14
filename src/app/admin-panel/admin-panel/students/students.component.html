@@ -1,12 +1,12 @@
-<p-fieldset legend="Активні класи" [toggleable]="true" [collapsed]="false">
+<p-fieldset legend="Активні класи">
   <span *ngFor="let  class_ of classes">
-    <button *ngIf="class_.isActive" type="button" pButton icon="pi pi-folder" label="&nbsp;{{class_.className}}" title="{{class_.id}}" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу')" class="ui-button-raised classButton" [ngClass]="{'activeButton': selectedClassId == class_.id}"></button>
+    <button *ngIf="class_.isActive" type="button" pButton icon="pi pi-folder" label="{{class_.className}}" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу')" class="ui-button-raised classButton" [ngClass]="{'activeButton': selectedClassId == class_.id}"></button>
   </span>
 </p-fieldset>
 <br>
 <p-fieldset legend="Класи минулих років" [toggleable]="true" [collapsed]="true">
-  <span *ngFor="let  class_ of classes">
-    <button *ngIf="!class_.isActive" type="button" pButton icon="pi pi-folder" label="&nbsp;{{class_.className}}&nbsp;&nbsp;({{class_.classYear}})" title="{{class_.id}}" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу' + ' (' + class_.classYear + ' року)')" class="ui-button-raised classButton" [ngClass]="{'activeButton': selectedClassId == class_.id}"></button>
+  <span *ngFor="let  class_ of classes" class="button-box">
+    <button *ngIf="!class_.isActive" type="button" pButton icon="pi pi-folder" label="{{class_.className}}&nbsp;({{class_.classYear}})" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу' + ' (' + class_.classYear + ' року)')" class="ui-button-raised classButton" [ngClass]="{'activeButton': selectedClassId == class_.id}"></button>
   </span>
 </p-fieldset>
 <br>
@@ -29,8 +29,8 @@
     <tr class="studentRow">
       <td *ngFor="let col of cols">
         {{student[col.field]}}
-        <button type="button" pButton icon="pi pi-info" *ngIf="col.field == 'dateOfBirth'" (click)="studentInfo($event, student, oPanel)" class="ui-button-raised ui-button-secondary action-tools"></button>
-        <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'dateOfBirth'" (click)="editStudent(student)" class="ui-button-raised action-tools"></button>
+        <button type="button" pButton icon="pi pi-info" *ngIf="col.field == 'patronymic'" (click)="studentInfo($event, student, oPanel)" class="ui-button-raised action-tools" title="Повна інформація про учня"></button>
+        <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'patronymic'" (click)="editStudent(student)" class="ui-button-raised action-tools" title="Редагувати інформацію про учня"></button>
       </td>
     </tr>
   </ng-template>

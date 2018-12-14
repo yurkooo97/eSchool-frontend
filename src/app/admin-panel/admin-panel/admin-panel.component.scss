@@ -8,6 +8,11 @@
   overflow-x: hidden;
   border: 1px solid rgb(235, 235, 235);
   border-radius: 8px;
+  -webkit-transition: all .7s ease;
+  -moz-transition: all .7s ease;
+  -o-transition: all .7s ease;
+  transition: all .7s ease;
+  z-index: 100;
 }
 ::ng-deep .ui-state-active {
   background-color: #f0efef;
@@ -19,12 +24,15 @@
 .p-grid {
   margin-right: 0em;
 }
-
+.nav-button-show,
+.nav-button-close
+{
+  display: none;
+}
 ::ng-deep .sidenav .ui-menu {
   border: none;
   width: 100%;
 }
-
 @media print {
   .leftnav {
     display: none;
@@ -35,5 +43,49 @@
   }
   .content {
     margin-left: 8%;
+  }
+}
+@media screen and (max-width: 1000px)
+{
+  .leftnav
+  {
+    position: relative;
+  }
+  .content
+  {
+    width: 100%;
+  }
+  .nav-button-show,
+  .nav-button-close
+  {
+    font-size: 24px;
+    display: block;
+    color: #007ad9;
+    cursor: pointer;
+  }
+  .nav-button-show
+  {
+    margin-top: -10px;
+    margin-left: 15px;
+  }
+  .nav-button-close
+  {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    z-index: 2;
+  }
+  .sidenav
+  {
+    width: 50%;
+    margin-left: -50%;
+    height: 100vh;
+  }
+  .menuOpen
+  {
+    margin-left: 0;
+    width: 50%;
+    height: 100vh;
+    z-index: 2;
   }
 }
