@@ -6,11 +6,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxLoadingModule } from 'ngx-loading';
-
 import { StudentBookRoutingModule } from './student-book-routing.module';
 import { StudentBookComponent } from './student-book/student-book.component';
 import { StudentBookService } from '../services/student-book-services/student-book.service';
-import { SpinnerKitComponent } from './spinner-kit/spinner-kit.component';
 
 @NgModule({
   imports: [
@@ -25,6 +23,6 @@ import { SpinnerKitComponent } from './spinner-kit/spinner-kit.component';
     NgxLoadingModule
   ],
   providers: [StudentBookService],
-  declarations: [StudentBookComponent, SpinnerKitComponent]
+  declarations: [StudentBookComponent]
 })
 export class StudentBookModule {}
