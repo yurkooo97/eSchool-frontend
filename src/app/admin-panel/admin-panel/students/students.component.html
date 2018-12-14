@@ -1,16 +1,19 @@
 <p-fieldset legend="Активні класи" [toggleable]="true" [collapsed]="false">
   <span *ngFor="let  class_ of classes">
-    <button *ngIf="class_.isActive" type="button" pButton icon="pi pi-folder" label="&nbsp;&nbsp;{{class_.className}}" title="{{class_.id}}" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу')" class="ui-button-raised classButton"></button>
+    <button *ngIf="class_.isActive" type="button" pButton icon="pi pi-folder" label="&nbsp;{{class_.className}}" title="{{class_.id}}" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу')" class="ui-button-raised classButton" [ngClass]="{'activeButton': selectedClassId == class_.id}"></button>
   </span>
 </p-fieldset>
 <br>
 <p-fieldset legend="Класи минулих років" [toggleable]="true" [collapsed]="true">
   <span *ngFor="let  class_ of classes">
-    <button *ngIf="!class_.isActive" type="button" pButton icon="pi pi-folder" label="&nbsp;&nbsp;{{class_.className}}&nbsp;&nbsp;({{class_.classYear}})" title="{{class_.id}}" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу' + ' (' + class_.classYear + ' року)')" class="ui-button-raised classButton"></button>
+    <button *ngIf="!class_.isActive" type="button" pButton icon="pi pi-folder" label="&nbsp;{{class_.className}}&nbsp;&nbsp;({{class_.classYear}})" title="{{class_.id}}" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу' + ' (' + class_.classYear + ' року)')" class="ui-button-raised classButton" [ngClass]="{'activeButton': selectedClassId == class_.id}"></button>
   </span>
 </p-fieldset>
 <br>
-<p-table [value]="students" [loading]="loading">
+<div class="progress-box">
+  <p-progressBar class="p-progress-bar" mode="indeterminate" [style]="{'height': '6px'}" [hidden]="!loading"></p-progressBar>
+</div>
+<p-table [value]="students">
   <ng-template pTemplate="caption">
     Учні {{selectedClassName}} <span class="number-of-students"><i class="fas fa-users"></i> {{numberOfStudents}}</span>
   </ng-template>
@@ -113,10 +116,12 @@
       <span [class.hiddenBox]="email.valid || email.untouched" class="messageOfMistake">Некоректна електронна адреса</span>
       <br>
       <div class="ui-inputgroup">
-        <input id="float-input-avatar" name="avatar" pInputText [(ngModel)]="newStudent.avatar"  type="file" #Image accept="image/*" (change)="handlerFileInput($event.target.files)" />
+        <input id="float-input-avatar" name="avatar" pInputText type="file" #Image accept="image/*" (change)="handlerFileInput($event.target.files)" />
         <span class="ui-inputgroup-addon"><i class="fas fa-upload"></i></span>
+        <span class="photoError">{{ photoMessage }}</span>
       </div>
-      <img [src]="imageUrl" alt="Photo" class="avatar-url">
+      <img *ngIf="newStudent.avatar != null" [src]="newStudent.avatar" alt="Photo" class="avatar-url">
+      <img *ngIf="newStudent.avatar == null" [src]="imageUrl" alt="Photo" class="avatar-url">
     </p-fieldset>
     <br>
   </form>

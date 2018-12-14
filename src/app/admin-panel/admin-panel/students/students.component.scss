@@ -108,6 +108,10 @@
   float: right;
   margin-right: 1em;
 }
+.studentRow
+{
+  line-height: 2.3;
+}
 .studentRow:hover .action-tools
 {
   visibility: visible;
@@ -174,4 +178,15 @@
 {
   float: left;
 }
-
+.progress-box
+{
+  height: 6px;
+}
+.p-progress-bar .ui-progressbar-indeterminate
+{
+  border-radius: 0 !important;
+}
+.activeButton
+{
+  background-color: black !important;
+}
