@@ -15,6 +15,8 @@ const mockStudents: Student[] = [
     phone: null,
     login: 'sKohyt14',
     id: 141,
+    oldPass: null,
+    newPass: null,
     avatar: null
   },
   {
@@ -27,6 +29,8 @@ const mockStudents: Student[] = [
     phone: null,
     login: 'zZapukh31',
     id: 151,
+    oldPass: null,
+    newPass: null,
     avatar: null
   },
   {
@@ -39,6 +43,8 @@ const mockStudents: Student[] = [
     phone: null,
     login: 'tKutsa01',
     id: 161,
+    oldPass: null,
+    newPass: null,
     avatar: null
   }
 ];
