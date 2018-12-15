@@ -27,7 +27,6 @@ export class DayComponent implements OnInit {
   getScheduleSubjects(): void {
     this.scheduleService.getScheduleSubjects().subscribe(data => {
       this.subjects = data;
-      console.log(this.subjects);
     });
   }
 

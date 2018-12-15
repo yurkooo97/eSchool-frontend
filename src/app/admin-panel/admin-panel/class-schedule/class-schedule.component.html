@@ -66,142 +66,30 @@
     </p-fieldset>
 
     <p-fieldset class="form-control day" legend="Вівторок">
-      <div
-        class="subjects"
-        *ngFor="let subj of schedule.tuesdaySubjects; let i = index"
-      >
-        <span>{{ i + 1 }}</span>
-        <p-dropdown
-          class="form-control"
-          [options]="subjects"
-          [(ngModel)]="schedule.tuesdaySubjects[i].subjectId"
-          [optionLabel]="label"
-          (onChange)="addSubject($event, schedule.tuesdaySubjects, i)"
-          placeholder="Виберіть предмет"
-          [ngModelOptions]="{ standalone: true }"
-          [style]="{ width: '190px' }"
-        >
-        </p-dropdown>
-        <button
-          pButton
-          type="button"
-          (click)="delSubject($event, schedule.tuesdaySubjects, i)"
-        >
-          <i class="far fa-trash-alt"></i>
-        </button>
-      </div>
+      <app-day [daySubjectsList]="schedule.tuesdaySubjects"></app-day>
     </p-fieldset>
+
     <p-fieldset class="form-control day" legend="Середа">
-      <div
-        class="subjects"
-        *ngFor="let subj of schedule.wednesdaySubjects; let i = index"
-      >
-        <span>{{ i + 1 }}</span>
-        <p-dropdown
-          class="form-control"
-          [options]="subjects"
-          [(ngModel)]="schedule.wednesdaySubjects[i].subjectId"
-          [optionLabel]="label"
-          (onChange)="addSubject($event, schedule.wednesdaySubjects, i)"
-          placeholder="Виберіть предмет"
-          [ngModelOptions]="{ standalone: true }"
-          [style]="{ width: '190px' }"
-        >
-        </p-dropdown>
-        <button
-          pButton
-          type="button"
-          (click)="delSubject($event, schedule.wednesdaySubjects, i)"
-        >
-          <i class="far fa-trash-alt"></i>
-        </button>
-      </div>
+      <app-day [daySubjectsList]="schedule.wednesdaySubjects"></app-day>
     </p-fieldset>
   </div>
 
   <div class="right-panel">
     <p-fieldset class="form-control day" legend="Четвер">
-      <div
-        class="subjects"
-        *ngFor="let subj of schedule.thursdaySubjects; let i = index"
-      >
-        <span>{{ i + 1 }}</span>
-        <p-dropdown
-          class="form-control"
-          [options]="subjects"
-          [(ngModel)]="schedule.thursdaySubjects[i].subjectId"
-          [optionLabel]="label"
-          (onChange)="addSubject($event, schedule.thursdaySubjects, i)"
-          placeholder="Виберіть предмет"
-          [ngModelOptions]="{ standalone: true }"
-          [style]="{ width: '190px' }"
-        >
-        </p-dropdown>
-        <button
-          pButton
-          type="button"
-          (click)="delSubject($event, schedule.thursdaySubjects, i)"
-        >
-          <i class="far fa-trash-alt"></i>
-        </button>
-      </div>
+      <app-day [daySubjectsList]="schedule.thursdaySubjects"></app-day>
     </p-fieldset>
+
     <p-fieldset class="form-control day" legend="П'ятниця">
-      <div
-        class="subjects"
-        *ngFor="let subj of schedule.fridaySubjects; let i = index"
-      >
-        <span>{{ i + 1 }}</span>
-        <p-dropdown
-          class="form-control"
-          [options]="subjects"
-          [(ngModel)]="schedule.fridaySubjects[i].subjectId"
-          [optionLabel]="label"
-          (onChange)="addSubject($event, schedule.fridaySubjects, i)"
-          placeholder="Виберіть предмет"
-          [ngModelOptions]="{ standalone: true }"
-          [style]="{ width: '190px' }"
-        >
-        </p-dropdown>
-        <button
-          pButton
-          type="button"
-          (click)="delSubject($event, schedule.fridaySubjects, i)"
-        >
-          <i class="far fa-trash-alt"></i>
-        </button>
-      </div>
+      <app-day [daySubjectsList]="schedule.fridaySubjects"></app-day>
     </p-fieldset>
+
     <p-fieldset
       class="form-control day"
       legend="Субота"
       [toggleable]="true"
       [collapsed]="true"
     >
-      <div
-        class="subjects"
-        *ngFor="let subj of schedule.saturdaySubjects; let i = index"
-      >
-        <span>{{ i + 1 }}</span>
-        <p-dropdown
-          class="form-control"
-          [options]="subjects"
-          [(ngModel)]="schedule.saturdaySubjects[i].subjectId"
-          [optionLabel]="label"
-          (onChange)="addSubject($event, schedule.saturdaySubjects, i)"
-          placeholder="Виберіть предмет"
-          [ngModelOptions]="{ standalone: true }"
-          [style]="{ width: '190px' }"
-        >
-        </p-dropdown>
-        <button
-          pButton
-          type="button"
-          (click)="delSubject($event, schedule.saturdaySubjects, i)"
-        >
-          <i class="far fa-trash-alt"></i>
-        </button>
-      </div>
+      <app-day [daySubjectsList]="schedule.saturdaySubjects"></app-day>
     </p-fieldset>
   </div>
 
