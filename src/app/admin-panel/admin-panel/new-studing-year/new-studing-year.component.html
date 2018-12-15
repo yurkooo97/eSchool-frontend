@@ -1,4 +1,4 @@
-<p-table [value]="allGroupsList" [columns]="cols">
+<p-table [value]="allGroupsList" [columns]="cols" [loading] ="loading">
   <ng-template pTemplate="caption">Перехід на новий навчальний рік</ng-template>
   <ng-template pTemplate="header">
     <tr>
@@ -10,7 +10,7 @@
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr *ngFor="let col of columns">
       <td class="checkbox-class">               
-        <p-checkbox [(ngModel)]="rowData[col.checkboxField]" binary="true"></p-checkbox>              
+        <p-checkbox [(ngModel)]="rowData[col.checkboxField]" binary="true" (click)="showMainCheckboxState()"></p-checkbox>              
       </td>
       <td>{{rowData[col.classNameField]}} клас, {{rowData[col.classYearField]}} рік</td>      
       <td><span *ngIf="hideTag" [style.color]="rowData[col.colorStyleField]">{{rowData[col.newClassNameField]}} клас у {{rowData[col.newClassYearField]}} році</span></td>      
