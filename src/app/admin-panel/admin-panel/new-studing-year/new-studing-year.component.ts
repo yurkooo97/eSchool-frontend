@@ -13,6 +13,7 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
   templateUrl: './new-studing-year.component.html',
   styleUrls: ['./new-studing-year.component.scss']
 })
+
 export class NewStudingYearComponent implements OnInit {
   groupList: Group[];
   newGroupList: Group[];
@@ -30,6 +31,9 @@ export class NewStudingYearComponent implements OnInit {
   val = true;
   groupsExistArray: Array<SmallGroup> = [];
   isCurrentStudingYear: Array<boolean> = [];
+  checkboxStateArray: Array<boolean> = [];
+  loading: boolean;
+  checkboxDisabled = false;
 
   constructor(
     private httpService: NewStudingYearService,
@@ -37,6 +41,7 @@ export class NewStudingYearComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loading = true;
     this.getGroupList();
   }
 
@@ -47,6 +52,7 @@ export class NewStudingYearComponent implements OnInit {
       this.checkStudingYear();
       this.checkNumOfStudents();
       this.checkGroupsExisting();
+      this.loading = false;
     });
     this.cols = [
       {
@@ -82,6 +88,7 @@ export class NewStudingYearComponent implements OnInit {
   }
 
   addNewGroups() {
+    this.loading = true;
     this.filterFalseCheckedGroups();
     this.httpService.putNewOldId(this.classIdArrayBefore).subscribe(() => {
       this.httpService.postNewGroups().subscribe(data => {
@@ -91,6 +98,8 @@ export class NewStudingYearComponent implements OnInit {
         this.httpService.putNewOldId(this.classIdArray).subscribe(() => {
           this.hideTag = true;
           this.buttonAddDisabled = true;
+          this.checkboxDisabled = true;
+          this.loading = false;
           this.notificationToasts.notify(
             'success',
             'Успішно виконано',
@@ -214,4 +223,26 @@ export class NewStudingYearComponent implements OnInit {
       );
     }
   }
+
+  showMainCheckboxState() {
+    this.checkboxStateArray = [];
+    this.allGroupsList.forEach( item =>
+      this.checkboxStateArray.push(item.checkbox)
+    );
+
+    function allIsTrue(value: boolean) {
+      return value === true;
+    }
+
+    function allIsFalse(value: boolean) {
+      return value === false;
+    }
+
+    if (this.checkboxStateArray.every(allIsTrue)) {
+      this.val = true;
+    } else if (this.checkboxStateArray.every(allIsFalse)) {
+      this.val = false;
+    }
+  }
+
 }
