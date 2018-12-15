@@ -1,11 +1,11 @@
-<div class="day" *ngFor="let day of schedule; let n = index">
-  <div class="subjects" *ngFor="let subj of day; let i = index">
+
+  <div class="subjects" *ngFor="let subj of daySubjectsList; let i = index">
     <span>{{ i + 1 }}</span>
     <p-dropdown
       [options]="subjects"
-      [(ngModel)]="schedule.mondaySubjects[i].subjectId"
+      [(ngModel)]="daySubjectsList[i].subjectId"
       [optionLabel]="label"
-      (onChange)="addSubject($event, schedule.mondaySubjects, i)"
+      (onChange)="addSubject($event, daySubjectsList, i)"
       placeholder="Виберіть предмет"
       [ngModelOptions]="{ standalone: true }"
       [style]="{ width: '190px' }"
@@ -14,9 +14,8 @@
     <button
       pButton
       type="button"
-      (click)="delSubject($event, schedule.mondaySubjects, i)"
+      (click)="delSubject($event, daySubjectsList, i)"
     >
       <i class="far fa-trash-alt"></i>
     </button>
   </div>
-</div>

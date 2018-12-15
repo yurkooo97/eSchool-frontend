@@ -11,8 +11,8 @@ import { Schedule } from 'src/app/models/class-schedule';
 export class DayComponent implements OnInit {
   @Input() daySubjectsList;
 
-  subjects: Subject[];
-  schedule: Schedule;
+  subjects: any;
+  schedule: any;
   selectedSubject: any;
   subjectNames: any;
 
@@ -20,7 +20,6 @@ export class DayComponent implements OnInit {
 
   ngOnInit() {
     this.getScheduleSubjects();
-    this.schedule = new Schedule();
   }
 
   // request to add a list of subjects
