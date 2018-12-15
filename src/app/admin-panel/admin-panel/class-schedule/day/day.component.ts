@@ -9,7 +9,7 @@ import { Schedule } from 'src/app/models/class-schedule';
   styleUrls: ['./day.component.scss']
 })
 export class DayComponent implements OnInit {
-  @Input() daySubjectsList: Subject[];
+  @Input() daySubjectsList;
 
   subjects: Subject[];
   schedule: Schedule;

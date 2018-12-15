@@ -74,8 +74,7 @@ import { DayComponent } from './admin-panel/class-schedule/day/day.component';
     TeachersService,
     StudentsService,
     NewStudingYearService,
-    HttpAttachTeacherService,
-    DayComponent
+    HttpAttachTeacherService
   ],
   declarations: [
     AdminPanelComponent,
@@ -86,7 +85,8 @@ import { DayComponent } from './admin-panel/class-schedule/day/day.component';
     NewStudingYearComponent,
     ClassScheduleComponent,
     AttachTeacherComponent,
-    DashboardComponent
+    DashboardComponent,
+    DayComponent
   ]
 })
 export class AdminPanelModule {}
