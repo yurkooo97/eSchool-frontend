@@ -8,6 +8,7 @@ import { Group } from '../../../app/models/group.model';
 import { Subject } from 'src/app/models/subjects.model';
 import { DatePipe } from '@angular/common';
 import { TeachersService } from 'src/app/services/teachers.service';
+import { ChartModule } from 'primeng/chart';
 
 @Component({
   selector: 'app-progress',
@@ -15,7 +16,6 @@ import { TeachersService } from 'src/app/services/teachers.service';
   styleUrls: ['./progress.component.scss']
 })
 export class ProgressComponent implements OnInit {
-
   years: SelectItem[];
   groups: Group[];
   subjects: Subject[];
@@ -38,45 +38,76 @@ export class ProgressComponent implements OnInit {
   avgMarkAllSubjects: number;
   isButtonDisabled: boolean;
 
+  data: ChartModule;
+
   constructor(
     private groupService: AdmingroupsService,
     private _subjectsService: AdminSubjectsService,
     private studentService: StudentsService,
     private marksService: MarksService,
-    private _teacherServices: TeachersService) {
+    private _teacherServices: TeachersService
+  ) {
     this.isButtonDisabled = true;
     this.visibleGroups = new Array<Group>();
     this.visibleStudents = new Array<SelectItem>();
+    this.data = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+        {
+          label: 'First Dataset',
+          data: [65, 59, 80, 81, 56, 55, 40]
+        },
+        {
+          label: 'Second Dataset',
+          data: [28, 48, 40, 19, 86, 27, 90]
+        }
+      ]
+    };
   }
 
   ngOnInit() {
     this.calendar();
 
-    this.groupService.getClasses()
-      .subscribe(data => {
-        this.groups = data;
-        const allYears = data.map(group => group.classYear);
-        const uniqueYears = allYears.filter((value, index, self) => self.indexOf(value) === index)
-          .sort();
-        this.years = uniqueYears
-          .map(year => ({ label: year.toString(), value: year }));
-      });
+    this.groupService.getClasses().subscribe(data => {
+      this.groups = data;
+      const allYears = data.map(group => group.classYear);
+      const uniqueYears = allYears
+        .filter((value, index, self) => self.indexOf(value) === index)
+        .sort();
+      this.years = uniqueYears.map(year => ({
+        label: year.toString(),
+        value: year
+      }));
+    });
   }
 
   onClickShow() {
     const pipe = new DatePipe('en-US');
     const startStr = pipe.transform(this.start, 'yyyy-MM-dd');
     const endStr = pipe.transform(this.end, 'yyyy-MM-dd');
-    this.marksService.getMarks(startStr, endStr, this.selectedSubjects.subjectId, this.selectedGroup.id, this.selectedStudent.id)
+    this.marksService
+      .getMarks(
+        startStr,
+        endStr,
+        this.selectedSubjects.subjectId,
+        this.selectedGroup.id,
+        this.selectedStudent.id
+      )
       .subscribe(data => {
         const marks = data.map(mark => mark.y);
       });
-    this.marksService.getAvgMarks(this.selectedStudent.id, startStr, endStr).subscribe(data => {
-      this.avgMark = data;
-      this.avgMarkAllSubjects = this.StudentAverageMark(data.map(mark => mark.avgMark));
-      const subject = data.find(i => i.subjectId === this.selectedSubjects.subjectId);
-      this.average = subject ? subject.avgMark : null;
-    });
+    this.marksService
+      .getAvgMarks(this.selectedStudent.id, startStr, endStr)
+      .subscribe(data => {
+        this.avgMark = data;
+        this.avgMarkAllSubjects = this.StudentAverageMark(
+          data.map(mark => mark.avgMark)
+        );
+        const subject = data.find(
+          i => i.subjectId === this.selectedSubjects.subjectId
+        );
+        this.average = subject ? subject.avgMark : null;
+      });
   }
 
   onSubjectChange() {
@@ -87,7 +118,9 @@ export class ProgressComponent implements OnInit {
     if (this.selectedYear) {
       this.start = new Date(this.selectedYear, 0);
       this.end = new Date(this.selectedYear, 1);
-      this.visibleGroups = this.groups.filter(g => g.classYear === this.selectedYear);
+      this.visibleGroups = this.groups.filter(
+        g => g.classYear === this.selectedYear
+      );
     } else {
       this.visibleGroups = new Array<Group>();
       this.start = null;
@@ -104,18 +137,22 @@ export class ProgressComponent implements OnInit {
 
   onClassChange() {
     if (this.selectedGroup) {
-      this._subjectsService.getSubjectsListForClass(this.selectedGroup.id).subscribe(data => {
-        this.visibleSubjects = data.map(function (subject) {
-          return {
-            label: `${subject.subjectName}`, value: subject
-          };
+      this._subjectsService
+        .getSubjectsListForClass(this.selectedGroup.id)
+        .subscribe(data => {
+          this.visibleSubjects = data.map(function(subject) {
+            return {
+              label: `${subject.subjectName}`,
+              value: subject
+            };
+          });
         });
-      });
       this.visibleStudents = new Array<SelectItem>();
       this.studentService.getStudents(this.selectedGroup.id).subscribe(data => {
-        this.visibleStudents = data.map(function (student) {
+        this.visibleStudents = data.map(function(student) {
           return {
-            label: `${student.firstname} ${student.lastname}`, value: student
+            label: `${student.firstname} ${student.lastname}`,
+            value: student
           };
         });
       });
@@ -136,11 +173,15 @@ export class ProgressComponent implements OnInit {
   }
 
   calendar(): void {
-    this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
+    this._teacherServices.currentCalendar.subscribe(data => (this.ua = data));
   }
 
   updateIsButtonDisabled() {
-    this.isButtonDisabled = !(this.selectedSubjects != null && this.selectedYear != null &&
-      this.selectedGroup != null && this.selectedStudent != null);
+    this.isButtonDisabled = !(
+      this.selectedSubjects != null &&
+      this.selectedYear != null &&
+      this.selectedGroup != null &&
+      this.selectedStudent != null
+    );
   }
 }
