@@ -11,12 +11,13 @@
     </span>
   </h3>
   <p-dataView #dv
-              [value]="hometasks"
+              [value]="hometasksToDisplay"
               [paginator]="true"
               [rows]="10"
-              paginatorPosition="both"
+              paginatorPosition="top"
               filterBy="homework"
               [sortField]="sortField"
+              emptyMessage="Домашні завдання відсутні"
               [sortOrder]="sortOrder">
     <p-header>
       <div class="ui-helper-clearfix">

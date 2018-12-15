@@ -22,12 +22,16 @@ export class MenuComponent implements OnInit {
     const newArray: any = [];
     const lookupObject: any  = {};
 
-    for (const i in originalArray) {
-      lookupObject[originalArray[i][prop]] = originalArray[i];
+    for (const item in originalArray) {
+      if (originalArray.hasOwnProperty(item)) {
+        lookupObject[originalArray[item][prop]] = originalArray[item];
+      }
     }
 
-    for (const i in lookupObject) {
-      newArray.push(lookupObject[i]);
+    for (const item in lookupObject) {
+      if (lookupObject.hasOwnProperty(item)) {
+        newArray.push(lookupObject[item]);
+      }
     }
     this.sortByKey(newArray, 'className');
     return newArray;
