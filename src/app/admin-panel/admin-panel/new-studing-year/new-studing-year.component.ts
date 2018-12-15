@@ -13,6 +13,7 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
   templateUrl: './new-studing-year.component.html',
   styleUrls: ['./new-studing-year.component.scss']
 })
+
 export class NewStudingYearComponent implements OnInit {
   groupList: Group[];
   newGroupList: Group[];
