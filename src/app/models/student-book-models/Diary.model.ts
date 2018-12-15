@@ -7,4 +7,6 @@ export interface Diary {
   mark: string;
   note: string;
   subjectName: string;
+  blobUrl?: string;
+  fileName?: string;
 }

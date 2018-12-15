@@ -2,12 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { StudentBookService } from 'src/app/services/student-book-services/student-book.service';
 import { MenuItem } from 'primeng/api';
 import { SelectItem } from 'primeng/api';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPrint } from '@fortawesome/free-solid-svg-icons';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { WeekSchedule } from 'src/app/models/student-book-models/WeekSchedule.model';
-
-library.add(faPrint);
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-student-book',
@@ -39,9 +36,12 @@ export class StudentBookComponent implements OnInit {
 
   public viewType = 'group';
 
+  public loading = true;
+
   constructor(
     private studentBookService: StudentBookService,
-    private notificationToasts: DataSharingService
+    private notificationToasts: DataSharingService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -51,13 +51,16 @@ export class StudentBookComponent implements OnInit {
         this.startAndEndOfWeek = `${this.weekSchedule[0].dayUkrDate} - ${
           this.weekSchedule[this.weekSchedule.length - 1].dayUkrDate
         }`;
+        this.loading = false;
       },
-      err =>
+      err => {
+        this.changeWeekSchedule(true, 5);
         this.notificationToasts.notify(
           'error',
           'Помилка',
-          'Наразі немає даних про розклад'
-        )
+          err.message
+        );
+      }
     );
 
     this.cols = [
@@ -99,6 +102,7 @@ export class StudentBookComponent implements OnInit {
         }`;
         this.clonedWeekSchedule = [...this.weekSchedule];
         this.saveOffset = this.offset;
+        this.loading = false;
       },
       err => {
         if (lengthOfCalls >= 0) {
@@ -108,8 +112,9 @@ export class StudentBookComponent implements OnInit {
           this.notificationToasts.notify(
             'error',
             'Помилка',
-            'Наразі немає даних про розклад'
+            err.message
           );
+          this.loading = false;
         }
       }
     );
@@ -153,6 +158,7 @@ export class StudentBookComponent implements OnInit {
     if (this.selectedType === 'day') {
       this.changeDaySchedule(direction);
     } else {
+      this.loading = true;
       this.changeWeekSchedule(direction, 5);
     }
   }

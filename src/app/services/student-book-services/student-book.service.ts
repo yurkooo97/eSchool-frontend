@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { Diary } from 'src/app/models/student-book-models/Diary.model';
 import { WeekSchedule } from 'src/app/models/student-book-models/WeekSchedule.model';
+import { File } from 'src/app/models/student-book-models/File.model';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -69,11 +71,59 @@ export class StudentBookService {
     return sortedArray;
   }
 
+  private b64toBlobUrl(
+    b64Data: string,
+    contentType: string = '',
+    sliceSize = 512
+  ): string {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return window.URL.createObjectURL(blob);
+  }
+
+  private addFilesToScheduleArray(data: Diary[]): Diary[] {
+    const scheduleWithFiles = data.map(el => {
+      if (el.homeworkFileId) {
+        this.getFileById(el.lessonId).subscribe(
+          response => {
+            el.blobUrl = this.b64toBlobUrl(response.fileData, response.fileType);
+            el.fileName = response.fileName;
+          },
+          err => {
+            throwError(err);
+          }
+        );
+      }
+      return el;
+    });
+    return scheduleWithFiles;
+  }
   public convertedDate(data: Diary): string {
     const day = new Date(data.date.join('-')).getDate();
     const month = this.months[new Date(data.date.join('-')).getMonth()];
     const year = new Date(data.date.join('-')).getFullYear();
     return `${day} ${month} ${year}`;
+  }
+
+  public getFileById(lessonId: number): Observable<File> {
+    return this._http.get<any>(`/homeworks/files/${lessonId}`).map(response => {
+      return response.data;
+    });
   }
 
   public getDiariesList(date: Date = new Date()): Observable<WeekSchedule[]> {
@@ -82,10 +132,11 @@ export class StudentBookService {
       .get<any>(`/diaries?weekStartDate=${formattedDate}`)
       .map(response => {
         if (response.data.length) {
-          const sortedWeekData = this.sortDataByWeekDay(response.data);
+          const scheduleWithFiles = this.addFilesToScheduleArray(response.data);
+          const sortedWeekData = this.sortDataByWeekDay(scheduleWithFiles);
           return [...sortedWeekData];
         } else {
-          throw new Error('Data didn\'t come');
+          throw new Error('Наразі немає даних про розклад');
         }
       });
   }

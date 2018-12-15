@@ -18,12 +18,14 @@ export class StudentsComponent implements OnInit {
   students: Student[];
   newStudent: Student;
   selectedStudent: Student;
+  numberOfStudents: number;
   isNew: boolean;
   loading: boolean;
   cols: any[];
-  selectedClassName: string = '8-А класу';
-  selectedClassId: number = 0;
+  selectedClassName: string;
+  selectedClassId: number;
   displayForm: boolean;
+  photoMessage: string;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
   constructor(
@@ -34,20 +36,16 @@ export class StudentsComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    this.service_
-      .getClasses()
-      .subscribe(
-        data => ((this.classes = data['data']), (this.loading = false))
-      );
-
-    this.loadStudents(1);
+    this.service_.getClasses()
+      .subscribe(data => {
+          this.classes = data;
+          this.loading = false;
+        });
 
     this.cols = [
       { field: 'firstname', header: 'Ім\'я' },
       { field: 'lastname', header: 'Прізвище' },
-      { field: 'patronymic', header: 'По-батькові' },
-      { field: 'classe', header: 'Клас' },
-      { field: 'dateOfBirth', header: 'Дата народження' }
+      { field: 'patronymic', header: 'По батькові' }
     ];
 
     this.newStudent = new Student();
@@ -55,14 +53,31 @@ export class StudentsComponent implements OnInit {
     this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
   }
 
+  handlerFileInput(file: FileList) {
+    this.fileToUpload = file.item(0);
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      if (file.item(0).size > 500000) {
+        this.photoMessage = 'Перевищено максимальний розмір 500 кб';
+        this.imageUrl = 'assets/avatar.png';
+      } else {
+        this.photoMessage = '';
+        this.newStudent.avatar = event.target.result;
+      }
+    };
+    reader.readAsDataURL(this.fileToUpload);
+  }
+
   loadStudents(classID: number) {
     this.loading = true;
     this.selectedClassId = classID;
-    this.service_
-      .getStudents(classID)
+    this.service_.getStudents(classID)
       .subscribe(
-        data => ((this.students = data['data']), (this.loading = false))
-      );
+        data => {
+          this.students = data;
+          this.loading = false;
+          this.numberOfStudents = data.length;
+        });
   }
 
   createStudent() {
@@ -76,7 +91,9 @@ export class StudentsComponent implements OnInit {
       '',
       '',
       0,
-      ''
+      '',
+      '',
+      this.newStudent.avatar
     );
     this.isNew = true;
     this.showForm();
@@ -87,12 +104,14 @@ export class StudentsComponent implements OnInit {
       student.firstname,
       student.lastname,
       student.patronymic,
-      student.classId = this.selectedClassId,
+      student.classId = null,
       student.dateOfBirth,
       student.email,
       student.phone,
       student.login,
       student.id,
+      student.oldPass,
+      student.newPass,
       student.avatar
     );
     this.isNew = false;
@@ -111,7 +130,10 @@ export class StudentsComponent implements OnInit {
           'Додано нового учня'
         );
       }, error => {
-        this.notificationToasts.notify('error', 'Відхилено', 'Невдалося додати нового учня');
+        this.notificationToasts.notify(
+          'error',
+          'Відхилено',
+          'Невдалося додати нового учня');
       });
     } else {
       this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
@@ -125,7 +147,10 @@ export class StudentsComponent implements OnInit {
           'Збережено зміни учня'
         );
       }, error => {
-        this.notificationToasts.notify('error', 'Відхилено', 'Невдалося зберегти учня');
+        this.notificationToasts.notify(
+          'error',
+          'Відхилено',
+          'Невдалося зберегти учня');
       });
     }
   }
@@ -141,14 +166,5 @@ export class StudentsComponent implements OnInit {
   studentInfo(event, student: Student, overlaypanel: OverlayPanel) {
     this.selectedStudent = student;
     overlaypanel.toggle(event);
-  }
-
-  handlerFileInput(file: FileList) {
-    this.fileToUpload = file.item(0);
-    const reader = new FileReader();
-    reader.onload = (event: any) => {
-      this.imageUrl = event.target.result;
-    };
-    reader.readAsDataURL(this.fileToUpload);
   }
 }

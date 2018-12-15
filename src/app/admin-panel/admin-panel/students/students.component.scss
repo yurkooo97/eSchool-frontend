@@ -1,105 +1,94 @@
-.hiddenBox
-{
+.animation-style,
+.ui-inputgroup-addon {
+  -webkit-transition: all .7s ease;
+  -moz-transition: all .7s ease;
+  -o-transition: all .7s ease;
+  transition: all .7s ease;
+}
+.hiddenBox {
   display: none;
 }
-.messageOfMistake
-{
+.messageOfMistake {
   color: #ff0000;
   font-size: 11px;
   float: right;
 }
-.wrongData
-{
+.wrongData {
   border: none;
   border-bottom-color: #ff0000 !important;
 }
-.wrongData1
-{
+.wrongData1 {
   background-color: #ff0000 !important;
   color: white !important;
   border-color: #ff0000 !important;
 }
-.correctData1
-{
+.correctData1 {
   background-color: #00aa00 !important;
   color: white !important;
   border-color: #00aa00 !important;
 }
-.dateLabel
-{
+.dateLabel {
   font-size: 12px;
   color: #808080;
 }
-.studentsForm ::ng-deep input
-{
+.studentsForm ::ng-deep input {
   width: 100%;
   border: none !important;
   border-radius: 0 !important;
   border-bottom: 1px solid #c0c0c0 !important;
 }
-.studentsForm ::ng-deep input:hover
-{
+.studentsForm ::ng-deep input:hover {
   border-bottom-color: #000000 !important;
 }
-.avatar-url
-{
+.avatar-url {
   width: 120px;
   height: 120px;
   float: right;
   margin-top: 10px;
 }
-.ui-inputgroup
-{
+.ui-inputgroup {
   display: flex;
   flex-direction: row-reverse;
 }
-.student-date-of-birth
-{
-  width: 100%;
+.student-date-of-birth,
+.phone-number {
+  width: 100% !important;
 }
-.ui-inputgroup-addon
-{
+.ui-inputgroup-addon {
   border-radius: 3px;
-  -webkit-transition: all .7s ease;
-  -moz-transition: all .7s ease;
-  -o-transition: all .7s ease;
-  transition: all .7s ease;
   margin-right: 5px;
 }
-.studentsForm input:focus + .ui-inputgroup-addon
-{
+.studentsForm input:focus + .ui-inputgroup-addon {
   background-color: #007ad9 !important;
   color: white !important;
   border-color: #007ad9 !important;
 }
-.selectClass
-{
+.selectClass {
   padding: 7px 0;
   border-radius: 3px;
   font-size: 14px;
 }
-.classButton
-{
-  margin: 0 5px 5px 0;
+.classButton {
+  margin: 0 2.5px 5px 2.5px;
+  width: calc(8.3333333% - 5px);
 }
-.classID
-{
+.classID,
+.oldPass,
+.newPass {
   width: 20% !important;
   float: right;
   display: none;
 }
-.mainInfo
-{
+.mainInfo {
   float: left;
   width: calc(50% - 7px);
   margin-right: 14px;
 }
-.secondaryInfo
-{
+.secondaryInfo {
   float: right;
   width: calc(50% - 7px);
 }
-.editButton{
+.editButton {
  text-align: center;
 }
 .action-tools {
@@ -107,44 +96,39 @@
   float: right;
   margin-right: 1em;
 }
-.studentRow:hover .action-tools
-{
+.studentRow {
+  line-height: 2.3;
+}
+.studentRow:hover .action-tools {
   visibility: visible;
 }
-.ui-card
-{
+.ui-card {
   overflow: auto;
 }
-.student-data-container
-{
+.student-data-container {
   width: 590px;
   display: flex;
   flex-direction: row;
-  .student-img
-  {
+  .student-img {
     width: 40%;
     margin-right: 15px;
-    .student-avatar
-    {
+    .student-avatar {
       width: 100%;
       display: block;
     }
   }
-  .student-data
-  {
+  .student-data {
     width: 60%;
     text-align: center;
     position: relative;
-    .student-class-title
-    {
+    .student-class-title {
       width: 100%;
       display: inline-block;
       font-size: 24px;
       font-weight: bold;
       margin-bottom: 10px;
     }
-    .student-name
-    {
+    .student-name {
       width: 100%;
       display: inline-block;
       font-size: 24px;
@@ -152,8 +136,7 @@
       font-family: Verdana, Arial, sans-serif;
       margin-bottom: 10px;
     }
-    .student-full-info
-    {
+    .student-full-info {
       font-size: 16px;
       border: 1px solid #c0c0c0;
       border-radius: 3px;
@@ -162,12 +145,87 @@
       bottom: 0;
       right: 0;
       left: 0;
-      .student-data-record
-      {
+      .student-data-record {
         font-weight: bold;
       }
     }
   }
 }
-
-
+.number-of-students {
+  float: left;
+}
+.progress-box {
+  height: 6px;
+}
+.p-progress-bar .ui-progressbar-indeterminate {
+  border-radius: 0 !important;
+}
+.activeButton {
+  background-color: black !important;
+}
+@media screen and (max-width: 1800px) {
+  .classButton {
+    margin: 0 2.5px 5px 2.5px;
+    width: calc(9.0909090% - 5px);
+  }
+}
+@media screen and (max-width: 1660px) {
+  .classButton {
+    margin: 0 2.5px 5px 2.5px;
+    width: calc(10% - 5px);
+  }
+}
+@media screen and (max-width: 1510px) {
+  .classButton {
+    margin: 0 2px 4px 2px;
+    width: calc(11.1111111% - 4px);
+  }
+}
+@media screen and (max-width: 1360px) {
+  .classButton {
+    margin: 0 2px 4px 2px;
+    width: calc(12.5% - 4px);
+  }
+}
+@media screen and (max-width: 1220px) {
+  .classButton {
+    margin: 0 2px 4px 2px;
+    width: calc(14.2857142% - 4px);
+  }
+}
+@media screen and (max-width: 1070px) {
+  .classButton {
+    margin: 0 2px 4px 2px;
+    width: calc(16.6666666% - 4px);
+  }
+}
+@media screen and (max-width: 920px) {
+  .classButton {
+    margin: 0 1.5px 3px 1.5px;
+    width: calc(20% - 3px);
+  }
+  .student-edit {
+    clear: right;
+  }
+  .student-info {
+    margin-bottom: 5px;
+  }
+}
+@media screen and (max-width: 780px) {
+  .classButton {
+    margin: 0 1.5px 3px 1.5px;
+    width: calc(25% - 3px);
+  }
+}
+@media screen and (max-width: 625px) {
+  .classButton {
+    margin: 0 1.5px 3px 1.5px;
+    width: calc(33.3333333% - 3px);
+  }
+}
+@media screen and (max-width: 495px) {
+  .classButton {
+    margin: 0 1.5px 3px 1.5px;
+    width: calc(50% - 3px);
+  }
+}

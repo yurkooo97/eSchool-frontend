@@ -1,36 +1,38 @@
-<div class="p-grid weekSchedule" *ngIf='startAndEndOfWeek'> 
+<div class="weekSchedule" *ngIf="!loading">
   <div class="p-col-12 p-grid p-align-center schedule-navigation">
-    <div class="p-col-3 p-grid p-align-center left">
+    <div class="p-col-12 p-md-3 p-lg-3 p-grid p-align-center left">
       <p-selectButton
         [options]="scheduleOptions"
         [(ngModel)]="selectedType"
         (click)="changeDataView()"
       ></p-selectButton>
     </div>
-    <div class="p-col-6 p-grid p-align-center central">
-      <div class="p-col-3">
+    <div class="p-col-12 p-md-7 p-lg-6 p-grid p-align-center central">
+      <div class="p-md-2">
         <button
           pButton
           type="button"
           (click)="switchSchedule(false)"
-          label="Попередній"
+          icon="fa fa-arrow-left"
           class="ui-button-rounded ui-button-secondary"
         ></button>
       </div>
-      <div class="p-col-6">
+      <div class="p-col-12 p-md-8">
         <label> {{ startAndEndOfWeek }} </label>
       </div>
-      <div class="p-col-3">
+      <div class="p-md-2">
         <button
           pButton
           type="button"
           (click)="switchSchedule(true)"
-          label="Наступний"
+          icon="fa fa-arrow-right"
           class="ui-button-rounded ui-button-secondary"
         ></button>
       </div>
     </div>
-    <div class="p-col-3 p-grid p-align-center p-justify-end right">
+    <div
+      class="p-col-3 p-md-2 p-lg-3 p-grid p-align-center p-justify-end right"
+    >
       <p-selectButton
         [options]="viewOptions"
         [(ngModel)]="viewType"
@@ -47,10 +49,11 @@
       ></button>
     </div>
   </div>
-  <div class="p-col-12 p-grid tables">
+  <div class="p-col-12 p-grid tables" (swipeleft)="switchSchedule(true)" (swiperight)="switchSchedule(false)">
     <div
       *ngFor="let daysOfWeek of weekSchedule"
-      [ngClass]="{ 'p-col-12': view, 'p-col-6': !view, ordering: !view }"
+      [ngClass]="{ 'p-md-12': view, 'p-md-6': !view, ordering: !view }"
+      class="p-col-12"
     >
       <p-table [columns]="cols" [value]="daysOfWeek.daySchedule">
         <ng-template pTemplate="caption">
@@ -73,13 +76,12 @@
               *ngFor="let col of columns"
               [ngClass]="{
                 'student-ellipsis-table-cell':
-                  (col.field === 'homeWork' &&
-                    rowData[col.field].length > 35),
-                 'note-ellipsis-table-cell': 
-                  (col.field === 'note' && rowData[col.field].length > 49)
+                  col.field === 'homeWork' && rowData[col.field].length > 32,
+                'note-ellipsis-table-cell':
+                  col.field === 'note' && rowData[col.field].length > 49
               }"
               [attr.data-homeWork]="
-                col.field === 'homeWork' && rowData[col.field].length > 35
+                col.field === 'homeWork' && rowData[col.field].length > 32
                   ? rowData[col.field]
                   : null
               "
@@ -90,6 +92,12 @@
               "
             >
               {{ rowData[col.field] ? rowData[col.field] : '' }}
+              <a
+                class="download fas fa-download"
+                [href]="sanitizer.bypassSecurityTrustUrl(rowData['blobUrl'])"
+                [download]="rowData['fileName']"
+                *ngIf="col.field === 'homeWork' && rowData['homeworkFileId']"
+              ></a>
             </td>
           </tr>
         </ng-template>
@@ -97,3 +105,5 @@
     </div>
   </div>
 </div>
+<ngx-loading [show]="loading"></ngx-loading>
+

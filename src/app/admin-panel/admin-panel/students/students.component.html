@@ -1,18 +1,21 @@
-<p-fieldset legend="Активні класи" [toggleable]="true" [collapsed]="false">
+<p-fieldset legend="Активні класи">
   <span *ngFor="let  class_ of classes">
-    <button *ngIf="class_.isActive" type="button" pButton icon="pi pi-folder" label="&nbsp;&nbsp;{{class_.className}}" title="{{class_.id}}" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу')" class="ui-button-raised classButton"></button>
+    <button *ngIf="class_.isActive" type="button" pButton icon="pi pi-folder" label="{{class_.className}}" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу')" class="ui-button-raised classButton animation-style" [ngClass]="{'activeButton': selectedClassId == class_.id}"></button>
   </span>
 </p-fieldset>
 <br>
 <p-fieldset legend="Класи минулих років" [toggleable]="true" [collapsed]="true">
-  <span *ngFor="let  class_ of classes">
-    <button *ngIf="!class_.isActive" type="button" pButton icon="pi pi-folder" label="&nbsp;&nbsp;{{class_.className}}&nbsp;&nbsp;({{class_.classYear}})" title="{{class_.id}}" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу' + ' (' + class_.classYear + ' року)')" class="ui-button-raised classButton"></button>
+  <span *ngFor="let  class_ of classes" class="button-box">
+    <button *ngIf="!class_.isActive" type="button" pButton icon="pi pi-folder" label="{{class_.className}}&nbsp;({{class_.classYear}})" (click)="loadStudents(class_.id); selectedClassNameHandler(class_.className + ' класу' + ' (' + class_.classYear + ' року)')" class="ui-button-raised classButton animation-style" [ngClass]="{'activeButton': selectedClassId == class_.id}"></button>
   </span>
 </p-fieldset>
 <br>
-<p-table [value]="students" [loading]="loading">
+<div class="progress-box">
+  <p-progressBar class="p-progress-bar" mode="indeterminate" [style]="{'height': '6px'}" [hidden]="!loading"></p-progressBar>
+</div>
+<p-table [value]="students" class="animation-style">
   <ng-template pTemplate="caption">
-    Учні {{selectedClassName}}
+    Учні {{selectedClassName}} <span class="number-of-students"><i class="fas fa-users"></i> {{numberOfStudents}}</span>
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
@@ -26,8 +29,8 @@
     <tr class="studentRow">
       <td *ngFor="let col of cols">
         {{student[col.field]}}
-        <button type="button" pButton icon="pi pi-info" *ngIf="col.field == 'dateOfBirth'" (click)="studentInfo($event, student, oPanel)" class="ui-button-raised ui-button-secondary action-tools"></button>
-        <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'dateOfBirth'" (click)="editStudent(student)" class="ui-button-raised action-tools"></button>
+        <button type="button" pButton icon="pi pi-info" *ngIf="col.field == 'patronymic'" (click)="studentInfo($event, student, oPanel)" class="ui-button-raised action-tools student-info" title="Повна інформація про учня"></button>
+        <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'patronymic'" (click)="editStudent(student)" class="ui-button-raised action-tools student-edit" title="Редагувати інформацію про учня"></button>
       </td>
     </tr>
   </ng-template>
@@ -60,24 +63,30 @@
   <form class="studentsForm" #studentsForm="ngForm" autocomplete="off">
     <p-fieldset legend="Обов'язкові поля" class="mainInfo">
       <div class="ui-inputgroup">
-        <input id="float-input-firstname" class="student-data-field" type="text" placeholder="Ім'я *" pInputText [class.wrongData]="firstname.invalid && firstname.touched" #firstname="ngModel" name="firstname" [(ngModel)]="newStudent.firstname" minlength="3" maxlength="20" required>
+        <input id="float-input-firstname" class="student-data-field" type="text" placeholder="Ім'я *" pInputText [class.wrongData]="firstname.invalid && firstname.touched" #firstname="ngModel" name="firstname" [(ngModel)]="newStudent.firstname" minlength="3" maxlength="20" required pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+" />
         <span class="ui-inputgroup-addon" [class.wrongData1]="firstname.invalid && firstname.touched" [class.correctData1]="firstname.valid && firstname.touched"><i class="fas fa-user"></i></span>
       </div>
       <span [class.hiddenBox]="firstname.valid || firstname.untouched" class="messageOfMistake">Некоректне ім'я</span>
       <br>
       <div class="ui-inputgroup">
-        <input id="float-input-lastname" class="student-data-field" type="text" placeholder="Прізвище *" pInputText [class.wrongData]="lastname.invalid && lastname.touched" #lastname="ngModel" name="lastname" [(ngModel)]="newStudent.lastname" minlength="3" maxlength="20" required>
+        <input id="float-input-lastname" class="student-data-field" type="text" placeholder="Прізвище *" pInputText [class.wrongData]="lastname.invalid && lastname.touched" #lastname="ngModel" name="lastname" [(ngModel)]="newStudent.lastname" minlength="3" maxlength="20" required pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+" />
         <span class="ui-inputgroup-addon" [class.wrongData1]="lastname.invalid && lastname.touched" [class.correctData1]="lastname.valid && lastname.touched"><i class="fas fa-user"></i></span>
       </div>
       <span [class.hiddenBox]="lastname.valid || lastname.untouched" class="messageOfMistake">Некоректне прізвище</span>
       <br>
       <div class="ui-inputgroup">
-        <input id="float-input-patronymic" class="student-data-field" type="text" placeholder="По батькові *" pInputText [class.wrongData]="patronymic.invalid && patronymic.touched" #patronymic="ngModel" name="patronymic" [(ngModel)]="newStudent.patronymic" minlength="6" maxlength="20" required>
+        <input id="float-input-patronymic" class="student-data-field" type="text" placeholder="По батькові *" pInputText [class.wrongData]="patronymic.invalid && patronymic.touched" #patronymic="ngModel" name="patronymic" [(ngModel)]="newStudent.patronymic" minlength="6" maxlength="20" required pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+" />
         <span class="ui-inputgroup-addon" [class.wrongData1]="patronymic.invalid && patronymic.touched" [class.correctData1]="patronymic.valid && patronymic.touched"><i class="fas fa-user"></i></span>
       </div>
       <span [class.hiddenBox]="patronymic.valid || patronymic.untouched" class="messageOfMistake">Некоректне по-батькові</span>
       <span class="ui-float-label">
         <input id="float-input-class" type="text" pInputText name="classId" [(ngModel)]="newStudent.classId" class="classID" disabled>
+      </span>
+      <span class="ui-float-label">
+        <input id="float-input-oldPass" type="text" pInputText name="oldPass" [(ngModel)]="newStudent.oldPass" class="oldPass" disabled>
+      </span>
+      <span class="ui-float-label">
+        <input id="float-input-newPass" type="text" pInputText name="newPass" [(ngModel)]="newStudent.newPass" class="newPass" disabled>
       </span>
       <br>
       <div class="ui-inputgroup">
@@ -90,26 +99,29 @@
     </p-fieldset>
     <p-fieldset legend="Додаткова інформація" [toggleable]="true" [collapsed]="true" class="secondaryInfo">
       <div class="ui-inputgroup">
-        <input id="float-input-login" type="text" placeholder="Логін" pInputText [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login" [(ngModel)]="newStudent.login" minlength="5" maxlength="20">
-        <span class="ui-inputgroup-addon"><i class="fas fa-key"></i></span>
+        <input id="float-input-login" type="text" placeholder="Логін" pInputText [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login" [(ngModel)]="newStudent.login" minlength="5" maxlength="20" />
+        <span class="ui-inputgroup-addon" [class.wrongData1]="login.invalid && login.touched" [class.correctData1]="login.valid && login.touched"><i class="fas fa-key"></i></span>
       </div>
       <span [class.hiddenBox]="login.valid || login.untouched" class="messageOfMistake">Некоректний логін (не менше 5 символів)</span>
       <br>
       <div class="ui-inputgroup">
-        <input id="float-input-phone" type="tel" placeholder="Номер телефону" pInputText name="phone" [(ngModel)]="newStudent.phone">
+        <p-inputMask id="float-input-phone" class="phone-number" mask="(999)-999-9999" placeholder="Номер телефону" name="phone" [(ngModel)]="newStudent.phone"></p-inputMask>
         <span class="ui-inputgroup-addon"><i class="fas fa-phone"></i></span>
       </div>
       <br>
       <div class="ui-inputgroup">
-        <input id="float-input-email" type="email" placeholder="Електронна адреса" pInputText name="email" [(ngModel)]="newStudent.email">
-        <span class="ui-inputgroup-addon"><i class="fas fa-envelope"></i></span>
+        <input id="float-input-email" type="email" placeholder="Електронна адреса" pInputText #email="ngModel" name="email" [(ngModel)]="newStudent.email" pattern="^([\w\-\.]+)@((\[([0-9]{1,3}\.){3}[0-9]{1,3}\])|(([\w\-]+\.)+)([a-zA-Z]{2,4}))$" />
+        <span class="ui-inputgroup-addon" [class.wrongData1]="email.invalid && email.touched" [class.correctData1]="email.valid && email.touched"><i class="fas fa-envelope"></i></span>
       </div>
+      <span [class.hiddenBox]="email.valid || email.untouched" class="messageOfMistake">Некоректна електронна адреса</span>
       <br>
       <div class="ui-inputgroup">
-        <input id="float-input-avatar" name="avatar" pInputText [(ngModel)]="newStudent.avatar"  type="file" #Image accept="image/*" (change)="handlerFileInput($event.target.files)"/>
+        <input id="float-input-avatar" name="avatar" pInputText type="file" #Image accept="image/*" (change)="handlerFileInput($event.target.files)" />
         <span class="ui-inputgroup-addon"><i class="fas fa-upload"></i></span>
+        <span class="photoError">{{ photoMessage }}</span>
       </div>
-      <img [src]="imageUrl" alt="Photo" class="avatar-url">
+      <img *ngIf="newStudent.avatar != null" [src]="newStudent.avatar" alt="Photo" class="avatar-url">
+      <img *ngIf="newStudent.avatar == null" [src]="imageUrl" alt="Photo" class="avatar-url">
     </p-fieldset>
     <br>
   </form>

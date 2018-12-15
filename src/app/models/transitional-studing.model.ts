@@ -8,4 +8,9 @@ export class Transition {
   newClassName: string;
   newClassYear: number;
   checkbox: boolean;
+  colorStyle: string;
+}
+export class SmallGroup {
+  className: string;
+  classYear: number;
 }

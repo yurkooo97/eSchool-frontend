@@ -9,6 +9,7 @@ import { MenuItem } from 'primeng/api';
 export class AdminPanelComponent implements OnInit {
   constructor() {}
 
+  isOpen: boolean;
   items: MenuItem[];
 
   ngOnInit() {
@@ -42,5 +43,13 @@ export class AdminPanelComponent implements OnInit {
         ]
       }
     ];
+  }
+
+  showNavigation() {
+    this.isOpen = true;
+  }
+
+  closeNavigation() {
+    this.isOpen = false;
   }
 }
