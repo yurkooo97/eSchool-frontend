@@ -32,6 +32,7 @@ export class NewStudingYearComponent implements OnInit {
   isCurrentStudingYear: Array<boolean> = [];
   checkboxStateArray: Array<boolean> = [];
   loading: boolean;
+  checkboxDisabled = false;
 
   constructor(
     private httpService: NewStudingYearService,
@@ -96,6 +97,7 @@ export class NewStudingYearComponent implements OnInit {
         this.httpService.putNewOldId(this.classIdArray).subscribe(() => {
           this.hideTag = true;
           this.buttonAddDisabled = true;
+          this.checkboxDisabled = true;
           this.loading = false;
           this.notificationToasts.notify(
             'success',
