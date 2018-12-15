@@ -58,7 +58,7 @@ export class StudentBookComponent implements OnInit {
         this.notificationToasts.notify(
           'error',
           'Помилка',
-          'Наразі немає даних про розклад'
+          err.message
         );
       }
     );
@@ -108,12 +108,11 @@ export class StudentBookComponent implements OnInit {
         if (lengthOfCalls >= 0) {
           this.changeWeekSchedule(week, lengthOfCalls - 1);
         } else {
-          console.error(err);
           this.offset = this.saveOffset;
           this.notificationToasts.notify(
             'error',
             'Помилка',
-            'Наразі немає даних про розклад'
+            err.message
           );
           this.loading = false;
         }
