@@ -151,6 +151,29 @@
     }
   }
   .tables {
+    .ordering:nth-of-type(1) {
+      order: 1;
+    }
+
+    .ordering:nth-of-type(2) {
+      order: 3;
+    }
+
+    .ordering:nth-of-type(3) {
+      order: 5;
+    }
+
+    .ordering:nth-of-type(4) {
+      order: 2;
+    }
+
+    .ordering:nth-of-type(5) {
+      order: 4;
+    }
+
+    .ordering:nth-of-type(6) {
+      order: 6;
+    }
     margin-top: -80px;
     .p-col-12 {
       width: 50%;
@@ -158,7 +181,7 @@
   }
 }
 
-// Responsive styles 
+// Responsive styles
 
 /* 
   ##Device = Laptops, Desktops
@@ -166,15 +189,13 @@
 */
 
 @media (min-width: 992px) and (max-width: 1280px) {
-  
-    .schedule-navigation {
-      div:nth-child(2) {
-        label{
-          margin-left: 10%;
-        }
+  .schedule-navigation {
+    div:nth-child(2) {
+      label {
+        margin-left: 10%;
       }
-    }  
-  
+    }
+  }
 }
 
 /* 
@@ -182,16 +203,14 @@
   ##Screen = B/w 768px to 992px
 */
 
-  
-  @media (min-width: 768px) and (max-width: 992px) {
-  
-    .weekSchedule .right {
-      padding: 0%;
-    }
-    .right button {
-      display: none;
-    }
+@media (min-width: 768px) and (max-width: 992px) {
+  .weekSchedule .right {
+    padding: 0%;
   }
+  .right button {
+    display: none;
+  }
+}
 
 /* 
   ##Device = Low Resolution Tablets, Mobiles (Landscape)
@@ -205,43 +224,43 @@
     div:nth-of-type(1) {
       order: 2;
     }
-    
+
     div:nth-of-type(2) {
       order: 1;
     }
-    
+
     div:nth-of-type(3) {
       order: 3;
     }
   }
-  .left, .right {
+  .left,
+  .right {
     display: none;
   }
   .ordering:nth-of-type(1) {
     order: 1;
   }
-  
+
   .ordering:nth-of-type(2) {
     order: 2;
   }
-  
+
   .ordering:nth-of-type(3) {
     order: 3;
   }
-  
+
   .ordering:nth-of-type(4) {
     order: 4;
   }
-  
+
   .ordering:nth-of-type(5) {
     order: 5;
   }
-  
+
   .ordering:nth-of-type(6) {
     order: 6;
-  }    
+  }
 }
-
 
 /* 
   ##Device = Most of the Smartphones Mobiles (Portrait)
@@ -249,21 +268,21 @@
 */
 
 @media (max-width: 480px) {
-  
-  .left, .right {
+  .left,
+  .right {
     display: none;
-  }  
+  }
   .central {
     display: flex;
     justify-content: center;
     div:nth-of-type(1) {
       order: 2;
     }
-    
+
     div:nth-of-type(2) {
       order: 1;
     }
-    
+
     div:nth-of-type(3) {
       order: 3;
     }
@@ -271,23 +290,23 @@
   .ordering:nth-of-type(1) {
     order: 1;
   }
-  
+
   .ordering:nth-of-type(2) {
     order: 2;
   }
-  
+
   .ordering:nth-of-type(3) {
     order: 3;
   }
-  
+
   .ordering:nth-of-type(4) {
     order: 4;
   }
-  
+
   .ordering:nth-of-type(5) {
     order: 5;
   }
-  
+
   .ordering:nth-of-type(6) {
     order: 6;
   }
