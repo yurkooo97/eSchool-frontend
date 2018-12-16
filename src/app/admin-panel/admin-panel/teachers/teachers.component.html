@@ -51,6 +51,7 @@
   [width]="700"
   [height]="600"
   [minWidth]="200"
+  #overlay
 >
   <form #teacherForm="ngForm" class="teachersForm">
     <div class="p-grid" *ngIf="teacher">
@@ -154,6 +155,7 @@
             yearRange="1940:2017"
             [style]="{ width: '100%' }"
             [inputStyle]="{ width: '100%' }"
+            [appendTo]="overlay"
           ></p-calendar>
           <span
             class="ui-inputgroup-addon"
