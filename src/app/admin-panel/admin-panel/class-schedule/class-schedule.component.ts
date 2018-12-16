@@ -107,6 +107,11 @@ export class ClassScheduleComponent implements OnInit {
           'Відхилено',
           'Не вдалося зберегти розклад уроків'
         );
+        Object.keys(this.schedule).forEach((item: any) => {
+          if (this.schedule[item].push) {
+            this.schedule[item].push({});
+          }
+        });
       }
     );
   }
