@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { StudentsService } from './admin-students.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Student } from '../models/students.model';
-import { Class_ } from '../models/classesForStudents.model';
+import { Classes } from '../models/classesForStudents.model';
 
 const mockStudents: Student[] = [
   {
@@ -15,6 +15,8 @@ const mockStudents: Student[] = [
     phone: null,
     login: 'sKohyt14',
     id: 141,
+    oldPass: null,
+    newPass: null,
     avatar: null
   },
   {
@@ -27,6 +29,8 @@ const mockStudents: Student[] = [
     phone: null,
     login: 'zZapukh31',
     id: 151,
+    oldPass: null,
+    newPass: null,
     avatar: null
   },
   {
@@ -39,6 +43,8 @@ const mockStudents: Student[] = [
     phone: null,
     login: 'tKutsa01',
     id: 161,
+    oldPass: null,
+    newPass: null,
     avatar: null
   }
 ];
@@ -67,6 +73,31 @@ describe('StudentsService', () => {
         url: 'students/classes/1'
       }).flush({data: mockStudents});
   }));
+
+
+  it('should get one student', inject(
+    [StudentsService, HttpTestingController],
+    (service: StudentsService, backend: HttpTestingController) => {
+      service.getStudent(141).subscribe(student => {
+        expect(student).toEqual(mockStudents[0]);
+      });
+      backend.expectOne({
+        method: 'GET',
+        url: 'students/141'
+      }).flush({data: mockStudents[0]});
+    }));
+
+  it('should put one student', inject(
+    [StudentsService, HttpTestingController],
+    (service: StudentsService, backend: HttpTestingController) => {
+      service.changeStudent(mockStudents[0]).subscribe(student => {
+        expect(student).toEqual(mockStudents[0]);
+      });
+      backend.expectOne({
+        method: 'PUT',
+        url: '/admin/students/141'
+      }).flush({data: mockStudents[0]});
+    }));
 
   it('should return student', inject(
     [StudentsService, HttpTestingController],

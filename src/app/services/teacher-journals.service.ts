@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Journal } from '../models/journal.model';
-import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
 import { Hometask } from '../models/hometask.model';
 import { JournalData } from '../models/journalData.model';
@@ -50,34 +50,32 @@ export class TeacherJournalsService {
   public getJournalsTeacher(id?: number, isActive?: boolean): Observable<Journal[]> {
     const url = this.urlForTeacher(id, isActive);
     const observerResponse = this.http.get<Journal[]>(url)
-    .map( (response: any) => {
-      return response.data;
-    })
-    .catch( (error: any) => {
-      return throwError(error);
-    });
+      .map((response: any) => {
+        return response.data;
+      })
+      .catch((error: any) => {
+        return throwError(error);
+      });
     return observerResponse;
   }
 
   public getHomeworks(idSubject: number, idClass: number): Observable<Hometask[]> {
     return this.http.get<Hometask[]>(this.homeTaskUrl(idSubject, idClass))
-      .map( (response: any) => {
+      .map((response: any) => {
         return response.data;
-      }).catch( (error: any) => {
+      }).catch((error: any) => {
         return throwError(error);
       });
   }
 
   public getjournals(idSubject: number, idClass: number): Observable<JournalData[]> {
     return this.http.get<JournalData[]>(this.urlJournalSubject(idSubject, idClass))
-    .map( (response: any) => {
-      return response.data;
-    })
-    .catch( (error: any) => {
-      // MARK: remove in production
-      console.log('Error data from API:' + error);
-      return Observable.throwError(error);
-    });
+      .map((response: any) => {
+        return response.data;
+      })
+      .catch((error: any) => {
+        return throwError(error);
+      });
   }
 
   public getPreparedMonths(journal: JournalData[]): Month[] {
@@ -94,7 +92,7 @@ export class TeacherJournalsService {
             markDates.push(month);
             const formatedDate = markObject.dateMark;
             const formatedMonth = formatedDate.slice(0, formatedDate.lastIndexOf('.'));
-            const monthElement: Month = {label: month, value: formatedMonth};
+            const monthElement: Month = { label: month, value: formatedMonth };
             res.push(monthElement);
           }
         }
@@ -121,7 +119,7 @@ export class TeacherJournalsService {
       const marks = journalsData[studentIndex].marks;
       const marksFiltered = marks.filter(isThisMonth);
     }
-    const filteredData: JournalData[] = journalsData.map( student => {
+    const filteredData: JournalData[] = journalsData.map(student => {
       const filteredStudent = new JournalData(student.idStudent, student.marks.filter(isThisMonth), student.studentFullName);
       return filteredStudent;
     });

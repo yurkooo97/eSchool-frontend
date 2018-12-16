@@ -7,8 +7,8 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 import { Subscription } from 'rxjs';
 
-import { Iteachers } from 'src/app/models/teachers';
 import { TeachersService } from 'src/app/services/teachers.service';
+import { StudentsService } from 'src/app/services/admin-students.service';
 
 @Component({
   selector: 'app-shell',
@@ -23,7 +23,7 @@ export class ShellComponent implements OnInit, OnDestroy {
   logOutLabel = 'Вийти';
   editActiveUserLabel = 'Редагувати';
   userFullName: string;
-  activeUser: Iteachers;
+  activeUser = {};
   private subscription: Subscription;
 
 
@@ -31,15 +31,29 @@ export class ShellComponent implements OnInit, OnDestroy {
     private _authService: AuthenticationService,
     private messageService: MessageService,
     private notificationToasts: DataSharingService,
+    private studentService: StudentsService,
     private teacherService: TeachersService,
     private router: Router) { }
 
   ngOnInit() {
     this.subscribeToNotifications();
-    this.teacherService.getTeacherBy(this._authService.getCurrentUserId()).subscribe(teacher => {
-      this.activeUser = teacher;
-      this.userFullName = teacher.firstname + ' ' + teacher.patronymic + ' ' + teacher.lastname;
-    });
+    this.setUserFullName(this.userRoleLabel);
+  }
+
+  setUserFullName(userRole: string): void {
+    if (userRole === 'Вчитель') {
+      this.teacherService.getTeacherBy(this._authService.getCurrentUserId()).subscribe(teacher => {
+        this.activeUser = teacher;
+        this.userFullName = `${teacher.lastname} ${teacher.firstname} ${teacher.patronymic}`;
+      });
+    } else if (userRole === 'Користувач') {
+      this.studentService.getStudent(this._authService.getCurrentUserId()).subscribe(student => {
+        this.activeUser = student;
+        this.userFullName = `${student.lastname} ${student.firstname} ${student.patronymic}`;
+      });
+    } else {
+      this.userFullName = userRole;
+    }
   }
 
   LogOut() {
