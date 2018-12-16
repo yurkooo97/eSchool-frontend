@@ -5,6 +5,7 @@ import { Observable, Subject, throwError } from 'rxjs';
 import { Hometask } from '../models/hometask.model';
 import { JournalData } from '../models/journalData.model';
 import { Month } from '../models/month.model';
+import { Mark } from '../models/journalMark.model';
 
 @Injectable({
   providedIn: 'root'
@@ -73,7 +74,7 @@ export class TeacherJournalsService {
       return response.data;
     })
     .catch( (error: any) => {
-      //MARK: remove in production
+      // MARK: remove in production
       console.log('Error data from API:' + error);
       return Observable.throwError(error);
     });
@@ -102,8 +103,9 @@ export class TeacherJournalsService {
     } else { return []; }
   }
 
-  private getMonths(date:string, separator: string): string {
-    const months = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
+  private getMonths(date: string, separator: string): string {
+    const months = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень',
+     'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
     const res = date.split(separator);
     if (res[1]) {
       return months[(+res[1] - 1)] + ' ' + res[0];
@@ -112,7 +114,6 @@ export class TeacherJournalsService {
   }
 
   public getExistingJournalMonths(month: Month, journalsData: JournalData[]) {
-
     const isThisMonth = (element, index, array) => {
       return (element.dateMark.indexOf(month) === 0);
     };
@@ -125,5 +126,16 @@ export class TeacherJournalsService {
       return filteredStudent;
     });
     return filteredData;
+  }
+
+  public sendMark(mark: Mark, studentID: number): Observable<any> {
+  const data = {
+    idLesson: mark.idLesson,
+    idMark: 0,
+    idStudent: studentID,
+    mark: mark.mark,
+    note: mark.note
+  };
+  return this.http.post<any>('/marks', data).map( response => response.status);
   }
 }

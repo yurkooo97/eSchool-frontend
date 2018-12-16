@@ -22,7 +22,7 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   markEditValue: string;
   frozenCols: { field: string, header: string, width: string } [] = [
     {field: 'studentFullName', header: 'Студент', width: '14em'},
-    {field: 'count', header: 'Рейтинг Підсумок', width: '6em'}];
+    {field: 'rating', header: 'Рейтинг Підсумок', width: '6em'}];
 
   ngOnInit() {
     this.subscribeData();
@@ -36,8 +36,9 @@ export class JournalDataComponent implements OnInit, OnDestroy {
       .getjournals(journal.idSubject, journal.idClass)
       .subscribe( data => {
         this.journalData = data;
-        this.isDataRecived = true;
+        this.countRating();
         this.scrollableCols = this.journalDeys;
+        this.isDataRecived = true;
       });
     });
   }
@@ -54,12 +55,38 @@ export class JournalDataComponent implements OnInit, OnDestroy {
       return;
     }
   }
+  countRating() {
+    this.journalData = this.journalData.map(student => {
+      let totalRating = 0;
+      let countMarks = 0;
+      let countSelected = 0;
+      let totalSelected = 0;
+      student.marks.forEach( mark => {
+        if (mark.mark) {
+          countMarks++;
+          totalRating = totalRating + +mark.mark;
+          if (mark.isSelected) {
+            totalSelected = totalSelected + +mark.mark;
+            countSelected++;
+          }
+        }
+      });
+      const prepareStudent = new JournalData(student.idStudent, student.marks, student.studentFullName);
+      if (totalRating > 0) {
+        prepareStudent.rating[0] = (totalRating / countMarks);
+      }
+      if (countSelected > 0) {
+        prepareStudent.rating[1] = (totalSelected / countSelected);
+      }
+      return prepareStudent;
+    });
+
+  }
   daysForMonth(date: string) {
     const weakDay = new Date(date).getDay();
     const days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пя', 'Сб'];
     return days[weakDay];
   }
-  
   ngOnDestroy(): void {
     this.teacherJournalService.journalChanged.unsubscribe();
   }
@@ -77,6 +104,9 @@ export class JournalDataComponent implements OnInit, OnDestroy {
     }
   }
   singleClick(student: JournalData, mark: number) {
+    if (isNaN(mark)) {
+      return;
+    }
     if (student.marks[mark].isEdit) {
       return;
     }
@@ -94,21 +124,17 @@ export class JournalDataComponent implements OnInit, OnDestroy {
     this.edit(student, mark);
   }
   selected(student: JournalData, mark: any) {
-    // MARK: For debug, in prod - revove
-    console.log('Select');
-    console.log(student.studentFullName);
-    console.log(mark);
     if (student.marks[mark].mark) {
       student.marks[mark].isSelected = !(student.marks[mark].isSelected);
+      this.countRating();
     }
   }
-  edit(student: JournalData, mark: any) {
-    student.marks[mark].isEdit = true;
-    student.marks[mark].isSelected = false;
-    // MARK: For debug, in prod - revove
-    console.log('Edit');
-    console.log(student.studentFullName);
-    console.log(mark);
+  edit(student: JournalData, mark: number) {
+    if (isNaN(mark)) {
+      return;
+    }
+      student.marks[mark].isEdit = true;
+      student.marks[mark].isSelected = false;
   }
   isEditMode(student: JournalData, mark: number): boolean {
     if (student.marks[mark]) {
@@ -117,7 +143,6 @@ export class JournalDataComponent implements OnInit, OnDestroy {
       }
     }
   }
-
   isSelected(student: JournalData, mark: number): boolean {
     return ((student.marks[mark]) && (student.marks[mark].isSelected) && student.marks[mark].isSelected);
   }
@@ -126,14 +151,26 @@ export class JournalDataComponent implements OnInit, OnDestroy {
       if (student.marks[mark].isEdit) {
         student.marks[mark].isEdit = false;
         this.markEditValue = '';
+        let markValue = +student.marks[mark].mark;
+        if (markValue > 12) {
+          markValue = 12;
+        }
+        student.marks[mark].mark = '' + markValue;
+        this.teacherJournalService.sendMark(student.marks[mark], student.idStudent).subscribe( status => {
+          if (status.code) {
+            console.log(status);
+          }
+        });
+        this.countRating();
       }
     }
   }
   onKey(event: any) {
     if (event.target.value) {
       if (this.markEditValue) {
-        
-      } else {
+        if (+event.target.value > 12) {
+          event.target.value = 12;
+        }
         this.markEditValue = '';
       }
     }

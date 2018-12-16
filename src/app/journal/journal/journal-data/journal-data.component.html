@@ -1,6 +1,6 @@
 <ng-container *ngIf="isDataRecived">
     <p-table [columns]="scrollableCols" [frozenColumns]="frozenCols" [value]="journalData" [scrollable]="true"
-        scrollHeight="200px" frozenWidth="20em">
+        scrollHeight="400px" frozenWidth="20em">
         <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
                 <col *ngFor="let col of columns" [style.width]="col.width">
@@ -19,14 +19,23 @@
                 <td *ngFor="let col of columns" 
                     [style.background-color]="isSelected(rowData,col.field) ? '#bcdfff' : '#fff'" 
                     (click)="singleClick(rowData,col.field)" 
-                    (dblclick)="doubleClick(rowData,col.field)">
-                        <div *ngIf="!isEditMode(rowData, col.field)" class="mark">
-                            {{markStudent(rowData, col.field)}}
-                        </div>
-                        <div *ngIf="isEditMode(rowData, col.field)" >
-                            <p-inputMask class="editCell" mask="99" autoFocus="true" characterPattern="[^[1-9]{0,1}[0-2]?$]" maxlenght="2" size="2" pInputText [(ngModel)]="rowData.marks[col.field].mark" 
-                            (onBlur)="markEditExit(rowData, col.field)" #box (keyup.enter)="markEditExit(rowData, col.field)" ></p-inputMask>
-                        </div>
+                    (dblclick)="doubleClick(rowData,col.field)"  [ngSwitch]="col.field">
+                        <ng-container *ngSwitchCase="'rating'">{{rowData.rating[0] | number:'1.1-2'}}/{{rowData.rating[1] | number:'1.1-2'}}</ng-container>
+                        <ng-container *ngSwitchCase="'studentFullName'">{{rowData.studentFullName}}</ng-container>
+                        <ng-container *ngSwitchDefault>
+                            <div *ngIf="!isEditMode(rowData, col.field)" class="mark">
+                                {{markStudent(rowData, col.field)}} &nbsp;
+                            </div>
+                            <div *ngIf="isEditMode(rowData, col.field)" >
+                                <p-inputMask class="editCell" 
+                                    mask="99" autoFocus="true" 
+                                    maxlenght="2" size="2" pInputText 
+                                    [(ngModel)]="rowData.marks[col.field].mark" 
+                                    (onBlur)="markEditExit(rowData, col.field)" 
+                                    #box (keyup.enter)="markEditExit(rowData, col.field)" > 
+                                </p-inputMask>
+                            </div>
+                        </ng-container>
                 </td>
             </tr>
         </ng-template>
