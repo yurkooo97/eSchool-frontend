@@ -8,7 +8,6 @@ import { Group } from '../../../app/models/group.model';
 import { Subject } from 'src/app/models/subjects.model';
 import { DatePipe } from '@angular/common';
 import { TeachersService } from 'src/app/services/teachers.service';
-import { ChartModule } from 'primeng/chart';
 
 @Component({
   selector: 'app-progress',
@@ -38,7 +37,7 @@ export class ProgressComponent implements OnInit {
   avgMarkAllSubjects: number;
   isButtonDisabled: boolean;
 
-  data: ChartModule;
+  data: any;
 
   constructor(
     private groupService: AdmingroupsService,

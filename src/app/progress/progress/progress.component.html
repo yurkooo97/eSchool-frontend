@@ -77,5 +77,8 @@
         {{ avgMarkAllSubjects | number: '.1-2' }}
       </h3>
     </div>
-  </div>
+	</div>
+	<div class="studentChart">
+			<p-chart type="line" [data]="data"></p-chart>
+	</div>
 </div>
