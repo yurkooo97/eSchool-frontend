@@ -1,4 +1,4 @@
-export class Class_ {
+export class Classes {
   constructor(
     public classDescription: string,
     public className: string,
