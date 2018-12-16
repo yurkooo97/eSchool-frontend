@@ -59,14 +59,16 @@ a:hover {
 	text-align: center;
   margin: 10px auto 0;
 }
-@media (orientation: landscape) {
-  header {
-    margin: 5px auto;
-  }
-  h1 {
-    padding-bottom: 0;
-  }
-  .container {
-    padding: 1px 10px;
+@media screen and (max-width: 920px) {
+  @media (orientation: landscape) {
+    header {
+      margin: 5px auto;
+    }
+    h1 {
+      padding-bottom: 0;
+    }
+    .container {
+      padding: 1px 10px;
+    }
   }
 }
