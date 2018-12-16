@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentsService } from '../../../services/admin-students.service';
 import { Student } from '../../../models/students.model';
-import { Class } from '../../../models/classesForStudents.model';
+import { Classes } from '../../../models/classesForStudents.model';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { OverlayPanel } from 'primeng/primeng';
@@ -14,7 +14,7 @@ import { OverlayPanel } from 'primeng/primeng';
 })
 export class StudentsComponent implements OnInit {
   ua: object;
-  classes: Class[];
+  classes: Classes[];
   students: Student[];
   newStudent: Student;
   selectedStudent: Student;
