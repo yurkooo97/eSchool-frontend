@@ -3,8 +3,19 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TeachersComponent } from './teachers.component';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { Observable } from 'rxjs';
+import 'rxjs/add/observable/of';
 import { Iteachers } from 'src/app/models/teachers';
 import { HttpClientModule } from '@angular/common/http';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import {
+  FieldsetModule,
+  DialogModule,
+  InputTextModule,
+  InputMaskModule,
+  CalendarModule
+} from 'primeng/primeng';
+import { FormsModule } from '@angular/forms';
 
 describe('TeachersComponent', () => {
   let component: TeachersComponent;
@@ -42,18 +53,29 @@ describe('TeachersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports : [HttpClientModule],
-      declarations: [ TeachersComponent ],
+      imports: [
+        HttpClientModule,
+        TableModule,
+        ButtonModule,
+        FieldsetModule,
+        DialogModule,
+        InputTextModule,
+        InputMaskModule,
+        CalendarModule,
+        FormsModule
+      ],
+      declarations: [TeachersComponent],
       providers: [TeachersService]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TeachersComponent);
     component = fixture.componentInstance;
     teachersService = fixture.debugElement.injector.get(TeachersService);
-    spy = spyOn(teachersService, 'getTeachers').and.returnValue(Observable.of(mockTeachers));
+    spy = spyOn(teachersService, 'getTeachers').and.returnValue(
+      Observable.of(mockTeachers)
+    );
     fixture.detectChanges();
   });
 
