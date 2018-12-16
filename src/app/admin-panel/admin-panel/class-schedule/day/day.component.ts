@@ -38,7 +38,7 @@ export class DayComponent implements OnInit {
 
   // event to add new subject element to array
   addSubject(selectedSubjectNew, daySubjects, i) {
-    let subj = this.subjects.find(
+    const subj = this.subjects.find(
       item => item.subjectId === selectedSubjectNew.value
     );
     daySubjects[i] = new Subject(subj.subjectId, subj.subjectName);
