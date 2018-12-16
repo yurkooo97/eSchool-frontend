@@ -16,9 +16,9 @@ import { ChartModule } from 'primeng/chart';
     DropdownModule,
     FormsModule,
     CalendarModule,
-		ButtonModule,
-		ChartModule
+    ButtonModule,
+    ChartModule
   ],
   declarations: [ProgressComponent]
 })
-export class ProgressModule { }
+export class ProgressModule {}

@@ -10,16 +10,15 @@ import { Month } from 'src/app/models/month.model';
   styleUrls: ['./journal-data.component.scss']
 })
 export class JournalDataComponent implements OnInit {
-
-  constructor(private teacherJournalService: TeacherJournalsService) { }
+  constructor(private teacherJournalService: TeacherJournalsService) {}
 
   journalData: JournalData[] = [];
   journalMonthes: Month[];
   isActiveJournal: boolean;
-  isDataRecived: boolean = false;
+  isDataRecived = false;
   selectedMonth: Month;
   selectedJournalData: JournalData[] = [];
-  days: {day: string, name: string} [];
+  days: { day: string; name: string }[];
   private _isMonthSelected: boolean;
 
   ngOnInit() {
@@ -28,34 +27,36 @@ export class JournalDataComponent implements OnInit {
   }
 
   subscribeData() {
-    this.teacherJournalService
-    .journalChanged
-    .subscribe((journal: Journal) => {
+    this.teacherJournalService.journalChanged.subscribe((journal: Journal) => {
       this.teacherJournalService
-      .getjournals(journal.idSubject, journal.idClass)
-      .subscribe( data => {
-        this.journalData = data;
-        this.isDataRecived = true;
-        this.journalMonthes = this.teacherJournalService.getPreparedMonths(data);
-      });
+        .getjournals(journal.idSubject, journal.idClass)
+        .subscribe(data => {
+          this.journalData = data;
+          this.isDataRecived = true;
+          this.journalMonthes = this.teacherJournalService.getPreparedMonths(
+            data
+          );
+        });
     });
   }
   monthSelectedFor() {
-    const monthData = this.teacherJournalService
-    .getExistingJournalMonths(this.selectedMonth, this.journalData);
+    const monthData = this.teacherJournalService.getExistingJournalMonths(
+      this.selectedMonth,
+      this.journalData
+    );
     if (monthData.length > 1) {
       this.selectedJournalData = monthData;
-      const marksDays = monthData[0].marks.map( (mark) => {
+      const marksDays = monthData[0].marks.map(mark => {
         const day = mark.dateMark.split('.').pop();
         const name = this.daysForMonth(mark.dateMark);
-        const result = {day, name};
+        const result = { day, name };
         return result;
       });
-      this.days = marksDays
+      this.days = marksDays;
     }
   }
   get isSelectedMonth(): boolean {
-    this._isMonthSelected = (this.selectedJournalData.length > 0);
+    this._isMonthSelected = this.selectedJournalData.length > 0;
     return this._isMonthSelected;
   }
   daysForMonth(date: string) {
@@ -63,9 +64,5 @@ export class JournalDataComponent implements OnInit {
     const days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пя', 'Сб'];
     return days[weakDay];
   }
-  changeMark(student: JournalData, mark: any) {
-    //MARK: For debug, in prod - revove
-    console.log(student.studentFullName);
-    console.log(mark);
-  }
+  changeMark(student: JournalData, mark: any) {}
 }
