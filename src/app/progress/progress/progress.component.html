@@ -76,9 +76,6 @@
         Середня оцінка учня по всіх предметах:
         {{ avgMarkAllSubjects | number: '.1-2' }}
       </h3>
-		</div>
-		<div class="studentChart">
-				<p-chart type="line" [data]="data" (onDataSelect)="selectData($event)"></p-chart>
-		</div>
+    </div>
   </div>
 </div>
