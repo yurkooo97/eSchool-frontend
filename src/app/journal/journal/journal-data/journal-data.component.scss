@@ -1,3 +1,23 @@
 p-dropdown {
   margin-left: 20px;
 }
+
+.ui-table-scrollable-header {
+  overflow-y: scroll;
+  }
+
+.cellContainer {
+  height: 18px;
+  align-content: center;
+}
+.mark {
+  align-content: center;
+  text-align: center;
+  height: 58;
+
+}
+.editCell {
+  padding: 2px;
+  height: 10px;
+  text-align: center;
+}
