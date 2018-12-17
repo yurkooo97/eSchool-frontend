@@ -29,9 +29,7 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   }
 
   subscribeData() {
-    this.teacherJournalService
-    .journalChanged
-    .subscribe((journal: Journal) => {
+    this.teacherJournalService.journalChanged.subscribe((journal: Journal) => {
       this.teacherJournalService
       .getjournals(journal.idSubject, journal.idClass)
       .subscribe( data => {
