@@ -5,6 +5,7 @@ import { Group } from 'src/app/models/group.model';
 import { Subject } from 'src/app/models/subjects.model';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { NgForm } from '@angular/forms';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
   selector: 'app-class-schedule',
@@ -15,8 +16,11 @@ export class ClassScheduleComponent implements OnInit {
   @ViewChild('form') form: NgForm;
 
   subjects: Subject[];
+  subjectNames: any;
+
   classes: Group[];
   selectedClass: any;
+  selectedSubject: any;
 
   reset: any;
   ua: any;
@@ -30,32 +34,18 @@ export class ClassScheduleComponent implements OnInit {
 
   constructor(
     private _teacherServices: TeachersService,
+    private notificationToasts: DataSharingService,
     private scheduleService: ClassScheduleService
   ) {}
 
   ngOnInit() {
     this.getClasses();
     this.calendar();
-    this.getScheduleSubjects();
     this.minDateValue = new Date(new Date().getTime() + 24 * 60 * 60 * 1000); // minDate is tomorrow
     this.maxDateValue = new Date(
-      new Date().getTime() + 12 * 31 * 24 * 60 * 60 * 1000 // maxDate is a day in a year ahead
+      new Date().getTime() + 7 * 31 * 24 * 60 * 60 * 1000 // maxDate is a day in a year ahead
     );
     this.schedule = new Schedule();
-  }
-
-  // event for button to delete subject
-  delSubject(subject, day, i) {
-    day[i] = subject.value;
-    day.splice(i, 1);
-  }
-
-  // event to add new subject element to array
-  addSubject(subjectEvent, daySubjects, i) {
-    daySubjects[i] = subjectEvent.value;
-    if (daySubjects[i + 1] === undefined) {
-      daySubjects[i + 1] = {};
-    }
   }
 
   // event to select group
@@ -83,13 +73,6 @@ export class ClassScheduleComponent implements OnInit {
     return [year, month, day].join('-');
   }
 
-  // request to add a list of subjects
-  getScheduleSubjects(): void {
-    this.scheduleService.getScheduleSubjects().subscribe(data => {
-      this.subjects = data;
-    });
-  }
-
   // request to add a list of classes
   getClasses(): void {
     this.scheduleService.getClasses().subscribe(data => {
@@ -108,9 +91,28 @@ export class ClassScheduleComponent implements OnInit {
       this.schedule.startOfSemester
     );
     this.schedule.endOfSemester = this.formatDate(this.schedule.endOfSemester);
-    this.scheduleService.postSchedule(this.schedule).subscribe(data => {});
-
-    this.form.reset();
-    this.schedule = new Schedule();
+    this.scheduleService.postSchedule(this.schedule).subscribe(
+      data => {
+        this.notificationToasts.notify(
+          'success',
+          'Успішно виконано',
+          'Розклад збережено'
+        );
+        this.form.reset();
+        this.schedule = new Schedule();
+      },
+      error => {
+        this.notificationToasts.notify(
+          'error',
+          'Відхилено',
+          'Не вдалося зберегти розклад уроків'
+        );
+        Object.keys(this.schedule).forEach((item: any) => {
+          if (this.schedule[item].push) {
+            this.schedule[item].push({});
+          }
+        });
+      }
+    );
   }
 }

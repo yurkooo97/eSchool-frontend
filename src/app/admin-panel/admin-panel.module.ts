@@ -38,6 +38,7 @@ import { OverlayPanelModule } from 'primeng/primeng';
 import { CheckboxModule } from 'primeng/primeng';
 import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
 import { HttpAttachTeacherService } from '../services/http-attach-teacher.service';
+import { DayComponent } from './admin-panel/class-schedule/day/day.component';
 
 @NgModule({
   imports: [
@@ -86,7 +87,8 @@ import { HttpAttachTeacherService } from '../services/http-attach-teacher.servic
     NewStudingYearComponent,
     ClassScheduleComponent,
     AttachTeacherComponent,
-    DashboardComponent
+    DashboardComponent,
+    DayComponent
   ]
 })
 export class AdminPanelModule {}

@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { ProgressRoutingModule } from './progress-routing.module';
 import { ProgressComponent } from './progress/progress.component';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   imports: [
@@ -15,8 +16,9 @@ import { ProgressComponent } from './progress/progress.component';
     DropdownModule,
     FormsModule,
     CalendarModule,
-    ButtonModule
+    ButtonModule,
+    ChartModule
   ],
   declarations: [ProgressComponent]
 })
-export class ProgressModule { }
+export class ProgressModule {}
