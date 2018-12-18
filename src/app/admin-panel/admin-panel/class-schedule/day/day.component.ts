@@ -20,7 +20,6 @@ export class DayComponent implements OnInit {
 
   ngOnInit() {
     this.getScheduleSubjects();
-    this.schedule = new Schedule();
   }
 
   // request to add a list of subjects

@@ -25,8 +25,6 @@ export class ClassScheduleComponent implements OnInit {
   reset: any;
   ua: any;
 
-  fromDate: Date;
-  toDate: Date;
   minDateValue: Date;
   maxDateValue: Date;
 
@@ -59,20 +57,6 @@ export class ClassScheduleComponent implements OnInit {
     this._teacherServices.currentCalendar.subscribe(data => (this.ua = data));
   }
 
-  formatDate(date) {
-    const d = new Date(date);
-    const year = d.getFullYear();
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    if (month.length < 2) {
-      month = '0' + month;
-    }
-    if (day.length < 2) {
-      day = '0' + day;
-    }
-    return [year, month, day].join('-');
-  }
-
   // request to add a list of classes
   getClasses(): void {
     this.scheduleService.getClasses().subscribe(data => {
@@ -87,10 +71,15 @@ export class ClassScheduleComponent implements OnInit {
         this.schedule[item].pop();
       }
     });
-    this.schedule.startOfSemester = this.formatDate(
+    this.schedule.startOfSemester = this._teacherServices.formatDate(
       this.schedule.startOfSemester
     );
-    this.schedule.endOfSemester = this.formatDate(this.schedule.endOfSemester);
+    console.log(this.schedule.startOfSemester);
+    this.schedule.endOfSemester = this._teacherServices.formatDate(
+      this.schedule.endOfSemester
+    );
+    console.log(this.schedule.endOfSemester);
+    console.log(this.schedule);
     this.scheduleService.postSchedule(this.schedule).subscribe(
       data => {
         this.notificationToasts.notify(
