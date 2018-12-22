@@ -92,6 +92,8 @@ export class ProgressComponent implements OnInit {
       this.visibleGroups = new Array<Group>();
       this.start = null;
       this.end = null;
+      this.average = null;
+      this.avgMarkAllSubjects = null;
     }
     this.selectedGroup = null;
     this.onClassChange();

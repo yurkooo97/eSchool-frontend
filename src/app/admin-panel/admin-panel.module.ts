@@ -16,6 +16,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { FileUploadModule } from 'primeng/fileupload';
 import { AdminPanelRoutingModule } from './admin-panel-routing.module';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 import { TeachersService } from '../services/teachers.service';
 import { StudentsService } from '../services/admin-students.service';
@@ -65,7 +66,8 @@ import { DayComponent } from './admin-panel/class-schedule/day/day.component';
     ReactiveFormsModule,
     AutoCompleteModule,
     OverlayPanelModule,
-    CheckboxModule
+    CheckboxModule,
+    ProgressBarModule
   ],
 
   providers: [
