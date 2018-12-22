@@ -51,6 +51,7 @@ export class ClassScheduleComponent implements OnInit {
     this.schedule.className = this.classes.find(
       item => item.id === selectedClassEvent.value
     );
+    this.schedule.classId = this.schedule.className.id;
   }
 
   calendar(): void {
