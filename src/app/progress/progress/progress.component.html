@@ -14,7 +14,18 @@
       [showClear]="true"
     ></p-dropdown>
 
+    <p-multiSelect
+      *ngIf="selectedYear && selectedChartsType === 'class'"
+      [options]="visibleGroups"
+      [(ngModel)]="selectedGroup"
+      (onChange)="onClassChange()"
+      optionLabel="className"
+      [panelStyle]="{ minWidth: '13em' }"
+      defaultLabel="Виберіть клас"
+    ></p-multiSelect>
+
     <p-dropdown
+      *ngIf="selectedYear && selectedChartsType === 'student'"
       [options]="visibleGroups"
       [(ngModel)]="selectedGroup"
       (onChange)="onClassChange()"
@@ -24,18 +35,20 @@
     ></p-dropdown>
 
     <p-dropdown
-      [options]="visibleStudents"
-      [(ngModel)]="selectedStudent"
-      (onChange)="onStudentChange()"
-      placeholder="Виберіть учня"
-      [showClear]="true"
-    ></p-dropdown>
-
-    <p-dropdown
+      *ngIf="selectedGroup"
       [options]="visibleSubjects"
       [(ngModel)]="selectedSubjects"
       (onChange)="onSubjectChange()"
       placeholder="Виберіть предмет"
+      [showClear]="true"
+    ></p-dropdown>
+
+    <p-dropdown
+      *ngIf="selectedGroup && selectedChartsType === 'student'"
+      [options]="visibleStudents"
+      [(ngModel)]="selectedStudent"
+      (onChange)="onStudentChange()"
+      placeholder="Виберіть учня"
       [showClear]="true"
     ></p-dropdown>
 
@@ -57,6 +70,25 @@
       [showIcon]="true"
     ></p-calendar>
 
+    <p-radioButton
+      label="Школа"
+      name="chartGroup"
+      value="school"
+      [(ngModel)]="selectedChartsType"
+    ></p-radioButton>
+    <p-radioButton
+      label="Клас"
+      name="chartGroup"
+      value="class"
+      [(ngModel)]="selectedChartsType"
+    ></p-radioButton>
+    <p-radioButton
+      label="Учень"
+      name="chartGroup"
+      value="student"
+      [(ngModel)]="selectedChartsType"
+    ></p-radioButton>
+
     <p-button
       class="button"
       icon="pi pi-check"
@@ -77,8 +109,9 @@
         {{ avgMarkAllSubjects | number: '.1-2' }}
       </h3>
     </div>
-  </div>
-  <div class="studentChart">
-    <p-chart type="line" width="1100px" height="300px" [data]="data"></p-chart>
+
+    <p-card class="chart">
+      <p-chart type="line" height="300px" [data]="data"></p-chart>
+    </p-card>
   </div>
 </div>

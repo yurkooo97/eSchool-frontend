@@ -19,7 +19,7 @@ export class ProgressComponent implements OnInit {
   groups: Group[];
   subjects: Subject[];
   classID: number;
-  selectedGroup: any;
+  selectedGroup: Group; // selectedGroup: Group[];
   selectedYear: any;
   selectedDate: Date;
   selectedStudent: any;
@@ -37,6 +37,7 @@ export class ProgressComponent implements OnInit {
   avgMarkAllSubjects: number;
   isButtonDisabled: boolean;
 
+  selectedChartsType: string;
   data: any;
 
   constructor(
@@ -49,16 +50,6 @@ export class ProgressComponent implements OnInit {
     this.isButtonDisabled = true;
     this.visibleGroups = new Array<Group>();
     this.visibleStudents = new Array<SelectItem>();
-    this.data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'First Dataset',
-          data: this.marks,
-          borderColor: '#4bc0c0'
-        }
-      ]
-    };
   }
 
   ngOnInit() {
@@ -121,6 +112,8 @@ export class ProgressComponent implements OnInit {
       this.visibleGroups = new Array<Group>();
       this.start = null;
       this.end = null;
+      this.average = null;
+      this.avgMarkAllSubjects = null;
     }
     this.selectedGroup = null;
     this.onClassChange();

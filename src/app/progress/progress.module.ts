@@ -5,6 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
 import { ChartModule } from 'primeng/chart';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { CardModule } from 'primeng/card';
 
 import { ProgressRoutingModule } from './progress-routing.module';
 import { ProgressComponent } from './progress/progress.component';
@@ -16,9 +19,12 @@ import { ProgressComponent } from './progress/progress.component';
     DropdownModule,
     FormsModule,
     CalendarModule,
-		ButtonModule,
-		ChartModule
+    ButtonModule,
+    ChartModule,
+    MultiSelectModule,
+    RadioButtonModule,
+    CardModule
   ],
   declarations: [ProgressComponent]
 })
-export class ProgressModule { }
+export class ProgressModule {}

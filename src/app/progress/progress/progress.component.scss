@@ -1,29 +1,40 @@
 .title {
-	margin-top:90px;
-	text-align:center;
-	background-color: lightblue;
-	height: 40px;
-	border: 1px solid rgb(119, 188, 245);
+  margin-top: 90px;
+  text-align: center;
+  background-color: lightblue;
+  height: 40px;
+  border: 1px solid rgb(119, 188, 245);
 }
 .stat {
-	margin-top: 5px;
+  margin-top: 5px;
 }
- .menu {
-	*{
-    margin:10px;
+.menu {
+  * {
+    margin: 10px;
   }
   .showMarks {
-    margin-top:30px;
+    margin-top: 30px;
   }
 }
 
 ::ng-deep .ui-calendar {
-	vertical-align: -1px;
-	margin-right:30px;
+  vertical-align: -1px;
+  margin-right: 30px;
 }
 
 .showMarks {
-	border: 1px solid rgb(119, 188, 245);
-	width:30%;
-	background-color: lightblue;
+  border: 1px solid rgb(119, 188, 245);
+  width: 30%;
+  background-color: lightblue;
+}
+
+p-radioButton {
+  display: block;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.chart {
+  display: block;
+  margin-left: 5%;
 }
