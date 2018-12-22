@@ -59,7 +59,7 @@
   </div>
 </p-overlayPanel>
 
-<p-dialog header="Інформація Про Учня" [(visible)]="displayForm" [modal]="true" [responsive]="true" [width]="700" [height]="600" [minWidth]="200" [minY]="70" [maximizable]="false" [baseZIndex]="10000">
+<p-dialog header="Інформація Про Учня" [(visible)]="displayForm" [modal]="true" [responsive]="true" [width]="700" [height]="600" [minWidth]="200" [minY]="70" [maximizable]="false" #overlay>
   <form class="studentsForm" #studentsForm="ngForm" autocomplete="off">
     <p-fieldset legend="Обов'язкові поля" class="mainInfo">
       <div class="ui-inputgroup">
@@ -91,7 +91,7 @@
       <br>
       <div class="ui-inputgroup">
         <p-calendar id="float-input-date" class="student-date-of-birth" placeholder="Дата народження *" [class.wrongData]="dateOfBirth.invalid && dateOfBirth.touched" #dateOfBirth="ngModel" name="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" required
-        dateFormat="yy-mm-dd" [yearNavigator]="true" [monthNavigator]="true" yearRange="1940:2017" [readonlyInput]="true" [locale]="ua" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"></p-calendar>
+        dateFormat="yy-mm-dd" [yearNavigator]="true" [monthNavigator]="true" yearRange="1940:2017" [readonlyInput]="true" [locale]="ua" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" [appendTo]="overlay"></p-calendar>
         <span class="ui-inputgroup-addon" [class.wrongData1]="dateOfBirth.invalid && dateOfBirth.touched" [class.correctData1]="dateOfBirth.valid && dateOfBirth.touched"><i class="fas fa-calendar-alt"></i></span>
       </div>
       <span [class.hiddenBox]="dateOfBirth.valid || dateOfBirth.untouched" class="messageOfMistake">Некоректна дата народження</span>

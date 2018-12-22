@@ -5,7 +5,7 @@ import { Teacher } from '../models/teacher.model';
 import { Subject } from '../models/subjects.model';
 import { Group } from '../models/group.model';
 import { AttachedTeacher } from '../models/attached-teacher.model';
-import { catchError, map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

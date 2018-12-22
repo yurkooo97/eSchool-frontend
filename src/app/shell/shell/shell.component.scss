@@ -26,6 +26,7 @@
 	width: 100%;
 	padding: 10px;
 	z-index: 2;
+  border-radius: 0;
 }
 
 :host ::ng-deep .ui-toolbar .ui-button {
@@ -54,23 +55,24 @@
   width: 240px;
   height: 240px;
 }
-@media (orientation: landscape) {
-  :host ::ng-deep .ui-sidebar {
-    width: auto;
-    padding: 5px;
-  }
-  .sidebar-avatar {
-    width: 200px;
-    height: 200px;
-  }
-  h3 {
-    margin: 0;
-  }
-  h1 {
-    margin: 0;
+@media screen and (max-width: 920px) {
+  @media (orientation: landscape) {
+    :host ::ng-deep .ui-sidebar {
+      width: auto;
+      padding: 5px;
+    }
+    .sidebar-avatar {
+      width: 200px;
+      height: 200px;
+    }
+    h3 {
+      margin: 0;
+    }
+    h1 {
+      margin: 0;
+    }
   }
 }
-
 
 
 

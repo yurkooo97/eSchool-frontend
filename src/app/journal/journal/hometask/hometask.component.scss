@@ -1,0 +1,23 @@
+.hometask-row {
+  border-bottom: 1px solid #d9d9d9;
+  > div {
+    text-align:center;
+  }
+}
+.past-task-enabler {
+  display: flex;
+  align-items: center;
+  p-checkbox {
+    margin-right: 15px;
+  }
+}
+::ng-deep .order-selector {
+  p-dropdown {
+    >div {
+      min-width: 15em;
+    }
+  }
+}
+::ng-deep .ui-dataview-emptymessage {
+  text-align: center;
+}
