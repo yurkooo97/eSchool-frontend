@@ -90,7 +90,40 @@ describe('workspace-project App', () => {
   });
   it('should log out', () => {
     page.userInfo().click();
-    browser.pause(1000);
+    browser.pause();
+    page.logOut().click();
+    expect(page.getParagraphText()).toEqual('Вхід до системи');
+  });
+  it('it should check log in teacher', () => {
+    page.navigateTo();
+    page.userName().sendKeys('gBublik23');
+    page.password().sendKeys('password');
+    page.getEnterButton().click();
+    expect(page.journal().count()).toBe(0);
+  });
+  it('it pick selects', () => {
+    page
+      .dropDown()
+      .get(0)
+      .click();
+    page
+      .dropLis()
+      .get(0)
+      .click();
+    page
+      .dropDown()
+      .get(1)
+      .click();
+    page
+      .dropLis()
+      .get(0)
+      .click();
+    page.dwnlJournal().click();
+    expect(page.journal().count()).toBe(2);
+  });
+  it('should log out', () => {
+    page.userInfo().click();
+    browser.pause();
     page.logOut().click();
     expect(page.getParagraphText()).toEqual('Вхід до системи');
   });
