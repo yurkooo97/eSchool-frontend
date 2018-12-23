@@ -38,4 +38,10 @@ export class StudentsService {
       return response.data;
     });
   }
+
+  public deleteStudent(student: Student): Observable<Student> {
+    return this.http.patch<Student>(`/users/${student.id}`, student).map((response: any) => {
+      return response.data;
+    });
+  }
 }

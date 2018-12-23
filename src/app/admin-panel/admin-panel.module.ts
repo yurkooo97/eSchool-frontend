@@ -17,6 +17,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { AdminPanelRoutingModule } from './admin-panel-routing.module';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { ToastModule } from 'primeng/toast';
 
 import { TeachersService } from '../services/teachers.service';
 import { StudentsService } from '../services/admin-students.service';
@@ -67,7 +68,8 @@ import { DayComponent } from './admin-panel/class-schedule/day/day.component';
     AutoCompleteModule,
     OverlayPanelModule,
     CheckboxModule,
-    ProgressBarModule
+    ProgressBarModule,
+    ToastModule
   ],
 
   providers: [

@@ -29,6 +29,7 @@
     <tr class="studentRow">
       <td *ngFor="let col of cols">
         {{student[col.field]}}
+        <button type="button" pButton icon="pi pi-trash" *ngIf="col.field == 'patronymic'" (click)="showConfirm(student); deleteStudent(student)" class="ui-button-danger action-tools student-delete" title="Видалити учня"></button>
         <button type="button" pButton icon="pi pi-info" *ngIf="col.field == 'patronymic'" (click)="studentInfo($event, student, oPanel)" class="ui-button-raised action-tools student-info" title="Повна інформація про учня"></button>
         <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'patronymic'" (click)="editStudent(student)" class="ui-button-raised action-tools student-edit" title="Редагувати інформацію про учня"></button>
       </td>
@@ -59,6 +60,27 @@
   </div>
 </p-overlayPanel>
 
+<p-toast position="center" key="c" (onClose)="onReject()" [modal]="true" [baseZIndex]="5000">
+  <ng-template let-message pTemplate="message">
+    <div style="text-align: center">
+      <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+      <h3>
+        {{message.summary}}<br><br>
+        <span class="deleted-student">{{selectedStudent.firstname}} {{selectedStudent.patronymic}} {{selectedStudent.lastname}}</span>
+      </h3>
+      <p>{{message.detail}}</p>
+    </div>
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-6">
+        <button type="button" pButton icon="pi pi-trash" (click)="onConfirm()" label="Видалити" class="ui-button-raised ui-button-danger"></button>
+      </div>
+      <div class="ui-g-6">
+        <button type="button" pButton icon="pi pi-times" (click)="onReject()" label="Скасувати" class="ui-button-raised"></button>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>
+
 <p-dialog header="Інформація Про Учня" [(visible)]="displayForm" [modal]="true" [responsive]="true" [width]="700" [height]="600" [minWidth]="200" [minY]="70" [maximizable]="false" #overlay>
   <form class="studentsForm" #studentsForm="ngForm" autocomplete="off">
     <p-fieldset legend="Обов'язкові поля" class="mainInfo">
@@ -87,6 +109,9 @@
       </span>
       <span class="ui-float-label">
         <input id="float-input-newPass" type="text" pInputText name="newPass" [(ngModel)]="newStudent.newPass" class="newPass" disabled>
+      </span>
+      <span class="ui-float-label">
+        <input id="float-input-enabled" type="text" pInputText name="enabled" [(ngModel)]="newStudent.enabled" class="enabled" disabled>
       </span>
       <br>
       <div class="ui-inputgroup">
