@@ -1,40 +1,40 @@
 <div class="container">
 
-  <div class="title">
-    <span>
-      <h2 class="stat">Статистика <i class="fas fa-chart-line"></i></h2>
-    </span>
-  </div>
+	<div class="title">
+		<span>
+			<h2 class="stat">Статистика <i class="fas fa-chart-line"></i></h2>
+		</span>
+	</div>
 
-  <div class="menu">
+	<div class="menu">
 
-    <p-dropdown [options]="years" placeholder="Виберіть рік" [(ngModel)]="selectedYear" (onChange)="onYearChange()"
-      [showClear]="true"></p-dropdown>
+		<p-dropdown [options]="years" placeholder="Виберіть рік" [(ngModel)]="selectedYear" (onChange)="onYearChange()"
+		 [showClear]="true"></p-dropdown>
 
-    <p-dropdown [options]="visibleGroups" [(ngModel)]="selectedGroup" (onChange)="onClassChange()" placeholder="Виберіть клас"
-      optionLabel="className" [showClear]="true"></p-dropdown>
+		<p-dropdown [options]="visibleGroups" [(ngModel)]="selectedGroup" (onChange)="onClassChange()" placeholder="Виберіть клас"
+		 optionLabel="className" [showClear]="true"></p-dropdown>
 
-    <p-dropdown [options]="visibleStudents" [(ngModel)]="selectedStudent" (onChange)="onStudentChange()" placeholder="Виберіть учня"
-      [showClear]="true"></p-dropdown>
+		<p-dropdown [options]="visibleStudents" [(ngModel)]="selectedStudent" (onChange)="onStudentChange()" placeholder="Виберіть учня"
+		 [showClear]="true"></p-dropdown>
 
-    <p-dropdown [options]="visibleSubjects" [(ngModel)]="selectedSubjects" (onChange)="onSubjectChange()" placeholder="Виберіть предмет"
-      [showClear]="true"></p-dropdown>
+		<p-dropdown [options]="visibleSubjects" [(ngModel)]="selectedSubjects" (onChange)="onSubjectChange()" placeholder="Виберіть предмет"
+		 [showClear]="true"></p-dropdown>
 
-    <p-calendar class="calendar" [(ngModel)]="start" [locale]="ua" placeholder="Початок періоду" dateFormat="yy.mm.dd"
-      [showIcon]="true"></p-calendar>
+		<p-calendar class="calendar" [(ngModel)]="start" [locale]="ua" placeholder="Початок періоду" dateFormat="yy.mm.dd"
+		 [showIcon]="true"></p-calendar>
 
-    <p-calendar class="calendar" [(ngModel)]="end" [locale]="ua" dateFormat="yy.mm.dd" placeholder="Кінець періоду"
-      [showIcon]="true"></p-calendar>
+		<p-calendar class="calendar" [(ngModel)]="end" [locale]="ua" dateFormat="yy.mm.dd" placeholder="Кінець періоду"
+		 [showIcon]="true"></p-calendar>
 
-    <p-button class="button" icon="pi pi-check" [disabled]="isButtonDisabled" (onClick)="onClickShow()" label="Показати оцінку"></p-button>
+		<p-button class="button" icon="pi pi-check" [disabled]="isButtonDisabled" (onClick)="onClickShow()" label="Показати оцінку"></p-button>
 
-    <div class="showMarks">
-      <h3 class="averageMark">Середня оцінка учня по предмету: {{average | number:'.1-2'}} </h3>
-    </div>
+		<div class="showMarks">
+			<h3 class="averageMark">Середня оцінка учня по предмету: {{average | number:'.1-2'}} </h3>
+		</div>
 
-    <div class="showMarks">
-      <h3 class="averageMark">Середня оцінка учня по всіх предметах: {{avgMarkAllSubjects | number:'.1-2'}} </h3>
-    </div>
+		<div class="showMarks">
+			<h3 class="averageMark">Середня оцінка учня по всіх предметах: {{avgMarkAllSubjects | number:'.1-2'}} </h3>
+		</div>
 
-  </div>
+	</div>
 </div>

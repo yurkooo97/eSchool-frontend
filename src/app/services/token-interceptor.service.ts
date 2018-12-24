@@ -15,6 +15,7 @@ import { throwError } from 'rxjs';
 })
 export class TokenInterceptorService implements HttpInterceptor {
   baseUrl = 'https://fierce-shore-32592.herokuapp.com';
+  allowedUrl = ['/login', '/login/', '/login/request-password', '/login/request-password/', '/login/password', '/login/password/'];
 
   constructor(
     private authService: AuthenticationService,
@@ -35,7 +36,7 @@ export class TokenInterceptorService implements HttpInterceptor {
     });
     const token = this.authService.getToken();
     if (token == null || token === '') {
-      if (this.router.url !== '/login' && this.router.url !== '/login/') {
+      if (this.allowedUrl.indexOf(this.router.url.replace(/[?]+.*/g, '')) < 0) {
         this.router.navigate(['/login']);
       }
       return next.handle(reqWithUrl);
