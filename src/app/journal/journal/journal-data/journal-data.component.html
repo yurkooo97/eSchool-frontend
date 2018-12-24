@@ -1,5 +1,6 @@
 <ng-container *ngIf="isDataRecived">
     <p-table [columns]="scrollableCols" [frozenColumns]="frozenCols" [value]="journalData" [scrollable]="true"
+        [(contextMenuSelection)]="selectedMark" [contextMenu]="contextMenu"
         scrollHeight="400px" frozenWidth="20em">
         <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
@@ -11,12 +12,15 @@
                 <th *ngFor="let col of columns">
                     <div *ngIf="+col.field!==NaN">{{col.header.split('/')[0]}}</div>
                     <div *ngIf="+col.field!==NaN">{{col.header.split('/')[1]}}</div>
+                    <div *ngIf="+col.field!==NaN">{{col.header.split('/')[2]}}</div>
                 </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
-                <td *ngFor="let col of columns" 
+                <td *ngFor="let col of columns"
+                    [pContextMenuRow]="rowData"
+                   
                     [style.background-color]="isSelected(rowData,col.field) ? '#bcdfff' : '#fff'" 
                     (click)="singleClick(rowData,col.field)" 
                     (dblclick)="doubleClick(rowData,col.field)"  [ngSwitch]="col.field">
@@ -41,3 +45,16 @@
         </ng-template>
     </p-table>
 </ng-container>
+<p-contextMenu #contextMenu [model]="contextMenuItems"></p-contextMenu>
+<p-dialog
+  header="Доповнення до оцінки"
+  [(visible)]="isDisplayDialogVisable"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  [width]="700"
+  [height]="600"
+  [minWidth]="200"
+  #overlay>
+  <textarea pInputTextarea [(ngModel)]="property"></textarea>
+</p-dialog>

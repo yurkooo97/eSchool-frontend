@@ -20,12 +20,25 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   preventSimpleClick: boolean;
   timerDoubleClick: any;
   markEditValue: string;
+  isDisplayDialogVisable = false;
+  contextMenuItems: any[];
+  selectedMark: Mark;
   frozenCols: { field: string, header: string, width: string } [] = [
     {field: 'studentFullName', header: 'Студент', width: '14em'},
     {field: 'rating', header: 'Рейтинг Підсумок', width: '6em'}];
 
   ngOnInit() {
+    this.contextMenuItems = [
+      { label: 'Custimize', icon: 'pi pi-edit', command: (event) => this.changeDescription(event, 1) },
+      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.deleteMark(event, 1) }];
+      console.log(this.contextMenuItems.length);
     this.subscribeData();
+  }
+  deleteMark(student, indexMark) {
+    console.log('delete mark', student, indexMark);
+  }
+  changeDescription(student, indexMark) {
+    console.log('change description for mark', student, indexMark);
   }
 
   subscribeData() {
@@ -44,6 +57,7 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   get journalDeys(): { field: string, header: string } [] {
     if (this.journalData) {
       return this.journalData[0].marks.map( (mark, index) => {
+        const dayType = mark.typeMark ? mark.typeMark.slice(0, 4) + '/' : ' /';
         const weekDay = this.daysForMonth(mark.dateMark) + '/';
         const day = mark.dateMark.slice(mark.dateMark.indexOf('.') + 1);
         return {field: '' + index, header: weekDay + day, width: '5em'};
@@ -78,7 +92,6 @@ export class JournalDataComponent implements OnInit, OnDestroy {
       }
       return prepareStudent;
     });
-
   }
   daysForMonth(date: string) {
     const weakDay = new Date(date).getDay();
@@ -124,6 +137,7 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   selected(student: JournalData, mark: any) {
     if (student.marks[mark].mark) {
       student.marks[mark].isSelected = !(student.marks[mark].isSelected);
+      this.teacherJournalService.markSelect(student.marks[mark]);
       this.countRating();
     }
   }
