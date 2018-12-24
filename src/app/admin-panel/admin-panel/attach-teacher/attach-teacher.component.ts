@@ -13,7 +13,7 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 })
 export class AttachTeacherComponent implements OnInit {
   @ViewChild('AttachTeacherForm') form: NgForm;
-  public title = "Прив'язка вчителя до журналу";
+  public title = 'Прив\'язка вчителя до журналу';
 
   public teacher: Teacher;
   private teachers: Teacher[] = [];
@@ -30,7 +30,7 @@ export class AttachTeacherComponent implements OnInit {
   constructor(
     private attachService: HttpAttachTeacherService,
     private notificationToasts: DataSharingService
-  ) {}
+  ) { }
 
   /**Add teacher to suggestion list */
   filterTeachers(event): void {
@@ -84,14 +84,14 @@ export class AttachTeacherComponent implements OnInit {
           this.notificationToasts.notify(
             'success',
             'Успішно виконано',
-            "Прив'язку вчителя до журналу"
+            'Прив\'язку вчителя до журналу'
           );
         },
         error => {
           this.notificationToasts.notify(
             'error',
             'Відхилено',
-            "Невдалося виконати прив'язку вчителя до журналу"
+            'Невдалося виконати прив\'язку вчителя до журналу'
           );
         }
       );
@@ -101,6 +101,6 @@ export class AttachTeacherComponent implements OnInit {
   ngOnInit() {
     this.attachService.getTeachers().subscribe(data => (this.teachers = data));
     this.attachService.getSubjects().subscribe(data => (this.subjects = data));
-    this.attachService.getClasses().subscribe(data => (this.classes = data));
+    this.attachService.getClasses().subscribe(data => (this.classes = data.filter(classes => classes.isActive)));
   }
 }

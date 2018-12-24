@@ -92,3 +92,9 @@ span.ui-button-text,
   color: white !important;
   border-color: #007ad9 !important;
 }
+@media only screen and (max-width: 600px) {
+  .ui-sortable-column:nth-last-child(2),
+  .teacher__cell td.ng-star-inserted:nth-last-child(2) {
+    display: none;
+  }
+}

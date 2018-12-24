@@ -2,14 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { StudentBookService } from 'src/app/services/student-book-services/student-book.service';
 import { MenuItem } from 'primeng/api';
 import { SelectItem } from 'primeng/api';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPrint, faDownload } from '@fortawesome/free-solid-svg-icons';
-
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { WeekSchedule } from 'src/app/models/student-book-models/WeekSchedule.model';
 import { DomSanitizer } from '@angular/platform-browser';
-
-library.add(faPrint, faDownload);
 
 @Component({
   selector: 'app-student-book',
@@ -43,8 +38,6 @@ export class StudentBookComponent implements OnInit {
 
   public loading = true;
 
-  public disabledButton: string;
-
   constructor(
     private studentBookService: StudentBookService,
     private notificationToasts: DataSharingService,
@@ -65,7 +58,7 @@ export class StudentBookComponent implements OnInit {
         this.notificationToasts.notify(
           'error',
           'Помилка',
-          'Наразі немає даних про розклад'
+          err.message
         );
       }
     );
@@ -109,19 +102,19 @@ export class StudentBookComponent implements OnInit {
         }`;
         this.clonedWeekSchedule = [...this.weekSchedule];
         this.saveOffset = this.offset;
+        this.loading = false;
       },
       err => {
         if (lengthOfCalls >= 0) {
-          this.disabledButton = week && lengthOfCalls >= 0 ? 'next' : 'prev';
           this.changeWeekSchedule(week, lengthOfCalls - 1);
         } else {
-          this.disabledButton = '';
           this.offset = this.saveOffset;
           this.notificationToasts.notify(
             'error',
             'Помилка',
-            'Наразі немає даних про розклад'
+            err.message
           );
+          this.loading = false;
         }
       }
     );
@@ -165,6 +158,7 @@ export class StudentBookComponent implements OnInit {
     if (this.selectedType === 'day') {
       this.changeDaySchedule(direction);
     } else {
+      this.loading = true;
       this.changeWeekSchedule(direction, 5);
     }
   }

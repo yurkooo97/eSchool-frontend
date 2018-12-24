@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentsService } from '../../../services/admin-students.service';
 import { Student } from '../../../models/students.model';
-import { Class_ } from '../../../models/classesForStudents.model';
+import { Classes } from '../../../models/classesForStudents.model';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { OverlayPanel } from 'primeng/primeng';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
   styleUrls: ['./students.component.scss'],
-  providers: [StudentsService]
+  providers: [StudentsService, MessageService]
 })
 export class StudentsComponent implements OnInit {
   ua: object;
-  classes: Class_[];
+  classes: Classes[];
   students: Student[];
   newStudent: Student;
   selectedStudent: Student;
@@ -22,33 +23,31 @@ export class StudentsComponent implements OnInit {
   isNew: boolean;
   loading: boolean;
   cols: any[];
-  selectedClassName: string = '8-А класу';
-  selectedClassId: number = 0;
+  selectedClassName: string;
+  selectedClassId: number;
   displayForm: boolean;
+  photoMessage: string;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
   constructor(
     private service_: StudentsService,
     private notificationToasts: DataSharingService,
-    private _teacherServices: TeachersService
+    private _teacherServices: TeachersService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
     this.loading = true;
-    this.service_
-      .getClasses()
-      .subscribe(
-        data => ((this.classes = data), (this.loading = false))
-      );
-
-    this.loadStudents(1);
+    this.service_.getClasses()
+      .subscribe(data => {
+          this.classes = data;
+          this.loading = false;
+        });
 
     this.cols = [
       { field: 'firstname', header: 'Ім\'я' },
       { field: 'lastname', header: 'Прізвище' },
-      { field: 'patronymic', header: 'По-батькові' },
-      { field: 'classe', header: 'Клас' },
-      { field: 'dateOfBirth', header: 'Дата народження' }
+      { field: 'patronymic', header: 'По батькові' }
     ];
 
     this.newStudent = new Student();
@@ -56,14 +55,31 @@ export class StudentsComponent implements OnInit {
     this._teacherServices.currentCalendar.subscribe(data => this.ua = data);
   }
 
+  handlerFileInput(file: FileList) {
+    this.fileToUpload = file.item(0);
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      if (file.item(0).size > 500000) {
+        this.photoMessage = 'Перевищено максимальний розмір 500 кб';
+        this.imageUrl = 'assets/avatar.png';
+      } else {
+        this.photoMessage = '';
+        this.newStudent.avatar = event.target.result;
+      }
+    };
+    reader.readAsDataURL(this.fileToUpload);
+  }
+
   loadStudents(classID: number) {
     this.loading = true;
     this.selectedClassId = classID;
-    this.service_
-      .getStudents(classID)
+    this.service_.getStudents(classID)
       .subscribe(
-        data => ((this.students = data), (this.loading = false), (this.numberOfStudents = data.length))
-      );
+        data => {
+          this.students = data;
+          this.loading = false;
+          this.numberOfStudents = data.length;
+        });
   }
 
   createStudent() {
@@ -79,7 +95,8 @@ export class StudentsComponent implements OnInit {
       0,
       '',
       '',
-      ''
+      true,
+      this.newStudent.avatar
     );
     this.isNew = true;
     this.showForm();
@@ -98,11 +115,31 @@ export class StudentsComponent implements OnInit {
       student.id,
       student.oldPass,
       student.newPass,
+      student.enabled = true,
       student.avatar
     );
     this.isNew = false;
     this.showForm();
   }
+
+  deleteStudent(student: Student) {
+    this.newStudent = new Student(
+      student.firstname,
+      student.lastname,
+      student.patronymic,
+      student.classId = null,
+      student.dateOfBirth,
+      student.email,
+      student.phone,
+      student.login,
+      student.id,
+      student.oldPass,
+      student.newPass,
+      student.enabled = false,
+      student.avatar
+    );
+  }
+
   saveStudent() {
     if (this.isNew) {
       this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
@@ -154,12 +191,34 @@ export class StudentsComponent implements OnInit {
     overlaypanel.toggle(event);
   }
 
-  handlerFileInput(file: FileList) {
-    this.fileToUpload = file.item(0);
-    const reader = new FileReader();
-    reader.onload = (event: any) => {
-      this.imageUrl = event.target.result;
-    };
-    reader.readAsDataURL(this.fileToUpload);
+  showConfirm(student: Student) {
+    this.selectedStudent = student;
+    this.messageService.clear();
+    this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'Ви впевнені, що хочите видалити такого учня:', detail:'Підтвердіть, або скасуйте видалення'});
+  }
+
+  onConfirm() {
+    this.service_.deleteStudent(this.newStudent).subscribe(data => {
+      this.loadStudents(this.selectedClassId);
+      this.notificationToasts.notify(
+        'success',
+        'Успішно виконано',
+        'Учня видалено'
+      );
+    }, error => {
+      this.notificationToasts.notify(
+        'error',
+        'Відхилено',
+        'Невдалося видалити учня');
+    });
+    this.messageService.clear('c');
+  }
+
+  onReject() {
+    this.messageService.clear('c');
+  }
+
+  clear() {
+    this.messageService.clear();
   }
 }
