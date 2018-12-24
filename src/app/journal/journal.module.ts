@@ -14,6 +14,9 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { InputMaskModule } from 'primeng/inputmask';
 import { CheckboxModule } from 'primeng/primeng';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DialogModule } from 'primeng/dialog';
 import { JournalDataComponent } from './journal/journal-data/journal-data.component';
 
 @NgModule({
@@ -27,6 +30,9 @@ import { JournalDataComponent } from './journal/journal-data/journal-data.compon
     TableModule,
     InputMaskModule,
     CheckboxModule,
+    ContextMenuModule,
+    InputTextareaModule,
+    DialogModule,
     ButtonModule
   ],
   declarations: [JournalComponent, MenuComponent, HometaskComponent, JournalDataComponent]
