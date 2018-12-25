@@ -6,16 +6,16 @@
 
         <h3>Ім'я користувача</h3>
         <span class="ui-float-label">
-          <input pInputText [(ngModel)]="userName" autofocus type="text" placeholder="Введіть ім'я користувача" size="30" name="userName">
+          <input pInputText [(ngModel)]="userName" autofocus type="text" placeholder="Введіть ім'я користувача" size="30">
         </span>
 
         <h3>Пароль</h3>
         <span class="ui-float-label">
-          <input pInputText [(ngModel)]="password" type="password" placeholder="Введіть пароль" size="30" name="password">
+          <input pInputText [(ngModel)]="password" type="password" placeholder="Введіть пароль" size="30">
         </span>
         <span class="login-error">{{errorMessage}}</span>
         <button pButton type="button" label="Вхід" (click)="Login()" class="ui-button-rounded"></button>
-        <a href="#">Забули пароль?</a>
+        <a routerLink="request-password">Забули пароль?</a>
       </div>
     </p-card>
   </header>

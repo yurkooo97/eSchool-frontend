@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,15 @@ export class AuthenticationService {
         return response;
       });
   }
+
+  changePassword(password, resetToken) {
+    return this.httpClient.put('resetPassword', { password: password, token: resetToken });
+  }
+
+  public requestPasswordReset(query: string): Observable<any> {
+    return this.httpClient.get(`requestPasswordReset?query=${query}`);
+  }
+
   get idUser(): number {
     if (this._idUser) {
       return this._idUser;
@@ -51,6 +61,7 @@ export class AuthenticationService {
       }
     }
   }
+
   getToken() {
     return localStorage.getItem('authToken');
   }

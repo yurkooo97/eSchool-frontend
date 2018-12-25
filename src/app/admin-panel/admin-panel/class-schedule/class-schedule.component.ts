@@ -36,7 +36,7 @@ export class ClassScheduleComponent implements OnInit {
     private _teacherServices: TeachersService,
     private notificationToasts: DataSharingService,
     private scheduleService: ClassScheduleService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getClasses();
@@ -91,6 +91,7 @@ export class ClassScheduleComponent implements OnInit {
       this.schedule.startOfSemester
     );
     this.schedule.endOfSemester = this.formatDate(this.schedule.endOfSemester);
+
     this.scheduleService.postSchedule(this.schedule).subscribe(
       data => {
         this.notificationToasts.notify(
