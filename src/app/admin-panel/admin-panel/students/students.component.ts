@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentsService } from '../../../services/admin-students.service';
 import { Student } from '../../../models/students.model';
-import { Class_ } from '../../../models/classesForStudents.model';
+import { Classes } from '../../../models/classesForStudents.model';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { OverlayPanel } from 'primeng/primeng';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
   styleUrls: ['./students.component.scss'],
-  providers: [StudentsService]
+  providers: [StudentsService, MessageService]
 })
 export class StudentsComponent implements OnInit {
   ua: object;
-  classes: Class_[];
+  classes: Classes[];
   students: Student[];
   newStudent: Student;
   selectedStudent: Student;
@@ -31,7 +32,8 @@ export class StudentsComponent implements OnInit {
   constructor(
     private service_: StudentsService,
     private notificationToasts: DataSharingService,
-    private _teacherServices: TeachersService
+    private _teacherServices: TeachersService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -93,6 +95,7 @@ export class StudentsComponent implements OnInit {
       0,
       '',
       '',
+      true,
       this.newStudent.avatar
     );
     this.isNew = true;
@@ -112,11 +115,31 @@ export class StudentsComponent implements OnInit {
       student.id,
       student.oldPass,
       student.newPass,
+      student.enabled = true,
       student.avatar
     );
     this.isNew = false;
     this.showForm();
   }
+
+  deleteStudent(student: Student) {
+    this.newStudent = new Student(
+      student.firstname,
+      student.lastname,
+      student.patronymic,
+      student.classId = null,
+      student.dateOfBirth,
+      student.email,
+      student.phone,
+      student.login,
+      student.id,
+      student.oldPass,
+      student.newPass,
+      student.enabled = false,
+      student.avatar
+    );
+  }
+
   saveStudent() {
     if (this.isNew) {
       this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
@@ -166,5 +189,36 @@ export class StudentsComponent implements OnInit {
   studentInfo(event, student: Student, overlaypanel: OverlayPanel) {
     this.selectedStudent = student;
     overlaypanel.toggle(event);
+  }
+
+  showConfirm(student: Student) {
+    this.selectedStudent = student;
+    this.messageService.clear();
+    this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'Ви впевнені, що хочите видалити такого учня:', detail:'Підтвердіть, або скасуйте видалення'});
+  }
+
+  onConfirm() {
+    this.service_.deleteStudent(this.newStudent).subscribe(data => {
+      this.loadStudents(this.selectedClassId);
+      this.notificationToasts.notify(
+        'success',
+        'Успішно виконано',
+        'Учня видалено'
+      );
+    }, error => {
+      this.notificationToasts.notify(
+        'error',
+        'Відхилено',
+        'Невдалося видалити учня');
+    });
+    this.messageService.clear('c');
+  }
+
+  onReject() {
+    this.messageService.clear('c');
+  }
+
+  clear() {
+    this.messageService.clear();
   }
 }

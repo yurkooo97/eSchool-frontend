@@ -5,6 +5,8 @@ import { Observable, Subject, throwError } from 'rxjs';
 import { Hometask } from '../models/hometask.model';
 import { JournalData } from '../models/journalData.model';
 import { Month } from '../models/month.model';
+import { Mark } from '../models/journalMark.model';
+import { HomeTaskFile } from '../models/homeTaskFile.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ export class TeacherJournalsService {
   public journalChanged = new Subject<Journal>();
 
   readonly allJournals: string = '/journals';
-  readonly activeJurnal: string = '/active';
+  readonly activeJournal: string = '/active';
 
   constructor(private http: HttpClient) { }
 
@@ -26,10 +28,14 @@ export class TeacherJournalsService {
     return '/homeworks/subjects/' + idSubject + '/classes/' + idClass;
   }
 
+  private homeTaskFileUrl(idLesson: number): string {
+    return '/homeworks/files/' + idLesson;
+  }
+
   private urlForTeacher(teacherId?: number, isActive?: boolean): string {
     if (teacherId > 0) {
       if (isActive) {
-        return this.allJournals + '/teachers/' + teacherId + this.activeJurnal;
+        return this.allJournals + '/teachers/' + teacherId + this.activeJournal;
       } else {
         return this.allJournals + '/teachers/' + teacherId;
       }
@@ -60,6 +66,15 @@ export class TeacherJournalsService {
 
   public getHomeworks(idSubject: number, idClass: number): Observable<Hometask[]> {
     return this.http.get<Hometask[]>(this.homeTaskUrl(idSubject, idClass))
+      .map((response: any) => {
+        return response.data;
+      }).catch((error: any) => {
+        return throwError(error);
+      });
+  }
+
+  public getHomeTaskFile(idLesson: number): Observable<HomeTaskFile> {
+    return this.http.get<HomeTaskFile>(this.homeTaskFileUrl(idLesson))
       .map((response: any) => {
         return response.data;
       }).catch((error: any) => {
@@ -101,8 +116,8 @@ export class TeacherJournalsService {
   }
 
   private getMonths(date: string, separator: string): string {
-    // tslint:disable-next-line:max-line-length
-    const months = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
+    const months = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень',
+     'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
     const res = date.split(separator);
     if (res[1]) {
       return months[(+res[1] - 1)] + ' ' + res[0];
@@ -111,7 +126,6 @@ export class TeacherJournalsService {
   }
 
   public getExistingJournalMonths(month: Month, journalsData: JournalData[]) {
-
     const isThisMonth = (element, index, array) => {
       return (element.dateMark.indexOf(month) === 0);
     };
@@ -124,5 +138,16 @@ export class TeacherJournalsService {
       return filteredStudent;
     });
     return filteredData;
+  }
+
+  public sendMark(mark: Mark, studentID: number): Observable<any> {
+  const data = {
+    idLesson: mark.idLesson,
+    idMark: 0,
+    idStudent: studentID,
+    mark: mark.mark,
+    note: mark.note
+  };
+  return this.http.post<any>('/marks', data).map( response => response.status);
   }
 }

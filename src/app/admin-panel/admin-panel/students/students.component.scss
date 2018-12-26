@@ -74,7 +74,8 @@
 }
 .classID,
 .oldPass,
-.newPass {
+.newPass,
+.enabled {
   width: 20% !important;
   float: right;
   display: none;
@@ -150,6 +151,10 @@
       }
     }
   }
+}
+.deleted-student {
+  color: #ff0000;
+  font-size: 20px;
 }
 .number-of-students {
   float: left;

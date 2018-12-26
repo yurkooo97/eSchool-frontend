@@ -1,0 +1,52 @@
+.subjects {
+  margin-left: 30%;
+  margin-bottom: 1%;
+  margin-top: 1%;
+}
+
+// lesson number
+.subjects span {
+  font-size: 17px;
+  color: #007ad9;
+  font-family: Arial;
+}
+
+// subjects list
+.subjects p-dropdown {
+  margin-left: 2%;
+}
+
+// delete subject button
+.subjects button {
+  width: 34px;
+  height: 34px;
+  margin-left: 2%;
+  border: none;
+  .far {
+    color: white;
+    z-index: 1;
+    margin-top: 28%;
+    margin-right: 4%;
+    width: 20px;
+    height: 20px;
+  }
+  visibility: hidden;
+}
+
+// delete subject button
+.subjects:hover button {
+  visibility: visible;
+}
+
+// delete subject button
+.subjects:last-child button {
+  display: none;
+  .far {
+    display: none;
+  }
+}
+
+// last subject font color
+:host ::ng-deep .subjects:last-child .ui-dropdown-label {
+  color: #007ad9;
+}
