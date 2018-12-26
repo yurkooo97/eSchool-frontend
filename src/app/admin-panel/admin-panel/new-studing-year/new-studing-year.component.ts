@@ -87,7 +87,7 @@ export class NewStudingYearComponent implements OnInit {
     });
   }
 
-  addNewGroups() {
+  transitionToTheNewStudingYear() {
     this.loading = true;
     this.filterFalseCheckedGroups();
     this.httpService.putNewOldId(this.classIdArrayBefore).subscribe(() => {
