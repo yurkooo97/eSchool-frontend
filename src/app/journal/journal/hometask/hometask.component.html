@@ -57,8 +57,8 @@
           {{hometask.homework}}
         </div>
         <div class="ui-g-12 ui-md-3">
-          <p-button *ngIf="!hometask.fileName" icon="pi pi-file"
-                    (click)="openHomeTask(hometask.fileName)">
+          <p-button *ngIf="hometask.fileName" icon="pi pi-file"
+                    (click)="openHomeTask(hometask.idLesson)">
           </p-button>
         </div>
       </div>
