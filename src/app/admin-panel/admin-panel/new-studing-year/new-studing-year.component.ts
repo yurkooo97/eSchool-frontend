@@ -87,11 +87,12 @@ export class NewStudingYearComponent implements OnInit {
     });
   }
 
-  addNewGroups() {
+  transitionToTheNewStudingYear() {
     this.loading = true;
     this.filterFalseCheckedGroups();
     this.httpService.putNewOldId(this.classIdArrayBefore).subscribe(() => {
-      this.httpService.postNewGroups().subscribe(data => {
+      this.createGroupsListWithNewNameAndYear();
+      this.httpService.postNewGroups(this.groupsExistArray).subscribe(data => {
         this.newGroupList = data;
         this.filterNewGroups();
         this.passOldAndNewId();
@@ -177,17 +178,7 @@ export class NewStudingYearComponent implements OnInit {
   }
 
   checkGroupsExisting() {
-    this.allGroupsList.forEach((item, i) => {
-      if (this.groupDigitsArray[i] < 11) {
-        this.groupsExistArray.push({
-          className: [
-            parseInt(item.className, 10) + 1,
-            item.className.split('-')[1]
-          ].join('-'),
-          classYear: item.classYear + 1
-        });
-      }
-    });
+    this.createGroupsListWithNewNameAndYear();
     this.groupList.forEach(item => {
       this.groupsExistArray.forEach(item2 => {
         if (
@@ -243,6 +234,27 @@ export class NewStudingYearComponent implements OnInit {
     } else if (this.checkboxStateArray.every(allIsFalse)) {
       this.val = false;
     }
+  }
+
+  transitAllExistingGroups() {
+    this.createGroupsListWithNewNameAndYear();
+  }
+
+  createGroupsListWithNewNameAndYear() {
+    this.groupsExistArray = [];
+    this.allGroupsList.forEach((item, i) => {
+      if (this.groupDigitsArray[i] < 11) {
+        if (item.checkbox === true) {
+          this.groupsExistArray.push({
+            className: [
+              parseInt(item.className, 10) + 1,
+              item.className.split('-')[1]
+            ].join('-'),
+            classYear: item.classYear + 1
+          });
+        }
+      }
+    });
   }
 
 }
