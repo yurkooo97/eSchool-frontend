@@ -28,6 +28,7 @@ span.ui-button-text,
   line-height: 2.3;
 }
 .teacher__edit {
+  margin-right: 5px;
   float: right;
   visibility: hidden;
 }
@@ -91,6 +92,25 @@ span.ui-button-text,
   background-color: #007ad9 !important;
   color: white !important;
   border-color: #007ad9 !important;
+}
+::ng-deep .ui-dialog-content {
+  font-size: 18px !important;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: center;
+}
+::ng-deep .pi-ban {
+  font-size: 50px !important;
+}
+.teacher__info {
+  margin-right: 3px;
+}
+.caption__wrap {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -22px;
 }
 @media only screen and (max-width: 600px) {
   .ui-sortable-column:nth-last-child(2),
