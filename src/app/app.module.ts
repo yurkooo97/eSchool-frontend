@@ -16,11 +16,9 @@ import { RefreshTokenInterceptorService } from './services/refresh-token-interce
 import { ShellGuard } from './shell/shell.guard';
 import { TeachersService } from './services/teachers.service';
 
-
-
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

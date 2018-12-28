@@ -16,6 +16,8 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { FileUploadModule } from 'primeng/fileupload';
 import { AdminPanelRoutingModule } from './admin-panel-routing.module';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { ToastModule } from 'primeng/toast';
 
 import { TeachersService } from '../services/teachers.service';
 import { StudentsService } from '../services/admin-students.service';
@@ -37,6 +39,9 @@ import { OverlayPanelModule } from 'primeng/primeng';
 import { CheckboxModule } from 'primeng/primeng';
 import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
 import { HttpAttachTeacherService } from '../services/http-attach-teacher.service';
+import { DayComponent } from './admin-panel/class-schedule/day/day.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   imports: [
@@ -64,7 +69,10 @@ import { HttpAttachTeacherService } from '../services/http-attach-teacher.servic
     ReactiveFormsModule,
     AutoCompleteModule,
     OverlayPanelModule,
-    CheckboxModule
+    CheckboxModule,
+    ProgressBarModule,
+    ToastModule,
+    ConfirmDialogModule
   ],
 
   providers: [
@@ -73,7 +81,8 @@ import { HttpAttachTeacherService } from '../services/http-attach-teacher.servic
     TeachersService,
     StudentsService,
     NewStudingYearService,
-    HttpAttachTeacherService
+    HttpAttachTeacherService,
+    ConfirmationService
   ],
   declarations: [
     AdminPanelComponent,
