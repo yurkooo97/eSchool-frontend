@@ -79,4 +79,10 @@ export class AppPage {
   dwnlJournal() {
     return element(by.css('p-button'));
   }
+  scheduleStudent() {
+    return element.all(by.css('.ui-table-wrapper'));
+  }
+  verticalList() {
+    return element(by.css('.pi-list'));
+  }
 }

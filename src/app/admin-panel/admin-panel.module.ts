@@ -40,6 +40,8 @@ import { CheckboxModule } from 'primeng/primeng';
 import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
 import { HttpAttachTeacherService } from '../services/http-attach-teacher.service';
 import { DayComponent } from './admin-panel/class-schedule/day/day.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   imports: [
@@ -69,7 +71,8 @@ import { DayComponent } from './admin-panel/class-schedule/day/day.component';
     OverlayPanelModule,
     CheckboxModule,
     ProgressBarModule,
-    ToastModule
+    ToastModule,
+    ConfirmDialogModule
   ],
 
   providers: [
@@ -78,7 +81,8 @@ import { DayComponent } from './admin-panel/class-schedule/day/day.component';
     TeachersService,
     StudentsService,
     NewStudingYearService,
-    HttpAttachTeacherService
+    HttpAttachTeacherService,
+    ConfirmationService
   ],
   declarations: [
     AdminPanelComponent,
