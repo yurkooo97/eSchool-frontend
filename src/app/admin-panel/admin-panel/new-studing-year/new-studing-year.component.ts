@@ -34,6 +34,7 @@ export class NewStudingYearComponent implements OnInit {
   checkboxStateArray: Array<boolean> = [];
   loading: boolean;
   checkboxDisabled = false;
+  studingCircle = 11;
 
   constructor(
     private httpService: NewStudingYearService,
@@ -130,7 +131,7 @@ export class NewStudingYearComponent implements OnInit {
     let counter = 0;
     this.allGroupsList.forEach((item, i) => {
       if (item.checkbox === true) {
-        if (this.groupDigitsArray[i] > 10) {
+        if (this.groupDigitsArray[i] > this.studingCircle - 1) {
           item.newClassName = 'Випущений';
           item.newClassId = 0;
           item.newClassYear = item.classYear;
@@ -243,7 +244,7 @@ export class NewStudingYearComponent implements OnInit {
   createGroupsListWithNewNameAndYear() {
     this.groupsExistArray = [];
     this.allGroupsList.forEach((item, i) => {
-      if (this.groupDigitsArray[i] < 11) {
+      if (this.groupDigitsArray[i] < this.studingCircle) {
         if (item.checkbox === true) {
           this.groupsExistArray.push({
             className: [

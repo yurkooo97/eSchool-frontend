@@ -1,3 +1,7 @@
+<p-fieldset legend="Налаштування" [toggleable]="true" [collapsed]="true">
+  <p>Виберіть учбовий цикл навчання(наприклад одинадцятирічний)</p>
+  <p-spinner size="30" [(ngModel)]="studingCircle" [min]="0" [max]="20" placeholder></p-spinner>
+</p-fieldset>
 <p-table [value]="allGroupsList" [columns]="cols" [loading] ="loading">
   <ng-template pTemplate="caption">Перехід на новий навчальний рік</ng-template>
   <ng-template pTemplate="header">
