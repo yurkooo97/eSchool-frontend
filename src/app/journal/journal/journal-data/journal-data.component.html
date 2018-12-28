@@ -32,12 +32,17 @@
                             </div>
                             <div *ngIf="isEditMode(rowData, col.field)" >
                                 <p-inputMask class="editCell" 
-                                    mask="99" autoFocus="true" 
+                                    mask="?9*" autoFocus="true"
+                                    slotChar=""
+                                    autoClear="false"
+                                    characterPattern="[0-9][0-2]"
+                                    unmask="true"
                                     maxlenght="2" size="2" pInputText 
                                     [(ngModel)]="rowData.marks[col.field].mark" 
                                     (onBlur)="markEditExit(rowData, col.field)" 
                                     #box (keyup.enter)="markEditExit(rowData, col.field)" > 
                                 </p-inputMask>
+
                             </div>
                         </ng-container>
                 </td>
