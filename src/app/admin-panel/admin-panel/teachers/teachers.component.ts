@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TeachersService } from '../../../services/teachers.service';
 import { Iteachers } from 'src/app/models/teachers';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-teachers',
@@ -10,6 +11,7 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 })
 export class TeachersComponent implements OnInit {
   loading: boolean;
+  confirmCheck: boolean;
   displayDialog: boolean;
   teachers: Iteachers[];
   teacher: any;
@@ -22,7 +24,8 @@ export class TeachersComponent implements OnInit {
   fileToUpload: File = null;
   constructor(
     private _teacherServices: TeachersService,
-    private notificationToasts: DataSharingService
+    private notificationToasts: DataSharingService,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit() {
@@ -73,6 +76,9 @@ export class TeachersComponent implements OnInit {
     this._teacherServices.postTeacher(this.teacher).subscribe(
       teacher => {
         this.teachers.push(teacher);
+        this._teacherServices
+          .getTeachers()
+          .subscribe(users => (this.teachers = users));
         this.notificationToasts.notify(
           'success',
           'Успішно виконано',
@@ -101,6 +107,9 @@ export class TeachersComponent implements OnInit {
         const teachers = [...this.teachers];
         teachers[this.teachers.indexOf(this.selectedTeacher)] = teacher;
         this.teachers = teachers;
+        this._teacherServices
+          .getTeachers()
+          .subscribe(users => (this.teachers = users));
         this.notificationToasts.notify(
           'success',
           'Успішно виконано',
@@ -117,5 +126,69 @@ export class TeachersComponent implements OnInit {
       }
     );
     this.teacher = null;
+  }
+  confirm(rowData: Iteachers) {
+    this.selectedTeacher = rowData;
+    this.confirmationService.confirm({
+      message: `Ви справді бажаєте видалити учителя: <br> ${
+        this.selectedTeacher.lastname
+      } ${this.selectedTeacher.firstname}
+      ${this.selectedTeacher.patronymic}?`,
+      icon: 'pi pi-ban',
+      accept: () => {
+        this._teacherServices.deactivateTeacher(this.selectedTeacher).subscribe(
+          () => {
+            this.teachers.splice(
+              this.teachers.indexOf(this.selectedTeacher),
+              1
+            );
+            this.notificationToasts.notify(
+              'success',
+              'Успішно виконано',
+              'Видалено вчителя'
+            );
+          },
+          err => {
+            console.error(err);
+            this.notificationToasts.notify(
+              'error',
+              'Відхилено',
+              'Невдалося видалити даного вчителя'
+            );
+          }
+        );
+      }
+    });
+  }
+  sendData() {
+    {
+      this.confirmationService.confirm({
+        message:
+          'Бажаєте отримати персональні дані всіх учителів та їхні паролі для даного сервісу?',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this._teacherServices.sendDataTeachers().subscribe(
+            () => {
+              this.notificationToasts.notify(
+                'success',
+                'Успішно виконано',
+                'На вашу електронну адресу відправлено дані всіх учителів'
+              );
+            },
+            err => {
+              console.error(err);
+              this.notificationToasts.notify(
+                'error',
+                'Відхилено',
+                'Невдалося відправити дані'
+              );
+            }
+          );
+        }
+      });
+    }
+  }
+  print() {
+    window.print();
   }
 }

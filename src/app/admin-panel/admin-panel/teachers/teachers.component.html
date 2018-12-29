@@ -5,7 +5,26 @@
   [paginator]="false"
   [loading]="loading"
 >
-  <ng-template pTemplate="caption">Список учителів</ng-template>
+  <ng-template pTemplate="caption"
+    >Список учителів
+    <div class="caption__wrap">
+      <button
+        pButton
+        type="button"
+        icon="pi pi-print"
+        class="teacher__info"
+        (click)="print()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        icon="pi pi-users"
+        class="teacher__info"
+        (click)="confirmCheck = false"
+        (click)="sendData()"
+      ></button>
+    </div>
+  </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let col of columns" [pSortableColumn]="col.field">
@@ -18,6 +37,16 @@
     <tr [pSelectableRow]="rowData" class="teacher__cell">
       <td *ngFor="let col of columns">
         {{ rowData[col.field] }}
+        <button
+          pButton
+          type="button"
+          *ngIf="col.field == 'dateOfBirth'"
+          icon="pi pi-times"
+          class="ui-button-danger teacher__edit"
+          iconPos="left"
+          (click)="confirmCheck = true"
+          (click)="confirm(rowData)"
+        ></button>
         <button
           class="teacher__edit"
           *ngIf="col.field == 'dateOfBirth'"
@@ -282,3 +311,40 @@
     </div>
   </p-footer>
 </p-dialog>
+<p-confirmDialog #cd header="Підтвердження">
+  <p-footer>
+    <button
+      *ngIf="confirmCheck"
+      type="button"
+      pButton
+      icon="pi pi-times"
+      label="Скасувати"
+      (click)="cd.reject()"
+    ></button>
+    <button
+      *ngIf="!confirmCheck"
+      type="button"
+      pButton
+      icon="pi pi-times"
+      label="Скасувати"
+      (click)="cd.reject()"
+    ></button>
+    <button
+      *ngIf="confirmCheck"
+      type="button"
+      pButton
+      icon="pi pi-trash"
+      label="Видалити"
+      class="ui-button-danger"
+      (click)="cd.accept()"
+    ></button>
+    <button
+      *ngIf="!confirmCheck"
+      type="button"
+      pButton
+      icon="pi pi-envelope"
+      label="Відправити"
+      (click)="cd.accept()"
+    ></button>
+  </p-footer>
+</p-confirmDialog>
