@@ -16,8 +16,8 @@
       <td class="checkbox-class">               
         <p-checkbox [(ngModel)]="rowData[col.checkboxField]" binary="true" (click)="showMainCheckboxState()" [disabled]="checkboxDisabled"></p-checkbox>              
       </td>
-      <td>{{rowData[col.classNameField]}} клас, {{rowData[col.classYearField]}} рік</td>      
-      <td><span *ngIf="hideTag" [style.color]="rowData[col.colorStyleField]">{{rowData[col.newClassNameField]}} клас у {{rowData[col.newClassYearField]}} році</span></td>      
+      <td>{{rowData[col.classNameField]}} клас, {{rowData[col.classYearField]}} рік <i class="{{rowData[col.iconStyleField]}}"></i></td>      
+      <td><span *ngIf="hideTag" [style.color]="rowData[col.colorStyleField]">{{rowData[col.newClassNameField]}} клас у {{rowData[col.newClassYearField]}} році </span></td>      
     </tr>
   </ng-template>
   <ng-template pTemplate="summary">

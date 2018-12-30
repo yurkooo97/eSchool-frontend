@@ -35,6 +35,7 @@ export class NewStudingYearComponent implements OnInit {
   loading: boolean;
   checkboxDisabled = false;
   studingCircle = 11;
+  currentYear: number;
 
   constructor(
     private httpService: NewStudingYearService,
@@ -62,7 +63,8 @@ export class NewStudingYearComponent implements OnInit {
         newClassNameField: 'newClassName',
         newClassYearField: 'newClassYear',
         checkboxField: 'checkbox',
-        colorStyleField: 'colorStyle'
+        colorStyleField: 'colorStyle',
+        iconStyleField: 'icon'
       }
     ];
   }
@@ -80,7 +82,8 @@ export class NewStudingYearComponent implements OnInit {
         newClassName: null,
         newClassYear: null,
         checkbox: true,
-        colorStyle: null
+        colorStyle: null,
+        icon: null
       });
     });
     this.allGroupsList.forEach(item => {
@@ -175,18 +178,20 @@ export class NewStudingYearComponent implements OnInit {
           'такий клас з переліку активних',
         true
       );
+      this.attachIconForGroupsWithoutStudents();
     }
   }
 
   checkGroupsExisting() {
     this.createGroupsListWithNewNameAndYear();
     this.groupList.forEach(item => {
-      this.groupsExistArray.forEach(item2 => {
+      this.groupsExistArray.forEach( (item2, i) => {
         if (
           item.className === item2.className &&
           item.classYear === item2.classYear
         ) {
           this.buttonAddDisabled = true;
+          this.allGroupsList[i].icon = 'pi pi-minus-circle';
           this.notificationToasts.notify(
             'error',
             'Відхилено',
@@ -214,6 +219,8 @@ export class NewStudingYearComponent implements OnInit {
         true
       );
     }
+
+    this.attachIconForDifferentYears();
   }
 
   showMainCheckboxState() {
@@ -254,6 +261,23 @@ export class NewStudingYearComponent implements OnInit {
             classYear: item.classYear + 1
           });
         }
+      }
+    });
+  }
+
+  attachIconForDifferentYears() {
+    this.currentYear = new Date().getFullYear();
+    this.allGroupsList.forEach( item => {
+      if (item.classYear !== this.currentYear) {
+        item.icon = 'pi pi-exclamation-triangle';
+      }
+    });
+  }
+
+  attachIconForGroupsWithoutStudents() {
+    this.allGroupsList.forEach( item => {
+      if (item.numOfStudents === 0) {
+        item.icon = 'pi pi-times-circle';
       }
     });
   }
