@@ -40,7 +40,8 @@
                                     maxlenght="2" size="2" pInputText 
                                     [(ngModel)]="rowData.marks[col.field].mark" 
                                     (onBlur)="markEditExit(rowData, col.field)" 
-                                    #box (keyup.enter)="markEditExit(rowData, col.field)" > 
+                                    #box (keyup.enter)="markEditExit(rowData, col.field)" 
+                                    #box (keyup)="onKeydown($event)"> 
                                 </p-inputMask>
 
                             </div>

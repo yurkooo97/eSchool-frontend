@@ -177,13 +177,12 @@ export class JournalDataComponent implements OnInit, OnDestroy {
       }
     }
   }
-  onKey(event: any) {
+  onKeydown(event: any) {
     if (event.target.value) {
-      if (this.markEditValue) {
+      console.log('keydown:', event.target.value);
         if (+event.target.value > 12) {
-          event.target.value = 12;
-        }
-        this.markEditValue = '';
+          event.target.value = '12';
+          return false;
       }
     }
   }
