@@ -49,13 +49,13 @@ export class JournalDataComponent implements OnInit, OnDestroy {
         this.journalData = data;
         this.countRating();
         this.scrollableCols = this.journalDeys;
-        this.isDataRecived = true;
+        this.isDataRecived = data.length > 0;
       });
     });
   }
 
   get journalDeys(): { field: string, header: string } [] {
-    if (this.journalData) {
+    if (this.journalData && this.journalData.length > 0) {
       return this.journalData[0].marks.map( (mark, index) => {
         const dayType = mark.typeMark ? mark.typeMark.slice(0, 4) + '/' : ' /';
         const weekDay = this.daysForMonth(mark.dateMark) + '/';
@@ -166,6 +166,9 @@ export class JournalDataComponent implements OnInit, OnDestroy {
         let markValue = +student.marks[mark].mark;
         if (markValue > 12) {
           markValue = 12;
+        }
+        if (markValue < 1) {
+          return;
         }
         student.marks[mark].mark = '' + markValue;
         this.teacherJournalService.sendMark(student.marks[mark], student.idStudent).subscribe( status => {
