@@ -70,17 +70,23 @@ export class ClassScheduleComponent implements OnInit {
     Object.keys(this.schedule).forEach((item: any) => {
       if (this.schedule[item].pop) {
         this.schedule[item].pop();
+        Object.keys(this.schedule[item]).forEach((i: any) => {
+          const elem = this.schedule[item][i];
+          if (
+            elem.secondSubject !== undefined &&
+            elem.secondSubject.subjectId !== -1
+          ) {
+            this.schedule[item].push(elem.secondSubject);
+          }
+        });
       }
     });
     this.schedule.startOfSemester = this._teacherServices.formatDate(
       this.schedule.startOfSemester
     );
-    console.log(this.schedule.startOfSemester);
     this.schedule.endOfSemester = this._teacherServices.formatDate(
       this.schedule.endOfSemester
     );
-    console.log(this.schedule.endOfSemester);
-    console.log(this.schedule);
     this.scheduleService.postSchedule(this.schedule).subscribe(
       data => {
         this.notificationToasts.notify(

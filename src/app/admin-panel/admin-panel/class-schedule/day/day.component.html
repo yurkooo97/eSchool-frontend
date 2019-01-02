@@ -7,14 +7,35 @@
     (onChange)="addSubject($event, daySubjectsList, i)"
     placeholder="Виберіть предмет"
     [ngModelOptions]="{ standalone: true }"
-    [style]="{ width: '190px' }"
+    [style]="{ width: '180px' }"
   >
   </p-dropdown>
+  <span *ngIf="daySubjectsList[i].secondSubject !== undefined">
+    <p-dropdown
+      [options]="subjects"
+      [(ngModel)]="daySubjectsList[i].secondSubject.subjectId"
+      [optionLabel]="label"
+      (onChange)="changeSecondSubject($event, daySubjectsList, i)"
+      placeholder="Виберіть предмет"
+      [ngModelOptions]="{ standalone: true }"
+      [style]="{ width: '180px' }"
+    >
+    </p-dropdown>
+  </span>
   <button
+    class="trash"
     pButton
     type="button"
     (click)="delSubject($event, daySubjectsList, i)"
   >
     <i class="far fa-trash-alt"></i>
+  </button>
+  <button
+    class="plus"
+    pButton
+    type="button"
+    (click)="addSecondSubject($event, daySubjectsList, i)"
+  >
+    <i class="fas fa-plus"></i>
   </button>
 </div>

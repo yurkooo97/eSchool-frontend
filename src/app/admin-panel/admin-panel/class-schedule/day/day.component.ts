@@ -41,10 +41,28 @@ export class DayComponent implements OnInit {
       item => item.subjectId === selectedSubjectNew.value
     );
     daySubjects[i] = new Subject(subj.subjectId, subj.subjectName);
+    daySubjects[i].lessonNumber = i + 1;
     daySubjects[i].description = subj.subjectDescription;
     if (i === daySubjects.length - 1) {
       daySubjects[i + 1] = {};
     }
     this.daySubjectsList = daySubjects;
+  }
+
+  addSecondSubject(selectedSubjectNew, daySubjects, i) {
+    daySubjects[i].secondSubject = new Subject(-1, '');
+  }
+
+  // write second subject to array
+  changeSecondSubject(selectedSubjectNew, daySubjects, i) {
+    const subj = this.subjects.find(
+      item => item.subjectId === selectedSubjectNew.value
+    );
+    daySubjects[i].secondSubject = new Subject(
+      subj.subjectId,
+      subj.subjectName
+    );
+    daySubjects[i].secondSubject.lessonNumber = i + 1;
+    daySubjects[i].secondSubject.description = subj.subjectDescription;
   }
 }
