@@ -178,5 +178,4 @@ export class AuthenticationService {
   private onTokenExpired() {
     this.logOut();
   }
-
 }
