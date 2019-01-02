@@ -15,6 +15,8 @@ export class AuthenticationService {
   private tokenRefreshTimestamp: number;
   private _idUser: number;
 
+  private tokenExpireTimerId: any;
+
   constructor(
     private httpClient: HttpClient,
     private router: Router
@@ -28,11 +30,7 @@ export class AuthenticationService {
       .post(this.Url, userData, { observe: 'response' })
       .map((response: any) => {
         if (response.status === 204) {
-          this.tokenRefreshTimestamp = new Date().getTime();
-          localStorage.setItem(
-            'authToken',
-            response.headers.get('Authorization')
-          );
+          this.setToken(response.headers.get('Authorization'));
         }
         return response;
       });
@@ -70,6 +68,11 @@ export class AuthenticationService {
     this.tokenRefreshTimestamp = null;
     localStorage.removeItem('authToken');
     this.router.navigate(['/login']);
+
+
+    if (this.tokenExpireTimerId) {
+      clearTimeout(this.tokenExpireTimerId);
+    }
   }
 
   loggedIn() {
@@ -123,13 +126,20 @@ export class AuthenticationService {
         return;
       }
     }
-    this.httpClient.get(this.refreshUrl)
+    this.httpClient.get(this.refreshUrl, { observe: 'response' })
       .subscribe(
         (response) => {
-          this.tokenRefreshTimestamp = curTime;
+          this.setToken(response.headers.get('Authorization'));
         },
         (err) => {
-          console.warn('failed to refresh token with error: ' + err);
+          // -----
+          // problem: backend should return 401 "Token Expired" if token is expired but returns 400 "Bad Token"
+          // hack: if response code is 400 call onTokenExpired
+          if (err.status === 400) {
+            this.onTokenExpired();
+          }
+          // -----
+          console.warn('failed to refresh token with error: ' + JSON.stringify(err));
         });
   }
 
@@ -142,7 +152,31 @@ export class AuthenticationService {
     const decodedToken = jwtHelper.decodeToken(token);
     return decodedToken;
   }
+
   getCurrentUserId(): string {
     return this.getDecodedToken().jti;
   }
+
+  private setToken(token) {
+    const curTime = new Date().getTime();
+    this.tokenRefreshTimestamp = curTime;
+    localStorage.setItem('authToken', token);
+    this.setTokenExpireCallback();
+  }
+
+  private setTokenExpireCallback() {
+    if (this.tokenExpireTimerId) {
+      clearTimeout(this.tokenExpireTimerId);
+    }
+    const token = this.getDecodedToken();
+    const timeoutSeconds = token.exp - token.iat;
+
+    const thisRef = this;
+    this.tokenExpireTimerId = setTimeout(() => { thisRef.onTokenExpired(); }, timeoutSeconds * 1000);
+  }
+
+  private onTokenExpired() {
+    this.logOut();
+  }
+
 }
