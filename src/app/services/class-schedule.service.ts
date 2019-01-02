@@ -38,7 +38,6 @@ export class ClassScheduleService {
         schedule
       )
       .map((response: any) => {
-        console.log(response.data);
         return response.data;
       });
   }
