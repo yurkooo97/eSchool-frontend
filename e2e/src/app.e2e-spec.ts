@@ -90,7 +90,58 @@ describe('workspace-project App', () => {
   });
   it('should log out', () => {
     page.userInfo().click();
-    browser.pause(1000);
+    browser.pause();
+    page.logOut().click();
+    expect(page.getParagraphText()).toEqual('Вхід до системи');
+  });
+  it('it should check log in teacher', () => {
+    page.userName().sendKeys('gBublik23');
+    page.password().sendKeys('password');
+    page.getEnterButton().click();
+    browser.sleep(2000);
+    expect(page.journal().count()).toBe(2);
+  });
+  it('it pick selects', () => {
+    page
+      .dropDown()
+      .get(0)
+      .click();
+    page
+      .dropLis()
+      .get(0)
+      .click();
+    page
+      .dropDown()
+      .get(1)
+      .click();
+    page
+      .dropLis()
+      .get(0)
+      .click();
+    page.dwnlJournal().click();
+    expect(page.journal().count()).toBe(2);
+  });
+  it('should log out', () => {
+    page.userInfo().click();
+    browser.pause();
+    page.logOut().click();
+    expect(page.getParagraphText()).toEqual('Вхід до системи');
+  });
+  it('should log in student', () => {
+    page.userName().sendKeys('zZapukh31');
+    page.password().sendKeys('password');
+    page.getEnterButton().click();
+    browser.pause();
+    expect(page.scheduleStudent().count()).toBe(5);
+  });
+  it('should check vertical schedule', () => {
+    page.verticalList().click();
+    browser.pause();
+    expect(page.scheduleStudent().count()).toBe(5);
+  });
+  it('should log out', () => {
+    page.userInfo().click();
+    browser.pause();
     page.logOut().click();
     expect(page.getParagraphText()).toEqual('Вхід до системи');
   });

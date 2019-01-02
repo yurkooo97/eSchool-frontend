@@ -10,9 +10,6 @@ export class AppPage {
   getEnterButton() {
     return $('.ui-button-rounded');
   }
-  adminPanel() {
-    return browser.get('/shell/admin-panel');
-  }
   userName() {
     return element(by.name('userName'));
   }
@@ -69,5 +66,23 @@ export class AppPage {
   }
   logOut() {
     return element(by.css('.pi-sign-out'));
+  }
+  journal() {
+    return element.all(by.css('.ui-toolbar'));
+  }
+  dropDown() {
+    return element.all(by.css('.ui-dropdown-label'));
+  }
+  dropLis() {
+    return element.all(by.css('.ui-dropdown-item'));
+  }
+  dwnlJournal() {
+    return element(by.css('p-button'));
+  }
+  scheduleStudent() {
+    return element.all(by.css('.ui-table-wrapper'));
+  }
+  verticalList() {
+    return element(by.css('.pi-list'));
   }
 }

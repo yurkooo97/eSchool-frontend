@@ -90,4 +90,18 @@ export class TeachersService {
       return response.data;
     });
   }
+  public deactivateTeacher(teacher: Iteachers): Observable<Iteachers> {
+    return this.http
+      .patch<Iteachers>(`/users/${teacher.id}`, teacher)
+      .map((response: any) => {
+        return response.data;
+      });
+  }
+  public sendDataTeachers(): Observable<Iteachers[]> {
+    return this.http
+      .get<Iteachers[]>('/users/credentials/teachers')
+      .map((response: any) => {
+        return response.data;
+      });
+  }
 }
