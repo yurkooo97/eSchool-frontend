@@ -132,13 +132,13 @@ export class AuthenticationService {
           this.setToken(response.headers.get('Authorization'));
         },
         (err) => {
-          // -----
+          // ---
           // problem: backend should return 401 "Token Expired" if token is expired but returns 400 "Bad Token"
           // hack: if response code is 400 call onTokenExpired
           if (err.status === 400) {
             this.onTokenExpired();
           }
-          // -----
+          // ---
           console.warn('failed to refresh token with error: ' + JSON.stringify(err));
         });
   }
