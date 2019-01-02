@@ -93,8 +93,7 @@ import { ConfirmationService } from 'primeng/api';
     NewStudingYearComponent,
     ClassScheduleComponent,
     AttachTeacherComponent,
-    DashboardComponent,
-    DayComponent
+    DashboardComponent
   ]
 })
 export class AdminPanelModule {}
