@@ -104,4 +104,18 @@ export class TeachersService {
         return response.data;
       });
   }
+  public checkLoginTeacher(teacher: Iteachers): Observable<Iteachers> {
+    return this.http
+      .head<Iteachers>(`/users/login/${teacher.login}/`)
+      .map((response: any) => {
+        return response;
+      });
+  }
+  public checkEmailTeacher(teacher: Iteachers): Observable<Iteachers> {
+    return this.http
+      .head<Iteachers>(`/users/email/${teacher.email}/`)
+      .map((status: any) => {
+        return status;
+      });
+  }
 }

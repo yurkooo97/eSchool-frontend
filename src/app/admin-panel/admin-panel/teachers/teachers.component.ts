@@ -22,6 +22,8 @@ export class TeachersComponent implements OnInit {
   photoData: string;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
+  loginStatus: string;
+  emailStatus: string;
   constructor(
     private _teacherServices: TeachersService,
     private notificationToasts: DataSharingService,
@@ -61,6 +63,9 @@ export class TeachersComponent implements OnInit {
     this.teacher = {};
   }
   onRowSelect(rowData: Iteachers) {
+    this.loginStatus = '';
+    this.emailStatus = '';
+    this.photoData = '';
     this.selectedTeacher = rowData;
     this.newTeacher = false;
     this.teacher = {
@@ -94,14 +99,15 @@ export class TeachersComponent implements OnInit {
         );
       }
     );
+    this.teacher = null;
   }
   save() {
     this.displayDialog = false;
     this.teacher.dateOfBirth = this._teacherServices.formatDate(
       this.teacher.dateOfBirth
     );
-    this.teacher.newPass = '';
     this.teacher.oldPass = '';
+    this.teacher.newPass = '';
     this._teacherServices.putTeacher(this.teacher).subscribe(
       teacher => {
         const teachers = [...this.teachers];
@@ -130,7 +136,7 @@ export class TeachersComponent implements OnInit {
   confirm(rowData: Iteachers) {
     this.selectedTeacher = rowData;
     this.confirmationService.confirm({
-      message: `Ви справді бажаєте видалити учителя: <br> ${
+      message: `Ви справді бажаєте видалити учителя:  ${
         this.selectedTeacher.lastname
       } ${this.selectedTeacher.firstname}
       ${this.selectedTeacher.patronymic}?`,
@@ -190,5 +196,31 @@ export class TeachersComponent implements OnInit {
   }
   print() {
     window.print();
+  }
+  checkLogin() {
+    this.loginStatus = '';
+    this._teacherServices
+      .checkLoginTeacher(this.teacher)
+      .subscribe(checkResponse => {
+        if (
+          checkResponse == null &&
+          this.selectedTeacher.login !== this.teacher.login
+        ) {
+          this.loginStatus = 'Даний логін вже використовується';
+        }
+      });
+  }
+  checkEmail() {
+    this.emailStatus = '';
+    this._teacherServices
+      .checkEmailTeacher(this.teacher)
+      .subscribe(checkResponse => {
+        if (
+          checkResponse == null &&
+          this.selectedTeacher.email !== this.teacher.email
+        ) {
+          this.emailStatus = 'Даний email вже використовується';
+        }
+      });
   }
 }
