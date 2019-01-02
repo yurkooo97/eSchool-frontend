@@ -1,5 +1,5 @@
 .subjects {
-  margin-left: 30%;
+  margin-left: 1%;
   margin-bottom: 1%;
   margin-top: 1%;
 }
@@ -17,7 +17,8 @@
 }
 
 // delete subject button
-.subjects button {
+.subjects .trash,
+.subjects .plus {
   width: 34px;
   height: 34px;
   margin-left: 2%;
@@ -30,16 +31,25 @@
     width: 20px;
     height: 20px;
   }
+  .fas {
+    margin-top: 9px;
+    margin-right: 1px;
+  }
   visibility: hidden;
+}
+.subjects .plus {
+  background-color: MediumSeaGreen;
 }
 
 // delete subject button
-.subjects:hover button {
+.subjects:hover .trash,
+.subjects:hover .plus {
   visibility: visible;
 }
 
 // delete subject button
-.subjects:last-child button {
+.subjects:last-child .trash,
+.subjects:last-child .plus {
   display: none;
   .far {
     display: none;
