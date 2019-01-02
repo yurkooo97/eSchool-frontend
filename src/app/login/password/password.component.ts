@@ -13,6 +13,7 @@ import { MessageService } from 'primeng/api';
 export class PasswordComponent implements OnInit {
   password: string;
   resetToken: null;
+  confirmPassword: string;
 
   constructor(private authService: AuthenticationService,
     private route: ActivatedRoute,

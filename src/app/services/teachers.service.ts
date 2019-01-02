@@ -16,10 +16,10 @@ export class TeachersService {
       'Вівторок',
       'Середа',
       'Четвер',
-      'П\'ятниця',
+      "П'ятниця",
       'Субота'
     ],
-    dayNamesShort: ['Нед', 'Пон', 'Вів', 'Сер', 'Чет', 'П\'ят', 'Суб'],
+    dayNamesShort: ['Нед', 'Пон', 'Вів', 'Сер', 'Чет', "П'ят", 'Суб'],
     dayNamesMin: ['нд', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'],
     monthNames: [
       'Січень',
@@ -56,8 +56,8 @@ export class TeachersService {
   public formatDate(date) {
     const d = new Date(date);
     const year = d.getFullYear();
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
+    let month = (d.getMonth() + 1).toString();
+    let day = d.getDate().toString();
     if (month.length < 2) {
       month = '0' + month;
     }
