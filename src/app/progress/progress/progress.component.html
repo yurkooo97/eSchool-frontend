@@ -114,12 +114,7 @@
         Середня оцінка учня по всіх предметах:
         {{ avgMarkAllSubjects | number: '.1-2' }}
       </h3>
-      <p-chart
-        type="line"
-        height="350px"
-        [data]="chartMarks"
-        [options]="options"
-      ></p-chart>
+      <p-chart type="scatter" height="350px" [data]="chartMarks"></p-chart>
     </p-card>
   </div>
 </div>

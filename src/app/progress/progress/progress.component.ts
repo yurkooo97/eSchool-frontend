@@ -38,7 +38,25 @@ export class ProgressComponent implements OnInit {
   isButtonDisabled: boolean;
 
   selectedChartsType = 'student';
-  chartMarks: any;
+  chartMarks = {
+    datasets: [
+      {
+        label: 'First Dataset',
+        data: [{ x: 1, y: 2 }, { x: 2, y: 4 }, { x: 3, y: 8 }, { x: 4, y: 16 }],
+        fill: false,
+        showLine: true,
+        borderColor: '#4bc0c0'
+      },
+      {
+        label: 'Second Dataset',
+        data: [{ x: 1, y: 3 }, { x: 3, y: 4 }, { x: 4, y: 6 }, { x: 6, y: 9 }],
+        fill: false,
+        showLine: true,
+        borderColor: '#565656'
+      }
+    ]
+  };
+
   studentMarks: any;
   markDate: any;
   options: any;
@@ -58,11 +76,11 @@ export class ProgressComponent implements OnInit {
 
   ngOnInit() {
     this.calendar();
-    this.options = {
+    /*this.options = {
       scales: {
         yAxes: [{ ticks: { beginAtZero: true, stepValue: 1, max: 12 } }]
       }
-    };
+    };*/
 
     this.groupService.getClasses().subscribe(data => {
       this.groups = data;
@@ -97,12 +115,10 @@ export class ProgressComponent implements OnInit {
     const endStr = pipe.transform(this.end, 'yyyy-MM-dd');
 
     this.chartMarks = {
-      labels: [],
       datasets: []
     };
 
     const chartData = {
-      labels: [],
       datasets: []
     };
 
@@ -117,27 +133,27 @@ export class ProgressComponent implements OnInit {
           item.id
         )
         .subscribe(data => {
-          // console.log(data);
+          console.log(data);
           const studentMarks = data.map(mark => mark.y);
+          console.log(studentMarks);
           const markDates = data.map(mark => mark.x);
+          
+          // chartData.labels = this.joinLabels(chartData.labels, markDates);
 
-          chartData.labels = this.joinLabels(chartData.labels, markDates);
-
-          chartData.datasets.push({
+          /*chartData.datasets.push({
             label: item.lastname + ' ' + item.firstname,
             data: studentMarks,
             fill: false,
             borderColor: '#7CB342',
             backgroundColor: '#7CB342'
-          });
+          });*/
 
-          this.chartMarks = {
+          /*this.chartMarks = {
             labels: chartData.labels.map(date => this.formatDate(date)),
             datasets: chartData.datasets
-          };
-          console.log(this.chartMarks);
+          };*/
 
-          //this.chartMarks.labels = this.markDate;
+          // this.chartMarks.labels = this.markDate;
           /*chartMarksLocal.datasets.push({
             label: item.lastname + ' ' + item.firstname,
             data: this.studentMarks,
@@ -145,7 +161,6 @@ export class ProgressComponent implements OnInit {
             borderColor: '#4bc0c0'
           });*/
         });
-      console.log(item);
     });
     /*this.marksService
       .getAvgMarks(this.selectedStudent.id, startStr, endStr)
