@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ClassId } from '../models/classId.model';
 import { Group } from '../models/group.model';
+import { SmallGroup } from '../models/transitional-studing.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +25,9 @@ export class NewStudingYearService {
       });
   }
 
-  postNewGroups(): Observable<Group[]> {
+  postNewGroups(groupObject: SmallGroup[]): Observable<Group[]> {
     return this.http
-      .post<Group[]>('students/transition', this.httpOptions)
+      .post<Group[]>('students/transition', groupObject)
       .map((response: any) => {
         return response.data;
       });

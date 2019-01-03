@@ -6,6 +6,7 @@ import { Hometask } from '../models/hometask.model';
 import { JournalData } from '../models/journalData.model';
 import { Month } from '../models/month.model';
 import { Mark } from '../models/journalMark.model';
+import { HomeTaskFile } from '../models/homeTaskFile.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class TeacherJournalsService {
   public markSelected = new Subject<Mark>();
 
   readonly allJournals: string = '/journals';
-  readonly activeJurnal: string = '/active';
+  readonly activeJournal: string = '/active';
 
   constructor(private http: HttpClient) { }
 
@@ -32,10 +33,14 @@ export class TeacherJournalsService {
     return '/homeworks/subjects/' + idSubject + '/classes/' + idClass;
   }
 
+  private homeTaskFileUrl(idLesson: number): string {
+    return '/homeworks/files/' + idLesson;
+  }
+
   private urlForTeacher(teacherId?: number, isActive?: boolean): string {
     if (teacherId > 0) {
       if (isActive) {
-        return this.allJournals + '/teachers/' + teacherId + this.activeJurnal;
+        return this.allJournals + '/teachers/' + teacherId + this.activeJournal;
       } else {
         return this.allJournals + '/teachers/' + teacherId;
       }
@@ -66,6 +71,15 @@ export class TeacherJournalsService {
 
   public getHomeworks(idSubject: number, idClass: number): Observable<Hometask[]> {
     return this.http.get<Hometask[]>(this.homeTaskUrl(idSubject, idClass))
+      .map((response: any) => {
+        return response.data;
+      }).catch((error: any) => {
+        return throwError(error);
+      });
+  }
+
+  public getHomeTaskFile(idLesson: number): Observable<HomeTaskFile> {
+    return this.http.get<HomeTaskFile>(this.homeTaskFileUrl(idLesson))
       .map((response: any) => {
         return response.data;
       }).catch((error: any) => {

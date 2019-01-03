@@ -4,6 +4,7 @@ import { SelectItem } from 'primeng/api';
 import { TeacherJournalsService } from '../../../services/teacher-journals.service';
 import { Journal } from '../../../models/journal.model';
 import { formatDate } from '@angular/common';
+import { HomeTaskFile } from '../../../models/homeTaskFile.model';
 
 @Component({
   selector: 'app-hometask',
@@ -23,6 +24,7 @@ export class HometaskComponent implements OnInit {
   selectedLessons: Hometask[];
   currentDate: string;
   today = new Date();
+  homeTaskFiles: HomeTaskFile[];
 
   constructor(private teacherJournalService: TeacherJournalsService) { }
 
@@ -59,17 +61,31 @@ export class HometaskComponent implements OnInit {
     }
   }
 
-  openHomeTask(fileSrc: string): void {
-    // after filling DB by hometask's urls google placeholder should be removed
-    if (!fileSrc) {
-      fileSrc = 'http://www.google.com';
+  openHomeTask(idLesson: number): void {
+
+    let file: string;
+
+    if (!idLesson) {
+      file = '';
+    } else {
+      file = this.homeTaskFiles[idLesson].fileData;
+      console.log('file', file);
     }
-    window.open(fileSrc);
+    window.open('/');
   }
 
   onPastTasksChange(): void {
     this.hometasksToDisplay = this.hometasks.filter( hometask => {
       return this.isHometaskEnableToShow(hometask.date, this.showPastTasks);
+    });
+    this.homeTaskFiles = [];
+    this.hometasksToDisplay.forEach( hometask => {
+      if (hometask.fileName) {
+        this.teacherJournalService.getHomeTaskFile(hometask.idLesson).subscribe(homeTaskFile => {
+          this.homeTaskFiles[homeTaskFile.idLesson] = homeTaskFile;
+          console.log(this.homeTaskFiles);
+        });
+      }
     });
   }
 

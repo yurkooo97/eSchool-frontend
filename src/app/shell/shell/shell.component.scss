@@ -1,16 +1,15 @@
 .ui-toolbar-group-left .home {
   font-size: 22px;
   vertical-align: middle;
-	margin: 0px 10px -20px 8px;
+  margin: 0px 10px -20px 8px;
 }
-
 
 .ui-toolbar-group-right {
   font-size: 22px;
 
   .ui-button {
     width: fit-content;
-    display:block;
+    display: block;
     height: 50px;
     width: 50px;
     border-radius: 50%;
@@ -20,26 +19,25 @@
 }
 
 :host ::ng-deep .ui-toolbar {
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	padding: 10px;
-	z-index: 2;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 2;
   border-radius: 0;
 }
 
 :host ::ng-deep .ui-toolbar .ui-button {
-	margin-left: 10px;
-	width: 60px;
+  margin-left: 10px;
+  width: 60px;
 }
 
 :host ::ng-deep .ui-toolbar .ui-menuitem {
-	width: 400px;
+  width: 400px;
 }
 
 :host ::ng-deep .ui-toolbar .ui-menuitem-text {
-	padding-left: 30px;
+  padding-left: 30px;
 }
 
 :host ::ng-deep .ui-toolbar .ui-menuitem:nth-child(2) .ui-menuitem-text {
@@ -73,13 +71,3 @@
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
