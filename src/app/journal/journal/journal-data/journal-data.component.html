@@ -10,11 +10,11 @@
         </ng-template>
         <ng-template pTemplate="header" let-columns>
             <tr>
-                <th *ngFor="let col of columns">
+                <th *ngFor="let col of columns" class="journalHeader" (click)="deySelected(col)">
                         <ng-container *ngIf="isMarkColumn(col.field)">
-                                <div>{{col.header.split('/')[0]}}</div>
-                                <div>{{col.header.split('/')[1]}}</div>
                                 <div>{{col.header.split('/')[2]}}</div>
+                                <div>{{col.header.split('/')[1]}}</div>
+                                <div class="lessonType">{{col.header.split('/')[0]}}</div>
                         </ng-container>
                         <ng-container *ngIf="!isMarkColumn(col.field)">
                             <div >{{col.header}}</div>
@@ -25,14 +25,15 @@
         <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
                 <td *ngFor="let col of columns"
-                    [pContextMenuRow]="{row:rowData, col:col}"
                     [style.background-color]="isSelected(rowData,col.field) ? '#bcdfff' : '#fff'" 
                     (click)="singleClick(rowData,col.field)" 
                     (dblclick)="doubleClick(rowData,col.field)"  [ngSwitch]="col.field">
-                        <ng-container *ngSwitchCase="'rating'">{{rowData.rating[0] | number:'1.1-2'}}/{{rowData.rating[1] | number:'1.1-2'}}</ng-container>
+                        <ng-container *ngSwitchCase="'rating'">
+                            <div class="calculations"><span>{{rowData.rating[0] | number:'1.1-2'}}</span>/<span>{{rowData.rating[1] | number:'1.1-2'}}</span></div>
+                        </ng-container>
                         <ng-container *ngSwitchCase="'studentFullName'">{{rowData.studentFullName}}</ng-container>
                         <ng-container *ngSwitchDefault>
-                            <div *ngIf="!isEditMode(rowData, col.field)" class="mark" >
+                            <div *ngIf="!isEditMode(rowData, col.field)" class="mark" [pTooltip]="markDescriptionText(rowData, col.field)" [pContextMenuRow]="{row:rowData, col:col}">
                                 {{markStudent(rowData, col.field)}}
                             </div>
                             <div *ngIf="isEditMode(rowData, col.field)" >

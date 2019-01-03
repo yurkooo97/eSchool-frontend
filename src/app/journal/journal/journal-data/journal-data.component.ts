@@ -26,11 +26,11 @@ export class JournalDataComponent implements OnInit {
   selectedMark: {row: JournalData, col: Header};
   frozenCols: Header [] = [
     new Header('studentFullName', 'Студент', '14em'),
-    new Header('rating', 'Тип оцінки Середня Рейтинг', '10em') ];
+    new Header('rating', 'Середня Рейтинг', '10em') ];
 
   ngOnInit() {
     this.contextMenuItems = [
-      { label: 'Custimize', icon: 'pi pi-edit', command: () => this.changeDescription() },
+      { label: 'Custimize', icon: 'pi pi-comments', command: () => this.changeDescription() },
       { label: 'Delete', icon: 'pi pi-times', command: () => this.deleteMark() }];
     this.subscribeData();
   }
@@ -69,7 +69,7 @@ export class JournalDataComponent implements OnInit {
   get journalDeys(): { field: string, header: string } [] {
     if (this.journalData && this.journalData.length > 0) {
       return this.journalData[0].marks.map( (mark, index) => {
-        const dayType = mark.typeMark ? mark.typeMark.slice(0, 4) + '/' : ' /';
+        const dayType = mark.typeMark ? mark.typeMark + '/' : ' /';
         const weekDay = this.daysForMonth(mark.dateMark) + '/';
         const day = mark.dateMark.slice(mark.dateMark.indexOf('.') + 1);
         return {field: '' + index, header: dayType + weekDay + day, width: '5em'};
@@ -150,6 +150,21 @@ export class JournalDataComponent implements OnInit {
       this.countRating();
     }
   }
+  deySelected(day: Header) {
+    if (!day) {
+      return;
+    }
+    const indexDay = +day.field;
+    if (isNaN(indexDay)) {
+      return;
+    }
+    this.journalData.forEach( (student) => {
+      if (student.marks[indexDay].mark && +student.marks[indexDay].mark > 0) {
+        student.marks[indexDay].isSelected = !student.marks[indexDay].isSelected;  
+      }
+    });
+    this.countRating();
+  } 
   edit(student: JournalData, mark: number) {
     if (isNaN(mark)) {
       return;
@@ -207,7 +222,20 @@ export class JournalDataComponent implements OnInit {
   isMarkColumn(col: string): boolean {
     return !isNaN(+col);
   }
+  markDescriptionText(student: JournalData, mark: number): string {
+    if (student && mark && student.marks[mark] && student.marks[mark].note && !isNaN(+mark)) {
+      return student.marks[mark].note;
+  } else {
+    return '';
+  }
 }
 class Header {
-  constructor(public field: string, public header: string, public width: string) {}
+  public field: string; 
+  public header: string;
+  public width: string;
+  constructor(field: string, header: string, width: string) {
+      this.field = field;
+      this.header = header;
+      this.width = width;
+    }
 }
