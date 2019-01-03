@@ -15,7 +15,6 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FieldsetModule } from 'primeng/fieldset';
 import { FileUploadModule } from 'primeng/fileupload';
 import { AdminPanelRoutingModule } from './admin-panel-routing.module';
-import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ToastModule } from 'primeng/toast';
 
@@ -67,7 +66,6 @@ import { ConfirmationService } from 'primeng/api';
     RadioButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    AutoCompleteModule,
     OverlayPanelModule,
     CheckboxModule,
     ProgressBarModule,
@@ -97,4 +95,4 @@ import { ConfirmationService } from 'primeng/api';
     DayComponent
   ]
 })
-export class AdminPanelModule {}
+export class AdminPanelModule { }
