@@ -30,15 +30,38 @@ export class JournalDataComponent implements OnInit {
 
   ngOnInit() {
     this.contextMenuItems = [
-      { label: 'Custimize', icon: 'pi pi-comments', command: () => this.changeDescription() },
-      { label: 'Delete', icon: 'pi pi-times', command: () => this.deleteMark() }];
+      { label: 'Опис оцінки', icon: 'pi pi-comments', command: () => this.changeDescription() },
+      { label: 'Видалити', icon: 'pi pi-times', command: () => this.deleteMark() }];
     this.subscribeData();
   }
   deleteMark() {
-    console.log('delete mark', event, this.selectedMark);
+    if (!this.selectedMark || !this.selectedMark.row || !this.selectedMark.col) {
+      console.log('Incorrect delete mark', event, this.selectedMark);  
+      this.isDisplayDialogVisable = false;
+      return;
+    } else {
+      const studentIndex = this.journalData.indexOf(this.selectedMark.row);
+      if (!isNaN(+this.selectedMark.col.field)) {
+        const markForDelete: Mark = this.journalData[studentIndex].marks[this.selectedMark.col.field];
+        markForDelete.mark = '0';
+        this.teacherJournalService.sendMark(markForDelete, this.journalData[studentIndex].idStudent).subscribe( status => {
+          if (status.code && status.code !== 201) {
+            console.log(status.message);
+          } else {
+            markForDelete.mark = undefined;
+            if (markForDelete.isSelected) {
+              markForDelete.isSelected = false;
+            }
+            this.countRating();
+          }
+        });
+      }
+      
+    }
+
   }
   changeDescription() {
-    if (!this.selectedMark || !this.selectedMark.row || !this.selectedMark.row) {
+    if (!this.selectedMark || !this.selectedMark.row || !this.selectedMark.col) {
       console.log('Incorrect change description for mark', event, this.selectedMark);  
       this.isDisplayDialogVisable = false;
       return;
@@ -70,7 +93,7 @@ export class JournalDataComponent implements OnInit {
     if (this.journalData && this.journalData.length > 0) {
       return this.journalData[0].marks.map( (mark, index) => {
         const dayType = mark.typeMark ? mark.typeMark + '/' : ' /';
-        const weekDay = this.daysForMonth(mark.dateMark) + '/';
+        const weekDay = this.dayForMonth(mark.dateMark) + '/';
         const day = mark.dateMark.slice(mark.dateMark.indexOf('.') + 1);
         return {field: '' + index, header: dayType + weekDay + day, width: '5em'};
       });
@@ -105,7 +128,7 @@ export class JournalDataComponent implements OnInit {
       return prepareStudent;
     });
   }
-  daysForMonth(date: string): string {
+  dayForMonth(date: string): string {
     const weakDay = new Date(date).getDay();
     const days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пя', 'Сб'];
     return days[weakDay];
@@ -163,10 +186,13 @@ export class JournalDataComponent implements OnInit {
         student.marks[indexDay].isSelected = !student.marks[indexDay].isSelected;  
       }
     });
+    if (this.journalData.length > 0) {
+      this.teacherJournalService.markSelect(this.journalData[0].marks[indexDay]);
+    }
     this.countRating();
   } 
   edit(student: JournalData, mark: number) {
-    if (isNaN(mark)) {
+    if (isNaN(mark) || !student) {
       return;
     }
       student.marks[mark].isEdit = true;
@@ -209,7 +235,11 @@ export class JournalDataComponent implements OnInit {
         if (+event.target.value > 12) {
           event.target.value = '12';
           return false;
-      }
+        } else {
+          if (event.target.value.charAt(0) === '0') {
+            event.target.value = '';
+          }
+        }
     }
   }
   resetMarks(marks: Mark[]): Mark[] {
