@@ -9,7 +9,7 @@ import { Mark } from 'src/app/models/journalMark.model';
   templateUrl: './journal-data.component.html',
   styleUrls: ['./journal-data.component.scss']
 })
-export class JournalDataComponent implements OnInit, OnDestroy {
+export class JournalDataComponent implements OnInit {
 
   constructor(private teacherJournalService: TeacherJournalsService) { }
 
@@ -20,25 +20,37 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   preventSimpleClick: boolean;
   timerDoubleClick: any;
   markEditValue: string;
+  markDescription: string;
   isDisplayDialogVisable = false;
   contextMenuItems: any[];
-  selectedMark: Mark;
-  frozenCols: { field: string, header: string, width: string } [] = [
-    {field: 'studentFullName', header: 'Студент', width: '14em'},
-    {field: 'rating', header: 'Рейтинг Підсумок', width: '6em'}];
+  selectedMark: {row: JournalData, col: Header};
+  frozenCols: Header [] = [
+    new Header('studentFullName', 'Студент', '14em'),
+    new Header('rating', 'Тип оцінки Середня Рейтинг', '10em') ];
 
   ngOnInit() {
     this.contextMenuItems = [
-      { label: 'Custimize', icon: 'pi pi-edit', command: (event) => this.changeDescription(event, 1) },
-      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.deleteMark(event, 1) }];
-      console.log(this.contextMenuItems.length);
+      { label: 'Custimize', icon: 'pi pi-edit', command: () => this.changeDescription() },
+      { label: 'Delete', icon: 'pi pi-times', command: () => this.deleteMark() }];
     this.subscribeData();
   }
-  deleteMark(student, indexMark) {
-    console.log('delete mark', student, indexMark);
+  deleteMark() {
+    console.log('delete mark', event, this.selectedMark);
   }
-  changeDescription(student, indexMark) {
-    console.log('change description for mark', student, indexMark);
+  changeDescription() {
+    if (!this.selectedMark || !this.selectedMark.row || !this.selectedMark.row) {
+      console.log('Incorrect change description for mark', event, this.selectedMark);  
+      this.isDisplayDialogVisable = false;
+      return;
+    }
+    const colomn = +this.selectedMark.col.field;
+    if (isNaN(colomn) || colomn === undefined) {
+      return;
+    } else {
+      this.markDescription = this.selectedMark.row.marks[colomn].note;
+      this.isDisplayDialogVisable = true;
+      
+    }
   }
 
   subscribeData() {
@@ -60,7 +72,7 @@ export class JournalDataComponent implements OnInit, OnDestroy {
         const dayType = mark.typeMark ? mark.typeMark.slice(0, 4) + '/' : ' /';
         const weekDay = this.daysForMonth(mark.dateMark) + '/';
         const day = mark.dateMark.slice(mark.dateMark.indexOf('.') + 1);
-        return {field: '' + index, header: weekDay + day, width: '5em'};
+        return {field: '' + index, header: dayType + weekDay + day, width: '5em'};
       });
     } else {
       console.log('Journal data is empty!');
@@ -93,13 +105,10 @@ export class JournalDataComponent implements OnInit, OnDestroy {
       return prepareStudent;
     });
   }
-  daysForMonth(date: string) {
+  daysForMonth(date: string): string {
     const weakDay = new Date(date).getDay();
     const days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пя', 'Сб'];
     return days[weakDay];
-  }
-  ngOnDestroy(): void {
-    this.teacherJournalService.journalChanged.unsubscribe();
   }
 
   markStudent(student: JournalData, markIndex: number): string {
@@ -172,8 +181,8 @@ export class JournalDataComponent implements OnInit, OnDestroy {
         }
         student.marks[mark].mark = '' + markValue;
         this.teacherJournalService.sendMark(student.marks[mark], student.idStudent).subscribe( status => {
-          if (status.code) {
-            console.log(status);
+          if (status.code && status.code !== 201) {
+            console.log(status.message);
           }
         });
         this.countRating();
@@ -182,7 +191,6 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   }
   onKeydown(event: any) {
     if (event.target.value) {
-      console.log('keydown:', event.target.value);
         if (+event.target.value > 12) {
           event.target.value = '12';
           return false;
@@ -196,4 +204,10 @@ export class JournalDataComponent implements OnInit, OnDestroy {
       return mark;
     });
   }
+  isMarkColumn(col: string): boolean {
+    return !isNaN(+col);
+  }
+}
+class Header {
+  constructor(public field: string, public header: string, public width: string) {}
 }
