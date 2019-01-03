@@ -10,7 +10,7 @@
         </ng-template>
         <ng-template pTemplate="header" let-columns>
             <tr>
-                <th *ngFor="let col of columns" class="journalHeader" (click)="deySelected(col)">
+                <th *ngFor="let col of columns" class="journalHeader" (click)="daySelected(col)">
                         <ng-container *ngIf="isMarkColumn(col.field)">
                                 <div>{{col.header.split('/')[2]}}</div>
                                 <div>{{col.header.split('/')[1]}}</div>

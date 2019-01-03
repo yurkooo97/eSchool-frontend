@@ -150,7 +150,7 @@ export class JournalDataComponent implements OnInit {
       this.countRating();
     }
   }
-  deySelected(day: Header) {
+  daySelected(day: Header) {
     if (!day) {
       return;
     }
