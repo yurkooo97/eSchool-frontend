@@ -13,7 +13,32 @@
 <div class="progress-box">
   <p-progressBar class="p-progress-bar" mode="indeterminate" [style]="{'height': '6px'}" [hidden]="!loading"></p-progressBar>
 </div>
-<p-table [value]="students" class="animation-style">
+<button type="button" *ngIf="screenWidth < 700" (click)="createStudent(); this.firstname.reset(); this.lastname.reset(); this.patronymic.reset(); this.dateOfBirth.reset()" pButton icon="pi pi-plus" class="ui-button-raised responsive-add" label="Додати учня"></button>
+<p-accordion *ngIf="screenWidth < 700">
+  <p-accordionTab *ngFor="let student of students" header="{{student.firstname}} {{student.patronymic}} {{student.lastname}}">
+    <div class="accordion-buttons">
+      <i (click)="showForm(); editStudent(student)" class="fas fa-pencil-alt student-edit" title="Редагувати інформацію про учня"></i>
+      <i (click)="showConfirm(student); editStudent(student)" class="fas fa-trash-alt student-delete" title="Видалити учня"></i>
+    </div>
+    <div class="accordion-data-container">
+      <div class="accordion-img">
+        <img src="{{student.avatar}}" class="accordion-avatar">
+      </div>
+      <div class="accordion-data">
+        <span class="accordion-class-title">Учень {{selectedClassName}}</span><br>
+        <span class="accordion-name">{{student.firstname}} {{student.patronymic}}<br>{{student.lastname}}</span>
+        <div class="accordion-full-info">
+          <p><span class="accordion-data-record">Дата народження:</span> {{student.dateOfBirth}}</p>
+          <p><span class="accordion-data-record">Номер телефону:</span> {{student.phone}}</p>
+          <p><span class="accordion-data-record">Email:</span> {{student.email}}</p>
+          <p><span class="accordion-data-record">Логін:</span> {{student.login}}</p>
+        </div>
+      </div>
+    </div>
+  </p-accordionTab>
+</p-accordion>
+
+<p-table *ngIf="screenWidth > 700" [value]="students" class="animation-style">
   <ng-template pTemplate="caption">
     Учні {{selectedClassName}} <span class="number-of-students"><i class="fas fa-users"></i> {{numberOfStudents}}</span>
   </ng-template>
@@ -29,9 +54,9 @@
     <tr class="studentRow">
       <td *ngFor="let col of cols">
         {{student[col.field]}}
-        <button type="button" pButton icon="pi pi-trash" *ngIf="col.field == 'patronymic'" (click)="showConfirm(student); deleteStudent(student)" class="ui-button-danger action-tools student-delete" title="Видалити учня"></button>
+        <button type="button" pButton icon="pi pi-trash" *ngIf="col.field == 'patronymic'" (click)="showConfirm(student); editStudent(student)" class="ui-button-danger action-tools student-delete" title="Видалити учня"></button>
         <button type="button" pButton icon="pi pi-info" *ngIf="col.field == 'patronymic'" (click)="studentInfo($event, student, oPanel)" class="ui-button-raised action-tools student-info" title="Повна інформація про учня"></button>
-        <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'patronymic'" (click)="editStudent(student)" class="ui-button-raised action-tools student-edit" title="Редагувати інформацію про учня"></button>
+        <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'patronymic'" (click)="showForm(); editStudent(student)" class="ui-button-raised action-tools student-edit" title="Редагувати інформацію про учня"></button>
       </td>
     </tr>
   </ng-template>
@@ -45,7 +70,7 @@
 <p-overlayPanel [showCloseIcon]="true" #oPanel>
   <div class="student-data-container">
     <div class="student-img">
-      <img src="assets/avatar.png" class="student-avatar">
+      <img src="{{selectedStudent.avatar}}" class="student-avatar">
     </div>
     <div class="student-data">
       <span class="student-class-title">Учень {{selectedClassName}}</span><br>
@@ -109,9 +134,6 @@
       </span>
       <span class="ui-float-label">
         <input id="float-input-newPass" type="text" pInputText name="newPass" [(ngModel)]="newStudent.newPass" class="newPass" disabled>
-      </span>
-      <span class="ui-float-label">
-        <input id="float-input-enabled" type="text" pInputText name="enabled" [(ngModel)]="newStudent.enabled" class="enabled" disabled>
       </span>
       <br>
       <div class="ui-inputgroup">
