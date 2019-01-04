@@ -39,7 +39,6 @@ export class NewStudingYearComponent implements OnInit {
   currentYear: number;
   arrayLength: number;
   counterId = 0;
-
   checkedBoolean: boolean;
   checkedGroupsExistArray: Array<SmallGroup> = [];
 
@@ -196,8 +195,8 @@ export class NewStudingYearComponent implements OnInit {
   }
 
   checkGroupsExisting() {
-    this.createGroupsListWithNewNameAndYear();
-    this.groupList.forEach(item => {
+    this.checkGroupsListWithNewNameAndYear();
+    this.groupList.forEach( item => {
       this.groupsExistArray.forEach( (item2, i) => {
         if (
           item.className === item2.className &&
@@ -268,17 +267,28 @@ export class NewStudingYearComponent implements OnInit {
     this.groupsExistArray = [];
     this.allGroupsList.forEach((item, i) => {
       if (this.groupDigitsArray[i] < this.studingCircle) {
-        if (item.checkbox === true) {
-          this.groupsExistArray.push({
-            className: [
-              parseInt(item.className, 10) + 1,
-              item.className.split('-')[1]
-            ].join('-'),
-            classYear: item.classYear + 1
-          });
-        }
+        this.imageGroupsListWithNewNameAndYear(item);
       }
     });
+  }
+
+  checkGroupsListWithNewNameAndYear() {
+    this.groupsExistArray = [];
+    this.allGroupsList.forEach( item => {
+      this.imageGroupsListWithNewNameAndYear(item);
+    });
+  }
+
+  imageGroupsListWithNewNameAndYear( item: Transition ) {
+    if (item.checkbox === true) {
+      this.groupsExistArray.push({
+        className: [
+          parseInt(item.className, 10) + 1,
+          item.className.split('-')[1]
+        ].join('-'),
+        classYear: item.classYear + 1
+      });
+    }
   }
 
   attachIconForDifferentYears() {
