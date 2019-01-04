@@ -44,4 +44,10 @@ export class StudentsService {
       return response.data;
     });
   }
+
+  public sendStudentsData(): Observable<Student[]> {
+    return this.http.get<Student[]>('/users/credentials/students').map((response: any) => {
+        return response.data;
+    });
+  }
 }

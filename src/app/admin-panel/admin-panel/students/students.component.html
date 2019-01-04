@@ -41,6 +41,7 @@
 <p-table *ngIf="screenWidth > 700" [value]="students" class="animation-style">
   <ng-template pTemplate="caption">
     Учні {{selectedClassName}} <span class="number-of-students"><i class="fas fa-users"></i> {{numberOfStudents}}</span>
+    <i (click)="printData()" class="fas fa-print print-btn"></i>
   </ng-template>
   <ng-template pTemplate="header">
     <tr>

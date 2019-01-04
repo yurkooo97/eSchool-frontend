@@ -208,4 +208,26 @@ export class StudentsComponent implements OnInit {
   screenWidthDetector() {
     this.screenWidth = window.innerWidth;
   }
+  printData() {
+    window.print();
+  }
+  sendData() {
+    this.service_.sendStudentsData().subscribe(
+      () => {
+        this.notificationToasts.notify(
+          'success',
+          'Успішно виконано',
+          'На вашу електронну адресу відправлено дані всіх учнів'
+        );
+      },
+      err => {
+        console.error(err);
+        this.notificationToasts.notify(
+          'error',
+          'Відхилено',
+          'Невдалося відправити дані'
+        );
+      }
+    );
+  }
 }
