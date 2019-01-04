@@ -34,7 +34,7 @@
                         </ng-container>
                         <ng-container *ngSwitchCase="'studentFullName'">{{rowData.studentFullName}}</ng-container>
                         <ng-container *ngSwitchDefault>
-                            <div *ngIf="!isEditMode(rowData, col.field)" class="mark" [pTooltip]="markDescriptionText(rowData, col.field)" [pContextMenuRow]="{row:rowData, col:col}">
+                            <div *ngIf="!isEditMode(rowData, col.field)" class="mark" [pTooltip]="markDescriptionText(rowData, col.field)" [hideDelay]="200" [pContextMenuRow]="{row:rowData, col:col}">
                                 {{markStudent(rowData, col.field)}}
                             </div>
                             <div *ngIf="isEditMode(rowData, col.field)" >

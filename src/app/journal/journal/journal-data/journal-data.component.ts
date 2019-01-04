@@ -253,10 +253,11 @@ export class JournalDataComponent implements OnInit {
     return !isNaN(+col);
   }
   markDescriptionText(student: JournalData, mark: number): string {
-    if (student && mark && student.marks[mark] && student.marks[mark].note && !isNaN(+mark)) {
+    if (student && mark && !isNaN(+mark) && student.marks[mark] && student.marks[mark].note ) {
       return student.marks[mark].note;
-  } else {
-    return '';
+    } else {
+      return '';
+    }
   }
 }
 class Header {
