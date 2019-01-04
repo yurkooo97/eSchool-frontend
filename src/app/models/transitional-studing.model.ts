@@ -10,6 +10,7 @@ export class Transition {
   checkbox: boolean;
   colorStyle: string;
   icon: string;
+  counterId: number;
 }
 export class SmallGroup {
   className: string;
