@@ -34,48 +34,6 @@ export class JournalDataComponent implements OnInit {
       { label: 'Видалити', icon: 'pi pi-times', command: () => this.deleteMark() }];
     this.subscribeData();
   }
-  deleteMark() {
-    if (!this.selectedMark || !this.selectedMark.row || !this.selectedMark.col) {
-      console.log('Incorrect delete mark', event, this.selectedMark);  
-      this.isDisplayDialogVisable = false;
-      return;
-    } else {
-      const studentIndex = this.journalData.indexOf(this.selectedMark.row);
-      if (!isNaN(+this.selectedMark.col.field)) {
-        const markForDelete: Mark = this.journalData[studentIndex].marks[this.selectedMark.col.field];
-        markForDelete.mark = '0';
-        this.teacherJournalService.sendMark(markForDelete, this.journalData[studentIndex].idStudent).subscribe( status => {
-          if (status.code && status.code !== 201) {
-            console.log(status.message);
-          } else {
-            markForDelete.mark = undefined;
-            if (markForDelete.isSelected) {
-              markForDelete.isSelected = false;
-            }
-            this.countRating();
-          }
-        });
-      }
-      
-    }
-
-  }
-  changeDescription() {
-    if (!this.selectedMark || !this.selectedMark.row || !this.selectedMark.col) {
-      console.log('Incorrect change description for mark', event, this.selectedMark);  
-      this.isDisplayDialogVisable = false;
-      return;
-    }
-    const colomn = +this.selectedMark.col.field;
-    if (isNaN(colomn) || colomn === undefined) {
-      return;
-    } else {
-      this.markDescription = this.selectedMark.row.marks[colomn].note;
-      this.isDisplayDialogVisable = true;
-      
-    }
-  }
-
   subscribeData() {
     this.teacherJournalService.journalChanged.subscribe((journal: Journal) => {
       this.teacherJournalService
@@ -88,7 +46,6 @@ export class JournalDataComponent implements OnInit {
       });
     });
   }
-
   get journalDeys(): { field: string, header: string } [] {
     if (this.journalData && this.journalData.length > 0) {
       return this.journalData[0].marks.map( (mark, index) => {
@@ -258,6 +215,55 @@ export class JournalDataComponent implements OnInit {
     } else {
       return '';
     }
+  }
+  deleteMark() {
+    if (!this.selectedMark || !this.selectedMark.row || !this.selectedMark.col) {
+      console.log('Incorrect delete mark', event, this.selectedMark);  
+      this.isDisplayDialogVisable = false;
+      return;
+    } else {
+      const studentIndex = this.journalData.indexOf(this.selectedMark.row);
+      if (!isNaN(+this.selectedMark.col.field)) {
+        const markForDelete: Mark = this.journalData[studentIndex].marks[this.selectedMark.col.field];
+        markForDelete.mark = '0';
+        this.teacherJournalService.sendMark(markForDelete, this.journalData[studentIndex].idStudent).subscribe( status => {
+          if (status.code && status.code !== 201) {
+            console.log(status.message);
+          } else {
+            markForDelete.mark = undefined;
+            if (markForDelete.isSelected) {
+              markForDelete.isSelected = false;
+            }
+            this.countRating();
+          }
+        });
+      }
+    }
+  }
+  changeDescription() {
+    if (!this.selectedMark || !this.selectedMark.row || !this.selectedMark.col) {
+      console.log('Incorrect change description for mark', event, this.selectedMark);  
+      this.isDisplayDialogVisable = false;
+      return;
+    }
+    const colomn = +this.selectedMark.col.field;
+    if (isNaN(colomn) || colomn === undefined) {
+      return;
+    } else {
+      this.markDescription = this.selectedMark.row.marks[colomn].note;
+      this.isDisplayDialogVisable = true;
+    }
+  }
+  storeMarkDescription() {
+    const studentIndex = this.journalData.indexOf(this.selectedMark.row);
+    const storeMark: Mark = this.selectedMark.row.marks[this.selectedMark.col.field];
+    storeMark.note = this.markDescription;
+    this.teacherJournalService.sendMark(storeMark, this.journalData[studentIndex].idStudent).subscribe( status => {
+      if (status.code && status.code !== 201) {
+        console.log(status.message);
+      }
+      this.isDisplayDialogVisable=false;
+    });
   }
 }
 class Header {
