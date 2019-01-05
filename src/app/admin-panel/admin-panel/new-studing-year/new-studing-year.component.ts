@@ -39,7 +39,7 @@ export class NewStudingYearComponent implements OnInit {
   currentYear: number;
   arrayLength: number;
   counterId = 0;
-  checkedBoolean: boolean;
+  booleanAfterChecking: boolean;
   checkedGroupsExistArray: Array<SmallGroup> = [];
 
   constructor(
@@ -237,26 +237,28 @@ export class NewStudingYearComponent implements OnInit {
 
   setSubordinatedCheckbox(arrayLength: number) {
     this.checkboxStateArray = [];
-    this.arrayLength = arrayLength;
     this.allGroupsList.forEach( item =>
       this.checkboxStateArray.push(item.checkbox)
     );
+    this.setMainCheckboxBehavior();
+    this.attachAndHideIcons(arrayLength);
+    this.setButtonTransition();
+  }
 
-    function allIsTrue(value: boolean) {
+  setMainCheckboxBehavior() {
+    function allAreTrue(value: boolean) {
       return value === true;
     }
 
-    function allIsFalse(value: boolean) {
+    function allAreFalse(value: boolean) {
       return value === false;
     }
 
-    if (this.checkboxStateArray.every(allIsTrue)) {
+    if (this.checkboxStateArray.every(allAreTrue)) {
       this.val = true;
-    } else if (this.checkboxStateArray.every(allIsFalse)) {
+    } else if (this.checkboxStateArray.every(allAreFalse)) {
       this.val = false;
     }
-    this.attachAndHideIcons(this.arrayLength);
-    this.setButtonTransition();
   }
 
   transitAllExistingGroups() {
@@ -323,7 +325,6 @@ export class NewStudingYearComponent implements OnInit {
       if (this.allGroupsList[arrayLength].classYear !== this.currentYear) {
         this.allGroupsList[arrayLength].icon = 'pi pi-exclamation-triangle';
       }
-
       if (this.allGroupsList[arrayLength].numOfStudents === 0) {
         this.allGroupsList[arrayLength].icon = 'pi pi-times-circle';
       }
@@ -339,8 +340,14 @@ export class NewStudingYearComponent implements OnInit {
   }
 
   returnBooleanAfterCheckingGroupsExisting(): boolean {
-    this.checkedBoolean = false;
+    this.booleanAfterChecking = false;
     this.checkedGroupsExistArray = [];
+    this.createTrueMarkedGroups();
+    this.checkTrueMarkedGroups();
+    return this.booleanAfterChecking;
+  }
+
+  createTrueMarkedGroups() {
     this.groupsExistArray.forEach( (item, i) => {
       if (this.allGroupsList[i].checkbox === true) {
         this.checkedGroupsExistArray.push({
@@ -349,21 +356,23 @@ export class NewStudingYearComponent implements OnInit {
         });
       }
     });
-    this.groupList.forEach(item => {
+  }
+
+  checkTrueMarkedGroups() {
+    this.groupList.forEach( item => {
       this.checkedGroupsExistArray.forEach( item2 => {
         if (
           item.className === item2.className &&
           item.classYear === item2.classYear
         ) {
-          this.checkedBoolean = true;
+          this.booleanAfterChecking = true;
         }
       });
     });
-    return this.checkedBoolean;
   }
 
   returnBooleanAfterCheckingNumOfStudents(): boolean {
-    this.checkedBoolean = false;
+    this.booleanAfterChecking = false;
     this.checkedNumOfStudentsArray = [];
     this.numOfStudentsArray.forEach( (item, i) => {
       if (this.allGroupsList[i].checkbox === true) {
@@ -371,9 +380,9 @@ export class NewStudingYearComponent implements OnInit {
       }
     });
     if (this.checkedNumOfStudentsArray.includes(0)) {
-      this.checkedBoolean = true;
+      this.booleanAfterChecking = true;
     }
-    return this.checkedBoolean;
+    return this.booleanAfterChecking;
   }
 
   setButtonTransition() {
