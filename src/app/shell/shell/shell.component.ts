@@ -61,7 +61,8 @@ export class ShellComponent implements OnInit, OnDestroy {
   }
 
   subscribeToNotifications() {
-    this.subscription = this.notificationToasts.showToasts
+    this.subscription = this.notificationToasts
+      .getToasts()
       .subscribe(notification => this.messageService.add(notification));
   }
 

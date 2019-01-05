@@ -15,7 +15,6 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FieldsetModule } from 'primeng/fieldset';
 import { FileUploadModule } from 'primeng/fileupload';
 import { AdminPanelRoutingModule } from './admin-panel-routing.module';
-import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ToastModule } from 'primeng/toast';
 
@@ -68,7 +67,6 @@ import { SpinnerModule } from 'primeng/spinner';
     RadioButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    AutoCompleteModule,
     OverlayPanelModule,
     CheckboxModule,
     ProgressBarModule,
@@ -99,4 +97,4 @@ import { SpinnerModule } from 'primeng/spinner';
     DayComponent
   ]
 })
-export class AdminPanelModule {}
+export class AdminPanelModule { }

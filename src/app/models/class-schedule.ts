@@ -2,6 +2,7 @@ import { Group } from 'src/app/models/group.model';
 import { Subject } from 'src/app/models/subjects.model';
 
 export class Schedule {
+  classId: number;
   className: Group;
 
   startOfSemester: string;

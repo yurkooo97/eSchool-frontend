@@ -25,8 +25,6 @@ export class ClassScheduleComponent implements OnInit {
   reset: any;
   ua: any;
 
-  fromDate: Date;
-  toDate: Date;
   minDateValue: Date;
   maxDateValue: Date;
 
@@ -36,7 +34,7 @@ export class ClassScheduleComponent implements OnInit {
     private _teacherServices: TeachersService,
     private notificationToasts: DataSharingService,
     private scheduleService: ClassScheduleService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getClasses();
@@ -53,24 +51,11 @@ export class ClassScheduleComponent implements OnInit {
     this.schedule.className = this.classes.find(
       item => item.id === selectedClassEvent.value
     );
+    this.schedule.classId = this.schedule.className.id;
   }
 
   calendar(): void {
     this._teacherServices.currentCalendar.subscribe(data => (this.ua = data));
-  }
-
-  formatDate(date) {
-    const d = new Date(date);
-    const year = d.getFullYear();
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    if (month.length < 2) {
-      month = '0' + month;
-    }
-    if (day.length < 2) {
-      day = '0' + day;
-    }
-    return [year, month, day].join('-');
   }
 
   // request to add a list of classes
@@ -85,13 +70,23 @@ export class ClassScheduleComponent implements OnInit {
     Object.keys(this.schedule).forEach((item: any) => {
       if (this.schedule[item].pop) {
         this.schedule[item].pop();
+        Object.keys(this.schedule[item]).forEach((i: any) => {
+          const elem = this.schedule[item][i];
+          if (
+            elem.secondSubject !== undefined &&
+            elem.secondSubject.subjectId !== -1
+          ) {
+            this.schedule[item].push(elem.secondSubject);
+          }
+        });
       }
     });
-    this.schedule.startOfSemester = this.formatDate(
+    this.schedule.startOfSemester = this._teacherServices.formatDate(
       this.schedule.startOfSemester
     );
-    this.schedule.endOfSemester = this.formatDate(this.schedule.endOfSemester);
-
+    this.schedule.endOfSemester = this._teacherServices.formatDate(
+      this.schedule.endOfSemester
+    );
     this.scheduleService.postSchedule(this.schedule).subscribe(
       data => {
         this.notificationToasts.notify(
