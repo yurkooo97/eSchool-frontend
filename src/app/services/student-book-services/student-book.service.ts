@@ -35,6 +35,12 @@ export class StudentBookService {
     'Субота'
   ];
 
+  public getUkrainanDate(date: Date) {
+    const day = date.getDate();
+    const month = this.months[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+  }
   public getFormattedMonday(date: Date): string {
     const day = date.getDay(),
       diff = date.getDate() - day + 1;
