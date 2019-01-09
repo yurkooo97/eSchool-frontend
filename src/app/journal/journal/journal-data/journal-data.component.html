@@ -12,12 +12,12 @@
             <tr>
                 <th *ngFor="let col of columns" class="journalHeader" 
                 (click)="daySelected(col)">
-                        <ng-container *ngIf="isMarkColumn(col.field)">
+                        <ng-container *ngIf="(+col.field + 1)">
                                 <div>{{col.header.split('/')[2]}}</div>
                                 <div>{{col.header.split('/')[1]}}</div>
                                 <div class="lessonType">{{col.header.split('/')[0]}}</div>
                         </ng-container>
-                        <ng-container *ngIf="!isMarkColumn(col.field)">
+                        <ng-container *ngIf="!(+col.field + 1)">
                             <div >{{col.header}}</div>
                         </ng-container>
                 </th>
@@ -34,7 +34,7 @@
                         </ng-container>
                         <ng-container *ngSwitchCase="'studentFullName'">{{rowData.studentFullName}}</ng-container>
                         <ng-container *ngSwitchDefault>
-                            <div *ngIf="!isEditMode(rowData, col.field)" class="mark" [pTooltip]="markDescriptionText(rowData, col.field)" [hideDelay]="200" [pContextMenuRow]="{row:rowData, col:col}">
+                            <div *ngIf="!isEditMode(rowData, col.field)" class="mark" [pTooltip]="rowData.marks[col.field].note" [hideDelay]="200" [pContextMenuRow]="{row:rowData, col:col}">
                                 {{markStudent(rowData, col.field)}}
                             </div>
                             <div *ngIf="isEditMode(rowData, col.field)" >
@@ -69,8 +69,8 @@
   [height]="400"
   [minWidth]="200"
   #overlay>
-  <textarea pInputTextarea [(ngModel)]="markDescription"></textarea>
-  <p-footer>
+    <textarea pInputTextarea [(ngModel)]="markDescription"></textarea>
+    <p-footer>
         <button type="button" pButton icon="pi pi-check" (click)="storeMarkDescription()" label="Зберегти"></button>
     </p-footer>
 </p-dialog>

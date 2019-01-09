@@ -214,19 +214,8 @@ export class JournalDataComponent implements OnInit {
       return mark;
     });
   }
-  isMarkColumn(col: string): boolean {
-    return !isNaN(+col);
-  }
-  markDescriptionText(student: JournalData, mark: number): string {
-    if (student && mark && !isNaN(+mark) && student.marks[mark] && student.marks[mark].note ) {
-      return student.marks[mark].note;
-    } else {
-      return '';
-    }
-  }
   deleteMark() {
-    if (!this.selectedMark || !this.selectedMark.row || !this.selectedMark.col) {
-      console.log('Incorrect delete mark', event, this.selectedMark);  
+    if (!this.selectedMark || !this.selectedMark.row || !this.selectedMark.col) {  
       this.isDisplayDialogVisable = false;
       return;
     } else {
