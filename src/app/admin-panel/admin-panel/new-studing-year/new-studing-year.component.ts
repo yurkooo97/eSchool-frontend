@@ -20,13 +20,14 @@ export class NewStudingYearComponent implements OnInit {
   activeGroups: Group[];
   newActiveGroups: Group[];
   cols: Array<object>;
-  buttonAddDisabled = false;
+  disableButtonCreateTransition = false;
   hideTag = false;
   classIdArray: Array<ClassId> = [];
   classIdArrayBefore: Array<ClassId> = [];
   allGroupsList: Array<Transition> = [];
   groupDigitsArray: Array<number> = [];
   numOfStudentsArray: Array<number> = [];
+  checkedNumOfStudentsArray: Array<number> = [];
   counter: number;
   val = true;
   groupsExistArray: Array<SmallGroup> = [];
@@ -34,6 +35,12 @@ export class NewStudingYearComponent implements OnInit {
   checkboxStateArray: Array<boolean> = [];
   loading: boolean;
   checkboxDisabled = false;
+  studingCircle = 11;
+  currentYear: number;
+  arrayLength: number;
+  counterId = 0;
+  booleanAfterChecking: boolean;
+  checkedGroupsExistArray: Array<SmallGroup> = [];
 
   constructor(
     private httpService: NewStudingYearService,
@@ -49,8 +56,8 @@ export class NewStudingYearComponent implements OnInit {
     this.httpService.getGroups().subscribe(data => {
       this.groupList = data;
       this.filterGroups();
-      this.checkStudingYear();
-      this.checkNumOfStudents();
+      this.checkStudingYearAndCreateMessage();
+      this.checkNumOfStudentsAndCreate();
       this.checkGroupsExisting();
       this.loading = false;
     });
@@ -61,7 +68,9 @@ export class NewStudingYearComponent implements OnInit {
         newClassNameField: 'newClassName',
         newClassYearField: 'newClassYear',
         checkboxField: 'checkbox',
-        colorStyleField: 'colorStyle'
+        colorStyleField: 'colorStyle',
+        iconStyleField: 'icon',
+        counterIdField: 'counterId'
       }
     ];
   }
@@ -79,7 +88,9 @@ export class NewStudingYearComponent implements OnInit {
         newClassName: null,
         newClassYear: null,
         checkbox: true,
-        colorStyle: null
+        colorStyle: null,
+        icon: null,
+        counterId: this.counterId++
       });
     });
     this.allGroupsList.forEach(item => {
@@ -98,7 +109,8 @@ export class NewStudingYearComponent implements OnInit {
         this.passOldAndNewId();
         this.httpService.putNewOldId(this.classIdArray).subscribe(() => {
           this.hideTag = true;
-          this.buttonAddDisabled = true;
+          this.attachSuccesIcon();
+          this.disableButtonCreateTransition = true;
           this.checkboxDisabled = true;
           this.loading = false;
           this.notificationToasts.notify(
@@ -130,7 +142,7 @@ export class NewStudingYearComponent implements OnInit {
     let counter = 0;
     this.allGroupsList.forEach((item, i) => {
       if (item.checkbox === true) {
-        if (this.groupDigitsArray[i] > 10) {
+        if (this.groupDigitsArray[i] > this.studingCircle - 1) {
           item.newClassName = 'Випущений';
           item.newClassId = 0;
           item.newClassYear = item.classYear;
@@ -156,16 +168,20 @@ export class NewStudingYearComponent implements OnInit {
     });
   }
 
-  checkboxEvent(val) {
-    this.allGroupsList.forEach(item => (item.checkbox = val));
+  setMainCheckbox(val: boolean) {
+    this.allGroupsList.forEach( (item, i) => {
+      item.checkbox = val;
+      this.attachAndHideIcons(i);
+    });
+    this.setButtonTransition();
   }
 
-  checkNumOfStudents() {
+  checkNumOfStudentsAndCreate() {
     this.allGroupsList.forEach(item =>
       this.numOfStudentsArray.push(item.numOfStudents)
     );
     if (this.numOfStudentsArray.includes(0)) {
-      this.buttonAddDisabled = true;
+      this.disableButtonCreateTransition = true;
       this.notificationToasts.notify(
         'error',
         'Відхилено',
@@ -174,18 +190,20 @@ export class NewStudingYearComponent implements OnInit {
           'такий клас з переліку активних',
         true
       );
+      this.attachIconForGroupsWithoutStudents();
     }
   }
 
   checkGroupsExisting() {
-    this.createGroupsListWithNewNameAndYear();
-    this.groupList.forEach(item => {
-      this.groupsExistArray.forEach(item2 => {
+    this.checkGroupsListWithNewNameAndYear();
+    this.groupList.forEach( item => {
+      this.groupsExistArray.forEach( (item2, i) => {
         if (
           item.className === item2.className &&
           item.classYear === item2.classYear
         ) {
-          this.buttonAddDisabled = true;
+          this.disableButtonCreateTransition = true;
+          this.allGroupsList[i].icon = 'pi pi-minus-circle';
           this.notificationToasts.notify(
             'error',
             'Відхилено',
@@ -198,7 +216,7 @@ export class NewStudingYearComponent implements OnInit {
     });
   }
 
-  checkStudingYear() {
+  checkStudingYearAndCreateMessage() {
     this.allGroupsList.forEach(item =>
       this.isCurrentStudingYear.push(
         item.classYear === this.allGroupsList[0].classYear
@@ -213,25 +231,32 @@ export class NewStudingYearComponent implements OnInit {
         true
       );
     }
+
+    this.attachIconForDifferentYears();
   }
 
-  showMainCheckboxState() {
+  setSubordinatedCheckbox(arrayLength: number) {
     this.checkboxStateArray = [];
     this.allGroupsList.forEach( item =>
       this.checkboxStateArray.push(item.checkbox)
     );
+    this.setMainCheckboxBehavior();
+    this.attachAndHideIcons(arrayLength);
+    this.setButtonTransition();
+  }
 
-    function allIsTrue(value: boolean) {
+  setMainCheckboxBehavior() {
+    function allAreTrue(value: boolean) {
       return value === true;
     }
 
-    function allIsFalse(value: boolean) {
+    function allAreFalse(value: boolean) {
       return value === false;
     }
 
-    if (this.checkboxStateArray.every(allIsTrue)) {
+    if (this.checkboxStateArray.every(allAreTrue)) {
       this.val = true;
-    } else if (this.checkboxStateArray.every(allIsFalse)) {
+    } else if (this.checkboxStateArray.every(allAreFalse)) {
       this.val = false;
     }
   }
@@ -243,18 +268,130 @@ export class NewStudingYearComponent implements OnInit {
   createGroupsListWithNewNameAndYear() {
     this.groupsExistArray = [];
     this.allGroupsList.forEach((item, i) => {
-      if (this.groupDigitsArray[i] < 11) {
-        if (item.checkbox === true) {
-          this.groupsExistArray.push({
-            className: [
-              parseInt(item.className, 10) + 1,
-              item.className.split('-')[1]
-            ].join('-'),
-            classYear: item.classYear + 1
-          });
-        }
+      if (this.groupDigitsArray[i] < this.studingCircle) {
+        this.imageGroupsListWithNewNameAndYear(item);
       }
     });
+  }
+
+  checkGroupsListWithNewNameAndYear() {
+    this.groupsExistArray = [];
+    this.allGroupsList.forEach( item => {
+      this.imageGroupsListWithNewNameAndYear(item);
+    });
+  }
+
+  imageGroupsListWithNewNameAndYear( item: Transition ) {
+    if (item.checkbox === true) {
+      this.groupsExistArray.push({
+        className: [
+          parseInt(item.className, 10) + 1,
+          item.className.split('-')[1]
+        ].join('-'),
+        classYear: item.classYear + 1
+      });
+    }
+  }
+
+  attachIconForDifferentYears() {
+    this.currentYear = new Date().getFullYear();
+    this.allGroupsList.forEach( item => {
+      if (item.classYear !== this.currentYear) {
+        item.icon = 'pi pi-exclamation-triangle';
+      }
+    });
+  }
+
+  attachIconForGroupsWithoutStudents() {
+    this.allGroupsList.forEach( item => {
+      if (item.numOfStudents === 0) {
+        item.icon = 'pi pi-times-circle';
+      }
+    });
+  }
+
+  attachSuccesIcon() {
+    this.allGroupsList.forEach( item => {
+      if (item.checkbox === true) {
+        item.icon = 'pi pi-check-circle';
+      }
+    });
+  }
+
+  attachAndHideIcons(arrayLength: number) {
+    if (this.allGroupsList[arrayLength].checkbox === false) {
+      this.allGroupsList[arrayLength].icon = null;
+    } else {
+      if (this.allGroupsList[arrayLength].classYear !== this.currentYear) {
+        this.allGroupsList[arrayLength].icon = 'pi pi-exclamation-triangle';
+      }
+      if (this.allGroupsList[arrayLength].numOfStudents === 0) {
+        this.allGroupsList[arrayLength].icon = 'pi pi-times-circle';
+      }
+      this.groupList.forEach( item => {
+        if (
+          this.groupsExistArray[arrayLength].className === item.className &&
+          this.groupsExistArray[arrayLength].classYear === item.classYear
+        ) {
+          this.allGroupsList[arrayLength].icon = 'pi pi-minus-circle';
+        }
+      });
+    }
+  }
+
+  returnBooleanAfterCheckingGroupsExisting(): boolean {
+    this.booleanAfterChecking = false;
+    this.checkedGroupsExistArray = [];
+    this.createTrueMarkedGroups();
+    this.checkTrueMarkedGroups();
+    return this.booleanAfterChecking;
+  }
+
+  createTrueMarkedGroups() {
+    this.groupsExistArray.forEach( (item, i) => {
+      if (this.allGroupsList[i].checkbox === true) {
+        this.checkedGroupsExistArray.push({
+          className: item.className,
+          classYear: item.classYear
+        });
+      }
+    });
+  }
+
+  checkTrueMarkedGroups() {
+    this.groupList.forEach( item => {
+      this.checkedGroupsExistArray.forEach( item2 => {
+        if (
+          item.className === item2.className &&
+          item.classYear === item2.classYear
+        ) {
+          this.booleanAfterChecking = true;
+        }
+      });
+    });
+  }
+
+  returnBooleanAfterCheckingNumOfStudents(): boolean {
+    this.booleanAfterChecking = false;
+    this.checkedNumOfStudentsArray = [];
+    this.numOfStudentsArray.forEach( (item, i) => {
+      if (this.allGroupsList[i].checkbox === true) {
+        this.checkedNumOfStudentsArray.push(item);
+      }
+    });
+    if (this.checkedNumOfStudentsArray.includes(0)) {
+      this.booleanAfterChecking = true;
+    }
+    return this.booleanAfterChecking;
+  }
+
+  setButtonTransition() {
+    if (this.returnBooleanAfterCheckingGroupsExisting() ||
+      this.returnBooleanAfterCheckingNumOfStudents() ) {
+      this.disableButtonCreateTransition = true;
+    } else {
+      this.disableButtonCreateTransition = false;
+    }
   }
 
 }

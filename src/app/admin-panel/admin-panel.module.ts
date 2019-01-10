@@ -15,7 +15,6 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FieldsetModule } from 'primeng/fieldset';
 import { FileUploadModule } from 'primeng/fileupload';
 import { AdminPanelRoutingModule } from './admin-panel-routing.module';
-import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ToastModule } from 'primeng/toast';
 
@@ -42,6 +41,7 @@ import { HttpAttachTeacherService } from '../services/http-attach-teacher.servic
 import { DayComponent } from './admin-panel/class-schedule/day/day.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { SpinnerModule } from 'primeng/spinner';
 
 @NgModule({
   imports: [
@@ -67,12 +67,12 @@ import { ConfirmationService } from 'primeng/api';
     RadioButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    AutoCompleteModule,
     OverlayPanelModule,
     CheckboxModule,
     ProgressBarModule,
     ToastModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    SpinnerModule
   ],
 
   providers: [
@@ -97,4 +97,4 @@ import { ConfirmationService } from 'primeng/api';
     DayComponent
   ]
 })
-export class AdminPanelModule {}
+export class AdminPanelModule { }

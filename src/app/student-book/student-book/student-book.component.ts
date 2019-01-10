@@ -18,7 +18,9 @@ export class StudentBookComponent implements OnInit {
 
   public offset = 0;
 
-  public saveOffset: number;
+  public saveOffset = 0;
+
+  public ukrCurrDate: string;
 
   public menuItems: MenuItem[];
 
@@ -45,6 +47,7 @@ export class StudentBookComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.ukrCurrDate = this.studentBookService.getUkrainanDate(new Date());
     this.studentBookService.getDiariesList().subscribe(
       data => {
         this.weekSchedule = data;
@@ -53,13 +56,8 @@ export class StudentBookComponent implements OnInit {
         }`;
         this.loading = false;
       },
-      err => {
+      () => {
         this.changeWeekSchedule(true, 5);
-        this.notificationToasts.notify(
-          'error',
-          'Помилка',
-          err.message
-        );
       }
     );
 

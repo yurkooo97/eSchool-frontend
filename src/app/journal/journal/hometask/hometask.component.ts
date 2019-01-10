@@ -11,7 +11,7 @@ import { HomeTaskFile } from '../../../models/homeTaskFile.model';
   templateUrl: './hometask.component.html',
   styleUrls: ['./hometask.component.scss']
 })
-export class HometaskComponent implements OnInit, OnDestroy {
+export class HometaskComponent implements OnInit {
 
   hometasks: Hometask[];
   hometasksToDisplay: Hometask[];
@@ -47,10 +47,6 @@ export class HometaskComponent implements OnInit, OnDestroy {
     ];
 
     this.currentDate = formatDate(this.today, 'yyyy.MM.dd', 'en-US', '+0200');
-  }
-
-  ngOnDestroy() {
-   this.teacherJournalService.journalChanged.unsubscribe();
   }
 
   onSortChange(event): void {
