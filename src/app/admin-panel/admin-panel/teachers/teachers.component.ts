@@ -3,7 +3,8 @@ import { TeachersService } from '../../../services/teachers.service';
 import { Iteachers } from 'src/app/models/teachers';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { ConfirmationService } from 'primeng/api';
-
+import { debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-teachers',
   templateUrl: './teachers.component.html',
@@ -22,6 +23,9 @@ export class TeachersComponent implements OnInit {
   photoData: string;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
+  loginStatus: string;
+  requestSubject$ = new Subject<any>();
+
   constructor(
     private _teacherServices: TeachersService,
     private notificationToasts: DataSharingService,
@@ -40,6 +44,21 @@ export class TeachersComponent implements OnInit {
       { field: 'dateOfBirth', header: 'Дата народження' }
     ];
     this._teacherServices.currentCalendar.subscribe(data => (this.ua = data));
+    this.requestSubject$.pipe(debounceTime(500)).subscribe(() => {
+      return this._teacherServices.checkLoginTeacher(this.teacher).subscribe(
+        result => {
+          if (
+            result == null &&
+            this.selectedTeacher.login !== this.teacher.login
+          ) {
+            this.loginStatus = 'Даний логін вже використовується';
+          }
+        },
+        () => {
+          console.error(`This login is free to use!`);
+        }
+      );
+    });
   }
   handlerFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
@@ -61,6 +80,8 @@ export class TeachersComponent implements OnInit {
     this.teacher = {};
   }
   onRowSelect(rowData: Iteachers) {
+    this.loginStatus = '';
+    this.photoData = '';
     this.selectedTeacher = rowData;
     this.newTeacher = false;
     this.teacher = {
@@ -94,14 +115,15 @@ export class TeachersComponent implements OnInit {
         );
       }
     );
+    this.teacher = null;
   }
   save() {
     this.displayDialog = false;
     this.teacher.dateOfBirth = this._teacherServices.formatDate(
       this.teacher.dateOfBirth
     );
-    this.teacher.newPass = '';
     this.teacher.oldPass = '';
+    this.teacher.newPass = '';
     this._teacherServices.putTeacher(this.teacher).subscribe(
       teacher => {
         const teachers = [...this.teachers];
@@ -130,7 +152,7 @@ export class TeachersComponent implements OnInit {
   confirm(rowData: Iteachers) {
     this.selectedTeacher = rowData;
     this.confirmationService.confirm({
-      message: `Ви справді бажаєте видалити учителя: <br> ${
+      message: `Ви справді бажаєте видалити учителя:  ${
         this.selectedTeacher.lastname
       } ${this.selectedTeacher.firstname}
       ${this.selectedTeacher.patronymic}?`,
@@ -190,5 +212,9 @@ export class TeachersComponent implements OnInit {
   }
   print() {
     window.print();
+  }
+  checkLogin(value) {
+    this.loginStatus = '';
+    this.requestSubject$.next(value);
   }
 }
