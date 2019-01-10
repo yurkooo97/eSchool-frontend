@@ -16,10 +16,10 @@ export class TeachersService {
       'Вівторок',
       'Середа',
       'Четвер',
-      "П'ятниця",
+      'П\'ятниця',
       'Субота'
     ],
-    dayNamesShort: ['Нед', 'Пон', 'Вів', 'Сер', 'Чет', "П'ят", 'Суб'],
+    dayNamesShort: ['Нед', 'Пон', 'Вів', 'Сер', 'Чет', 'П\'ят', 'Суб'],
     dayNamesMin: ['нд', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'],
     monthNames: [
       'Січень',
@@ -109,13 +109,6 @@ export class TeachersService {
       .head<Iteachers>(`/users/login/${teacher.login}/`)
       .map((response: any) => {
         return response;
-      });
-  }
-  public checkEmailTeacher(teacher: Iteachers): Observable<Iteachers> {
-    return this.http
-      .head<Iteachers>(`/users/email/${teacher.email}/`)
-      .map((status: any) => {
-        return status;
       });
   }
 }

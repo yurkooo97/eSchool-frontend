@@ -3,7 +3,8 @@ import { TeachersService } from '../../../services/teachers.service';
 import { Iteachers } from 'src/app/models/teachers';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { ConfirmationService } from 'primeng/api';
-
+import { debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-teachers',
   templateUrl: './teachers.component.html',
@@ -24,6 +25,8 @@ export class TeachersComponent implements OnInit {
   fileToUpload: File = null;
   loginStatus: string;
   emailStatus: string;
+  requestSubject$ = new Subject<any>();
+
   constructor(
     private _teacherServices: TeachersService,
     private notificationToasts: DataSharingService,
@@ -42,6 +45,21 @@ export class TeachersComponent implements OnInit {
       { field: 'dateOfBirth', header: 'Дата народження' }
     ];
     this._teacherServices.currentCalendar.subscribe(data => (this.ua = data));
+    this.requestSubject$.pipe(debounceTime(500)).subscribe(() => {
+      return this._teacherServices.checkLoginTeacher(this.teacher).subscribe(
+        result => {
+          if (
+            result == null &&
+            this.selectedTeacher.login !== this.teacher.login
+          ) {
+            this.loginStatus = 'Даний логін вже використовується';
+          }
+        },
+        () => {
+          console.error(`This login is free to use!`);
+        }
+      );
+    });
   }
   handlerFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
@@ -197,30 +215,8 @@ export class TeachersComponent implements OnInit {
   print() {
     window.print();
   }
-  checkLogin() {
+  checkLogin(value) {
     this.loginStatus = '';
-    this._teacherServices
-      .checkLoginTeacher(this.teacher)
-      .subscribe(checkResponse => {
-        if (
-          checkResponse == null &&
-          this.selectedTeacher.login !== this.teacher.login
-        ) {
-          this.loginStatus = 'Даний логін вже використовується';
-        }
-      });
-  }
-  checkEmail() {
-    this.emailStatus = '';
-    this._teacherServices
-      .checkEmailTeacher(this.teacher)
-      .subscribe(checkResponse => {
-        if (
-          checkResponse == null &&
-          this.selectedTeacher.email !== this.teacher.email
-        ) {
-          this.emailStatus = 'Даний email вже використовується';
-        }
-      });
+    this.requestSubject$.next(value);
   }
 }
