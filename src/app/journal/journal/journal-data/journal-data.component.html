@@ -12,9 +12,9 @@
             <tr>
                 <th *ngFor="let col of columns" [ngStyle]="{'background-color':bgColorForMarkType(col)}" class="journalHeader">
                         <ng-container *ngIf="(+col.field + 1)">
-                                <div>{{col.header.split('/')[2]}}</div>
-                                <div>{{col.header.split('/')[1]}}</div>
-                                <div class="lessonType">{{col.header.split('/')[0]}}</div>
+                                <div>{{col.header.split(',')[2]}}</div>
+                                <div>{{col.header.split(',')[1]}}</div>
+                                <div class="lessonType">{{col.header.split(',')[0]}}</div>
                         </ng-container>
                         <ng-container *ngIf="!(+col.field + 1)">
                             <div >{{col.header}}</div>
@@ -27,7 +27,7 @@
                 <td *ngFor="let col of columns"
                     [style.background-color]="isSelected(rowData,col.field) ? '#bcdfff' : '#fff'" 
                     (click)="singleClick(rowData,col.field)" 
-                    (dblclick)="doubleClick(rowData,col.field)"  [ngSwitch]="col.field">
+                    (dblclick)="doubleClick(rowData,col.field)"  [ngSwitch]="col.field" class="journalDataCell">
                         <ng-container *ngSwitchCase="'rating'">
                             <div class="calculations"><span>{{rowData.rating[0] | number:'1.1-2'}}</span>/<span>{{rowData.rating[1] | number:'1.1-2'}}</span></div>
                         </ng-container>
