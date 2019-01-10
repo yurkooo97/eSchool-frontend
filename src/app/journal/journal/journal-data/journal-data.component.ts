@@ -3,15 +3,17 @@ import { TeacherJournalsService } from 'src/app/services/teacher-journals.servic
 import { JournalData } from 'src/app/models/journalData.model';
 import { Journal } from 'src/app/models/journal.model';
 import { Mark } from 'src/app/models/journalMark.model';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-journal-data',
   templateUrl: './journal-data.component.html',
-  styleUrls: ['./journal-data.component.scss']
+  styleUrls: ['./journal-data.component.scss'],
+  providers: [MessageService]
 })
 export class JournalDataComponent implements OnInit {
 
-  constructor(private teacherJournalService: TeacherJournalsService) { }
+  constructor(private teacherJournalService: TeacherJournalsService, private messageService: MessageService) { }
 
   journalData: JournalData[];
   isActiveJournal: boolean;
@@ -51,6 +53,9 @@ export class JournalDataComponent implements OnInit {
         this.countRating();
         this.scrollableCols = this.journalDeys;
         this.isDataRecived = data.length > 0;
+        if (data.length < 1) {
+          this.showNotification('warn', 'Журнал порожній', 'Адміністратор має заповнити дані про клас та визначити графік');
+        }
       });
     });
   }
@@ -63,7 +68,6 @@ export class JournalDataComponent implements OnInit {
         return {field: '' + index, header: dayType + weekDay + day, width: '5em'};
       });
     } else {
-      console.log('Journal data is empty!');
       return;
     }
   }
@@ -188,7 +192,7 @@ export class JournalDataComponent implements OnInit {
         student.marks[mark].mark = '' + markValue;
         this.teacherJournalService.sendMark(student.marks[mark], student.idStudent).subscribe( status => {
           if (status.code && status.code !== 201) {
-            console.log(status.message);
+            this.showNotification('error', 'Оцінка не збережена!', status.message);
           }
         });
         this.countRating();
@@ -226,7 +230,7 @@ export class JournalDataComponent implements OnInit {
         markForDelete.note = '';
         this.teacherJournalService.sendMark(markForDelete, this.journalData[studentIndex].idStudent).subscribe( status => {
           if (status.code && status.code !== 201) {
-            console.log(status.message);
+            this.showNotification('error', 'Видалення не вдалось!', status.message);
           } else {
             if (markForDelete.isSelected) {
               markForDelete.isSelected = false;
@@ -239,8 +243,7 @@ export class JournalDataComponent implements OnInit {
     }
   }
   changeDescription() {
-    if (!this.selectedMark || !this.selectedMark.row || !this.selectedMark.col) {
-      console.log('Incorrect change description for mark', event, this.selectedMark);  
+    if (!this.selectedMark || !this.selectedMark.row || !this.selectedMark.col) { 
       this.isDisplayDialogVisable = false;
       return;
     }
@@ -258,7 +261,7 @@ export class JournalDataComponent implements OnInit {
     storeMark.note = this.markDescription;
     this.teacherJournalService.sendMark(storeMark, this.journalData[studentIndex].idStudent).subscribe( status => {
       if (status.code && status.code !== 201) {
-        console.log(status.message);
+        this.showNotification('error', 'Опис оцінки не змінено!', status.message);
       }
       this.isDisplayDialogVisable=false;
     });
@@ -289,7 +292,14 @@ export class JournalDataComponent implements OnInit {
     }
     this.countRating();
   }
-
+  showNotification(type: string, message: string, detail: string) {
+    const list = ['info', 'warn', 'error', 'success'];
+    if (list.indexOf(type) >= 0) {
+      this.messageService.add({key:'error', severity: type, summary: message, detail: detail});
+    } else {
+      this.messageService.add({key:'error', severity: 'info', summary: message, detail: detail});
+    }
+  }
 }
 class Header {
   public field: string; 
