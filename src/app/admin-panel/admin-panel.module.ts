@@ -41,7 +41,9 @@ import { HttpAttachTeacherService } from '../services/http-attach-teacher.servic
 import { DayComponent } from './admin-panel/class-schedule/day/day.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { AccordionModule } from 'primeng/accordion';
 import { SpinnerModule } from 'primeng/spinner';
+
 
 @NgModule({
   imports: [
@@ -72,6 +74,7 @@ import { SpinnerModule } from 'primeng/spinner';
     ProgressBarModule,
     ToastModule,
     ConfirmDialogModule,
+    AccordionModule,
     SpinnerModule
   ],
 
