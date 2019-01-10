@@ -45,8 +45,8 @@ export class StudentsService {
     });
   }
 
-  public sendStudentsData(): Observable<Student[]> {
-    return this.http.get<Student[]>('/users/credentials/students').map((response: any) => {
+  public sendStudentsData(currentClassId): Observable<Student[]> {
+    return this.http.get<Student[]>(`/users/credentials/students?classId=${currentClassId}`).map((response: any) => {
         return response.data;
     });
   }

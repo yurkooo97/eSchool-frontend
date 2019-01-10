@@ -95,7 +95,7 @@
 .action-tools {
   visibility: hidden;
   float: right;
-  margin-right: 1em;
+  margin-right: 3px;
 }
 .studentRow {
   line-height: 2.3;
@@ -154,10 +154,28 @@
 }
 .number-of-students {
   float: left;
+  font-size: 16px;
 }
-.print-btn {
+.number-of-students-alt {
+  float: right;
+  font-size: 20px;
+  font-family: Verdana, Arial, sans-serif;
+  color: #007ad9;
+  margin-right: 5px;
+  margin-top: 17px;
+}
+.print-btn,
+.file-btn {
   float: right;
   cursor: pointer;
+  font-size: 16px;
+}
+.print-btn:hover,
+.file-btn:hover {
+  color: #007ad9;
+}
+.print-btn {
+  margin-right: 15px;
 }
 .progress-box {
   height: 6px;
@@ -169,7 +187,7 @@
   background-color: black !important;
 }
 .responsive-add {
-  margin-bottom: 5px;
+  margin: 5px 0;
 }
 .accordion-buttons {
   background-color: #f0f0f0;
@@ -256,13 +274,13 @@
     width: calc(14.2857142% - 4px);
   }
 }
-@media screen and (max-width: 1070px) {
+@media screen and (max-width: 880px) {
   .classButton {
     margin: 0 2px 4px 2px;
     width: calc(16.6666666% - 4px);
   }
 }
-@media screen and (max-width: 920px) {
+@media screen and (max-width: 760px) {
   .classButton {
     margin: 0 1.5px 3px 1.5px;
     width: calc(20% - 3px);
@@ -274,19 +292,27 @@
     margin-bottom: 5px;
   }
 }
-@media screen and (max-width: 780px) {
+@media screen and (max-width: 630px) {
   .classButton {
     margin: 0 1.5px 3px 1.5px;
     width: calc(25% - 3px);
   }
 }
-@media screen and (max-width: 625px) {
+@media screen and (max-width: 515px) {
   .classButton {
     margin: 0 1.5px 3px 1.5px;
     width: calc(33.3333333% - 3px);
   }
 }
-@media screen and (max-width: 495px) {
+@media screen and (max-width: 500px) {
+  .mainInfo {
+    width: 100%;
+  }
+  .secondaryInfo {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 405px) {
   .classButton {
     margin: 0 1.5px 3px 1.5px;
     width: calc(50% - 3px);
