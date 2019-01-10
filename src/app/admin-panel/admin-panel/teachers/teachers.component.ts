@@ -24,7 +24,6 @@ export class TeachersComponent implements OnInit {
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
   loginStatus: string;
-  emailStatus: string;
   requestSubject$ = new Subject<any>();
 
   constructor(
@@ -82,7 +81,6 @@ export class TeachersComponent implements OnInit {
   }
   onRowSelect(rowData: Iteachers) {
     this.loginStatus = '';
-    this.emailStatus = '';
     this.photoData = '';
     this.selectedTeacher = rowData;
     this.newTeacher = false;

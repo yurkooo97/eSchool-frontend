@@ -250,9 +250,6 @@
           class="requiredMessage"
           >Некоректна електронна адреса</span
         >
-        <span *ngIf="emailStatus" class="requiredMessage">{{
-          emailStatus
-        }}</span>
         <br />
         <div class="ui-inputgroup">
           <p-inputMask
@@ -304,7 +301,7 @@
         icon="pi pi-check"
         (click)="create()"
         label="Зберегти"
-        [disabled]="teacherForm.invalid || loginStatus || emailStatus"
+        [disabled]="teacherForm.invalid || loginStatus"
       ></button>
       <button
         *ngIf="!newTeacher"
@@ -313,7 +310,7 @@
         icon="pi pi-check"
         (click)="save()"
         label="Зберегти"
-        [disabled]="teacherForm.invalid || loginStatus || emailStatus"
+        [disabled]="teacherForm.invalid || loginStatus"
       ></button>
     </div>
   </p-footer>
