@@ -27,8 +27,8 @@ export class JournalDataComponent implements OnInit {
   contextMenuItems: any[];
   selectedMark: {row: JournalData, col: Header};
   frozenCols: Header [] = [
-    new Header('studentFullName', 'Студент', '14em'),
-    new Header('rating', 'Середня Рейтинг', '10em') ];
+    new Header('studentFullName', 'Студент', '14rem'),
+    new Header('rating', 'Середня Рейтинг', '6rem') ];
 
   ngOnInit() {
     this.contextMenuItems = [
@@ -176,6 +176,25 @@ export class JournalDataComponent implements OnInit {
   }
   isSelected(student: JournalData, mark: number): boolean {
     return ((student.marks[mark]) && (student.marks[mark].isSelected) && student.marks[mark].isSelected);
+  }
+  bgColorForMarkType(col: Header): string {
+    if (!col) {
+      return 'mark';
+    }
+    const indexMark: number = +col.field;
+    if (!(indexMark+1) || this.journalData.length < 1) { return 'inherit';}
+    const mark: Mark = this.journalData[0].marks[indexMark];
+    if (!mark.typeMark) { return 'inherit'};
+    switch (mark.typeMark.toLowerCase()) {
+      case 'лабораторна':
+        return 'rgba(255, 205, 150, 0.5)'
+      case 'контрольна':
+        return 'rgba(0, 255, 0, 0.5)'
+      case 'тематична':
+        return 'rgba(255, 0, 0, 0.5)'
+      default:
+        return 'inherit'
+    }
   }
   markEditExit(student: JournalData, mark: number) {
     if (student.marks[mark]) {
