@@ -16,6 +16,7 @@ const routes: Routes = [
     path: '',
     component: AdminPanelComponent,
     canLoad: [AdminGuard],
+    canActivate: [AdminGuard],
     children: [
       {
         path: '',

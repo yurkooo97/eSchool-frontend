@@ -15,6 +15,8 @@ export class TeacherJournalsService {
 
   public journalChanged = new Subject<Journal>();
 
+  public markSelected = new Subject<Mark>();
+
   readonly allJournals: string = '/journals';
   readonly activeJournal: string = '/active';
 
@@ -22,6 +24,9 @@ export class TeacherJournalsService {
 
   public emitJournalChanged(journal: Journal) {
     this.journalChanged.next(journal);
+  }
+  public markSelect(mark: Mark) {
+    this.markSelected.next(mark);
   }
 
   private homeTaskUrl(idSubject: number, idClass: number): string {
@@ -139,6 +144,7 @@ export class TeacherJournalsService {
     });
     return filteredData;
   }
+
 
   public sendMark(mark: Mark, studentID: number): Observable<any> {
   const data = {

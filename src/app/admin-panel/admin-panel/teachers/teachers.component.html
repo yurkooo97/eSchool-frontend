@@ -147,7 +147,7 @@
             [class.is-invalid]="patronymic.invalid && patronymic.touched"
             #patronymic="ngModel"
             [(ngModel)]="teacher.patronymic"
-            minlength="7"
+            minlength="3"
             maxlength="20"
             required
             name="patronymic"
@@ -216,6 +216,7 @@
             #login="ngModel"
             minlength="5"
             maxlength="20"
+            (keyup)="checkLogin($event)"
           />
           <span class="ui-inputgroup-addon"><i class="fas fa-key"></i></span>
         </div>
@@ -224,6 +225,9 @@
           class="requiredMessage"
           >Некоректний логін (не менше 5 символів)</span
         >
+        <span *ngIf="loginStatus" class="requiredMessage">{{
+          loginStatus
+        }}</span>
         <br />
         <div class="ui-inputgroup">
           <input
@@ -297,7 +301,7 @@
         icon="pi pi-check"
         (click)="create()"
         label="Зберегти"
-        [disabled]="teacherForm.invalid"
+        [disabled]="teacherForm.invalid || loginStatus"
       ></button>
       <button
         *ngIf="!newTeacher"
@@ -306,7 +310,7 @@
         icon="pi pi-check"
         (click)="save()"
         label="Зберегти"
-        [disabled]="teacherForm.invalid"
+        [disabled]="teacherForm.invalid || loginStatus"
       ></button>
     </div>
   </p-footer>

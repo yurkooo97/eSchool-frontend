@@ -42,6 +42,8 @@ import { DayComponent } from './admin-panel/class-schedule/day/day.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { AccordionModule } from 'primeng/accordion';
+import { SpinnerModule } from 'primeng/spinner';
+
 
 @NgModule({
   imports: [
@@ -72,7 +74,8 @@ import { AccordionModule } from 'primeng/accordion';
     ProgressBarModule,
     ToastModule,
     ConfirmDialogModule,
-    AccordionModule
+    AccordionModule,
+    SpinnerModule
   ],
 
   providers: [
