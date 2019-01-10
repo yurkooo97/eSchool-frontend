@@ -18,6 +18,7 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
+import { ToastModule } from 'primeng/toast';
 import { JournalDataComponent } from './journal/journal-data/journal-data.component';
 
 @NgModule({
@@ -35,6 +36,7 @@ import { JournalDataComponent } from './journal/journal-data/journal-data.compon
     InputTextareaModule,
     DialogModule,
     TooltipModule,
+    ToastModule,
     ButtonModule
   ],
   declarations: [JournalComponent, MenuComponent, HometaskComponent, JournalDataComponent]

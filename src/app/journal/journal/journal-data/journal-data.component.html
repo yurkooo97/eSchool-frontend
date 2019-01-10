@@ -2,7 +2,7 @@
 <ng-container *ngIf="isDataRecived === true">
     <p-table [columns]="scrollableCols" [frozenColumns]="frozenCols" [value]="journalData" [scrollable]="true"
         [(contextMenuSelection)]="selectedMark" [contextMenu]="contextMenu"
-        scrollHeight="400px" frozenWidth="24em">
+        scrollHeight="400px" frozenWidth="20rem">
         <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
                 <col *ngFor="let col of columns" [style.width]="col.width">
@@ -10,8 +10,7 @@
         </ng-template>
         <ng-template pTemplate="header" let-columns>
             <tr>
-                <th *ngFor="let col of columns" class="journalHeader" 
-                (click)="daySelected(col)">
+                <th *ngFor="let col of columns" [ngStyle]="{'background-color':bgColorForMarkType(col)}" class="journalHeader">
                         <ng-container *ngIf="(+col.field + 1)">
                                 <div>{{col.header.split('/')[2]}}</div>
                                 <div>{{col.header.split('/')[1]}}</div>
@@ -34,7 +33,7 @@
                         </ng-container>
                         <ng-container *ngSwitchCase="'studentFullName'">{{rowData.studentFullName}}</ng-container>
                         <ng-container *ngSwitchDefault>
-                            <div *ngIf="!isEditMode(rowData, col.field)" class="mark" [pTooltip]="rowData.marks[col.field].note" [hideDelay]="200" [pContextMenuRow]="{row:rowData, col:col}">
+                            <div *ngIf="!isEditMode(rowData, col.field) && rowData.marks[col.field].mark" class="mark" [pTooltip]="rowData.marks[col.field].note" [hideDelay]="200" [pContextMenuRow]="{row:rowData, col:col}">
                                 {{markStudent(rowData, col.field)}}
                             </div>
                             <div *ngIf="isEditMode(rowData, col.field)" >
@@ -50,7 +49,6 @@
                                     #box (keyup.enter)="markEditExit(rowData, col.field)" 
                                     #box (keyup)="onKeydown($event)"> 
                                 </p-inputMask>
-
                             </div>
                         </ng-container>
                 </td>
@@ -65,7 +63,7 @@
   [responsive]="true"
   showEffect="fade"
   [modal]="true"
-  [width]="230"
+  [width]="260"
   [height]="400"
   [minWidth]="200"
   #overlay>
@@ -74,3 +72,4 @@
         <button type="button" pButton icon="pi pi-check" (click)="storeMarkDescription()" label="Зберегти"></button>
     </p-footer>
 </p-dialog>
+<p-toast [style]="{marginTop: '80px'}" position="top-center" key="error"></p-toast>
