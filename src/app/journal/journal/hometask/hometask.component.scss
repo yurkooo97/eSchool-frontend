@@ -4,6 +4,19 @@
     text-align:center;
   }
 }
+.text-center {
+  text-align: center;
+}
+.single-hometask-container {
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  margin: 0 auto;
+  > div {
+    border: 1px solid #c8c8c8;
+    padding: 20px;
+  }
+}
 .past-task-enabler {
   display: flex;
   align-items: center;
