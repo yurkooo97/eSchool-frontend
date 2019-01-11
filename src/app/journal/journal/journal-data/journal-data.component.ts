@@ -62,10 +62,11 @@ export class JournalDataComponent implements OnInit {
   get journalDeys(): { field: string, header: string } [] {
     if (this.journalData && this.journalData.length > 0) {
       return this.journalData[0].marks.map( (mark, index) => {
-        const dayType = mark.typeMark ? mark.typeMark + '/' : ' /';
-        const weekDay = this.dayForMonth(mark.dateMark) + '/';
+        const dayType = mark.typeMark ? mark.typeMark + ',' : ',';
+        const weekDay = this.dayForMonth(mark.dateMark) + ',';
         const day = mark.dateMark.slice(mark.dateMark.indexOf('.') + 1);
-        return {field: '' + index, header: dayType + weekDay + day, width: '5em'};
+        const formatedDay = day.split('.')[1] + '/' + day.split('.')[0];
+        return {field: '' + index, header: dayType + weekDay + formatedDay, width: '5em'};
       });
     } else {
       return;
@@ -182,9 +183,9 @@ export class JournalDataComponent implements OnInit {
       return 'mark';
     }
     const indexMark: number = +col.field;
-    if (!(indexMark+1) || this.journalData.length < 1) { return 'inherit';}
+    if (!(indexMark+1) || this.journalData.length < 1) { return '#f4f4f4';}
     const mark: Mark = this.journalData[0].marks[indexMark];
-    if (!mark.typeMark) { return 'inherit'};
+    if (!mark.typeMark) { return '#f4f4f4'};
     switch (mark.typeMark.toLowerCase()) {
       case 'лабораторна':
         return 'rgba(255, 205, 150, 0.5)'
@@ -193,7 +194,7 @@ export class JournalDataComponent implements OnInit {
       case 'тематична':
         return 'rgba(255, 0, 0, 0.5)'
       default:
-        return 'inherit'
+        return '#f4f4f4'
     }
   }
   markEditExit(student: JournalData, mark: number) {
