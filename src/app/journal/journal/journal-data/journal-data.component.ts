@@ -50,11 +50,12 @@ export class JournalDataComponent implements OnInit {
       .getjournals(journal.idSubject, journal.idClass)
       .subscribe( data => {
         this.journalData = data;
-        this.countRating();
         this.scrollableCols = this.journalDeys;
         this.isDataRecived = data.length > 0;
         if (data.length < 1) {
           this.showNotification('warn', 'Журнал порожній', 'Адміністратор має заповнити дані про клас та визначити графік');
+        } else {
+          this.countRating();
         }
       });
     });
@@ -176,7 +177,7 @@ export class JournalDataComponent implements OnInit {
     }
   }
   isSelected(student: JournalData, mark: number): boolean {
-    return ((student.marks[mark]) && (student.marks[mark].isSelected) && student.marks[mark].isSelected);
+    return ((student.marks[mark]) && (student.marks[mark].isSelected));
   }
   bgColorForMarkType(col: Header): string {
     if (!col) {
@@ -287,7 +288,7 @@ export class JournalDataComponent implements OnInit {
     });
   }
   selectMarksMonth(all: boolean = false, invert: boolean = false) {
-    const month = this.selectedMark.col.header.split('/')[2].split('.')[0];
+    const month = this.selectedMark.col.header.split(',')[2].split('/')[1];
     if (all) {
       this.journalData.forEach( (student: JournalData) => {
         student.marks.forEach( (mark: Mark) => {
