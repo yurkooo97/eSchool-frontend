@@ -36,17 +36,18 @@
     </div>
     <div class="accordion-data-container">
       <div class="accordion-img">
-        <img src="{{student.avatar}}" class="accordion-avatar">
+        <img *ngIf="student.avatar !== null" src="{{student.avatar}}" class="accordion-avatar">
+        <img *ngIf="student.avatar == null" src="assets/avatar.png" class="accordion-avatar">
       </div>
       <div class="accordion-data">
         <span class="accordion-class-title">Учень {{selectedClassName}}</span><br>
-        <span class="accordion-name">{{student.firstname}} {{student.patronymic}}<br>{{student.lastname}}</span>
-        <div class="accordion-full-info">
-          <p><span class="accordion-data-record">Дата народження:</span> {{student.dateOfBirth}}</p>
-          <p><span class="accordion-data-record">Номер телефону:</span> {{student.phone}}</p>
-          <p><span class="accordion-data-record">Email:</span> {{student.email}}</p>
-          <p><span class="accordion-data-record">Логін:</span> {{student.login}}</p>
-        </div>
+        <span class="accordion-name">{{student.firstname}} {{student.patronymic}} {{student.lastname}}</span>
+      </div>
+      <div class="accordion-full-info">
+        <p><span class="accordion-data-record">Дата народження:</span> {{student.dateOfBirth}}</p>
+        <p><span class="accordion-data-record">Номер телефону:</span> {{student.phone}}</p>
+        <p><span class="accordion-data-record">Email:</span> {{student.email}}</p>
+        <p><span class="accordion-data-record">Логін:</span> {{student.login}}</p>
       </div>
     </div>
   </p-accordionTab>
@@ -94,11 +95,12 @@
 <p-overlayPanel [showCloseIcon]="true" #oPanel>
   <div class="student-data-container">
     <div class="student-img">
-      <img src="{{selectedStudent.avatar}}" class="student-avatar">
+      <img *ngIf="selectedStudent.avatar !== null" src="{{selectedStudent.avatar}}" class="student-avatar">
+      <img *ngIf="selectedStudent.avatar == null" src="assets/avatar.png" class="student-avatar">
     </div>
     <div class="student-data">
       <span class="student-class-title">Учень {{selectedClassName}}</span><br>
-      <span class="student-name">{{selectedStudent.firstname}} {{selectedStudent.patronymic}}<br>{{selectedStudent.lastname}}</span>
+      <span class="student-name">{{selectedStudent.firstname}} {{selectedStudent.patronymic}} {{selectedStudent.lastname}}</span>
       <div class="student-full-info">
         <p><span class="student-data-record">Дата народження:</span> {{selectedStudent.dateOfBirth}}</p>
         <p><span class="student-data-record">Номер телефону:</span> {{selectedStudent.phone}}</p>
@@ -196,11 +198,12 @@
       <div class="ui-inputgroup">
         <input id="float-input-login" type="text" placeholder="Логін" pInputText
                [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login"
-               [(ngModel)]="newStudent.login" minlength="5" maxlength="20"/>
-        <span class="ui-inputgroup-addon" [class.wrongData1]="login.invalid && login.touched"
+               [(ngModel)]="newStudent.login" (blur)="studentLogin()" minlength="5" maxlength="20"/>
+        <span class="ui-inputgroup-addon" [class.wrongData1]="(login.invalid && login.touched) || !isLoginFree"
               [class.correctData1]="login.valid && login.touched"><i class="fas fa-key"></i></span>
       </div>
       <span [class.hiddenBox]="login.valid || login.untouched" class="messageOfMistake">Некоректний логін (не менше 5 символів)</span>
+      <span *ngIf="!isLoginFree" class="messageOfMistake">{{loginStatusMessage}}</span>
       <br>
       <div class="ui-inputgroup">
         <p-inputMask id="float-input-phone" class="phone-number" mask="(999)-999-9999" placeholder="Номер телефону"
@@ -231,6 +234,6 @@
   </form>
   <p-footer>
     <button type="button" pButton icon="pi pi-check" (click)="saveStudent(); studentsForm.reset();"
-            class="ui-button-raised" label="Зберегти" [disabled]="studentsForm.invalid"></button>
+            class="ui-button-raised" label="Зберегти" [disabled]="studentsForm.invalid || !isLoginFree"></button>
   </p-footer>
 </p-dialog>

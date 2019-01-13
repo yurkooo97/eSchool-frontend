@@ -28,6 +28,8 @@ export class StudentsComponent implements OnInit {
   selectedClassId: number;
   displayForm: boolean;
   photoMessage: string;
+  loginStatusMessage: string;
+  isLoginFree: boolean;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
   constructor(
@@ -40,6 +42,7 @@ export class StudentsComponent implements OnInit {
   ngOnInit() {
     this.screenWidthDetector();
     this.loading = true;
+    this.isLoginFree = true;
     this.service_.getClasses()
       .subscribe(data => {
           this.classes = data;
@@ -106,6 +109,7 @@ export class StudentsComponent implements OnInit {
   }
 
   editStudent(student: Student) {
+    this.selectedStudent = student;
     this.newStudent = new Student(
       student.firstname,
       student.lastname,
@@ -210,9 +214,11 @@ export class StudentsComponent implements OnInit {
   screenWidthDetector() {
     this.screenWidth = window.innerWidth;
   }
+
   printData() {
     window.print();
   }
+
   sendData() {
     this.service_.sendStudentsData(this.selectedClassId).subscribe(
       () => {
@@ -231,5 +237,19 @@ export class StudentsComponent implements OnInit {
         );
       }
     );
+  }
+
+  studentLogin() {
+    this.service_.checkStudentLogin(this.newStudent).subscribe(data => {
+      if (data == null && this.selectedStudent.login !== this.newStudent.login) {
+        this.isLoginFree = false;
+        this.loginStatusMessage = 'Такий логін вже використовується';
+      } else {
+        this.isLoginFree = true;
+        this.loginStatusMessage = '';
+      }
+    }, err => {
+      this.isLoginFree = true;
+    });
   }
 }
