@@ -61,3 +61,9 @@ $required: red;
 .subjectsForm ::ng-deep input:hover {
   border-bottom-color: #000000 !important;
 }
+.progress-box {
+  height: 6px;
+}
+.p-progress-bar .ui-progressbar-indeterminate {
+  border-radius: 0 !important;
+}

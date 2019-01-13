@@ -1,4 +1,8 @@
-<p-table [columns]="cols" [value]="subjects" [loading]="loading" [(selection)]="selectedSubject" [responsive]="true">
+<div class="progress-box">
+  <p-progressBar class="p-progress-bar" mode="indeterminate" [style]="{'height': '6px'}"
+                 [hidden]="!loading"></p-progressBar>
+</div>
+<p-table [columns]="cols" [value]="subjects" [(selection)]="selectedSubject" [responsive]="true">
   <ng-template pTemplate="caption"> Предмети </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>

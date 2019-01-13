@@ -28,7 +28,7 @@ export class StudentsComponent implements OnInit {
   selectedClassId: number;
   displayForm: boolean;
   photoMessage: string;
-  photoPath: any;
+  photoPath: any = 'assets/avatar.png';
   loginStatusMessage: string;
   isLoginFree: boolean;
   imageUrl: any = 'assets/avatar.png';

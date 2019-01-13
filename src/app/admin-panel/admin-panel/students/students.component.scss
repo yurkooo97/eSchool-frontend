@@ -270,10 +270,16 @@
     width: calc(12.5% - 4px);
   }
 }
-@media screen and (max-width: 1220px) {
+@media screen and (max-width: 1225px) {
   .classButton {
     margin: 0 2px 4px 2px;
     width: calc(14.2857142% - 4px);
+  }
+}
+@media screen and (max-width: 1065px) {
+  .classButton {
+    margin: 0 1.5px 4px 1.5px;
+    width: calc(16.6666666% - 4px);
   }
 }
 @media screen and (max-width: 880px) {
@@ -282,7 +288,7 @@
     width: calc(16.6666666% - 4px);
   }
 }
-@media screen and (max-width: 760px) {
+@media screen and (max-width: 765px) {
   .classButton {
     margin: 0 1.5px 3px 1.5px;
     width: calc(20% - 3px);
@@ -307,7 +313,7 @@
     }
   }
 }
-@media screen and (max-width: 630px) {
+@media screen and (max-width: 635px) {
   .classButton {
     margin: 0 1.5px 3px 1.5px;
     width: calc(25% - 3px);

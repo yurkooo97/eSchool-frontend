@@ -1,3 +1,7 @@
+<div class="progress-box">
+  <p-progressBar class="p-progress-bar" mode="indeterminate" [style]="{'height': '6px'}"
+                 [hidden]="!loading"></p-progressBar>
+</div>
 <p-fieldset legend="Активні класи">
   <span *ngFor="let  class_ of classes">
     <button *ngIf="class_.isActive" type="button" pButton icon="pi pi-folder" label="{{class_.className}}"
@@ -17,10 +21,6 @@
   </span>
 </p-fieldset>
 <br>
-<div class="progress-box">
-  <p-progressBar class="p-progress-bar" mode="indeterminate" [style]="{'height': '6px'}"
-                 [hidden]="!loading"></p-progressBar>
-</div>
 <span *ngIf="screenWidth < 700" class="number-of-students-alt"><i class="fas fa-users"></i> {{numberOfStudents}}</span>
 <button type="button" *ngIf="screenWidth < 700"
         (click)="studentsForm.reset(); createStudent()"
