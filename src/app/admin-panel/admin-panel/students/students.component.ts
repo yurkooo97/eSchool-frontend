@@ -28,6 +28,7 @@ export class StudentsComponent implements OnInit {
   selectedClassId: number;
   displayForm: boolean;
   photoMessage: string;
+  photoPath: any;
   loginStatusMessage: string;
   isLoginFree: boolean;
   imageUrl: any = 'assets/avatar.png';
@@ -71,6 +72,7 @@ export class StudentsComponent implements OnInit {
         this.imageUrl = 'assets/avatar.png';
       } else {
         this.photoMessage = '';
+        this.photoPath = event.target.result;
         this.newStudent.avatar = event.target.result;
       }
     };
@@ -90,20 +92,7 @@ export class StudentsComponent implements OnInit {
   }
 
   createStudent() {
-    this.newStudent = new Student(
-      '',
-      '',
-      '',
-      this.selectedClassId,
-      '',
-      '',
-      '',
-      '',
-      0,
-      '',
-      '',
-      this.newStudent.avatar
-    );
+    this.newStudent = new Student();
     this.isNew = true;
     this.showForm();
   }
@@ -130,6 +119,8 @@ export class StudentsComponent implements OnInit {
   saveStudent() {
     if (this.isNew) {
       this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
+      this.newStudent.classId = this.selectedClassId;
+      this.newStudent.avatar = this.photoPath;
       this.displayForm = false;
       this.service_.addStudent(this.newStudent).subscribe(data => {
         this.loadStudents(this.selectedClassId);

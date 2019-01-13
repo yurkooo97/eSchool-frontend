@@ -23,7 +23,7 @@
 </div>
 <span *ngIf="screenWidth < 700" class="number-of-students-alt"><i class="fas fa-users"></i> {{numberOfStudents}}</span>
 <button type="button" *ngIf="screenWidth < 700"
-        (click)="createStudent(); this.firstname.reset(); this.lastname.reset(); this.patronymic.reset(); this.dateOfBirth.reset()"
+        (click)="studentsForm.reset(); createStudent()"
         pButton icon="pi pi-plus" class="ui-button-raised responsive-add" label="Додати учня"></button>
 <p-accordion *ngIf="screenWidth < 700">
   <p-accordionTab *ngFor="let student of students"
@@ -86,7 +86,7 @@
   <ng-template pTemplate="summary">
     <div style="text-align:left">
       <button type="button"
-              (click)="createStudent(); this.firstname.reset(); this.lastname.reset(); this.patronymic.reset(); this.dateOfBirth.reset()"
+              (click)="studentsForm.reset(); createStudent()"
               pButton icon="pi pi-plus" class="ui-button-raised" label="Додати учня"></button>
     </div>
   </ng-template>
@@ -199,7 +199,7 @@
         <input id="float-input-login" type="text" placeholder="Логін" pInputText
                [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login"
                [(ngModel)]="newStudent.login" (blur)="studentLogin()" minlength="5" maxlength="20"/>
-        <span class="ui-inputgroup-addon" [class.wrongData1]="(login.invalid && login.touched) || !isLoginFree"
+        <span class="ui-inputgroup-addon" [class.wrongData1]="login.invalid && login.touched"
               [class.correctData1]="login.valid && login.touched"><i class="fas fa-key"></i></span>
       </div>
       <span [class.hiddenBox]="login.valid || login.untouched" class="messageOfMistake">Некоректний логін (не менше 5 символів)</span>
@@ -227,7 +227,7 @@
         <span class="ui-inputgroup-addon"><i class="fas fa-upload"></i></span>
         <span class="photoError">{{ photoMessage }}</span>
       </div>
-      <img *ngIf="newStudent.avatar != null" [src]="newStudent.avatar" alt="Photo" class="avatar-url">
+      <img *ngIf="newStudent.avatar !== null" [src]="newStudent.avatar" alt="Photo" class="avatar-url">
       <img *ngIf="newStudent.avatar == null" [src]="imageUrl" alt="Photo" class="avatar-url">
     </p-fieldset>
     <br>
