@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -161,10 +161,10 @@ export class AuthenticationService {
     const curTime = new Date().getTime();
     this.tokenRefreshTimestamp = curTime;
     localStorage.setItem('authToken', token);
-    this.setTokenExpireCallback();
+    this.setTokenExpireTimeout();
   }
 
-  private setTokenExpireCallback() {
+  private setTokenExpireTimeout() {
     if (this.tokenExpireTimerId) {
       clearTimeout(this.tokenExpireTimerId);
     }

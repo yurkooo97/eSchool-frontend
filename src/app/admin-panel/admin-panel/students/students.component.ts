@@ -22,6 +22,7 @@ export class StudentsComponent implements OnInit {
   numberOfStudents: number;
   isNew: boolean;
   loading: boolean;
+  screenWidth: number;
   cols: any[];
   selectedClassName: string;
   selectedClassId: number;
@@ -37,6 +38,7 @@ export class StudentsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.screenWidthDetector();
     this.loading = true;
     this.service_.getClasses()
       .subscribe(data => {
@@ -46,8 +48,10 @@ export class StudentsComponent implements OnInit {
 
     this.cols = [
       { field: 'firstname', header: 'Ім\'я' },
+      { field: 'patronymic', header: 'По батькові' },
       { field: 'lastname', header: 'Прізвище' },
-      { field: 'patronymic', header: 'По батькові' }
+      { field: 'dateOfBirth', header: 'Дата народження' },
+      { field: 'classe', header: 'Клас' }
     ];
 
     this.newStudent = new Student();
@@ -95,7 +99,6 @@ export class StudentsComponent implements OnInit {
       0,
       '',
       '',
-      true,
       this.newStudent.avatar
     );
     this.isNew = true;
@@ -115,29 +118,9 @@ export class StudentsComponent implements OnInit {
       student.id,
       student.oldPass,
       student.newPass,
-      student.enabled = true,
       student.avatar
     );
     this.isNew = false;
-    this.showForm();
-  }
-
-  deleteStudent(student: Student) {
-    this.newStudent = new Student(
-      student.firstname,
-      student.lastname,
-      student.patronymic,
-      student.classId = null,
-      student.dateOfBirth,
-      student.email,
-      student.phone,
-      student.login,
-      student.id,
-      student.oldPass,
-      student.newPass,
-      student.enabled = false,
-      student.avatar
-    );
   }
 
   saveStudent() {
@@ -156,7 +139,7 @@ export class StudentsComponent implements OnInit {
         this.notificationToasts.notify(
           'error',
           'Відхилено',
-          'Невдалося додати нового учня');
+          'Не вдалося додати нового учня');
       });
     } else {
       this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
@@ -173,7 +156,7 @@ export class StudentsComponent implements OnInit {
         this.notificationToasts.notify(
           'error',
           'Відхилено',
-          'Невдалося зберегти учня');
+          'Не вдалося зберегти учня');
       });
     }
   }
@@ -194,7 +177,13 @@ export class StudentsComponent implements OnInit {
   showConfirm(student: Student) {
     this.selectedStudent = student;
     this.messageService.clear();
-    this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'Ви впевнені, що хочите видалити такого учня:', detail:'Підтвердіть, або скасуйте видалення'});
+    this.messageService.add({
+      key: 'c',
+      sticky: true,
+      severity: 'warn',
+      summary: 'Ви впевнені, що хочите видалити такого учня:',
+      detail: 'Підтвердіть, або скасуйте видалення'
+    });
   }
 
   onConfirm() {
@@ -209,7 +198,7 @@ export class StudentsComponent implements OnInit {
       this.notificationToasts.notify(
         'error',
         'Відхилено',
-        'Невдалося видалити учня');
+        'Не вдалося видалити учня');
     });
     this.messageService.clear('c');
   }
@@ -218,7 +207,29 @@ export class StudentsComponent implements OnInit {
     this.messageService.clear('c');
   }
 
-  clear() {
-    this.messageService.clear();
+  screenWidthDetector() {
+    this.screenWidth = window.innerWidth;
+  }
+  printData() {
+    window.print();
+  }
+  sendData() {
+    this.service_.sendStudentsData(this.selectedClassId).subscribe(
+      () => {
+        this.notificationToasts.notify(
+          'success',
+          'Успішно виконано',
+          'На вашу електронну адресу надіслано дані всіх учнів'
+        );
+      },
+      err => {
+        console.error(err);
+        this.notificationToasts.notify(
+          'error',
+          'Відхилено',
+          'Не вдалося надіслати дані'
+        );
+      }
+    );
   }
 }

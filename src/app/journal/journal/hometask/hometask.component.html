@@ -1,10 +1,24 @@
-<ng-container *ngIf="selectedLessons">
-  <h3>
-    <span>Домашнє завдання для обраних уроків</span>
+<ng-container *ngIf="activeMark">
+  <h3 class="text-center">
+    <span>Домашнє завдання для обраної дати ({{activeMark.dateMark}})</span>
   </h3>
+  <div class="single-hometask-container">
+    <div>
+      Текстовий опис домашнього завдання
+    </div>
+    <div>
+      Існуючий файл
+    </div>
+    <div>
+      Додати файл
+    </div>
+    <div>
+      Зберегти зміни
+    </div>
+  </div>
 </ng-container>
 <ng-container *ngIf="activeJournal">
-  <h3>
+  <h3 class="text-center">
     <span>Домашнє завдання для </span>
     <span *ngIf="activeJournal">
       {{activeJournal ? activeJournal.className + ' класу з предмету "' + activeJournal.subjectName + '"' : 'Відсутні дані'}}
