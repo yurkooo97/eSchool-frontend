@@ -5,13 +5,14 @@ import { TeacherJournalsService } from '../../../services/teacher-journals.servi
 import { Journal } from '../../../models/journal.model';
 import { formatDate } from '@angular/common';
 import { HomeTaskFile } from '../../../models/homeTaskFile.model';
+import { Mark } from '../../../models/journalMark.model';
 
 @Component({
   selector: 'app-hometask',
   templateUrl: './hometask.component.html',
   styleUrls: ['./hometask.component.scss']
 })
-export class HometaskComponent implements OnInit {
+export class HometaskComponent implements OnInit, OnDestroy {
 
   hometasks: Hometask[];
   hometasksToDisplay: Hometask[];
@@ -25,12 +26,14 @@ export class HometaskComponent implements OnInit {
   currentDate: string;
   today = new Date();
   homeTaskFiles: HomeTaskFile[];
+  activeMark: Mark;
 
   constructor(private teacherJournalService: TeacherJournalsService) { }
 
   ngOnInit() {
     this.teacherJournalService.journalChanged.subscribe((journal: Journal) => {
       this.activeJournal = journal;
+      this.getSelectedMarks();
       this.teacherJournalService.getHomeworks(this.activeJournal.idSubject, this.activeJournal.idClass)
         .subscribe(hometasks => {
             this.hometasks = hometasks;
@@ -49,6 +52,12 @@ export class HometaskComponent implements OnInit {
     this.currentDate = formatDate(this.today, 'yyyy.MM.dd', 'en-US', '+0200');
   }
 
+  getSelectedMarks() {
+    this.teacherJournalService.markSelected.subscribe( mark => {
+      this.activeMark = mark;
+    });
+  }
+
   onSortChange(event): void {
     const value = event.value;
     console.log('value', value);
@@ -62,16 +71,18 @@ export class HometaskComponent implements OnInit {
   }
 
   openHomeTask(idLesson: number): void {
-
-    let file: string;
+    let fileUrl: string;
+    let fileData: string;
+    let fileType: string;
 
     if (!idLesson) {
-      file = '';
+      fileUrl = '';
     } else {
-      file = this.homeTaskFiles[idLesson].fileData;
-      console.log('file', file);
+      fileData = this.homeTaskFiles[idLesson].fileData;
+      fileType = this.homeTaskFiles[idLesson].fileType;
+      fileUrl = this.teacherJournalService.getHomeTaskFileUrl(fileData, fileType);
     }
-    window.open('/');
+    window.open(fileUrl);
   }
 
   onPastTasksChange(): void {
@@ -95,5 +106,10 @@ export class HometaskComponent implements OnInit {
       rule = true;
     }
     return rule;
+  }
+
+  ngOnDestroy() {
+    this.teacherJournalService.journalChanged.unsubscribe();
+    this.teacherJournalService.markSelected.unsubscribe();
   }
 }
