@@ -28,6 +28,9 @@ export class StudentsComponent implements OnInit {
   selectedClassId: number;
   displayForm: boolean;
   photoMessage: string;
+  photoPath: any = 'assets/avatar.png';
+  loginStatusMessage: string;
+  isLoginFree: boolean;
   imageUrl: any = 'assets/avatar.png';
   fileToUpload: File = null;
   constructor(
@@ -40,6 +43,7 @@ export class StudentsComponent implements OnInit {
   ngOnInit() {
     this.screenWidthDetector();
     this.loading = true;
+    this.isLoginFree = true;
     this.service_.getClasses()
       .subscribe(data => {
           this.classes = data;
@@ -68,6 +72,7 @@ export class StudentsComponent implements OnInit {
         this.imageUrl = 'assets/avatar.png';
       } else {
         this.photoMessage = '';
+        this.photoPath = event.target.result;
         this.newStudent.avatar = event.target.result;
       }
     };
@@ -87,25 +92,13 @@ export class StudentsComponent implements OnInit {
   }
 
   createStudent() {
-    this.newStudent = new Student(
-      '',
-      '',
-      '',
-      this.selectedClassId,
-      '',
-      '',
-      '',
-      '',
-      0,
-      '',
-      '',
-      this.newStudent.avatar
-    );
+    this.newStudent = new Student();
     this.isNew = true;
     this.showForm();
   }
 
   editStudent(student: Student) {
+    this.selectedStudent = student;
     this.newStudent = new Student(
       student.firstname,
       student.lastname,
@@ -126,6 +119,8 @@ export class StudentsComponent implements OnInit {
   saveStudent() {
     if (this.isNew) {
       this.newStudent.dateOfBirth = this._teacherServices.formatDate(this.newStudent.dateOfBirth);
+      this.newStudent.classId = this.selectedClassId;
+      this.newStudent.avatar = this.photoPath;
       this.displayForm = false;
       this.service_.addStudent(this.newStudent).subscribe(data => {
         this.loadStudents(this.selectedClassId);
@@ -210,9 +205,11 @@ export class StudentsComponent implements OnInit {
   screenWidthDetector() {
     this.screenWidth = window.innerWidth;
   }
+
   printData() {
     window.print();
   }
+
   sendData() {
     this.service_.sendStudentsData(this.selectedClassId).subscribe(
       () => {
@@ -231,5 +228,19 @@ export class StudentsComponent implements OnInit {
         );
       }
     );
+  }
+
+  studentLogin() {
+    this.service_.checkStudentLogin(this.newStudent).subscribe(data => {
+      if (data == null && this.selectedStudent.login !== this.newStudent.login) {
+        this.isLoginFree = false;
+        this.loginStatusMessage = 'Такий логін вже використовується';
+      } else {
+        this.isLoginFree = true;
+        this.loginStatusMessage = '';
+      }
+    }, err => {
+      this.isLoginFree = true;
+    });
   }
 }
