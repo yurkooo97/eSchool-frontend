@@ -163,7 +163,6 @@ export class AuthenticationService {
     localStorage.setItem('authToken', token);
     this.setTokenExpireTimeout();
   }
-
   private setTokenExpireTimeout() {
     if (this.tokenExpireTimerId) {
       clearTimeout(this.tokenExpireTimerId);

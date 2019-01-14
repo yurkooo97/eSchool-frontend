@@ -6,21 +6,31 @@
                 optionLabel="className"
                 placeholder="Оберіть клас:"
                 (onChange)="showSubjects()">
-
     </p-dropdown>
-    <p-dropdown [options]="displayJournalsBySubject"
-                [(ngModel)]="selectedSubjectName"
-                optionLabel="subjectName"
-                placeholder="Оберіть предмет:">
-
+    <p-dropdown
+      [options]="displayJournalsBySubject"
+      [(ngModel)]="selectedSubjectName"
+      optionLabel="subjectName"
+      placeholder="Оберіть предмет:"
+    >
     </p-dropdown>
-    <span class="selected-year"
-          *ngIf="selectedClassName">{{selectedClassName ? 'Обраний навчальний рік: ' + selectedClassName.academicYear : 'none'}}
+    <span class="selected-year" *ngIf="selectedClassName"
+      >{{
+        selectedClassName
+          ? 'Обраний навчальний рік: ' + selectedClassName.academicYear
+          : 'none'
+      }}
     </span>
-    <p-button *ngIf="selectedSubjectName"
-              label="Завантажити журнал"
-              (click)="setSelectedJournal()">
-
+    <p-button
+      *ngIf="selectedSubjectName"
+      label="Завантажити журнал"
+      (click)="setSelectedJournal()"
+    >
     </p-button>
   </div>
+  <p-button
+    class="progress"
+    label="Статистика"
+    (click)="goToProgress()"
+  ></p-button>
 </p-toolbar>

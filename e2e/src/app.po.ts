@@ -4,6 +4,7 @@ export class AppPage {
   navigateTo() {
     return browser.get('/');
   }
+
   getParagraphText() {
     return $('app-root h1').getText();
   }
