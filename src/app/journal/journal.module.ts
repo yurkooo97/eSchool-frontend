@@ -29,6 +29,11 @@ import { JournalDataComponent } from './journal/journal-data/journal-data.compon
     CheckboxModule,
     ButtonModule
   ],
-  declarations: [JournalComponent, MenuComponent, HometaskComponent, JournalDataComponent]
+  declarations: [
+    JournalComponent,
+    MenuComponent,
+    HometaskComponent,
+    JournalDataComponent
+  ]
 })
-export class JournalModule { }
+export class JournalModule {}

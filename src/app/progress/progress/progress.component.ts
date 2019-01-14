@@ -6,8 +6,9 @@ import { StudentsService } from 'src/app/services/admin-students.service';
 import { SelectItem } from 'primeng/api';
 import { Group } from '../../../app/models/group.model';
 import { Subject } from 'src/app/models/subjects.model';
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { TeachersService } from 'src/app/services/teachers.service';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
   selector: 'app-progress',
@@ -36,34 +37,17 @@ export class ProgressComponent implements OnInit {
   avgMark: number[];
   avgMarkAllSubjects: number;
   isButtonDisabled: boolean;
-
   selectedChartsType = 'student';
-  chartMarks = {
-    datasets: [
-      {
-        label: 'First Dataset',
-        data: [{ x: 1, y: 2 }, { x: 2, y: 4 }, { x: 3, y: 8 }, { x: 4, y: 16 }],
-        fill: false,
-        showLine: true,
-        borderColor: '#4bc0c0'
-      },
-      {
-        label: 'Second Dataset',
-        data: [{ x: 1, y: 3 }, { x: 3, y: 4 }, { x: 4, y: 6 }, { x: 6, y: 9 }],
-        fill: false,
-        showLine: true,
-        borderColor: '#565656'
-      }
-    ]
-  };
+  chartMarks: any;
 
-  studentMarks: any;
-  markDate: any;
-  options: any;
+  chartOptions: any;
   defaultDate = new Date();
+  color = new ChartColor();
+  timeFormat = '';
 
   constructor(
     private groupService: AdmingroupsService,
+    private notificationToasts: DataSharingService,
     private _subjectsService: AdminSubjectsService,
     private studentService: StudentsService,
     private marksService: MarksService,
@@ -72,15 +56,51 @@ export class ProgressComponent implements OnInit {
     this.isButtonDisabled = true;
     this.visibleGroups = new Array<Group>();
     this.visibleStudents = new Array<SelectItem>();
+    this.chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 0
+      },
+      hover: {
+        animationDuration: 0
+      },
+      responsiveAnimationDuration: 0,
+      scales: {
+        yAxes: [
+          {
+            display: true,
+            ticks: {
+              beginAtZero: true,
+              stepValue: 1,
+              max: 12
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Оцінка'
+            }
+          }
+        ],
+        xAxes: [
+          {
+            type: 'time',
+            time: {
+              format: this.timeFormat,
+              // round: 'day'
+              tooltipFormat: 'll'
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Дата'
+            }
+          }
+        ]
+      }
+    };
   }
 
   ngOnInit() {
     this.calendar();
-    /*this.options = {
-      scales: {
-        yAxes: [{ ticks: { beginAtZero: true, stepValue: 1, max: 12 } }]
-      }
-    };*/
 
     this.groupService.getClasses().subscribe(data => {
       this.groups = data;
@@ -97,7 +117,7 @@ export class ProgressComponent implements OnInit {
 
   formatDate(date) {
     const d = new Date(date);
-    // const year = d.getFullYear();
+    const year = d.getFullYear();
     let month = (d.getMonth() + 1).toString();
     let day = d.getDate().toString();
     if (month.length < 2) {
@@ -106,7 +126,45 @@ export class ProgressComponent implements OnInit {
     if (day.length < 2) {
       day = '0' + day;
     }
-    return [day, month].join('.');
+    return [year, month, day].join('.');
+  }
+
+  // writing marks and dates to the chartMarks object for each selected student
+  funcProceedServerAnswer(servData, firstname, lastname) {
+    const marksData = [];
+
+    servData.forEach((value: any, element: any) => {
+      marksData.push({});
+      marksData[element].y = value.y;
+      marksData[element].x = this.formatDate(value.x);
+    });
+
+    // saving already loaded datasets into a local variable to update full chartMarks later
+    const datasetsLocal = this.chartMarks.datasets;
+    datasetsLocal.push({
+      label: firstname + ' ' + lastname,
+      data: marksData,
+      showLine: true,
+      fill: false,
+      borderColor: this.color.getColor(),
+      backgroundColor: 'white'
+    });
+
+    // fully update chartMarks
+    this.chartMarks = {
+      datasets: datasetsLocal
+    };
+  }
+
+  // showing toast-message for students who do not have marks
+  showToasts(servData, firstname, lastname) {
+    if (servData.length === 0) {
+      this.notificationToasts.notify(
+        'warn',
+        '',
+        ` Для учня ${firstname} ${lastname} за даний період оцінки відсутні`
+      );
+    }
   }
 
   onClickShow() {
@@ -118,11 +176,7 @@ export class ProgressComponent implements OnInit {
       datasets: []
     };
 
-    const chartData = {
-      datasets: []
-    };
-
-    // console.log(this.selectedStudents);
+    // getting data for each selected student
     this.selectedStudents.forEach((item: any) => {
       this.marksService
         .getMarks(
@@ -133,53 +187,28 @@ export class ProgressComponent implements OnInit {
           item.id
         )
         .subscribe(data => {
-          console.log(data);
-          const studentMarks = data.map(mark => mark.y);
-          console.log(studentMarks);
-          const markDates = data.map(mark => mark.x);
-          
-          // chartData.labels = this.joinLabels(chartData.labels, markDates);
-
-          /*chartData.datasets.push({
-            label: item.lastname + ' ' + item.firstname,
-            data: studentMarks,
-            fill: false,
-            borderColor: '#7CB342',
-            backgroundColor: '#7CB342'
-          });*/
-
-          /*this.chartMarks = {
-            labels: chartData.labels.map(date => this.formatDate(date)),
-            datasets: chartData.datasets
-          };*/
-
-          // this.chartMarks.labels = this.markDate;
-          /*chartMarksLocal.datasets.push({
-            label: item.lastname + ' ' + item.firstname,
-            data: this.studentMarks,
-            fill: false,
-            borderColor: '#4bc0c0'
-          });*/
+          this.funcProceedServerAnswer(data, item.firstname, item.lastname);
+          this.showToasts(data, item.firstname, item.lastname);
         });
     });
-    /*this.marksService
-      .getAvgMarks(this.selectedStudent.id, startStr, endStr)
-      .subscribe(data => {
-        this.avgMark = data;
-        this.avgMarkAllSubjects = this.StudentAverageMark(
-          data.map(mark => mark.avgMark)
-        );
-        const subject = data.find(
-          i => i.subjectId === this.selectedSubjects.subjectId
-        );
-        this.average = subject ? subject.avgMark : null;
-      });*/
-  }
 
-  joinLabels(dates1: any, dates2: any) {
-    return Array.from(new Set(dates1.concat(dates2))).sort(
-      (a: any, b: any) => new Date(a).getTime() - new Date(b).getTime()
-    );
+    if (this.selectedStudents.length === 1) {
+      this.marksService
+        .getAvgMarks(this.selectedStudents[0].id, startStr, endStr)
+        .subscribe(data => {
+          this.avgMark = data;
+          this.avgMarkAllSubjects = this.StudentAverageMark(
+            data.map(mark => mark.avgMark)
+          );
+          const subject = data.find(
+            i => i.subjectId === this.selectedSubjects.subjectId
+          );
+          this.average = subject ? subject.avgMark : null;
+        });
+    }
+    // reset average marks when selected more than one student
+    this.average = null;
+    this.avgMarkAllSubjects = null;
   }
 
   onSubjectChange() {
@@ -258,7 +287,20 @@ export class ProgressComponent implements OnInit {
       this.selectedSubjects != null &&
       this.selectedYear != null &&
       this.selectedGroup != null &&
-      this.selectedStudents != null
+      this.selectedStudents.length > 0
     );
+  }
+}
+
+class ChartColor {
+  private colors = ['green', 'red', 'orange', 'blue', 'purple'];
+  private count = -1;
+
+  getColor() {
+    if (this.count === this.colors.length - 1) {
+      this.count = -1;
+    }
+    this.count++;
+    return this.colors[this.count];
   }
 }

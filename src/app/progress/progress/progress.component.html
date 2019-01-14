@@ -93,11 +93,11 @@
           (onChange)="onStudentChange($event)"
           [panelStyle]="{ minWidth: '13em' }"
           defaultLabel="Виберіть учня"
+          selectedItemsLabel="Вибрано {0} учнів "
         ></p-multiSelect>
 
         <p-button
           class="showData"
-          class="button"
           icon="pi pi-check"
           [disabled]="isButtonDisabled"
           (onClick)="onClickShow()"
@@ -114,7 +114,12 @@
         Середня оцінка учня по всіх предметах:
         {{ avgMarkAllSubjects | number: '.1-2' }}
       </h3>
-      <p-chart type="scatter" height="350px" [data]="chartMarks"></p-chart>
+      <p-chart
+        type="line"
+        height="350px"
+        [data]="chartMarks"
+        [options]="chartOptions"
+      ></p-chart>
     </p-card>
   </div>
 </div>
