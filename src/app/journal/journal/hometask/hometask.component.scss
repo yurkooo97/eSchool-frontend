@@ -12,9 +12,13 @@
   width: 80%;
   justify-content: center;
   margin: 0 auto;
+  flex-wrap: wrap;
   > div {
     border: 1px solid #c8c8c8;
     padding: 20px;
+    flex-basis: 25%;
+    align-items: center;
+    display: flex;
   }
 }
 .past-task-enabler {
@@ -23,6 +27,9 @@
   p-checkbox {
     margin-right: 15px;
   }
+}
+.hometask-description-input {
+  min-width: 150px;
 }
 ::ng-deep .order-selector {
   p-dropdown {
