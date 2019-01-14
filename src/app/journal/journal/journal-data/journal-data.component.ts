@@ -3,15 +3,17 @@ import { TeacherJournalsService } from 'src/app/services/teacher-journals.servic
 import { JournalData } from 'src/app/models/journalData.model';
 import { Journal } from 'src/app/models/journal.model';
 import { Mark } from 'src/app/models/journalMark.model';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-journal-data',
   templateUrl: './journal-data.component.html',
-  styleUrls: ['./journal-data.component.scss']
+  styleUrls: ['./journal-data.component.scss'],
+  providers: [MessageService]
 })
-export class JournalDataComponent implements OnInit, OnDestroy {
+export class JournalDataComponent implements OnInit {
 
-  constructor(private teacherJournalService: TeacherJournalsService) { }
+  constructor(private teacherJournalService: TeacherJournalsService, private messageService: MessageService) { }
 
   journalData: JournalData[];
   isActiveJournal: boolean;
@@ -20,14 +22,28 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   preventSimpleClick: boolean;
   timerDoubleClick: any;
   markEditValue: string;
-  frozenCols: { field: string, header: string, width: string } [] = [
-    {field: 'studentFullName', header: 'Студент', width: '14em'},
-    {field: 'rating', header: 'Рейтинг Підсумок', width: '6em'}];
+  markDescription: string;
+  isDisplayDialogVisable = false;
+  contextMenuItems: any[];
+  selectedMark: {row: JournalData, col: Header};
+  frozenCols: Header [] = [
+    new Header('studentFullName', 'Студент', '14rem'),
+    new Header('rating', 'Середня Рейтинг', '6rem') ];
 
   ngOnInit() {
+    this.contextMenuItems = [
+      { label: 'Опис оцінки', icon: 'pi pi-comments', command: () => this.changeDescription() },
+      { label: 'Видалити', icon: 'pi pi-times', command: () => this.deleteMark() },
+      { label: 'Вибрати', icon: 'pi pi-check', items: [
+          {label: 'за місяць', icon: 'pi pi-ellipsis-v', command: () => this.selectMarksMonth(false) },
+          {label: 'всіх за місяць', icon: 'pi pi-bars', command: () => this.selectMarksMonth(true) }]
+      },
+      { label: 'Інверт вибір', icon: 'pi pi-check', items: [
+        {label: 'за місяць', icon: 'pi pi-ellipsis-v', command: () => this.selectMarksMonth(false, true) },
+        {label: 'всіх за місяць', icon: 'pi pi-bars', command: () => this.selectMarksMonth(true, true) }]
+      }];
     this.subscribeData();
   }
-
   subscribeData() {
     this.teacherJournalService.journalChanged.subscribe((journal: Journal) => {
       this.teacherJournalService
@@ -36,20 +52,23 @@ export class JournalDataComponent implements OnInit, OnDestroy {
         this.journalData = data;
         this.countRating();
         this.scrollableCols = this.journalDeys;
-        this.isDataRecived = true;
+        this.isDataRecived = data.length > 0;
+        if (data.length < 1) {
+          this.showNotification('warn', 'Журнал порожній', 'Адміністратор має заповнити дані про клас та визначити графік');
+        }
       });
     });
   }
-
   get journalDeys(): { field: string, header: string } [] {
-    if (this.journalData) {
+    if (this.journalData && this.journalData.length > 0) {
       return this.journalData[0].marks.map( (mark, index) => {
-        const weekDay = this.daysForMonth(mark.dateMark) + '/';
+        const dayType = mark.typeMark ? mark.typeMark + ',' : ',';
+        const weekDay = this.dayForMonth(mark.dateMark) + ',';
         const day = mark.dateMark.slice(mark.dateMark.indexOf('.') + 1);
-        return {field: '' + index, header: weekDay + day, width: '5em'};
+        const formatedDay = day.split('.')[1] + '/' + day.split('.')[0];
+        return {field: '' + index, header: dayType + weekDay + formatedDay, width: '5em'};
       });
     } else {
-      console.log('Journal data is empty!');
       return;
     }
   }
@@ -78,15 +97,11 @@ export class JournalDataComponent implements OnInit, OnDestroy {
       }
       return prepareStudent;
     });
-
   }
-  daysForMonth(date: string) {
+  dayForMonth(date: string): string {
     const weakDay = new Date(date).getDay();
     const days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пя', 'Сб'];
     return days[weakDay];
-  }
-  ngOnDestroy(): void {
-    this.teacherJournalService.journalChanged.unsubscribe();
   }
 
   markStudent(student: JournalData, markIndex: number): string {
@@ -124,11 +139,30 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   selected(student: JournalData, mark: any) {
     if (student.marks[mark].mark) {
       student.marks[mark].isSelected = !(student.marks[mark].isSelected);
+      this.teacherJournalService.markSelect(student.marks[mark]);
       this.countRating();
     }
   }
+  daySelected(day: Header) {
+    if (!day) {
+      return;
+    }
+    const indexDay = +day.field;
+    if (isNaN(indexDay)) {
+      return;
+    }
+    this.journalData.forEach( (student) => {
+      if (student.marks[indexDay].mark && +student.marks[indexDay].mark > 0) {
+        student.marks[indexDay].isSelected = !student.marks[indexDay].isSelected;  
+      }
+    });
+    if (this.journalData.length > 0) {
+      this.teacherJournalService.markSelect(this.journalData[0].marks[indexDay]);
+    }
+    this.countRating();
+  } 
   edit(student: JournalData, mark: number) {
-    if (isNaN(mark)) {
+    if (isNaN(mark) || !student) {
       return;
     }
       student.marks[mark].isEdit = true;
@@ -144,6 +178,25 @@ export class JournalDataComponent implements OnInit, OnDestroy {
   isSelected(student: JournalData, mark: number): boolean {
     return ((student.marks[mark]) && (student.marks[mark].isSelected) && student.marks[mark].isSelected);
   }
+  bgColorForMarkType(col: Header): string {
+    if (!col) {
+      return 'mark';
+    }
+    const indexMark: number = +col.field;
+    if (!(indexMark+1) || this.journalData.length < 1) { return '#f4f4f4';}
+    const mark: Mark = this.journalData[0].marks[indexMark];
+    if (!mark.typeMark) { return '#f4f4f4'};
+    switch (mark.typeMark.toLowerCase()) {
+      case 'лабораторна':
+        return 'rgba(255, 205, 150, 0.5)'
+      case 'контрольна':
+        return 'rgba(0, 255, 0, 0.5)'
+      case 'тематична':
+        return 'rgba(255, 0, 0, 0.5)'
+      default:
+        return '#f4f4f4'
+    }
+  }
   markEditExit(student: JournalData, mark: number) {
     if (student.marks[mark]) {
       if (student.marks[mark].isEdit) {
@@ -153,24 +206,29 @@ export class JournalDataComponent implements OnInit, OnDestroy {
         if (markValue > 12) {
           markValue = 12;
         }
+        if (markValue < 1) {
+          return;
+        }
         student.marks[mark].mark = '' + markValue;
         this.teacherJournalService.sendMark(student.marks[mark], student.idStudent).subscribe( status => {
-          if (status.code) {
-            console.log(status);
+          if (status.code && status.code !== 201) {
+            this.showNotification('error', 'Оцінка не збережена!', status.message);
           }
         });
         this.countRating();
       }
     }
   }
-  onKey(event: any) {
+  onKeydown(event: any) {
     if (event.target.value) {
-      if (this.markEditValue) {
         if (+event.target.value > 12) {
-          event.target.value = 12;
+          event.target.value = '12';
+          return false;
+        } else {
+          if (event.target.value.charAt(0) === '0') {
+            event.target.value = '';
+          }
         }
-        this.markEditValue = '';
-      }
     }
   }
   resetMarks(marks: Mark[]): Mark[] {
@@ -180,4 +238,96 @@ export class JournalDataComponent implements OnInit, OnDestroy {
       return mark;
     });
   }
+  deleteMark() {
+    if (!this.selectedMark || !this.selectedMark.row || !this.selectedMark.col) {  
+      this.isDisplayDialogVisable = false;
+      return;
+    } else {
+      const studentIndex = this.journalData.indexOf(this.selectedMark.row);
+      if (!isNaN(+this.selectedMark.col.field)) {
+        const markForDelete: Mark = this.journalData[studentIndex].marks[this.selectedMark.col.field];
+        markForDelete.mark = '0';
+        markForDelete.note = '';
+        this.teacherJournalService.sendMark(markForDelete, this.journalData[studentIndex].idStudent).subscribe( status => {
+          if (status.code && status.code !== 201) {
+            this.showNotification('error', 'Видалення не вдалось!', status.message);
+          } else {
+            if (markForDelete.isSelected) {
+              markForDelete.isSelected = false;
+            }
+            markForDelete.mark = undefined;
+            this.countRating();
+          }
+        });
+      }
+    }
+  }
+  changeDescription() {
+    if (!this.selectedMark || !this.selectedMark.row || !this.selectedMark.col) { 
+      this.isDisplayDialogVisable = false;
+      return;
+    }
+    const colomn = +this.selectedMark.col.field;
+    if (isNaN(colomn) || colomn === undefined) {
+      return;
+    } else {
+      this.markDescription = this.selectedMark.row.marks[colomn].note;
+      this.isDisplayDialogVisable = true;
+    }
+  }
+  storeMarkDescription() {
+    const studentIndex = this.journalData.indexOf(this.selectedMark.row);
+    const storeMark: Mark = this.selectedMark.row.marks[this.selectedMark.col.field];
+    storeMark.note = this.markDescription;
+    this.teacherJournalService.sendMark(storeMark, this.journalData[studentIndex].idStudent).subscribe( status => {
+      if (status.code && status.code !== 201) {
+        this.showNotification('error', 'Опис оцінки не змінено!', status.message);
+      }
+      this.isDisplayDialogVisable=false;
+    });
+  }
+  selectMarksMonth(all: boolean = false, invert: boolean = false) {
+    const month = this.selectedMark.col.header.split('/')[2].split('.')[0];
+    if (all) {
+      this.journalData.forEach( (student: JournalData) => {
+        student.marks.forEach( (mark: Mark) => {
+          if (mark.mark && mark.dateMark.split('.')[1] == month) {
+            mark.isEdit = false;
+            mark.isSelected = invert ? !mark.isSelected : true;
+          }
+        });
+      });    
+    } else {
+      const selectedStudent = this.journalData.indexOf(this.selectedMark.row);
+      if (isNaN(selectedStudent)) {
+        return;
+      } else {
+        this.journalData[selectedStudent].marks.forEach( (mark: Mark) => {
+          if (mark.mark && mark.dateMark.split('.')[1] == month) {
+            mark.isEdit = false;
+            mark.isSelected = invert ? !mark.isSelected : true;
+          }
+        });
+      }
+    }
+    this.countRating();
+  }
+  showNotification(type: string, message: string, detail: string) {
+    const list = ['info', 'warn', 'error', 'success'];
+    if (list.indexOf(type) >= 0) {
+      this.messageService.add({key:'error', severity: type, summary: message, detail: detail});
+    } else {
+      this.messageService.add({key:'error', severity: 'info', summary: message, detail: detail});
+    }
+  }
+}
+class Header {
+  public field: string; 
+  public header: string;
+  public width: string;
+  constructor(field: string, header: string, width: string) {
+      this.field = field;
+      this.header = header;
+      this.width = width;
+    }
 }

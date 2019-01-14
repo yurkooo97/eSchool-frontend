@@ -1,8 +1,16 @@
+<p-fieldset legend="Налаштування" [toggleable]="true" [collapsed]="true">
+  <p>Виберіть учбовий цикл навчання(наприклад одинадцятирічний)</p>
+  <p-spinner size="30" [(ngModel)]="studingCircle" [min]="1" [max]="20" placeholder></p-spinner>
+</p-fieldset>
 <p-table [value]="allGroupsList" [columns]="cols" [loading] ="loading">
   <ng-template pTemplate="caption">Перехід на новий навчальний рік</ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th class="checkbox-class"><p>Вибрати всі</p><p-checkbox [(ngModel)]="val" binary="true" (click)="checkboxEvent(val)" [disabled]="checkboxDisabled"></p-checkbox></th>
+      <th class="checkbox-class">
+        <p>Вибрати всі</p>
+        <p-checkbox [(ngModel)]="val" binary="true" (click)="setMainCheckbox(val)" [disabled]="checkboxDisabled">
+        </p-checkbox>
+      </th>
       <th>Класи поточного року</th>
       <th>Класи нового навчального року</th>
     </tr>
@@ -10,15 +18,22 @@
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr *ngFor="let col of columns">
       <td class="checkbox-class">               
-        <p-checkbox [(ngModel)]="rowData[col.checkboxField]" binary="true" (click)="showMainCheckboxState()" [disabled]="checkboxDisabled"></p-checkbox>              
+        <p-checkbox [(ngModel)]="rowData[col.checkboxField]" binary="true" (click)="setSubordinatedCheckbox(rowData[col.counterIdField])" [disabled]="checkboxDisabled">          
+        </p-checkbox>              
       </td>
-      <td>{{rowData[col.classNameField]}} клас, {{rowData[col.classYearField]}} рік</td>      
-      <td><span *ngIf="hideTag" [style.color]="rowData[col.colorStyleField]">{{rowData[col.newClassNameField]}} клас у {{rowData[col.newClassYearField]}} році</span></td>      
+      <td>
+        <div class="p-grid">
+          <div class="p-col-6 p-offset-3">{{rowData[col.classNameField]}} клас, {{rowData[col.classYearField]}} рік</div>
+          <div class="p-col-1"><i class="{{rowData[col.iconStyleField]}}"></i></div>
+        </div>          
+      </td>      
+      <td><span *ngIf="hideTag" [style.color]="rowData[col.colorStyleField]">{{rowData[col.newClassNameField]}} клас у {{rowData[col.newClassYearField]}} році </span></td>      
     </tr>
   </ng-template>
   <ng-template pTemplate="summary">
     <div class="add-button-style">
-      <button type="button" pButton icon="pi pi-plus" label="Перейти на новий навчальний рік" (click)="transitionToTheNewStudingYear()" [disabled]="buttonAddDisabled"></button>
+      <button type="button" pButton icon="pi pi-plus" label="Перейти на новий навчальний рік" (click)="transitionToTheNewStudingYear()" [disabled]="disableButtonCreateTransition">        
+      </button>
     </div>
   </ng-template>
 </p-table>
