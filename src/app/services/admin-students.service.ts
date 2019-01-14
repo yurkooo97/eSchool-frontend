@@ -52,8 +52,6 @@ export class StudentsService {
   }
 
   public checkStudentLogin(student: Student): Observable<Student> {
-    return this.http.head<Student>(`/users/login/${student.login}/`).map((response: any) => {
-      return response;
-    });
+    return this.http.head<Student>(`/users/login/${student.login}/`);
   }
 }
