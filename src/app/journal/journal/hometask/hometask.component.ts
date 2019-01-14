@@ -12,7 +12,7 @@ import { Mark } from '../../../models/journalMark.model';
   templateUrl: './hometask.component.html',
   styleUrls: ['./hometask.component.scss']
 })
-export class HometaskComponent implements OnInit, OnDestroy {
+export class HometaskComponent implements OnInit {
 
   hometasks: Hometask[];
   hometasksToDisplay: Hometask[];
@@ -27,6 +27,8 @@ export class HometaskComponent implements OnInit, OnDestroy {
   today = new Date();
   homeTaskFiles: HomeTaskFile[];
   activeMark: Mark;
+  activeHomeTask: Hometask;
+  activeHomeTaskFile: HomeTaskFile;
 
   constructor(private teacherJournalService: TeacherJournalsService) { }
 
@@ -55,7 +57,33 @@ export class HometaskComponent implements OnInit, OnDestroy {
   getSelectedMarks() {
     this.teacherJournalService.markSelected.subscribe( mark => {
       this.activeMark = mark;
+      this.teacherJournalService.getHomeworks(this.activeJournal.idSubject, this.activeJournal.idClass)
+        .subscribe(homeTasks => {
+          this.activeHomeTask = homeTasks.filter(homeTask => {
+            return this.isHomeTaskSelected(homeTask);
+          })[0];
+
+          if (this.activeHomeTask.fileName) {
+            this.teacherJournalService.getHomeTaskFile(this.activeMark.idLesson).subscribe(homeTaskFile => {
+              this.activeHomeTaskFile = homeTaskFile;
+              console.log('if', this.activeHomeTaskFile);
+            });
+          } else {
+            this.activeHomeTaskFile = {
+                idLesson: this.activeHomeTask.idLesson,
+                homework: this.activeHomeTask.homework,
+                fileData: '',
+                fileName: 'NONE',
+                fileType: ''
+              };
+            console.log('else', this.activeHomeTaskFile);
+          }
+        });
     });
+  }
+
+  isHomeTaskSelected(homeTask) {
+    return (homeTask.idLesson === this.activeMark.idLesson);
   }
 
   onSortChange(event): void {
@@ -85,16 +113,27 @@ export class HometaskComponent implements OnInit, OnDestroy {
     window.open(fileUrl);
   }
 
+  openSingleHomeTask(activeHomeTaskFile: HomeTaskFile): void {
+    let fileUrl: string;
+    let fileData: string;
+    let fileType: string;
+
+    fileData = activeHomeTaskFile.fileData;
+    fileType = activeHomeTaskFile.fileType;
+    fileUrl = this.teacherJournalService.getHomeTaskFileUrl(fileData, fileType);
+
+    window.open(fileUrl);
+  }
+
   onPastTasksChange(): void {
     this.hometasksToDisplay = this.hometasks.filter( hometask => {
       return this.isHometaskEnableToShow(hometask.date, this.showPastTasks);
     });
     this.homeTaskFiles = [];
-    this.hometasksToDisplay.forEach( hometask => {
+    this.hometasksToDisplay.forEach(hometask => {
       if (hometask.fileName) {
         this.teacherJournalService.getHomeTaskFile(hometask.idLesson).subscribe(homeTaskFile => {
           this.homeTaskFiles[homeTaskFile.idLesson] = homeTaskFile;
-          console.log(this.homeTaskFiles);
         });
       }
     });
@@ -108,8 +147,4 @@ export class HometaskComponent implements OnInit, OnDestroy {
     return rule;
   }
 
-  ngOnDestroy() {
-    this.teacherJournalService.journalChanged.unsubscribe();
-    this.teacherJournalService.markSelected.unsubscribe();
-  }
 }
