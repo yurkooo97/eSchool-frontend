@@ -13,9 +13,13 @@ p-dropdown {
       width: unset;
     }
   }
-
 }
 .selected-year {
   margin: 0 20px 0 0;
   font-weight: 900;
+}
+
+.progress {
+  float: right;
+  margin-right: 10px;
 }
