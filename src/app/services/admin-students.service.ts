@@ -44,4 +44,14 @@ export class StudentsService {
       return response.data;
     });
   }
+
+  public sendStudentsData(currentClassId): Observable<Student[]> {
+    return this.http.get<Student[]>(`/users/credentials/students?classId=${currentClassId}`).map((response: any) => {
+      return response.data;
+    });
+  }
+
+  public checkStudentLogin(student: Student): Observable<Student> {
+    return this.http.head<Student>(`/users/login/${student.login}/`);
+  }
 }

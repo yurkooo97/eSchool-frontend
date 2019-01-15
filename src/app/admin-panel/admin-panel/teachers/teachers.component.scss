@@ -102,6 +102,7 @@ span.ui-button-text,
 }
 ::ng-deep .pi-ban {
   font-size: 50px !important;
+  color: $required;
 }
 .teacher__info {
   margin-right: 3px;
@@ -111,6 +112,12 @@ span.ui-button-text,
   display: flex;
   justify-content: flex-end;
   margin-top: -22px;
+}
+.progress-box {
+  height: 6px;
+}
+.p-progress-bar .ui-progressbar-indeterminate {
+  border-radius: 0 !important;
 }
 @media only screen and (max-width: 600px) {
   .ui-sortable-column:nth-last-child(2),

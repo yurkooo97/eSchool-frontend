@@ -9,6 +9,8 @@ export class Transition {
   newClassYear: number;
   checkbox: boolean;
   colorStyle: string;
+  icon: string;
+  counterId: number;
 }
 export class SmallGroup {
   className: string;
