@@ -296,7 +296,7 @@ export class NewStudingYearComponent implements OnInit {
   attachIconForDifferentYears() {
     this.currentYear = new Date().getFullYear();
     this.allGroupsList.forEach( item => {
-      if (item.classYear !== this.currentYear) {
+      if (item.classYear !== this.currentYear - 1) {
         item.icon = 'pi pi-exclamation-triangle';
       }
     });
@@ -322,7 +322,7 @@ export class NewStudingYearComponent implements OnInit {
     if (this.allGroupsList[arrayLength].checkbox === false) {
       this.allGroupsList[arrayLength].icon = null;
     } else {
-      if (this.allGroupsList[arrayLength].classYear !== this.currentYear) {
+      if (this.allGroupsList[arrayLength].classYear !== this.currentYear - 1) {
         this.allGroupsList[arrayLength].icon = 'pi pi-exclamation-triangle';
       }
       if (this.allGroupsList[arrayLength].numOfStudents === 0) {
