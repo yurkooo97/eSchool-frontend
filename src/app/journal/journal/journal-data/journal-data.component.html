@@ -2,7 +2,7 @@
 <ng-container *ngIf="isDataRecived === true">
     <p-table [columns]="scrollableCols" [frozenColumns]="frozenCols" [value]="journalData" [scrollable]="true"
         [(contextMenuSelection)]="selectedMark" [contextMenu]="contextMenu"
-        scrollHeight="400px" frozenWidth="20rem">
+        scrollHeight="401px" frozenWidth="20rem" [ngStyle]="{'margin-bottom': '0px'}">
         <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
                 <col *ngFor="let col of columns" [style.width]="col.width">
