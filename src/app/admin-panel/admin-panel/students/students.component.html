@@ -1,3 +1,7 @@
+<div class="progress-box">
+  <p-progressBar class="p-progress-bar" mode="indeterminate" [style]="{'height': '6px'}"
+                 [hidden]="!loading"></p-progressBar>
+</div>
 <p-fieldset legend="Активні класи">
   <span *ngFor="let  class_ of classes">
     <button *ngIf="class_.isActive" type="button" pButton icon="pi pi-folder" label="{{class_.className}}"
@@ -17,13 +21,9 @@
   </span>
 </p-fieldset>
 <br>
-<div class="progress-box">
-  <p-progressBar class="p-progress-bar" mode="indeterminate" [style]="{'height': '6px'}"
-                 [hidden]="!loading"></p-progressBar>
-</div>
 <span *ngIf="screenWidth < 700" class="number-of-students-alt"><i class="fas fa-users"></i> {{numberOfStudents}}</span>
 <button type="button" *ngIf="screenWidth < 700"
-        (click)="createStudent(); this.firstname.reset(); this.lastname.reset(); this.patronymic.reset(); this.dateOfBirth.reset()"
+        (click)="studentsForm.reset(); createStudent()"
         pButton icon="pi pi-plus" class="ui-button-raised responsive-add" label="Додати учня"></button>
 <p-accordion *ngIf="screenWidth < 700">
   <p-accordionTab *ngFor="let student of students"
@@ -36,17 +36,18 @@
     </div>
     <div class="accordion-data-container">
       <div class="accordion-img">
-        <img src="{{student.avatar}}" class="accordion-avatar">
+        <img *ngIf="student.avatar !== null" src="{{student.avatar}}" class="accordion-avatar">
+        <img *ngIf="student.avatar == null" src="assets/avatar.png" class="accordion-avatar">
       </div>
       <div class="accordion-data">
         <span class="accordion-class-title">Учень {{selectedClassName}}</span><br>
-        <span class="accordion-name">{{student.firstname}} {{student.patronymic}}<br>{{student.lastname}}</span>
-        <div class="accordion-full-info">
-          <p><span class="accordion-data-record">Дата народження:</span> {{student.dateOfBirth}}</p>
-          <p><span class="accordion-data-record">Номер телефону:</span> {{student.phone}}</p>
-          <p><span class="accordion-data-record">Email:</span> {{student.email}}</p>
-          <p><span class="accordion-data-record">Логін:</span> {{student.login}}</p>
-        </div>
+        <span class="accordion-name">{{student.firstname}} {{student.patronymic}} {{student.lastname}}</span>
+      </div>
+      <div class="accordion-full-info">
+        <p><span class="accordion-data-record">Дата народження:</span> {{student.dateOfBirth}}</p>
+        <p><span class="accordion-data-record">Номер телефону:</span> {{student.phone}}</p>
+        <p><span class="accordion-data-record">Email:</span> {{student.email}}</p>
+        <p><span class="accordion-data-record">Логін:</span> {{student.login}}</p>
       </div>
     </div>
   </p-accordionTab>
@@ -85,7 +86,7 @@
   <ng-template pTemplate="summary">
     <div style="text-align:left">
       <button type="button"
-              (click)="createStudent(); this.firstname.reset(); this.lastname.reset(); this.patronymic.reset(); this.dateOfBirth.reset()"
+              (click)="studentsForm.reset(); createStudent()"
               pButton icon="pi pi-plus" class="ui-button-raised" label="Додати учня"></button>
     </div>
   </ng-template>
@@ -94,11 +95,12 @@
 <p-overlayPanel [showCloseIcon]="true" #oPanel>
   <div class="student-data-container">
     <div class="student-img">
-      <img src="{{selectedStudent.avatar}}" class="student-avatar">
+      <img *ngIf="selectedStudent.avatar !== null" src="{{selectedStudent.avatar}}" class="student-avatar">
+      <img *ngIf="selectedStudent.avatar == null" src="assets/avatar.png" class="student-avatar">
     </div>
     <div class="student-data">
       <span class="student-class-title">Учень {{selectedClassName}}</span><br>
-      <span class="student-name">{{selectedStudent.firstname}} {{selectedStudent.patronymic}}<br>{{selectedStudent.lastname}}</span>
+      <span class="student-name">{{selectedStudent.firstname}} {{selectedStudent.patronymic}} {{selectedStudent.lastname}}</span>
       <div class="student-full-info">
         <p><span class="student-data-record">Дата народження:</span> {{selectedStudent.dateOfBirth}}</p>
         <p><span class="student-data-record">Номер телефону:</span> {{selectedStudent.phone}}</p>
@@ -132,7 +134,7 @@
   </ng-template>
 </p-toast>
 
-<p-dialog header="Інформація Про Учня" [(visible)]="displayForm" [modal]="true" [responsive]="true" [width]="auto"
+<p-dialog header="Інформація Про Учня" [(visible)]="displayForm" [modal]="true" [responsive]="true" [width]="700"
           [height]="600" [minWidth]="200" [minY]="70" [maximizable]="false" #overlay>
   <form class="studentsForm" #studentsForm="ngForm" autocomplete="off">
     <p-fieldset legend="Обов'язкові поля" class="mainInfo">
@@ -196,11 +198,11 @@
       <div class="ui-inputgroup">
         <input id="float-input-login" type="text" placeholder="Логін" pInputText
                [class.wrongData]="login.invalid && login.touched" #login="ngModel" name="login"
-               [(ngModel)]="newStudent.login" minlength="5" maxlength="20"/>
-        <span class="ui-inputgroup-addon" [class.wrongData1]="login.invalid && login.touched"
-              [class.correctData1]="login.valid && login.touched"><i class="fas fa-key"></i></span>
+               [(ngModel)]="newStudent.login" (blur)="studentLogin()" minlength="5" maxlength="20"/>
+        <span class="ui-inputgroup-addon"><i class="fas fa-key"></i></span>
       </div>
       <span [class.hiddenBox]="login.valid || login.untouched" class="messageOfMistake">Некоректний логін (не менше 5 символів)</span>
+      <span *ngIf="!isLoginFree" class="messageOfMistake">{{loginStatusMessage}}</span>
       <br>
       <div class="ui-inputgroup">
         <p-inputMask id="float-input-phone" class="phone-number" mask="(999)-999-9999" placeholder="Номер телефону"
@@ -212,8 +214,7 @@
         <input id="float-input-email" type="email" placeholder="Електронна адреса" pInputText #email="ngModel"
                name="email" [(ngModel)]="newStudent.email"
                pattern="^([\w\-\.]+)@((\[([0-9]{1,3}\.){3}[0-9]{1,3}\])|(([\w\-]+\.)+)([a-zA-Z]{2,4}))$"/>
-        <span class="ui-inputgroup-addon" [class.wrongData1]="email.invalid && email.touched"
-              [class.correctData1]="email.valid && email.touched"><i class="fas fa-envelope"></i></span>
+        <span class="ui-inputgroup-addon"><i class="fas fa-envelope"></i></span>
       </div>
       <span [class.hiddenBox]="email.valid || email.untouched"
             class="messageOfMistake">Некоректна електронна адреса</span>
@@ -224,13 +225,13 @@
         <span class="ui-inputgroup-addon"><i class="fas fa-upload"></i></span>
         <span class="photoError">{{ photoMessage }}</span>
       </div>
-      <img *ngIf="newStudent.avatar != null" [src]="newStudent.avatar" alt="Photo" class="avatar-url">
+      <img *ngIf="newStudent.avatar !== null" [src]="newStudent.avatar" alt="Photo" class="avatar-url">
       <img *ngIf="newStudent.avatar == null" [src]="imageUrl" alt="Photo" class="avatar-url">
     </p-fieldset>
     <br>
   </form>
   <p-footer>
     <button type="button" pButton icon="pi pi-check" (click)="saveStudent(); studentsForm.reset();"
-            class="ui-button-raised" label="Зберегти" [disabled]="studentsForm.invalid"></button>
+            class="ui-button-raised" label="Зберегти" [disabled]="studentsForm.invalid || !isLoginFree"></button>
   </p-footer>
 </p-dialog>

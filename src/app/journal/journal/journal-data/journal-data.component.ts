@@ -376,7 +376,7 @@ export class JournalDataComponent implements OnInit {
       });
   }
   selectMarksMonth(all: boolean = false, invert: boolean = false) {
-    const month = this.selectedMark.col.header.split('/')[2].split('.')[0];
+    const month = this.selectedMark.col.header.split(',')[2].split('/')[1];
     if (all) {
       this.journalData.forEach((student: JournalData) => {
         student.marks.forEach((mark: Mark) => {

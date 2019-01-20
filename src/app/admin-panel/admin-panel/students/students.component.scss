@@ -125,20 +125,20 @@
     .student-class-title {
       width: 100%;
       display: inline-block;
-      font-size: 24px;
+      font-size: 18px;
       font-weight: bold;
       margin-bottom: 10px;
     }
     .student-name {
       width: 100%;
       display: inline-block;
-      font-size: 24px;
+      font-size: 18px;
       color: #007ad9;
       font-family: Verdana, Arial, sans-serif;
       margin-bottom: 10px;
     }
     .student-full-info {
-      font-size: 16px;
+      font-size: 14px;
       border: 1px solid #c0c0c0;
       border-radius: 3px;
       padding: 5px;
@@ -200,15 +200,15 @@
 .accordion-buttons > i {
   cursor: pointer;
   margin-left: 10px;
-  font-size: 20px;
+  font-size: 18px;
   padding: 5px;
 }
 .accordion-data-container {
-  display: flex;
-  flex-direction: row;
+  margin-right: -5px;
+  overflow: hidden;
   .accordion-img {
     width: 25%;
-    margin-right: 15px;
+    float: left;
     .accordion-avatar {
       width: 100%;
       display: block;
@@ -217,31 +217,33 @@
   .accordion-data {
     width: 75%;
     text-align: center;
-    position: relative;
-    .accordion-class-title {
-      width: 100%;
-      display: inline-block;
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-    .accordion-name {
-      width: 100%;
-      display: inline-block;
-      font-size: 20px;
-      color: #007ad9;
-      font-family: Verdana, Arial, sans-serif;
-      margin-bottom: 10px;
-    }
-    .accordion-full-info {
-      font-size: 14px;
-      border: 1px solid #c0c0c0;
-      border-radius: 3px;
-      padding: 5px;
-      .accordion-data-record {
-        font-weight: bold;
-      }
-    }
+    float: left;
+  }
+  .accordion-class-title {
+    width: 100%;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .accordion-name {
+    width: 100%;
+    display: inline-block;
+    font-size: 18px;
+    color: #007ad9;
+    font-family: Verdana, Arial, sans-serif;
+    margin-bottom: 10px;
+  }
+}
+.accordion-full-info {
+  float: left;
+  width: 100%;
+  font-size: 14px;
+  border: 1px solid #c0c0c0;
+  border-radius: 3px;
+  padding: 5px;
+  .accordion-data-record {
+    font-weight: bold;
   }
 }
 @media screen and (max-width: 1800px) {
@@ -268,10 +270,16 @@
     width: calc(12.5% - 4px);
   }
 }
-@media screen and (max-width: 1220px) {
+@media screen and (max-width: 1225px) {
   .classButton {
     margin: 0 2px 4px 2px;
     width: calc(14.2857142% - 4px);
+  }
+}
+@media screen and (max-width: 1065px) {
+  .classButton {
+    margin: 0 1.5px 4px 1.5px;
+    width: calc(16.6666666% - 4px);
   }
 }
 @media screen and (max-width: 880px) {
@@ -280,7 +288,7 @@
     width: calc(16.6666666% - 4px);
   }
 }
-@media screen and (max-width: 760px) {
+@media screen and (max-width: 765px) {
   .classButton {
     margin: 0 1.5px 3px 1.5px;
     width: calc(20% - 3px);
@@ -292,7 +300,20 @@
     margin-bottom: 5px;
   }
 }
-@media screen and (max-width: 630px) {
+@media screen and (max-width: 700px) {
+  @media (orientation: landscape) {
+    .accordion-full-info {
+      float: left;
+      width: 75%;
+      font-size: 14px;
+      text-align: center;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      padding: 5px;
+    }
+  }
+}
+@media screen and (max-width: 635px) {
   .classButton {
     margin: 0 1.5px 3px 1.5px;
     width: calc(25% - 3px);

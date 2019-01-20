@@ -1,9 +1,12 @@
+<div class="progress-box">
+  <p-progressBar class="p-progress-bar" mode="indeterminate" [style]="{'height': '6px'}"
+                 [hidden]="!loading"></p-progressBar>
+</div>
 <p-table
   [columns]="columns"
   [value]="teachers"
   [(selection)]="selectedTeacher"
   [paginator]="false"
-  [loading]="loading"
 >
   <ng-template pTemplate="caption"
     >Список учителів
