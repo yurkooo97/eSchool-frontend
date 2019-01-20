@@ -1,4 +1,4 @@
-<ng-container *ngIf="isDataRecived === true && journalData.lenght < 1"><h2>Немає даних!</h2></ng-container>
+<ng-container *ngIf="isDataRecived === true && journalData.length < 1"><h2>Немає даних!</h2></ng-container>
 <ng-container *ngIf="isDataRecived === true">
     <p-table [columns]="scrollableCols" [frozenColumns]="frozenCols" [value]="journalData" [scrollable]="true"
         [(contextMenuSelection)]="selectedMark" [contextMenu]="contextMenu"
