@@ -380,7 +380,7 @@ export class JournalDataComponent implements OnInit {
     if (all) {
       this.journalData.forEach((student: JournalData) => {
         student.marks.forEach((mark: Mark) => {
-          if (mark.mark && mark.dateMark.split('.')[1] == month) {
+          if (mark.mark && mark.dateMark.split('.')[1] === month) {
             mark.isEdit = false;
             mark.isSelected = invert ? !mark.isSelected : true;
           }
@@ -392,7 +392,7 @@ export class JournalDataComponent implements OnInit {
         return;
       } else {
         this.journalData[selectedStudent].marks.forEach((mark: Mark) => {
-          if (mark.mark && mark.dateMark.split('.')[1] == month) {
+          if (mark.mark && mark.dateMark.split('.')[1] === month) {
             mark.isEdit = false;
             mark.isSelected = invert ? !mark.isSelected : true;
           }
