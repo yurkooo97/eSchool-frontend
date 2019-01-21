@@ -9,6 +9,7 @@ import { Subject } from 'src/app/models/subjects.model';
 import { DatePipe, formatDate } from '@angular/common';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { ChartColor } from 'src/app/models/chartColors';
 
 @Component({
   selector: 'app-progress',
@@ -113,6 +114,7 @@ export class ProgressComponent implements OnInit {
   funcProceedServerAnswer(servData, firstname, lastname, startDate, endDate) {
     const marksData = [];
     let sum = 0;
+    // count the average mark
     servData.forEach((value: any) => {
       sum += value.y;
     });
@@ -128,19 +130,23 @@ export class ProgressComponent implements OnInit {
       borderColor: 'white'
     });
 
+    // format start and end of period
     const pipe = new DatePipe('en-US');
     startDate = pipe.transform(startDate, 'dd.MM.yyyy');
     endDate = pipe.transform(endDate, 'dd.MM.yyyy');
 
-    const newDatasetsLocal = datasetsLocal.sort(function(b, a) {
-      return a.data - b.data;
-    });
+    // sort average marks to show from the the biggest to the lowest
+    const newDatasetsLocal = datasetsLocal.sort(this.sortAverageMarks);
 
     // fully update chartMarks
     this.chartMarks = {
       labels: [`${startDate} - ${endDate}`],
       datasets: newDatasetsLocal
     };
+  }
+
+  sortAverageMarks(b, a) {
+    return a.data - b.data;
   }
 
   // showing toast-message for students who do not have marks
@@ -285,18 +291,5 @@ export class ProgressComponent implements OnInit {
       (this.selectedGroup != null || this.selectedGroups.length > 0) &&
       this.selectedStudents.length > 0
     );
-  }
-}
-
-class ChartColor {
-  private colors = ['green', 'red', 'orange', 'blue', 'purple'];
-  private count = -1;
-
-  getColor() {
-    if (this.count === this.colors.length - 1) {
-      this.count = -1;
-    }
-    this.count++;
-    return this.colors[this.count];
   }
 }
