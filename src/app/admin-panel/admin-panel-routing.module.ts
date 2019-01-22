@@ -39,7 +39,7 @@ const routes: Routes = [
         component: TeachersComponent
       },
       {
-        path: 'new-studing-year',
+        path: 'new-studying-year',
         component: NewStudingYearComponent
       },
       {

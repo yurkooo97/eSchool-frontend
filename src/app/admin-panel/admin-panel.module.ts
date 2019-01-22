@@ -44,7 +44,6 @@ import { ConfirmationService } from 'primeng/api';
 import { AccordionModule } from 'primeng/accordion';
 import { SpinnerModule } from 'primeng/spinner';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -100,4 +99,4 @@ import { SpinnerModule } from 'primeng/spinner';
     DayComponent
   ]
 })
-export class AdminPanelModule { }
+export class AdminPanelModule {}
