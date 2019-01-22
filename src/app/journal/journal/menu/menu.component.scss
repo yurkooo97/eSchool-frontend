@@ -1,5 +1,5 @@
 p-dropdown {
-  margin: 20px 20px 20px 0;
+  margin: 7px 20px 7px 0;
 }
 :host {
   ::ng-deep .ui-dropdown {
@@ -24,7 +24,8 @@ p-dropdown {
   align-items: baseline;
   flex-wrap: wrap;
 }
- .progress {
+.progress {
   float: right;
   margin-right: 10px;
+  margin-top: 7px;
 }

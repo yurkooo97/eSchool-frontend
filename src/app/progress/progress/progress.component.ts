@@ -9,6 +9,7 @@ import { Subject } from 'src/app/models/subjects.model';
 import { DatePipe, formatDate } from '@angular/common';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { ChartColor } from 'src/app/models/chartColors';
 
 @Component({
   selector: 'app-progress',
@@ -20,7 +21,8 @@ export class ProgressComponent implements OnInit {
   groups: Group[];
   subjects: Subject[];
   classID: number;
-  selectedGroup: Group; // selectedGroup: Group[];
+  selectedGroups: Group[];
+  selectedGroup: Group;
   selectedYear: any;
   selectedDate: Date;
   selectedStudents: any[];
@@ -43,7 +45,6 @@ export class ProgressComponent implements OnInit {
   chartOptions: any;
   defaultDate = new Date();
   color = new ChartColor();
-  timeFormat = '';
 
   constructor(
     private groupService: AdmingroupsService,
@@ -83,15 +84,9 @@ export class ProgressComponent implements OnInit {
         ],
         xAxes: [
           {
-            type: 'time',
-            time: {
-              format: this.timeFormat,
-              // round: 'day'
-              tooltipFormat: 'll'
-            },
             scaleLabel: {
               display: true,
-              labelString: 'Дата'
+              labelString: 'Період'
             }
           }
         ]
@@ -115,45 +110,43 @@ export class ProgressComponent implements OnInit {
     });
   }
 
-  formatDate(date) {
-    const d = new Date(date);
-    const year = d.getFullYear();
-    let month = (d.getMonth() + 1).toString();
-    let day = d.getDate().toString();
-    if (month.length < 2) {
-      month = '0' + month;
-    }
-    if (day.length < 2) {
-      day = '0' + day;
-    }
-    return [year, month, day].join('.');
-  }
-
-  // writing marks and dates to the chartMarks object for each selected student
-  funcProceedServerAnswer(servData, firstname, lastname) {
+  // writing everage marks to the chartMarks object for each selected student
+  funcProceedServerAnswer(servData, firstname, lastname, startDate, endDate) {
     const marksData = [];
-
-    servData.forEach((value: any, element: any) => {
-      marksData.push({});
-      marksData[element].y = value.y;
-      marksData[element].x = this.formatDate(value.x);
+    let sum = 0;
+    // count the average mark
+    servData.forEach((value: any) => {
+      sum += value.y;
     });
+    const averageMark = sum / servData.length;
+    marksData.push(averageMark.toFixed(2));
 
     // saving already loaded datasets into a local variable to update full chartMarks later
     const datasetsLocal = this.chartMarks.datasets;
     datasetsLocal.push({
       label: firstname + ' ' + lastname,
       data: marksData,
-      showLine: true,
-      fill: false,
-      borderColor: this.color.getColor(),
-      backgroundColor: 'white'
+      backgroundColor: this.color.getColor(),
+      borderColor: 'white'
     });
+
+    // format start and end of period
+    const pipe = new DatePipe('en-US');
+    startDate = pipe.transform(startDate, 'dd.MM.yyyy');
+    endDate = pipe.transform(endDate, 'dd.MM.yyyy');
+
+    // sort average marks to show from the the biggest to the lowest
+    const newDatasetsLocal = datasetsLocal.sort(this.sortAverageMarks);
 
     // fully update chartMarks
     this.chartMarks = {
-      datasets: datasetsLocal
+      labels: [`${startDate} - ${endDate}`],
+      datasets: newDatasetsLocal
     };
+  }
+
+  sortAverageMarks(b, a) {
+    return a.data - b.data;
   }
 
   // showing toast-message for students who do not have marks
@@ -173,24 +166,33 @@ export class ProgressComponent implements OnInit {
     const endStr = pipe.transform(this.end, 'yyyy-MM-dd');
 
     this.chartMarks = {
+      labels: [],
       datasets: []
     };
 
     // getting data for each selected student
-    this.selectedStudents.forEach((item: any) => {
-      this.marksService
-        .getMarks(
-          startStr,
-          endStr,
-          this.selectedSubjects.subjectId,
-          this.selectedGroup.id,
-          item.id
-        )
-        .subscribe(data => {
-          this.funcProceedServerAnswer(data, item.firstname, item.lastname);
-          this.showToasts(data, item.firstname, item.lastname);
-        });
-    });
+    if (this.selectedStudents) {
+      this.selectedStudents.forEach((item: any) => {
+        this.marksService
+          .getMarks(
+            startStr,
+            endStr,
+            this.selectedSubjects.subjectId,
+            this.selectedGroup.id,
+            item.id
+          )
+          .subscribe(data => {
+            this.funcProceedServerAnswer(
+              data,
+              item.firstname,
+              item.lastname,
+              startStr,
+              endStr
+            );
+            this.showToasts(data, item.firstname, item.lastname);
+          });
+      });
+    }
 
     if (this.selectedStudents.length === 1) {
       this.marksService
@@ -286,21 +288,8 @@ export class ProgressComponent implements OnInit {
     this.isButtonDisabled = !(
       this.selectedSubjects != null &&
       this.selectedYear != null &&
-      this.selectedGroup != null &&
+      (this.selectedGroup != null || this.selectedGroups.length > 0) &&
       this.selectedStudents.length > 0
     );
-  }
-}
-
-class ChartColor {
-  private colors = ['green', 'red', 'orange', 'blue', 'purple'];
-  private count = -1;
-
-  getColor() {
-    if (this.count === this.colors.length - 1) {
-      this.count = -1;
-    }
-    this.count++;
-    return this.colors[this.count];
   }
 }

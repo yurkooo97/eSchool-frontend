@@ -53,23 +53,26 @@
           [(ngModel)]="selectedChartsType"
         ></p-radioButton>
 
+        <!-- вибрано по класу - мультиселект класів -->
         <p-multiSelect
           class="group"
           *ngIf="selectedYear && selectedChartsType === 'class'"
           [options]="visibleGroups"
-          [(ngModel)]="selectedGroup"
-          (onChange)="onClassChange()"
+          [(ngModel)]="selectedGroups"
+          (onChange)="onClassChange($event)"
           optionLabel="className"
           [panelStyle]="{ minWidth: '13em' }"
           defaultLabel="Виберіть клас"
+          selectedItemsLabel="Вибрано {0} класів"
         ></p-multiSelect>
 
+        <!-- вибрано по учню - список класів -->
         <p-dropdown
           class="group"
           *ngIf="selectedYear && selectedChartsType === 'student'"
           [options]="visibleGroups"
           [(ngModel)]="selectedGroup"
-          (onChange)="onClassChange()"
+          (onChange)="onClassChange($event)"
           placeholder="Виберіть клас"
           optionLabel="className"
           [showClear]="true"
@@ -85,6 +88,7 @@
           [showClear]="true"
         ></p-dropdown>
 
+        <!-- вибрано по учню - мультиселект учнів -->
         <p-multiSelect
           class="student"
           *ngIf="selectedGroup && selectedChartsType === 'student'"
@@ -115,7 +119,7 @@
         {{ avgMarkAllSubjects | number: '.1-2' }}
       </h3>
       <p-chart
-        type="line"
+        type="bar"
         height="350px"
         [data]="chartMarks"
         [options]="chartOptions"
