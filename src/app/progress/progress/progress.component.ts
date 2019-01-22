@@ -10,6 +10,8 @@ import { DatePipe, formatDate } from '@angular/common';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { ChartColor } from 'src/app/models/chartColors';
+import { SubjectSubscriber } from 'rxjs/internal/Subject';
+// import { timingSafeEqual } from 'crypto';
 
 @Component({
   selector: 'app-progress',
@@ -45,6 +47,8 @@ export class ProgressComponent implements OnInit {
   chartOptions: any;
   defaultDate = new Date();
   color = new ChartColor();
+  selectedSubjectsArr: any[];
+  vsblSubjects: SelectItem[];
 
   constructor(
     private groupService: AdmingroupsService,
@@ -243,6 +247,44 @@ export class ProgressComponent implements OnInit {
     this.updateIsButtonDisabled();
   }
 
+  // write all subjects into this.visibleSubjects by selected classes
+  getSubjects(servData, subjectArr) {
+    servData.forEach((value: any) => {
+      subjectArr.push(value);
+    });
+
+    const subjects = subjectArr.map(function(subject) {
+      return {
+        label: `${subject.subjectName}`,
+        value: subject
+      };
+    });
+    this.vsblSubjects = this.unique(subjects);
+    // console.log(this.vsblSubjects);
+  }
+
+  getStudents(servData, students) {
+    students.push(servData);
+    console.log('array of students');
+    console.log(students);
+  }
+
+  // filter array of subjects
+  unique(arr) {
+    const result = [];
+
+    nextInput: for (let i = 0; i < arr.length; i++) {
+      const obj = arr[i].label;
+      for (let j = 0; j < result.length; j++) {
+        if (result[j].label === obj) {
+          continue nextInput;
+        }
+      }
+      result.push(arr[i]);
+    }
+    return result;
+  }
+
   onClassChange() {
     if (this.selectedGroup) {
       this._subjectsService
@@ -270,6 +312,53 @@ export class ProgressComponent implements OnInit {
     }
     this.selectedStudents = [];
     this.updateIsButtonDisabled();
+
+    if (this.selectedGroups) {
+      const subjects = [];
+      const students = [];
+      // get subjects for each selected group
+      this.selectedGroups.forEach((item: any) => {
+        this._subjectsService
+          .getSubjectsListForClass(item.id)
+          .subscribe(data => {
+            this.getSubjects(data, subjects);
+          });
+        this.selectedSubjectsArr = null;
+        //
+        //
+        //
+        //
+        this.studentService.getStudents(item.id).subscribe(data => {
+          this.getStudents(data, students);
+        });
+      });
+    } else {
+      this.visibleStudents = new Array<SelectItem>();
+      this.visibleSubjects = new Array<SelectItem>();
+    }
+    this.selectedStudents = [];
+    this.updateIsButtonDisabled();
+  }
+
+  // TEST!!!!
+  onDataReset() {
+    this.selectedGroups = null;
+    this.selectedGroup = null;
+    this.visibleStudents = new Array<SelectItem>();
+    this.selectedSubjects = null;
+    this.selectedSubjectsArr = null;
+    this.chartMarks = {
+      labels: [],
+      datasets: []
+    };
+    this.updateIsButtonDisabled();
+  }
+
+  // write selected subjects
+  onMultiSubjectChange(selectedSubjectsEvent) {
+    this.selectedSubjectsArr = selectedSubjectsEvent.value;
+    console.log('selected subjects');
+    console.log(this.selectedSubjectsArr);
   }
 
   StudentAverageMark(marks): number {
@@ -288,7 +377,7 @@ export class ProgressComponent implements OnInit {
     this.isButtonDisabled = !(
       this.selectedSubjects != null &&
       this.selectedYear != null &&
-      (this.selectedGroup != null || this.selectedGroups.length > 0) &&
+      (this.selectedGroup != null || this.selectedGroups) &&
       this.selectedStudents.length > 0
     );
   }
