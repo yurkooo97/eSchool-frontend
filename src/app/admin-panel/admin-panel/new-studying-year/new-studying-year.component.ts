@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NewStudingYearService } from 'src/app/services/new-studing-year.service';
+import { NewStudyingYearService } from 'src/app/services/new-studying-year.service';
 import { ClassId } from 'src/app/models/classId.model';
 import {
   Transition,
@@ -9,12 +9,12 @@ import { Group } from 'src/app/models/group.model';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
-  selector: 'app-new-studing-year',
-  templateUrl: './new-studing-year.component.html',
-  styleUrls: ['./new-studing-year.component.scss']
+  selector: 'app-new-studying-year',
+  templateUrl: './new-studying-year.component.html',
+  styleUrls: ['./new-studying-year.component.scss']
 })
 
-export class NewStudingYearComponent implements OnInit {
+export class NewStudyingYearComponent implements OnInit {
   groupList: Group[];
   newGroupList: Group[];
   activeGroups: Group[];
@@ -43,7 +43,7 @@ export class NewStudingYearComponent implements OnInit {
   checkedGroupsExistArray: Array<SmallGroup> = [];
 
   constructor(
-    private httpService: NewStudingYearService,
+    private httpService: NewStudyingYearService,
     private notificationToasts: DataSharingService
   ) {}
 

@@ -29,11 +29,11 @@ import { TeachersComponent } from './admin-panel/teachers/teachers.component';
 import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teacher.component';
-import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
+import { NewStudyingYearComponent } from './admin-panel/new-studying-year/new-studying-year.component';
 import { ClassScheduleComponent } from './admin-panel/class-schedule/class-schedule.component';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
-import { NewStudingYearService } from '../services/new-studing-year.service';
+import { NewStudyingYearService } from '../services/new-studying-year.service';
 import { OverlayPanelModule } from 'primeng/primeng';
 import { CheckboxModule } from 'primeng/primeng';
 import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
@@ -82,7 +82,7 @@ import { SpinnerModule } from 'primeng/spinner';
     AdminSubjectsService,
     TeachersService,
     StudentsService,
-    NewStudingYearService,
+    NewStudyingYearService,
     HttpAttachTeacherService,
     ConfirmationService
   ],
@@ -92,7 +92,7 @@ import { SpinnerModule } from 'primeng/spinner';
     TeachersComponent,
     GroupsComponent,
     SubjectsComponent,
-    NewStudingYearComponent,
+    NewStudyingYearComponent,
     ClassScheduleComponent,
     AttachTeacherComponent,
     DashboardComponent,

@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { NewStudingYearService } from './new-studing-year.service';
+import { NewStudyingYearService } from './new-studying-year.service';
 import {
   HttpClientTestingModule,
   HttpTestingController
@@ -33,21 +33,21 @@ const mockClassId: ClassId[] = [
   }
 ];
 
-describe('NewStudingYearService', () => {
+describe('NewStudyingYearService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [HttpClientTestingModule],
-    providers: [NewStudingYearService]
+    providers: [NewStudyingYearService]
   }));
 
   it('should be created', inject(
-    [NewStudingYearService],
-    (service: NewStudingYearService) => {
+    [NewStudyingYearService],
+    (service: NewStudyingYearService) => {
       expect(service).toBeTruthy();
     }));
 
   it('should get groups', inject(
-    [NewStudingYearService, HttpTestingController],
-    (service: NewStudingYearService, backend: HttpTestingController) => {
+    [NewStudyingYearService, HttpTestingController],
+    (service: NewStudyingYearService, backend: HttpTestingController) => {
       service.getGroups().subscribe(groups => {
         expect(groups).toEqual(mockGroups);
       });
@@ -61,8 +61,8 @@ describe('NewStudingYearService', () => {
   ));
 
   it('should return the groups', inject(
-    [NewStudingYearService, HttpTestingController],
-    (service: NewStudingYearService, backend: HttpTestingController) => {
+    [NewStudyingYearService, HttpTestingController],
+    (service: NewStudyingYearService, backend: HttpTestingController) => {
       service.postNewGroups(mockSmallGroup).subscribe(groups => {
         expect(groups).toEqual(mockGroups);
       });
@@ -76,8 +76,8 @@ describe('NewStudingYearService', () => {
   ));
 
   it('should update the groups', inject(
-    [NewStudingYearService, HttpTestingController],
-    (service: NewStudingYearService, backend: HttpTestingController) => {
+    [NewStudyingYearService, HttpTestingController],
+    (service: NewStudyingYearService, backend: HttpTestingController) => {
       service.putNewOldId(mockClassId).subscribe(groups => {
         expect(groups).toEqual(mockClassId);
       });

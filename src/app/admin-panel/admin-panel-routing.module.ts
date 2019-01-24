@@ -7,7 +7,7 @@ import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 import { TeachersComponent } from './admin-panel/teachers/teachers.component';
 import { ClassScheduleComponent } from './admin-panel/class-schedule/class-schedule.component';
 import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teacher.component';
-import { NewStudingYearComponent } from '../admin-panel/admin-panel/new-studing-year/new-studing-year.component';
+import { NewStudyingYearComponent } from '../admin-panel/admin-panel/new-studying-year/new-studying-year.component';
 import { AdminGuard } from './admin.guard';
 import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
 
@@ -40,7 +40,7 @@ const routes: Routes = [
       },
       {
         path: 'new-studying-year',
-        component: NewStudingYearComponent
+        component: NewStudyingYearComponent
       },
       {
         path: 'class-schedule',
