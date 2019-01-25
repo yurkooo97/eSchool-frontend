@@ -1,5 +1,5 @@
 .picture {
-  background: url('./../../../assets/OLE_43241.jpg') no-repeat;
+  background: url('./../../../assets/school-min.jpg') no-repeat;
   background-size: cover;
   background-position: center center;
   background-position-x: 32%;
@@ -11,7 +11,8 @@
 }
 
 ::ng-deep .ui-card {
-  background-color: transparent !important;
+  background-color: white !important;
+  opacity: 0.9;
 }
 
 header {
