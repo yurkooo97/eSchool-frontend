@@ -4,23 +4,41 @@
   </h3>
   <div class="single-hometask-container">
     <div class="hometask-description" *ngIf="!(activeHomeTaskFile.homework === '')">
-      {{activeHomeTaskFile.homework}}
+      <input type="text"
+             class="hometask-description-input"
+             placeholder="Додати опис"
+             value="{{activeHomeTaskFile.homework}}"
+             (change)="changeHometaskDescription($event)" >
     </div>
     <div class="hometask-description" *ngIf="(activeHomeTaskFile.homework === '')">
-      <input type="text" class="hometask-description-input" placeholder="Додати опис">
+      <input type="text"
+             class="hometask-description-input"
+             placeholder="Додати опис"
+             (change)="changeHometaskDescription($event)">
     </div>
     <div>
-      <a *ngIf="(activeHomeTaskFile.fileName === 'NONE')">Файл не завантажено</a>
-      <a *ngIf="!(activeHomeTaskFile.fileName === 'NONE')"
+      <a *ngIf="(activeHomeTaskFile.fileName === null)">Файл не завантажено</a>
+      <a *ngIf="!(activeHomeTaskFile.fileName === null)"
          (click)="openSingleHomeTask(activeHomeTaskFile)">
         {{activeHomeTaskFile.fileName}}
       </a>
     </div>
     <div>
-      <p-button label="Додати файл"></p-button>
+      <input
+        class="file"
+        pInputText
+        id="photo"
+        type="file"
+        #Image
+        accept="image/*"
+        (change)="handlerFileInput($event.target.files)"
+        name="photo"
+      />
     </div>
     <div>
-      <p-button label="Зберегти зміни"></p-button>
+      <p-button (onClick)="sendHomeTaskFile(uploadHomeTaskFile)"
+                label="Зберегти зміни">
+      </p-button>
     </div>
   </div>
 </ng-container>
@@ -79,7 +97,7 @@
         </div>
         <div class="ui-g-12 ui-md-3">
           <p-button *ngIf="hometask.fileName" icon="pi pi-file"
-                    (click)="openHomeTask(hometask.idLesson)">
+                    (onClick)="openHomeTask(hometask.idLesson)">
           </p-button>
         </div>
       </div>

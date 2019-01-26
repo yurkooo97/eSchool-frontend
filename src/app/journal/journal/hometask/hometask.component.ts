@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Hometask } from '../../../models/hometask.model';
-import { SelectItem } from 'primeng/api';
+import { SelectItem, MessageService } from 'primeng/api';
 import { TeacherJournalsService } from '../../../services/teacher-journals.service';
 import { Journal } from '../../../models/journal.model';
 import { formatDate } from '@angular/common';
@@ -10,7 +10,8 @@ import { Mark } from '../../../models/journalMark.model';
 @Component({
   selector: 'app-hometask',
   templateUrl: './hometask.component.html',
-  styleUrls: ['./hometask.component.scss']
+  styleUrls: ['./hometask.component.scss'],
+  providers: [MessageService]
 })
 export class HometaskComponent implements OnInit {
 
@@ -22,15 +23,19 @@ export class HometaskComponent implements OnInit {
   sortOrder: number;
   showPastTasks = false;
   activeJournal: Journal;
-  selectedLessons: Hometask[];
   currentDate: string;
   today = new Date();
   homeTaskFiles: HomeTaskFile[];
   activeMark: Mark;
-  activeHomeTask: Hometask;
   activeHomeTaskFile: HomeTaskFile;
+  uploadHomeTaskFile: HomeTaskFile;
+  fileToUpload: File = null;
+  fileData: string;
 
-  constructor(private teacherJournalService: TeacherJournalsService) { }
+  constructor(
+    private teacherJournalService: TeacherJournalsService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit() {
     this.teacherJournalService.journalChanged.subscribe((journal: Journal) => {
@@ -57,38 +62,15 @@ export class HometaskComponent implements OnInit {
   getSelectedMarks() {
     this.teacherJournalService.markSelected.subscribe( mark => {
       this.activeMark = mark;
-      this.teacherJournalService.getHomeworks(this.activeJournal.idSubject, this.activeJournal.idClass)
-        .subscribe(homeTasks => {
-          this.activeHomeTask = homeTasks.filter(homeTask => {
-            return this.isHomeTaskSelected(homeTask);
-          })[0];
-
-          if (this.activeHomeTask.fileName) {
-            this.teacherJournalService.getHomeTaskFile(this.activeMark.idLesson).subscribe(homeTaskFile => {
-              this.activeHomeTaskFile = homeTaskFile;
-              console.log('if', this.activeHomeTaskFile);
-            });
-          } else {
-            this.activeHomeTaskFile = {
-                idLesson: this.activeHomeTask.idLesson,
-                homework: this.activeHomeTask.homework,
-                fileData: '',
-                fileName: 'NONE',
-                fileType: ''
-              };
-            console.log('else', this.activeHomeTaskFile);
-          }
-        });
+      this.teacherJournalService.getHomeTaskFile(mark.idLesson).subscribe(homeTaskFile => {
+        this.activeHomeTaskFile = homeTaskFile;
+        this.uploadHomeTaskFile = homeTaskFile;
+      });
     });
-  }
-
-  isHomeTaskSelected(homeTask) {
-    return (homeTask.idLesson === this.activeMark.idLesson);
   }
 
   onSortChange(event): void {
     const value = event.value;
-    console.log('value', value);
     if (value.indexOf('!') === 0) {
       this.sortOrder = -1;
       this.sortField = value.substring(1, value.length);
@@ -147,4 +129,61 @@ export class HometaskComponent implements OnInit {
     return rule;
   }
 
+  sendHomeTaskFile(uploadHomeTaskFile: HomeTaskFile) {
+    this.teacherJournalService.putHomeTaskFile(uploadHomeTaskFile)
+      .subscribe(status => {
+        if (status.code && status.code !== 201) {
+          this.showNotification(
+            'error',
+            'Завдання не збережно!',
+            status.message
+          );
+        } else {
+          this.showNotification(
+            'success',
+            'Завдання збережно!',
+            status.message
+          );
+        }
+    });
+  }
+
+  showNotification(type: string, message: string, detail: string) {
+    const list = ['info', 'warn', 'error', 'success'];
+    if (list.indexOf(type) >= 0) {
+      this.messageService.add({
+        key: 'error',
+        severity: type,
+        summary: message,
+        detail: detail
+      });
+    } else {
+      this.messageService.add({
+        key: 'error',
+        severity: 'info',
+        summary: message,
+        detail: detail
+      });
+    }
+  }
+
+  changeHometaskDescription(homework: any) {
+    this.uploadHomeTaskFile.homework = homework.target.value;
+  }
+
+  handlerFileInput(file: FileList) {
+    this.fileToUpload = file.item(0);
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      if (file.item(0).size > 500000) {
+        this.fileData = 'Перевищено максимальний розмір 500 кб';
+      } else {
+        this.fileData = '';
+        this.uploadHomeTaskFile.fileData = event.target.result.toString().split(',')[1];
+      }
+    };
+    reader.readAsDataURL(this.fileToUpload);
+    this.uploadHomeTaskFile.fileType = this.fileToUpload.type;
+    this.uploadHomeTaskFile.fileName = this.fileToUpload.name;
+  }
 }
