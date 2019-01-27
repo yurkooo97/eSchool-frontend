@@ -35,7 +35,7 @@ header {
 .container {
   user-select: none;
   width: 300px;
-  padding: 15px;
+  padding: 15px 20px;
   background-color: rgba(15, 15, 15, .75);
   border-radius: 3px;
   border: 2px solid rgba(0, 0, 0, .2);
@@ -57,7 +57,7 @@ header {
   font-size: 32px;
   text-align: center;
   margin: auto 0;
-  padding: 15px;
+  padding: 15px 20px;
   order: 1;
   .schoolName
   {
@@ -139,6 +139,7 @@ header {
   display: block;
   width: 200px;
   margin: 20px auto;
+  font-family: 'Philosopher', sans-serif;
 }
 h1 {
   text-align: center;
@@ -190,7 +191,7 @@ a:hover {
     }
   }
 }
-@media screen and (max-width: 760px) {
+@media screen and (max-width: 785px) {
   .pageTitle {
     display: none;
   }
