@@ -282,15 +282,35 @@ export class NewStudyingYearComponent implements OnInit {
   }
 
   imageGroupsListWithNewNameAndYear( item: Transition ) {
-    if (item.checkbox === true) {
-      this.groupsExistArray.push({
-        className: [
-          parseInt(item.className, 10) + 1,
-          item.className.split('-')[1]
-        ].join('-'),
-        classYear: item.classYear + 1
-      });
+    if ( item.checkbox === true ) {
+      if ( item.className.includes('(')) {
+        this.groupsExistArray.push({
+          className: [
+            ( parseInt( item.className, 10 ) + 1).toString().concat( '(' )
+            .concat( parseInt( item.className, 10) + 5 + ')' ),
+            item.className.split('-')[1]
+          ].join('-'),
+            classYear: item.classYear + 1
+        });
+      } else {
+        this.groupsExistArray.push({
+          className: [
+            parseInt(item.className, 10) + 1,
+            item.className.split('-')[1]
+          ].join('-'),
+          classYear: item.classYear + 1
+        });
+      }
     }
+    this.takeDashAway();
+  }
+
+  takeDashAway() {
+    this.groupsExistArray.forEach( item2 => {
+      if (item2.className.slice(-1) === '-') {
+        item2.className = item2.className.replace('-', '');
+      }
+    });
   }
 
   attachIconForDifferentYears() {
