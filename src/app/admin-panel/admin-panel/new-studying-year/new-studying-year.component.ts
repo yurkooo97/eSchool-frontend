@@ -41,6 +41,7 @@ export class NewStudyingYearComponent implements OnInit {
   counterId = 0;
   booleanAfterChecking: boolean;
   checkedGroupsExistArray: Array<SmallGroup> = [];
+  messageCounter = 0;
 
   constructor(
     private httpService: NewStudyingYearService,
@@ -60,7 +61,12 @@ export class NewStudyingYearComponent implements OnInit {
       this.checkNumOfStudentsAndCreate();
       this.checkGroupsExisting();
       this.loading = false;
-    });
+    },
+      err => {
+        this.showErrorMessage();
+        this.loading = false;
+      }
+    );
     this.cols = [
       {
         classNameField: 'className',
@@ -75,9 +81,17 @@ export class NewStudyingYearComponent implements OnInit {
     ];
   }
 
+  showErrorMessage() {
+    this.notificationToasts.notify(
+      'error',
+      'Відхилено',
+      'Неможливо загрузити перелік класів',
+      true
+    );
+  }
+
   filterGroups() {
     this.activeGroups = this.groupList.filter(g => g.isActive)
-      .sort( (gr1, gr2) => gr1.className.split('-')[1].localeCompare(gr2.className.split('-')[1]))
       .sort((gr1, gr2) => parseInt(gr1.className, 10) - parseInt(gr2.className, 10));
     this.activeGroups.forEach(item => {
       this.allGroupsList.push({
@@ -96,7 +110,11 @@ export class NewStudyingYearComponent implements OnInit {
       });
     });
     this.allGroupsList.forEach(item => {
-      this.groupDigitsArray.push(parseInt(item.className, 10));
+      if (item.className.includes('(')) {
+        this.groupDigitsArray.push(parseInt(item.className, 10 ) + 4);
+      } else {
+        this.groupDigitsArray.push(parseInt(item.className, 10));
+      }
     });
   }
 
@@ -206,16 +224,23 @@ export class NewStudyingYearComponent implements OnInit {
         ) {
           this.disableButtonCreateTransition = true;
           this.allGroupsList[i].icon = 'pi pi-minus-circle';
-          this.notificationToasts.notify(
-            'error',
-            'Відхилено',
-            'В даному переліку класів є такі, ' +
-              'які перейшли на новий навчальний рік раніше.',
-            true
-          );
+          this.giveOnlyOneMessage();
         }
       });
     });
+  }
+
+  giveOnlyOneMessage() {
+    this.messageCounter++;
+    if (this.messageCounter === 1) {
+      this.notificationToasts.notify(
+        'error',
+        'Відхилено',
+        'В даному переліку класів є такі, ' +
+          'які перейшли на новий навчальний рік раніше.',
+        true
+      );
+    }
   }
 
   checkStudingYearAndCreateMessage() {
