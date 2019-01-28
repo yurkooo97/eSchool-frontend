@@ -4,7 +4,8 @@
     <button pButton type="button" (click)="homeButtonClicked()"><i class="fas fa-home home"></i></button>
   </div>
   <div class="ui-toolbar-group-right">
-    <button type="text" (click)="displaySidebar = !displaySidebar" pButton icon="fas fa-user user"></button>
+    <button type="text" (click)="displaySidebar = !displaySidebar" pButton icon="fas fa-user user" class="userButton"></button>
+    <span *ngIf='userFullName != ""' class="userName">{{userFullName}}</span>
   </div>
 </p-toolbar>
 <!-- Sidebar setup -->
@@ -15,9 +16,10 @@
   <h3>{{userRoleLabel}}</h3>
   <h1 *ngIf='userFullName != ""'>{{userFullName}}</h1>
   <div class="action-buttons">
-    <button type="text" (click)="editActiveUser()" pButton icon="pi pi-pencil" label="{{editActiveUserLabel}}" class="ui-button ui-button-info"></button>
-    <button type="text" (click)="LogOut()" pButton icon="pi pi-sign-out" label="{{logOutLabel}}" class="ui-button-warning"></button>
+    <button type="text" (click)="editActiveUser()" pButton icon="pi pi-pencil" label="{{editActiveUserLabel}}" class="ui-button ui-button-info editUserBtn"></button>
+    <button type="text" (click)="LogOut()" pButton icon="pi pi-sign-out" label="{{logOutLabel}}" class="ui-button-warning logOutBtn"></button>
   </div>
+  <img src="/assets/schoolLogo.png" alt="Логотип" class="admin-panel-img" />
 </p-sidebar>
 
 <router-outlet></router-outlet>

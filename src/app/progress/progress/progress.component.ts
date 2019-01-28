@@ -12,11 +12,13 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { ChartColor } from 'src/app/models/chartColors';
 import { SubjectSubscriber } from 'rxjs/internal/Subject';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import {PageTitleService} from '../../services/pageTitle.service';
 
 @Component({
   selector: 'app-progress',
   templateUrl: './progress.component.html',
-  styleUrls: ['./progress.component.scss']
+  styleUrls: ['./progress.component.scss'],
+  providers: [PageTitleService]
 })
 export class ProgressComponent implements OnInit {
   years: SelectItem[];
@@ -56,7 +58,8 @@ export class ProgressComponent implements OnInit {
     private _subjectsService: AdminSubjectsService,
     private studentService: StudentsService,
     private marksService: MarksService,
-    private _teacherServices: TeachersService
+    private _teacherServices: TeachersService,
+    private pageTitle: PageTitleService
   ) {
     this.isButtonDisabled = true;
     this.visibleGroups = new Array<Group>();
@@ -99,6 +102,7 @@ export class ProgressComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.pageTitle.setTitle('Католицька Школа - Статистика');
     this.calendar();
 
     this.groupService.getClasses().subscribe(data => {
