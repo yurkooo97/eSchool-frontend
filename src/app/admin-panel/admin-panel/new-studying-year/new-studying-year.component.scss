@@ -41,11 +41,22 @@ p{
   color: #43b917;
 }
 
-.p-grid{
-  margin: -4px;
-  padding: 0px;
+.p-grid #rowData1{  
+  margin-top: 7px;
 }
+
 div.p-col-1{
   width: 20px;
   height: 20px;
 }
+
+@media screen and (max-width: 600px) {
+    .checkbox-class p{
+      display: none;
+    }
+    .p-grid #rowData1{  
+      margin-top: 7px;
+      margin-left: 10px;
+      width: 70%;
+    }     
+  }

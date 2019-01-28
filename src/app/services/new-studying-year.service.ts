@@ -20,25 +20,19 @@ export class NewStudyingYearService {
   getGroups(): Observable<Group[]> {
     return this.http
       .get<Group[]>('classes', this.httpOptions)
-      .map((response: any) => {
-        return response.data;
-      });
+      .map((response: any) => response.data);
   }
 
   postNewGroups(groupObject: SmallGroup[]): Observable<Group[]> {
     return this.http
       .post<Group[]>('students/transition', groupObject)
-      .map((response: any) => {
-        return response.data;
-      });
+      .map((response: any) => response.data);
   }
 
   putNewOldId(idObject: ClassId[]): Observable<ClassId[]> {
     return this.http
       .put<ClassId[]>('students/transition', idObject)
-      .map((response: any) => {
-        return response.data;
-      });
+      .map((response: any) => response.data);
   }
 
 }
