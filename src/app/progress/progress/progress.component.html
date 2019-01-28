@@ -49,7 +49,6 @@
           (onClick)="onDataReset()"
         ></p-radioButton>
 
-        <!-- вибрано по класу - мультиселект класів -->
         <p-multiSelect
           class="group"
           *ngIf="selectedYear && selectedChartsType === 'class'"
@@ -62,7 +61,6 @@
           selectedItemsLabel="Вибрано {0} класів"
         ></p-multiSelect>
 
-        <!-- вибрано по учню - список класів -->
         <p-dropdown
           class="group"
           *ngIf="selectedYear && selectedChartsType === 'student'"
@@ -75,7 +73,7 @@
         ></p-dropdown>
 
         <p-dropdown
-          class="subject"
+					class="subject"
           *ngIf="selectedGroup"
           [options]="visibleSubjects"
           [(ngModel)]="selectedSubjects"
@@ -84,22 +82,6 @@
           [showClear]="true"
         ></p-dropdown>
 
-        <!-- вибрано по класу - мультиселект предметів -->
-        <p-multiSelect
-          class="subject"
-          *ngIf="
-            selectedYear && selectedGroups && selectedChartsType === 'class'
-          "
-          [options]="vsblSubjects"
-          [(ngModel)]="selectedSubjectsArr"
-          (onChange)="onMultiSubjectChange($event)"
-          optionLabel="subjects"
-          [panelStyle]="{ minWidth: '13em' }"
-          defaultLabel="Виберіть предмет"
-          selectedItemsLabel="Вибрано {0} предметів"
-        ></p-multiSelect>
-
-        <!-- вибрано по учню - мультиселект учнів -->
         <p-multiSelect
           class="student"
           *ngIf="selectedGroup && selectedChartsType === 'student'"
