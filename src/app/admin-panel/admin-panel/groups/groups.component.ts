@@ -20,7 +20,6 @@ export class GroupsComponent implements OnInit {
   editGroup: any;
   defaultActive = '1';
 
-
   showDialog(rowData?: Group) {
     if (!rowData) {
       rowData = new Group(this.defaultActive);
@@ -73,7 +72,9 @@ export class GroupsComponent implements OnInit {
   }
 
   filterGroups() {
-    this.activeGroups = this.groups.filter(g => g.isActive);
+    this.activeGroups = this.groups.filter(g => g.isActive)
+      .sort( (gr1, gr2) => gr1.className.split('-')[1].localeCompare(gr2.className.split('-')[1]))
+      .sort( (gr1, gr2) => parseInt(gr1.className, 10) - parseInt(gr2.className, 10));
     this.inactiveGroups = this.groups.filter(g => !g.isActive);
   }
 }

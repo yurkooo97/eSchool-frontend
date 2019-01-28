@@ -76,7 +76,9 @@ export class NewStudyingYearComponent implements OnInit {
   }
 
   filterGroups() {
-    this.activeGroups = this.groupList.filter(g => g.isActive);
+    this.activeGroups = this.groupList.filter(g => g.isActive)
+      .sort( (gr1, gr2) => gr1.className.split('-')[1].localeCompare(gr2.className.split('-')[1]))
+      .sort((gr1, gr2) => parseInt(gr1.className, 10) - parseInt(gr2.className, 10));
     this.activeGroups.forEach(item => {
       this.allGroupsList.push({
         oldClassId: item.id,
