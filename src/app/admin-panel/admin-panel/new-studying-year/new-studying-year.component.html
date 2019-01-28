@@ -1,6 +1,6 @@
 <p-fieldset legend="Налаштування" [toggleable]="true" [collapsed]="true">
-  <p>Виберіть учбовий цикл навчання(наприклад одинадцятирічний)</p>
-  <p-spinner size="30" [(ngModel)]="studingCircle" [min]="1" [max]="20" placeholder></p-spinner>
+  <p class="p-col-6 p-offset-3">Виберіть учбовий цикл навчання(наприклад одинадцятирічний)</p>
+  <p-spinner class="p-col-3" size="30" [(ngModel)]="studingCircle" [min]="1" [max]="20" placeholder [readonly]="true"></p-spinner>
 </p-fieldset>
 <p-table [value]="allGroupsList" [columns]="cols" [loading] ="loading">
   <ng-template pTemplate="caption">Перехід на новий навчальний рік</ng-template>
@@ -22,9 +22,9 @@
         </p-checkbox>              
       </td>
       <td>
-        <div class="p-grid">
-          <div class="p-col-6 p-offset-3">{{rowData[col.classNameField]}} клас, {{rowData[col.classYearField]}} рік</div>
-          <div class="p-col-1"><i class="{{rowData[col.iconStyleField]}}"></i></div>
+        <div class="p-grid p-align-center">
+          <div class="p-col-6 p-offset-3" id="rowData1">{{rowData[col.classNameField]}} клас, {{rowData[col.classYearField]}} рік</div>
+          <div class="p-col-1 p-align-center"><i class="{{rowData[col.iconStyleField]}}"></i></div>
         </div>          
       </td>      
       <td><span *ngIf="hideTag" [style.color]="rowData[col.colorStyleField]">{{rowData[col.newClassNameField]}} клас у {{rowData[col.newClassYearField]}} році </span></td>      
