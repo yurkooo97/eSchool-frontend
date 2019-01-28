@@ -9,7 +9,7 @@ import { SmallGroup } from '../models/transitional-studing.model';
   providedIn: 'root'
 })
 
-export class NewStudingYearService {
+export class NewStudyingYearService {
   constructor(private http: HttpClient) { }
   private httpOptions = {
     headers: new HttpHeaders({

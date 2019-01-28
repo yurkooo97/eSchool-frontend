@@ -69,8 +69,6 @@ export class MenuComponent implements OnInit {
       .getJournalsTeacher(idUser, false)
       .subscribe(journals => {
         this.journals = journals;
-        console.log(this.journals);
-        console.log(this.removeDuplicates(this.journals, 'className'));
         this.displayJournalsByClass = this.removeDuplicates(
           this.journals,
           'className'
@@ -79,8 +77,6 @@ export class MenuComponent implements OnInit {
   }
 
   setSelectedJournal(): void {
-    console.log('clicked');
-    console.log(this.selectedSubjectName);
     this.teacherJournalService.emitJournalChanged(this.selectedSubjectName);
   }
 
@@ -93,7 +89,6 @@ export class MenuComponent implements OnInit {
         }),
         'subjectName'
       );
-      console.log(this.selectedClassName.className);
     }
   }
 

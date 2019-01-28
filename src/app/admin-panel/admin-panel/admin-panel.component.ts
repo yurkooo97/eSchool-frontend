@@ -31,9 +31,9 @@ export class AdminPanelComponent implements OnInit {
             routerLink: ['class-schedule']
           },
           {
-            label: 'Створити новий навчальний рік',
+            label: 'Перехід на новий навчальний рік',
             icon: 'pi pi-fw pi-plus',
-            routerLink: ['new-studing-year']
+            routerLink: ['new-studying-year']
           },
           {
             label: 'Додати вчителя до журналу',
