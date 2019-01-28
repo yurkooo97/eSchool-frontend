@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
+import { PageTitleService } from '../../services/pageTitle.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  providers: [PageTitleService]
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthenticationService, private router: Router) {
+  constructor(private authService: AuthenticationService, private router: Router, private pageTitle: PageTitleService) {
     this.userName = null;
     this.password = null;
   }
@@ -18,7 +20,9 @@ export class LoginComponent implements OnInit {
   password: string;
   errorMessage: string;
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.pageTitle.setTitle('Католицька Школа - Вхід');
+  }
   Login() {
     this.authService.login(this.userName, this.password)
       .subscribe((result) => {

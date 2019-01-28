@@ -18,6 +18,29 @@
   }
 }
 
+.editUserBtn {
+  display: none;
+}
+
+.userButton {
+  float: right;
+}
+
+.userName {
+  float: right;
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 15px;
+}
+
+.admin-panel-img {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  bottom: 25px;
+  right: 60px;
+}
+
 :host ::ng-deep .ui-toolbar {
   position: fixed;
   left: 0;
@@ -44,14 +67,16 @@
   font-weight: bold;
 }
 :host ::ng-deep .ui-sidebar {
+  width: 230px;
+  text-align: center;
   .ui-button {
-    width: fit-content;
+    width: 100%;
     margin: 5px 5px 5px 0px;
   }
 }
 .sidebar-avatar {
-  width: 240px;
-  height: 240px;
+  width: 200px;
+  height: 200px;
 }
 @media screen and (max-width: 920px) {
   @media (orientation: landscape) {

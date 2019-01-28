@@ -7,11 +7,13 @@ import {
 } from 'src/app/models/transitional-studing.model';
 import { Group } from 'src/app/models/group.model';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { PageTitleService } from '../../../services/pageTitle.service';
 
 @Component({
   selector: 'app-new-studying-year',
   templateUrl: './new-studying-year.component.html',
-  styleUrls: ['./new-studying-year.component.scss']
+  styleUrls: ['./new-studying-year.component.scss'],
+  providers: [PageTitleService]
 })
 
 export class NewStudyingYearComponent implements OnInit {
@@ -45,10 +47,12 @@ export class NewStudyingYearComponent implements OnInit {
 
   constructor(
     private httpService: NewStudyingYearService,
-    private notificationToasts: DataSharingService
+    private notificationToasts: DataSharingService,
+    private pageTitle: PageTitleService
   ) {}
 
   ngOnInit() {
+    this.pageTitle.setTitle('Католицька Школа - Новий Навчальний Рік');
     this.loading = true;
     this.getGroupList();
   }

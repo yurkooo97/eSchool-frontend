@@ -9,7 +9,7 @@
   [paginator]="false"
 >
   <ng-template pTemplate="caption"
-    >Список учителів
+    >Список вчителів
     <div class="caption__wrap">
       <button
         pButton
@@ -69,13 +69,13 @@
         pButton
         icon="pi pi-plus"
         (click)="showDialogToAdd()"
-        label="Додати учителя"
+        label="Додати вчителя"
       ></button>
     </div>
   </ng-template>
 </p-table>
 <p-dialog
-  header="Інформація про учителя"
+  header="Інформація про вчителя"
   [(visible)]="displayDialog"
   [responsive]="true"
   showEffect="fade"

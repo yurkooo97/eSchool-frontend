@@ -87,6 +87,15 @@ export class TeacherJournalsService {
       });
   }
 
+  public putHomeTaskFile(homeTaskFile: HomeTaskFile): Observable<any> {
+    return this.http.put<HomeTaskFile>('/homeworks/files', homeTaskFile)
+      .map((response: any) => {
+        return response.status;
+      }).catch((error: any) => {
+        return throwError(error);
+      });
+  }
+
   public getjournals(idSubject: number, idClass: number): Observable<JournalData[]> {
     return this.http.get<JournalData[]>(this.urlJournalSubject(idSubject, idClass))
       .map((response: any) => {

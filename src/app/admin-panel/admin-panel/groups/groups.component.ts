@@ -3,11 +3,13 @@ import { isString, isNumber } from 'util';
 import { Group } from '../../../models/group.model';
 import { AdmingroupsService } from 'src/app/services/admingroups.service';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { PageTitleService } from '../../../services/pageTitle.service';
 
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
-  styleUrls: ['./groups.component.scss']
+  styleUrls: ['./groups.component.scss'],
+  providers: [PageTitleService]
 })
 export class GroupsComponent implements OnInit {
   showInactive: boolean;
@@ -54,11 +56,13 @@ export class GroupsComponent implements OnInit {
 
   constructor(
     private groupService: AdmingroupsService,
-    private notificationToasts: DataSharingService) {
+    private notificationToasts: DataSharingService,
+    private pageTitle: PageTitleService) {
     this.editGroup = new Group(this.defaultActive);
   }
 
   ngOnInit() {
+    this.pageTitle.setTitle('Католицька Школа - Класи');
     this.groupService.getClasses()
       .subscribe(data => {
         this.groups = data;
