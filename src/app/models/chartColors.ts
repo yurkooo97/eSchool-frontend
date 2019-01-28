@@ -1,5 +1,15 @@
 export class ChartColor {
-  private colors = ['green', 'red', 'orange', 'blue', 'purple'];
+  private colors = [
+    'green',
+    'red',
+    'orange',
+    'blue',
+    'purple',
+    'mediumslateblue',
+    'lightcoral',
+    'mediumvioletred',
+    'steelblue'
+  ];
   private count = -1;
 
   getColor() {
