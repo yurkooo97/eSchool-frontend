@@ -43,6 +43,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { AccordionModule } from 'primeng/accordion';
 import { SpinnerModule } from 'primeng/spinner';
+import { Title } from '@angular/platform-browser';
 
 @NgModule({
   imports: [
@@ -84,7 +85,8 @@ import { SpinnerModule } from 'primeng/spinner';
     StudentsService,
     NewStudyingYearService,
     HttpAttachTeacherService,
-    ConfirmationService
+    ConfirmationService,
+    Title
   ],
   declarations: [
     AdminPanelComponent,

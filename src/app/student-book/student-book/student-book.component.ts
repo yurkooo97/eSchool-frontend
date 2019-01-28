@@ -5,11 +5,13 @@ import { SelectItem } from 'primeng/api';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { WeekSchedule } from 'src/app/models/student-book-models/WeekSchedule.model';
 import { DomSanitizer } from '@angular/platform-browser';
+import { PageTitleService } from '../../services/pageTitle.service';
 
 @Component({
   selector: 'app-student-book',
   templateUrl: './student-book.component.html',
-  styleUrls: ['./student-book.component.scss']
+  styleUrls: ['./student-book.component.scss'],
+  providers: [PageTitleService]
 })
 export class StudentBookComponent implements OnInit {
   public weekSchedule: WeekSchedule[];
@@ -43,10 +45,12 @@ export class StudentBookComponent implements OnInit {
   constructor(
     private studentBookService: StudentBookService,
     private notificationToasts: DataSharingService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private pageTitle: PageTitleService
   ) {}
 
   ngOnInit() {
+    this.pageTitle.setTitle('Католицька Школа - Щоденник');
     this.ukrCurrDate = this.studentBookService.getUkrainanDate(new Date());
     this.studentBookService.getDiariesList().subscribe(
       data => {

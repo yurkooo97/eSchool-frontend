@@ -6,12 +6,13 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { OverlayPanel } from 'primeng/primeng';
 import { MessageService } from 'primeng/api';
+import { PageTitleService } from '../../../services/pageTitle.service';
 
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
   styleUrls: ['./students.component.scss'],
-  providers: [StudentsService, MessageService]
+  providers: [StudentsService, MessageService, PageTitleService]
 })
 export class StudentsComponent implements OnInit {
   ua: object;
@@ -37,10 +38,12 @@ export class StudentsComponent implements OnInit {
     private service_: StudentsService,
     private notificationToasts: DataSharingService,
     private _teacherServices: TeachersService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private pageTitle: PageTitleService
   ) { }
 
   ngOnInit() {
+    this.pageTitle.setTitle('Католицька Школа - Учні');
     this.screenWidthDetector();
     this.loading = true;
     this.isLoginFree = true;

@@ -5,10 +5,13 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { ConfirmationService } from 'primeng/api';
 import { debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { PageTitleService } from '../../../services/pageTitle.service';
+
 @Component({
   selector: 'app-teachers',
   templateUrl: './teachers.component.html',
-  styleUrls: ['./teachers.component.scss']
+  styleUrls: ['./teachers.component.scss'],
+  providers: [PageTitleService]
 })
 export class TeachersComponent implements OnInit {
   loading: boolean;
@@ -29,10 +32,12 @@ export class TeachersComponent implements OnInit {
   constructor(
     private _teacherServices: TeachersService,
     private notificationToasts: DataSharingService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private pageTitle: PageTitleService
   ) {}
 
   ngOnInit() {
+    this.pageTitle.setTitle('Католицька Школа - Вчителі');
     this.loading = true;
     this._teacherServices
       .getTeachers()
