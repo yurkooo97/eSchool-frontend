@@ -4,17 +4,19 @@ import { JournalData } from 'src/app/models/journalData.model';
 import { Journal } from 'src/app/models/journal.model';
 import { Mark } from 'src/app/models/journalMark.model';
 import { MessageService } from 'primeng/api';
+import { PageTitleService } from '../../../services/pageTitle.service';
 
 @Component({
   selector: 'app-journal-data',
   templateUrl: './journal-data.component.html',
   styleUrls: ['./journal-data.component.scss'],
-  providers: [MessageService]
+  providers: [MessageService, PageTitleService]
 })
 export class JournalDataComponent implements OnInit {
   constructor(
     private teacherJournalService: TeacherJournalsService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private pageTitle: PageTitleService
   ) {}
 
   journalData: JournalData[];
@@ -34,6 +36,7 @@ export class JournalDataComponent implements OnInit {
   ];
 
   ngOnInit() {
+    this.pageTitle.setTitle('Католицька Школа - Журнал');
     this.contextMenuItems = [
       {
         label: 'Опис оцінки',

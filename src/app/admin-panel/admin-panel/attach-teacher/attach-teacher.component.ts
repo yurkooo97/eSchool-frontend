@@ -5,11 +5,13 @@ import { Subject } from 'src/app/models/subjects.model';
 import { Group } from 'src/app/models/group.model';
 import { NgForm } from '@angular/forms';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { PageTitleService } from '../../../services/pageTitle.service';
 
 @Component({
   selector: 'app-attach-teacher',
   templateUrl: './attach-teacher.component.html',
-  styleUrls: ['./attach-teacher.component.scss']
+  styleUrls: ['./attach-teacher.component.scss'],
+  providers: [PageTitleService]
 })
 export class AttachTeacherComponent implements OnInit {
   @ViewChild('AttachTeacherForm') form: NgForm;
@@ -26,7 +28,8 @@ export class AttachTeacherComponent implements OnInit {
 
   constructor(
     private attachService: HttpAttachTeacherService,
-    private notificationToasts: DataSharingService
+    private notificationToasts: DataSharingService,
+    private pageTitle: PageTitleService
   ) { }
 
   postAttachTeacher() {
@@ -56,6 +59,7 @@ export class AttachTeacherComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.pageTitle.setTitle('Католицька Школа - Прив\'язка вчителя до журналу');
     this.attachService.getTeachers().subscribe(data => (this.teachers = data));
     this.attachService.getSubjects().subscribe(data => (this.subjects = data));
     this.attachService.getClasses().subscribe(data => (this.classes = data.filter(classes => classes.isActive)));

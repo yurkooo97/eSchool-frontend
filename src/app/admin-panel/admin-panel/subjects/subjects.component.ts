@@ -3,11 +3,13 @@ import { AdminSubjectsService } from 'src/app/services/admin-subjects.service';
 import { Subject } from 'src/app/models/subjects.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { PageTitleService } from '../../../services/pageTitle.service';
 
 @Component({
   selector: 'app-subjects',
   templateUrl: './subjects.component.html',
-  styleUrls: ['./subjects.component.scss']
+  styleUrls: ['./subjects.component.scss'],
+  providers: [PageTitleService]
 })
 export class SubjectsComponent implements OnInit {
   subjectForm: FormGroup;
@@ -31,10 +33,12 @@ export class SubjectsComponent implements OnInit {
   constructor(
     private _subjectsService: AdminSubjectsService,
     private formBuilder: FormBuilder,
-    private notificationToasts: DataSharingService
+    private notificationToasts: DataSharingService,
+    private pageTitle: PageTitleService
   ) {}
 
   ngOnInit() {
+    this.pageTitle.setTitle('Католицька Школа - Предмети');
     this.loading = true;
     this._subjectsService.getSubjectsList().subscribe(data => {
       this.subjects = data;

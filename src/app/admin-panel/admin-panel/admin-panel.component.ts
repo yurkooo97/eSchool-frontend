@@ -19,7 +19,7 @@ export class AdminPanelComponent implements OnInit {
         items: [
           { label: 'Учні', icon: 'pi  pi-users', routerLink: ['students'] },
           {
-            label: 'Учителі',
+            label: 'Вчителі',
             icon: 'pi pi-user-minus',
             routerLink: ['teachers']
           },
