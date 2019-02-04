@@ -43,8 +43,8 @@ export class TeachersComponent implements OnInit {
       .getTeachers()
       .subscribe(users => ((this.teachers = users), (this.loading = false)));
     this.columns = [
-      { field: 'firstname', header: 'Ім\'я' },
       { field: 'lastname', header: 'Прізвище' },
+      { field: 'firstname', header: 'Ім\'я' },
       { field: 'patronymic', header: 'По батькові' },
       { field: 'dateOfBirth', header: 'Дата народження' }
     ];

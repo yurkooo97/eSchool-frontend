@@ -27,7 +27,7 @@
         pButton icon="pi pi-plus" class="ui-button-raised responsive-add" label="Додати учня"></button>
 <p-accordion *ngIf="screenWidth < 700">
   <p-accordionTab *ngFor="let student of students"
-                  header="{{student.firstname}} {{student.patronymic}} {{student.lastname}}">
+                  header="{{student.lastname}} {{student.firstname}} {{student.patronymic}} ">
     <div class="accordion-buttons">
       <i (click)="showForm(); editStudent(student)" class="fas fa-pencil-alt student-edit"
          title="Редагувати інформацію про учня"></i>
@@ -41,7 +41,7 @@
       </div>
       <div class="accordion-data">
         <span class="accordion-class-title">Учень {{selectedClassName}}</span><br>
-        <span class="accordion-name">{{student.firstname}} {{student.patronymic}} {{student.lastname}}</span>
+        <span class="accordion-name">{{student.lastname}} {{student.firstname}} {{student.patronymic}}</span>
       </div>
       <div class="accordion-full-info">
         <p><span class="accordion-data-record">Дата народження:</span> {{student.dateOfBirth}}</p>
@@ -100,7 +100,7 @@
     </div>
     <div class="student-data">
       <span class="student-class-title">Учень {{selectedClassName}}</span><br>
-      <span class="student-name">{{selectedStudent.firstname}} {{selectedStudent.patronymic}} {{selectedStudent.lastname}}</span>
+      <span class="student-name">{{selectedStudent.lastname}} {{selectedStudent.firstname}} {{selectedStudent.patronymic}}</span>
       <div class="student-full-info">
         <p><span class="student-data-record">Дата народження:</span> {{selectedStudent.dateOfBirth}}</p>
         <p><span class="student-data-record">Номер телефону:</span> {{selectedStudent.phone}}</p>
@@ -117,7 +117,7 @@
       <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
       <h3>
         {{message.summary}}<br><br>
-        <span class="deleted-student">{{selectedStudent.firstname}} {{selectedStudent.patronymic}} {{selectedStudent.lastname}}</span>
+        <span class="deleted-student">{{selectedStudent.lastname}} {{selectedStudent.firstname}} {{selectedStudent.patronymic}}</span>
       </h3>
       <p>{{message.detail}}</p>
     </div>
@@ -139,6 +139,16 @@
   <form class="studentsForm" #studentsForm="ngForm" autocomplete="off">
     <p-fieldset legend="Обов'язкові поля" class="mainInfo">
       <div class="ui-inputgroup">
+        <input id="float-input-lastname" class="student-data-field" type="text" placeholder="Прізвище *" pInputText
+               [class.wrongData]="lastname.invalid && lastname.touched" #lastname="ngModel" name="lastname"
+               [(ngModel)]="newStudent.lastname" minlength="3" maxlength="20" required
+               pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+"/>
+        <span class="ui-inputgroup-addon" [class.wrongData1]="lastname.invalid && lastname.touched"
+              [class.correctData1]="lastname.valid && lastname.touched"><i class="fas fa-user"></i></span>
+      </div>
+      <span [class.hiddenBox]="lastname.valid || lastname.untouched" class="messageOfMistake">Некоректне прізвище</span>
+      <br>      
+      <div class="ui-inputgroup">
         <input id="float-input-firstname" class="student-data-field" type="text" placeholder="Ім'я *" pInputText
                [class.wrongData]="firstname.invalid && firstname.touched" #firstname="ngModel" name="firstname"
                [(ngModel)]="newStudent.firstname" minlength="3" maxlength="20" required
@@ -157,17 +167,7 @@
               [class.correctData1]="patronymic.valid && patronymic.touched"><i class="fas fa-user"></i></span>
       </div>
       <span [class.hiddenBox]="patronymic.valid || patronymic.untouched"
-            class="messageOfMistake">Некоректне по-батькові</span>
-      <br>
-      <div class="ui-inputgroup">
-        <input id="float-input-lastname" class="student-data-field" type="text" placeholder="Прізвище *" pInputText
-               [class.wrongData]="lastname.invalid && lastname.touched" #lastname="ngModel" name="lastname"
-               [(ngModel)]="newStudent.lastname" minlength="3" maxlength="20" required
-               pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+"/>
-        <span class="ui-inputgroup-addon" [class.wrongData1]="lastname.invalid && lastname.touched"
-              [class.correctData1]="lastname.valid && lastname.touched"><i class="fas fa-user"></i></span>
-      </div>
-      <span [class.hiddenBox]="lastname.valid || lastname.untouched" class="messageOfMistake">Некоректне прізвище</span>
+            class="messageOfMistake">Некоректне по батькові</span>       
       <span class="ui-float-label">
         <input id="float-input-class" type="text" pInputText name="classId" [(ngModel)]="newStudent.classId"
                class="classID" disabled>
