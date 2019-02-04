@@ -12,7 +12,7 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { ChartColor } from 'src/app/models/chartColors';
 import { SubjectSubscriber } from 'rxjs/internal/Subject';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
-import {PageTitleService} from '../../services/pageTitle.service';
+import { PageTitleService } from '../../services/pageTitle.service';
 
 @Component({
   selector: 'app-progress',
@@ -107,6 +107,7 @@ export class ProgressComponent implements OnInit {
 
     this.groupService.getClasses().subscribe(data => {
       this.groups = data;
+      this.visibleGroups = this.groups.filter(g => g.isActive);
       const allYears = data.map(group => group.classYear);
       const uniqueYears = allYears
         .filter((value, index, self) => self.indexOf(value) === index)
@@ -119,7 +120,13 @@ export class ProgressComponent implements OnInit {
   }
 
   // writing everage marks to the chartMarks object for each selected student
-  marksByStudentBySubject(servData, firstname, lastname, startDate, endDate) {
+  setMarksByStudentBySubject(
+    servData,
+    firstname,
+    lastname,
+    startDate,
+    endDate
+  ) {
     const marksData = [];
     let sum = 0;
     let averageMark = 0;
@@ -171,7 +178,21 @@ export class ProgressComponent implements OnInit {
     }
   }
 
-  averageStudentMark(servData) {
+  getAverageStudentMark(servData) {
+    let avrStudentMark = 0;
+
+    // find average student mark by subject
+    if (servData.length !== 0) {
+      servData.forEach((value: any) => {
+        if (value.subjectId === this.selectedSubjects.subjectId) {
+          avrStudentMark = value.avgMark;
+        }
+      });
+    }
+    return avrStudentMark;
+  }
+
+  countAverageStudentMark(servData) {
     let sumOfStudentMarks = 0;
     let avrStudentMark = 0;
 
@@ -198,7 +219,7 @@ export class ProgressComponent implements OnInit {
     this.updateChartWithCollectedData(startDate, endDate);
   }
 
-  averageClassMark(marks, className) {
+  countAverageClassMark(marks, className) {
     let avrSum = 0;
 
     // count average class mark and write it to the object as array
@@ -214,7 +235,10 @@ export class ProgressComponent implements OnInit {
   updateChartWithCollectedData(startDate, endDate) {
     const chartData = {};
     Object.keys(this.collectedAvgMarks).forEach((group: any) => {
-      chartData[group] = this.averageClassMark(this.collectedAvgMarks, group);
+      chartData[group] = this.countAverageClassMark(
+        this.collectedAvgMarks,
+        group
+      );
     }),
       this.showChart(chartData, startDate, endDate);
   }
@@ -257,7 +281,7 @@ export class ProgressComponent implements OnInit {
     };
 
     // get average marks by selected class and all subjects
-    if (this.selectedGroups) {
+    if (this.selectedGroups && !this.selectedSubjects) {
       this.collectedAvgMarks = {};
 
       // this.collectedStudents an object of studens of selected classes
@@ -267,7 +291,28 @@ export class ProgressComponent implements OnInit {
             .getAvgMarks(student.id, startStr, endStr)
             .subscribe(avgStudentMarks => {
               this.collectStudentMark(
-                this.averageStudentMark(avgStudentMarks),
+                this.countAverageStudentMark(avgStudentMarks),
+                className,
+                startStr,
+                endStr
+              );
+            });
+        });
+      });
+    }
+
+    // get average marks by selected class and selected subject
+    if (this.selectedGroups && this.selectedSubjects) {
+      this.collectedAvgMarks = {};
+
+      // this.collectedStudents an object of studens of selected classes
+      Object.keys(this.collectedStudents).forEach((className: any) => {
+        this.collectedStudents[className][0].forEach((student: any) => {
+          this.marksService
+            .getAvgMarks(student.id, startStr, endStr)
+            .subscribe(avgStudentMarks => {
+              this.collectStudentMark(
+                this.getAverageStudentMark(avgStudentMarks),
                 className,
                 startStr,
                 endStr
@@ -289,7 +334,7 @@ export class ProgressComponent implements OnInit {
             item.id
           )
           .subscribe(data => {
-            this.marksByStudentBySubject(
+            this.setMarksByStudentBySubject(
               data,
               item.firstname,
               item.lastname,
@@ -331,7 +376,7 @@ export class ProgressComponent implements OnInit {
         new Date().getFullYear() === this.selectedYear
           ? new Date()
           : new Date(this.selectedYear, 1);
-      this.visibleGroups = this.groups.filter(
+      this.visibleGroups = this.visibleGroups.filter(
         g => g.classYear === this.selectedYear
       );
     } else {
@@ -362,7 +407,7 @@ export class ProgressComponent implements OnInit {
         value: subject
       };
     });
-    this.visibleSubjects = this.unique(subjects);
+    this.visibleSubjects = this.findUniqueSubjects(subjects);
     this.updateIsButtonDisabled();
   }
 
@@ -374,7 +419,7 @@ export class ProgressComponent implements OnInit {
   }
 
   // filter array of subjects
-  unique(arr) {
+  findUniqueSubjects(arr) {
     const result = [];
 
     nextInput: for (let i = 0; i < arr.length; i++) {
@@ -467,12 +512,23 @@ export class ProgressComponent implements OnInit {
 
   updateIsButtonDisabled() {
     this.isButtonDisabled =
-      !(this.selectedGroups != null && this.selectedYear != null) &&
       !(
+        this.selectedChartsType === 'class' &&
+        this.selectedGroups != null &&
+        this.selectedYear != null
+      ) &&
+      !(
+        this.selectedChartsType === 'student' &&
         this.selectedSubjects != null &&
         this.selectedYear != null &&
         this.selectedGroup != null &&
         this.selectedStudents != null
+      ) &&
+      !(
+        this.selectedChartsType === 'class-subject' &&
+        this.selectedSubjects != null &&
+        this.selectedYear != null &&
+        this.selectedGroups != null
       );
   }
 }
