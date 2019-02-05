@@ -13,7 +13,7 @@
     <ng-template pTemplate="body" let-rowData>
       <tr class="class-table-row">
         <td *ngFor="let col of cols" class='rowData1'>
-          {{rowData[col.field]}}
+          {{rowData[col.field] | transformStudyingYear}}
           <button type="button" pButton icon="pi pi-pencil" *ngIf="col.field == 'classYear'" (click)="showDialog(rowData)"
             class="ui-button-raised edit-class-button"></button>
         </td>
@@ -40,7 +40,7 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr style="cursor:pointer" (click)="showDialog(rowData)" *ngIf="showInactive">
         <td *ngFor="let col of columns" class='rowData1'>
-          {{rowData[col.field]}}
+          {{rowData[col.field] | transformStudyingYear}}
         </td>
       </tr>
     </ng-template>
