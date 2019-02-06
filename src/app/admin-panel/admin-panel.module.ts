@@ -44,6 +44,7 @@ import { ConfirmationService } from 'primeng/api';
 import { AccordionModule } from 'primeng/accordion';
 import { SpinnerModule } from 'primeng/spinner';
 import { Title } from '@angular/platform-browser';
+import { TransformStudyingYearPipe } from '../pipes/transform-studying-year.pipe';
 
 @NgModule({
   imports: [
@@ -98,7 +99,8 @@ import { Title } from '@angular/platform-browser';
     ClassScheduleComponent,
     AttachTeacherComponent,
     DashboardComponent,
-    DayComponent
+    DayComponent,
+    TransformStudyingYearPipe
   ]
 })
 export class AdminPanelModule {}
