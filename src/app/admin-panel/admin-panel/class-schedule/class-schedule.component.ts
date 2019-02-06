@@ -65,7 +65,7 @@ export class ClassScheduleComponent implements OnInit {
   // request to add a list of classes
   getClasses(): void {
     this.scheduleService.getClasses().subscribe(data => {
-      this.classes = data;
+      this.classes = data.filter(g => g.isActive);
     });
   }
 
