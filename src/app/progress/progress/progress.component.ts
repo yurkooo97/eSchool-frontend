@@ -179,17 +179,11 @@ export class ProgressComponent implements OnInit {
   }
 
   getAverageStudentMark(servData) {
-    let avrStudentMark = 0;
-
     // find average student mark by subject
-    if (servData.length !== 0) {
-      servData.forEach((value: any) => {
-        if (value.subjectId === this.selectedSubjects.subjectId) {
-          avrStudentMark = value.avgMark;
-        }
-      });
-    }
-    return avrStudentMark;
+    return (
+      servData.find(item => item.subjectId === this.selectedSubjects.subjectId)
+        .avgMark || 0
+    );
   }
 
   countAverageStudentMark(servData) {
