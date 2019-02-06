@@ -35,6 +35,13 @@
       ></p-calendar>
       <div class="radio">
         <p-radioButton
+          label="Успішність класів по предмету"
+          name="chartGroup"
+          value="class-subject"
+          [(ngModel)]="selectedChartsType"
+          (onClick)="onDataReset()"
+        ></p-radioButton>
+        <p-radioButton
           label="Успішність класів"
           name="chartGroup"
           value="class"
@@ -51,7 +58,10 @@
 
         <p-multiSelect
           class="group"
-          *ngIf="selectedYear && selectedChartsType === 'class'"
+          *ngIf="
+            (selectedYear && selectedChartsType === 'class') ||
+            (selectedYear && selectedChartsType === 'class-subject')
+          "
           [options]="visibleGroups"
           [(ngModel)]="selectedGroups"
           (onChange)="onClassChange($event)"
@@ -73,8 +83,11 @@
         ></p-dropdown>
 
         <p-dropdown
-					class="subject"
-          *ngIf="selectedGroup"
+          class="subject"
+          *ngIf="
+            selectedGroup ||
+            (selectedChartsType === 'class-subject' && selectedGroups)
+          "
           [options]="visibleSubjects"
           [(ngModel)]="selectedSubjects"
           (onChange)="onSubjectChange()"
