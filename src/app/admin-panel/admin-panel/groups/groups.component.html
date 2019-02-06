@@ -19,6 +19,11 @@
         </td>
       </tr>
     </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="add-button">
+        <button (click)="showDialog()" type="button" pButton icon="pi pi-plus" label="Додати клас"></button>
+      </div>
+    </ng-template>
   </p-table>
   <p-table [columns]="cols" [value]="inactiveGroups">
     <ng-template pTemplate="caption">
@@ -45,9 +50,6 @@
       </tr>
     </ng-template>
   </p-table>
-  <div>
-    <button (click)="showDialog()" type="button" pButton icon="pi pi-plus" label="Додати клас"></button>
-  </div>
 </div>
 <p-dialog header="Інформація про клас" [(visible)]="showEditDialog" showEffect="fade" [modal]="true" [responsive]="true"
   [minWidth]="300">
