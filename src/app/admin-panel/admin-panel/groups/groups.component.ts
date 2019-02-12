@@ -82,5 +82,3 @@ export class GroupsComponent implements OnInit {
       .sort( (gr1, gr2) => parseInt(gr1.className, 10) - parseInt(gr2.className, 10));
   }
 }
-
-

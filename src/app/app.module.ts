@@ -18,7 +18,7 @@ import { TeachersService } from './services/teachers.service';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
