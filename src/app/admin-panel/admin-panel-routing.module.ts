@@ -10,6 +10,7 @@ import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teac
 import { NewStudingYearComponent } from '../admin-panel/admin-panel/new-studing-year/new-studing-year.component';
 import { AdminGuard } from './admin.guard';
 import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
+import { CorrectScheduleComponent } from './admin-panel/correct-schedule/correct-schedule.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,10 @@ const routes: Routes = [
       {
         path: 'class-schedule',
         component: ClassScheduleComponent
+			},
+			{
+        path: 'correct-schedule',
+        component: CorrectScheduleComponent
       },
       {
         path: 'attach-teacher',

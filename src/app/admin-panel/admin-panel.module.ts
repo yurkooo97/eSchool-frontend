@@ -42,6 +42,7 @@ import { HttpAttachTeacherService } from '../services/http-attach-teacher.servic
 import { DayComponent } from './admin-panel/class-schedule/day/day.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { CorrectScheduleComponent } from './admin-panel/correct-schedule/correct-schedule.component';
 
 @NgModule({
   imports: [
@@ -94,7 +95,8 @@ import { ConfirmationService } from 'primeng/api';
     ClassScheduleComponent,
     AttachTeacherComponent,
     DashboardComponent,
-    DayComponent
+    DayComponent,
+    CorrectScheduleComponent
   ]
 })
 export class AdminPanelModule {}

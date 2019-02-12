@@ -1,0 +1,10 @@
+<p-dropdown
+  name="class"
+  [options]="classes"
+  [(ngModel)]="selectedClass"
+  (onChange)="onClassSelected($event)"
+  placeholder="Виберіть клас"
+  #class="ngModel"
+  required
+>
+</p-dropdown>
