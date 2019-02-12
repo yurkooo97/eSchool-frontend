@@ -19,7 +19,7 @@ export class AdminPanelComponent implements OnInit {
         items: [
           { label: 'Учні', icon: 'pi  pi-users', routerLink: ['students'] },
           {
-            label: 'Учителі',
+            label: 'Вчителі',
             icon: 'pi pi-user-minus',
             routerLink: ['teachers']
           },
@@ -36,9 +36,9 @@ export class AdminPanelComponent implements OnInit {
             routerLink: ['correct-schedule']
           },
           {
-            label: 'Створити новий навчальний рік',
+            label: 'Перехід на новий навчальний рік',
             icon: 'pi pi-fw pi-plus',
-            routerLink: ['new-studing-year']
+            routerLink: ['new-studying-year']
           },
           {
             label: 'Додати вчителя до журналу',

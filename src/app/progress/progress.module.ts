@@ -4,10 +4,13 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
+import { ChartModule } from 'primeng/chart';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { CardModule } from 'primeng/card';
 
 import { ProgressRoutingModule } from './progress-routing.module';
 import { ProgressComponent } from './progress/progress.component';
-import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   imports: [
@@ -17,7 +20,10 @@ import { ChartModule } from 'primeng/chart';
     FormsModule,
     CalendarModule,
     ButtonModule,
-    ChartModule
+    ChartModule,
+    MultiSelectModule,
+    RadioButtonModule,
+    CardModule
   ],
   declarations: [ProgressComponent]
 })

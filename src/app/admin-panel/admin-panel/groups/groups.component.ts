@@ -3,11 +3,13 @@ import { isString, isNumber } from 'util';
 import { Group } from '../../../models/group.model';
 import { AdmingroupsService } from 'src/app/services/admingroups.service';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { PageTitleService } from '../../../services/pageTitle.service';
 
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
-  styleUrls: ['./groups.component.scss']
+  styleUrls: ['./groups.component.scss'],
+  providers: [PageTitleService]
 })
 export class GroupsComponent implements OnInit {
   showInactive: boolean;
@@ -19,7 +21,6 @@ export class GroupsComponent implements OnInit {
   editGroupOriginal: Group;
   editGroup: any;
   defaultActive = '1';
-
 
   showDialog(rowData?: Group) {
     if (!rowData) {
@@ -55,11 +56,13 @@ export class GroupsComponent implements OnInit {
 
   constructor(
     private groupService: AdmingroupsService,
-    private notificationToasts: DataSharingService) {
+    private notificationToasts: DataSharingService,
+    private pageTitle: PageTitleService) {
     this.editGroup = new Group(this.defaultActive);
   }
 
   ngOnInit() {
+    this.pageTitle.setTitle('Католицька Школа - Класи');
     this.groupService.getClasses()
       .subscribe(data => {
         this.groups = data;
@@ -73,9 +76,9 @@ export class GroupsComponent implements OnInit {
   }
 
   filterGroups() {
-    this.activeGroups = this.groups.filter(g => g.isActive);
-    this.inactiveGroups = this.groups.filter(g => !g.isActive);
+    this.activeGroups = this.groups.filter(g => g.isActive)
+      .sort( (gr1, gr2) => parseInt(gr1.className, 10) - parseInt(gr2.className, 10));
+    this.inactiveGroups = this.groups.filter(g => !g.isActive)
+      .sort( (gr1, gr2) => parseInt(gr1.className, 10) - parseInt(gr2.className, 10));
   }
 }
-
-

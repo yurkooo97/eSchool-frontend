@@ -15,7 +15,6 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FieldsetModule } from 'primeng/fieldset';
 import { FileUploadModule } from 'primeng/fileupload';
 import { AdminPanelRoutingModule } from './admin-panel-routing.module';
-import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ToastModule } from 'primeng/toast';
 
@@ -30,11 +29,11 @@ import { TeachersComponent } from './admin-panel/teachers/teachers.component';
 import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { SubjectsComponent } from './admin-panel/subjects/subjects.component';
 import { AttachTeacherComponent } from './admin-panel/attach-teacher/attach-teacher.component';
-import { NewStudingYearComponent } from './admin-panel/new-studing-year/new-studing-year.component';
+import { NewStudyingYearComponent } from './admin-panel/new-studying-year/new-studying-year.component';
 import { ClassScheduleComponent } from './admin-panel/class-schedule/class-schedule.component';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
-import { NewStudingYearService } from '../services/new-studing-year.service';
+import { NewStudyingYearService } from '../services/new-studying-year.service';
 import { OverlayPanelModule } from 'primeng/primeng';
 import { CheckboxModule } from 'primeng/primeng';
 import { DashboardComponent } from './admin-panel/dashboard/dashboard.component';
@@ -43,6 +42,10 @@ import { DayComponent } from './admin-panel/class-schedule/day/day.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { CorrectScheduleComponent } from './admin-panel/correct-schedule/correct-schedule.component';
+import { AccordionModule } from 'primeng/accordion';
+import { SpinnerModule } from 'primeng/spinner';
+import { Title } from '@angular/platform-browser';
+import { TransformStudyingYearPipe } from '../pipes/transform-studying-year.pipe';
 
 @NgModule({
   imports: [
@@ -68,12 +71,13 @@ import { CorrectScheduleComponent } from './admin-panel/correct-schedule/correct
     RadioButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    AutoCompleteModule,
     OverlayPanelModule,
     CheckboxModule,
     ProgressBarModule,
     ToastModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    AccordionModule,
+    SpinnerModule
   ],
 
   providers: [
@@ -81,9 +85,10 @@ import { CorrectScheduleComponent } from './admin-panel/correct-schedule/correct
     AdminSubjectsService,
     TeachersService,
     StudentsService,
-    NewStudingYearService,
+    NewStudyingYearService,
     HttpAttachTeacherService,
-    ConfirmationService
+    ConfirmationService,
+    Title
   ],
   declarations: [
     AdminPanelComponent,
@@ -91,12 +96,13 @@ import { CorrectScheduleComponent } from './admin-panel/correct-schedule/correct
     TeachersComponent,
     GroupsComponent,
     SubjectsComponent,
-    NewStudingYearComponent,
+    NewStudyingYearComponent,
     ClassScheduleComponent,
     AttachTeacherComponent,
     DashboardComponent,
     DayComponent,
-    CorrectScheduleComponent
+    CorrectScheduleComponent,
+    TransformStudyingYearPipe
   ]
 })
 export class AdminPanelModule {}

@@ -6,11 +6,13 @@ import { Subject } from 'src/app/models/subjects.model';
 import { TeachersService } from 'src/app/services/teachers.service';
 import { NgForm } from '@angular/forms';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { PageTitleService } from '../../../services/pageTitle.service';
 
 @Component({
   selector: 'app-class-schedule',
   templateUrl: './class-schedule.component.html',
-  styleUrls: ['./class-schedule.component.scss']
+  styleUrls: ['./class-schedule.component.scss'],
+  providers: [PageTitleService]
 })
 export class ClassScheduleComponent implements OnInit {
   @ViewChild('form') form: NgForm;
@@ -33,10 +35,12 @@ export class ClassScheduleComponent implements OnInit {
   constructor(
     private _teacherServices: TeachersService,
     private notificationToasts: DataSharingService,
-    private scheduleService: ClassScheduleService
+    private scheduleService: ClassScheduleService,
+    private pageTitle: PageTitleService
   ) {}
 
   ngOnInit() {
+    this.pageTitle.setTitle('Католицька Школа - Розклад Уроків');
     this.getClasses();
     this.calendar();
     this.minDateValue = new Date(new Date().getTime() + 24 * 60 * 60 * 1000); // minDate is tomorrow
@@ -61,7 +65,7 @@ export class ClassScheduleComponent implements OnInit {
   // request to add a list of classes
   getClasses(): void {
     this.scheduleService.getClasses().subscribe(data => {
-      this.classes = data;
+      this.classes = data.filter(g => g.isActive);
     });
   }
 

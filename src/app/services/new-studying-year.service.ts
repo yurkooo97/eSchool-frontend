@@ -9,7 +9,7 @@ import { SmallGroup } from '../models/transitional-studing.model';
   providedIn: 'root'
 })
 
-export class NewStudingYearService {
+export class NewStudyingYearService {
   constructor(private http: HttpClient) { }
   private httpOptions = {
     headers: new HttpHeaders({
@@ -20,25 +20,19 @@ export class NewStudingYearService {
   getGroups(): Observable<Group[]> {
     return this.http
       .get<Group[]>('classes', this.httpOptions)
-      .map((response: any) => {
-        return response.data;
-      });
+      .map((response: any) => response.data);
   }
 
   postNewGroups(groupObject: SmallGroup[]): Observable<Group[]> {
     return this.http
       .post<Group[]>('students/transition', groupObject)
-      .map((response: any) => {
-        return response.data;
-      });
+      .map((response: any) => response.data);
   }
 
   putNewOldId(idObject: ClassId[]): Observable<ClassId[]> {
     return this.http
       .put<ClassId[]>('students/transition', idObject)
-      .map((response: any) => {
-        return response.data;
-      });
+      .map((response: any) => response.data);
   }
 
 }

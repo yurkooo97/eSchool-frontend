@@ -1,5 +1,5 @@
 p-dropdown {
-  margin-right: 20px;
+  margin: 7px 20px 7px 0;
 }
 :host {
   ::ng-deep .ui-dropdown {
@@ -13,9 +13,25 @@ p-dropdown {
       width: unset;
     }
   }
-
 }
 .selected-year {
-  margin: 0 20px 0 0;
+  margin: 0 20px 20px 0;
   font-weight: 900;
+}
+
+.journal-menu {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.progress {
+  float: right;
+  margin-right: 10px;
+  margin-top: 7px;
+}
+
+@media screen and (max-width: 1020px) {
+  .progress {
+    float: left;
+  }
 }

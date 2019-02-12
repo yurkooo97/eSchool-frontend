@@ -15,6 +15,8 @@ export class TeacherJournalsService {
 
   public journalChanged = new Subject<Journal>();
 
+  public markSelected = new Subject<Mark>();
+
   readonly allJournals: string = '/journals';
   readonly activeJournal: string = '/active';
 
@@ -22,6 +24,9 @@ export class TeacherJournalsService {
 
   public emitJournalChanged(journal: Journal) {
     this.journalChanged.next(journal);
+  }
+  public markSelect(mark: Mark) {
+    this.markSelected.next(mark);
   }
 
   private homeTaskUrl(idSubject: number, idClass: number): string {
@@ -77,6 +82,15 @@ export class TeacherJournalsService {
     return this.http.get<HomeTaskFile>(this.homeTaskFileUrl(idLesson))
       .map((response: any) => {
         return response.data;
+      }).catch((error: any) => {
+        return throwError(error);
+      });
+  }
+
+  public putHomeTaskFile(homeTaskFile: HomeTaskFile): Observable<any> {
+    return this.http.put<HomeTaskFile>('/homeworks/files', homeTaskFile)
+      .map((response: any) => {
+        return response.status;
       }).catch((error: any) => {
         return throwError(error);
       });
@@ -140,6 +154,7 @@ export class TeacherJournalsService {
     return filteredData;
   }
 
+
   public sendMark(mark: Mark, studentID: number): Observable<any> {
   const data = {
     idLesson: mark.idLesson,
@@ -149,5 +164,35 @@ export class TeacherJournalsService {
     note: mark.note
   };
   return this.http.post<any>('/marks', data).map( response => response.status);
+  }
+
+  private b64toBlobUrl(
+    b64Data: string,
+    contentType: string = '',
+    sliceSize = 512
+  ): string {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return window.URL.createObjectURL(blob);
+  }
+
+  public getHomeTaskFileUrl(fileData: string, fileType: string): string {
+    const fileUrl = this.b64toBlobUrl(fileData, fileType);
+    return fileUrl;
   }
 }

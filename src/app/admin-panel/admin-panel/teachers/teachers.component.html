@@ -1,12 +1,15 @@
+<div class="progress-box">
+  <p-progressBar class="p-progress-bar" mode="indeterminate" [style]="{'height': '6px'}"
+                 [hidden]="!loading"></p-progressBar>
+</div>
 <p-table
   [columns]="columns"
   [value]="teachers"
   [(selection)]="selectedTeacher"
   [paginator]="false"
-  [loading]="loading"
 >
   <ng-template pTemplate="caption"
-    >Список учителів
+    >Список вчителів
     <div class="caption__wrap">
       <button
         pButton
@@ -66,13 +69,13 @@
         pButton
         icon="pi pi-plus"
         (click)="showDialogToAdd()"
-        label="Додати учителя"
+        label="Додати вчителя"
       ></button>
     </div>
   </ng-template>
 </p-table>
 <p-dialog
-  header="Інформація про учителя"
+  header="Інформація про вчителя"
   [(visible)]="displayDialog"
   [responsive]="true"
   showEffect="fade"
@@ -84,34 +87,7 @@
 >
   <form #teacherForm="ngForm" class="teachersForm">
     <div class="p-grid" *ngIf="teacher">
-      <p-fieldset legend="Обов'язкові поля" class="mainInfo p-col-12 p-md-6">
-        <div class="ui-inputgroup">
-          <input
-            pInputText
-            placeholder="Ім'я *"
-            [class.is-invalid]="firstname.invalid && firstname.touched"
-            #firstname="ngModel"
-            id="float-input-firstname"
-            [(ngModel)]="teacher.firstname"
-            required
-            minlength="3"
-            maxlength="20"
-            name="firstname"
-            pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+"
-          />
-          <span
-            class="ui-inputgroup-addon"
-            [class.wrongData1]="firstname.invalid && firstname.touched"
-            [class.correctData1]="firstname.valid && firstname.touched"
-            ><i class="fas fa-user"></i
-          ></span>
-        </div>
-        <span
-          [class.d-none]="firstname.valid || firstname.untouched"
-          class="requiredMessage"
-          >Некоректне ім'я</span
-        >
-        <br />
+      <p-fieldset legend="Обов'язкові поля" class="mainInfo p-col-12 p-md-6">         
         <div class="ui-inputgroup">
           <input
             pInputText
@@ -136,9 +112,34 @@
         <span
           [class.d-none]="lastname.valid || lastname.untouched"
           class="requiredMessage"
-          >Некоректне прізвище</span
-        >
-        <br />
+          >Некоректне прізвище</span>          
+        <br />        
+        <div class="ui-inputgroup">
+          <input
+            pInputText
+            placeholder="Ім'я *"
+            [class.is-invalid]="firstname.invalid && firstname.touched"
+            #firstname="ngModel"
+            id="float-input-firstname"
+            [(ngModel)]="teacher.firstname"
+            required
+            minlength="3"
+            maxlength="20"
+            name="firstname"
+            pattern="[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[\' -]?)+"
+          />
+          <span
+            class="ui-inputgroup-addon"
+            [class.wrongData1]="firstname.invalid && firstname.touched"
+            [class.correctData1]="firstname.valid && firstname.touched"
+            ><i class="fas fa-user"></i
+          ></span>
+        </div>        
+        <span
+          [class.d-none]="firstname.valid || firstname.untouched"
+          class="requiredMessage"
+          >Некоректне ім'я</span>
+        <br />      
         <div class="ui-inputgroup">
           <input
             pInputText
@@ -147,7 +148,7 @@
             [class.is-invalid]="patronymic.invalid && patronymic.touched"
             #patronymic="ngModel"
             [(ngModel)]="teacher.patronymic"
-            minlength="7"
+            minlength="3"
             maxlength="20"
             required
             name="patronymic"
@@ -216,6 +217,7 @@
             #login="ngModel"
             minlength="5"
             maxlength="20"
+            (keyup)="checkLogin($event)"
           />
           <span class="ui-inputgroup-addon"><i class="fas fa-key"></i></span>
         </div>
@@ -224,6 +226,9 @@
           class="requiredMessage"
           >Некоректний логін (не менше 5 символів)</span
         >
+        <span *ngIf="loginStatus" class="requiredMessage">{{
+          loginStatus
+        }}</span>
         <br />
         <div class="ui-inputgroup">
           <input
@@ -297,7 +302,7 @@
         icon="pi pi-check"
         (click)="create()"
         label="Зберегти"
-        [disabled]="teacherForm.invalid"
+        [disabled]="teacherForm.invalid || loginStatus"
       ></button>
       <button
         *ngIf="!newTeacher"
@@ -306,7 +311,7 @@
         icon="pi pi-check"
         (click)="save()"
         label="Зберегти"
-        [disabled]="teacherForm.invalid"
+        [disabled]="teacherForm.invalid || loginStatus"
       ></button>
     </div>
   </p-footer>

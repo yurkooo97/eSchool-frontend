@@ -2,8 +2,9 @@ p-dropdown {
   margin-left: 20px;
 }
 
-.ui-table-scrollable-header {
+.ui-table-scrollable-header-table {
   overflow-y: scroll;
+  overflow: hidden;
   }
 
 .cellContainer {
@@ -13,11 +14,33 @@ p-dropdown {
 .mark {
   align-content: center;
   text-align: center;
-  height: 58;
-
+  height: 19px;
 }
+
 .editCell {
   padding: 2px;
   height: 10px;
   text-align: center;
+}
+::ng-deep body {
+  .editCell {
+    .ui-inputtext {
+      padding: 0 2px;
+      margin: 0 1px;
+      border: 0px;
+      background-color: rgba(0,0,0,0.05);
+    }
+  }
+}
+.lessonType {
+  font-size: 0.6em;
+}
+.journalHeader {
+  height: 5.2em;
+}
+.calculations {
+  text-align: center;
+}
+.journalDataCell {
+  height: 2.5em;
 }

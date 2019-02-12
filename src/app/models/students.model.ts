@@ -11,6 +11,5 @@ export class Student {
     public id: number = 0,
     public oldPass: string = '',
     public newPass: string = '',
-    public enabled: boolean = true,
-    public avatar: string = '') { }
+    public avatar: any = 'assets/avatar.png') { }
 }
