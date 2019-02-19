@@ -89,6 +89,7 @@ export class JournalDataComponent implements OnInit {
         .getjournals(journal.idSubject, journal.idClass)
         .subscribe(data => {
           this.journalData = data;
+          this.journalDataSorting();
           this.countRating();
           this.scrollableCols = this.journalDeys;
           this.isDataRecived = data.length > 0;
@@ -102,6 +103,15 @@ export class JournalDataComponent implements OnInit {
         });
     });
   }
+
+  // sorting journalData by date
+  journalDataSorting() {
+    this.journalData.forEach( item => {
+      item.marks.sort( (day1, day2) =>
+      + new Date(day1.dateMark) - + new Date(day2.dateMark) );
+    });
+  }
+
   get journalDeys(): { field: string; header: string }[] {
     if (this.journalData && this.journalData.length > 0) {
       return this.journalData[0].marks.map((mark, index) => {
@@ -151,7 +161,7 @@ export class JournalDataComponent implements OnInit {
   }
   dayForMonth(date: string): string {
     const weakDay = new Date(date).getDay();
-    const days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пя', 'Сб'];
+    const days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
     return days[weakDay];
   }
 
