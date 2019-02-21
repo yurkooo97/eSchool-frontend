@@ -1,12 +1,17 @@
 <div class="progress-box">
-  <p-progressBar class="p-progress-bar" mode="indeterminate" [style]="{'height': '6px'}"
-                 [hidden]="!loading"></p-progressBar>
+  <p-progressBar
+    class="p-progress-bar"
+    mode="indeterminate"
+    [style]="{ height: '6px' }"
+    [hidden]="!loading"
+  ></p-progressBar>
 </div>
 <p-table
   [columns]="columns"
   [value]="teachers"
   [(selection)]="selectedTeacher"
   [paginator]="false"
+	[responsive]="true"
 >
   <ng-template pTemplate="caption"
     >Список вчителів
@@ -87,7 +92,7 @@
 >
   <form #teacherForm="ngForm" class="teachersForm">
     <div class="p-grid" *ngIf="teacher">
-      <p-fieldset legend="Обов'язкові поля" class="mainInfo p-col-12 p-md-6">         
+      <p-fieldset legend="Обов'язкові поля" class="mainInfo p-col-12 p-md-6">
         <div class="ui-inputgroup">
           <input
             pInputText
@@ -112,8 +117,9 @@
         <span
           [class.d-none]="lastname.valid || lastname.untouched"
           class="requiredMessage"
-          >Некоректне прізвище</span>          
-        <br />        
+          >Некоректне прізвище</span
+        >
+        <br />
         <div class="ui-inputgroup">
           <input
             pInputText
@@ -134,12 +140,13 @@
             [class.correctData1]="firstname.valid && firstname.touched"
             ><i class="fas fa-user"></i
           ></span>
-        </div>        
+        </div>
         <span
           [class.d-none]="firstname.valid || firstname.untouched"
           class="requiredMessage"
-          >Некоректне ім'я</span>
-        <br />      
+          >Некоректне ім'я</span
+        >
+        <br />
         <div class="ui-inputgroup">
           <input
             pInputText
