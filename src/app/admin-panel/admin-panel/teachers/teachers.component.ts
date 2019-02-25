@@ -46,7 +46,7 @@ export class TeachersComponent implements OnInit {
       this.loading = false;
       this.teachers.forEach((teacher: any) => {
         this.teacherJournalService
-          .getJournalsTeacher(teacher.id, false)
+          .getJournalsTeacher(teacher.id, true)
           .subscribe(data => this.setClassesSubjectsByTeacher(teacher, data));
       });
     });

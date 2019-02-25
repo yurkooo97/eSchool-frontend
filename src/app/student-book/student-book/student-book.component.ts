@@ -72,7 +72,8 @@ export class StudentBookComponent implements OnInit {
         field: 'homeWork',
         header: 'Домашня робота',
         class: 'lesson-description'
-      }
+      },
+      { field: 'mark', header: 'Оцінка', class: 'lesson-mark' }
     ];
 
     this.scheduleOptions = [
@@ -111,11 +112,7 @@ export class StudentBookComponent implements OnInit {
           this.changeWeekSchedule(week, lengthOfCalls - 1);
         } else {
           this.offset = this.saveOffset;
-          this.notificationToasts.notify(
-            'error',
-            'Помилка',
-            err.message
-          );
+          this.notificationToasts.notify('error', 'Помилка', err.message);
           this.loading = false;
         }
       }
@@ -125,13 +122,10 @@ export class StudentBookComponent implements OnInit {
   changeScheduleView(): void {
     if (this.viewType === 'list' && !this.view) {
       this.view = true;
-      this.cols.push(
-        { field: 'mark', header: 'Оцінка', class: 'lesson-mark' },
-        { field: 'note', header: 'Примітка' }
-      );
+      this.cols.push({ field: 'note', header: 'Примітка' });
     } else if (this.viewType === 'group' && this.view) {
       this.view = false;
-      this.cols.length = this.cols.length - 2;
+      this.cols.length = this.cols.length - 1;
     }
   }
 
