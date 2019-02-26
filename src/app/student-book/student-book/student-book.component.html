@@ -61,7 +61,11 @@
       [ngClass]="{ 'p-md-12': view, 'p-md-6': !view, ordering: !view }"
       class="p-col-12"
     >
-      <p-table [columns]="cols" [value]="daysOfWeek.daySchedule">
+      <p-table
+        [columns]="cols"
+        [value]="daysOfWeek.daySchedule"
+        [autoLayout]="true"
+      >
         <ng-template pTemplate="caption">
           {{ daysOfWeek.dayOfWeek }}
         </ng-template>

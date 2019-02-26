@@ -125,3 +125,52 @@ span.ui-button-text,
     display: none;
   }
 }
+
+// Responsive styles
+@media (min-width: 992px) and (max-width: 1280px) {
+  :host ::ng-deep .ui-dialog {
+    width: 100% !important;
+  }
+
+  :host ::ng-deep .ui-datepicker {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  :host ::ng-deep .ui-dialog {
+    width: 100% !important;
+  }
+
+  :host ::ng-deep .ui-datepicker {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  :host ::ng-deep .ui-dialog {
+    width: 100% !important;
+  }
+
+  :host ::ng-deep .ui-datepicker {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  :host ::ng-deep .ui-dialog {
+    width: 100% !important;
+  }
+
+  :host ::ng-deep .ui-datepicker {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

@@ -6,6 +6,7 @@ import { ConfirmationService } from 'primeng/api';
 import { debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { PageTitleService } from '../../../services/pageTitle.service';
+import { TeacherJournalsService } from '../../../services/teacher-journals.service';
 
 @Component({
   selector: 'app-teachers',
@@ -33,20 +34,30 @@ export class TeachersComponent implements OnInit {
     private _teacherServices: TeachersService,
     private notificationToasts: DataSharingService,
     private confirmationService: ConfirmationService,
-    private pageTitle: PageTitleService
+    private pageTitle: PageTitleService,
+    private teacherJournalService: TeacherJournalsService
   ) {}
 
   ngOnInit() {
     this.pageTitle.setTitle('Католицька Школа - Вчителі');
     this.loading = true;
-    this._teacherServices
-      .getTeachers()
-      .subscribe(users => ((this.teachers = users), (this.loading = false)));
+    this._teacherServices.getTeachers().subscribe(users => {
+      this.teachers = users;
+      this.loading = false;
+      this.teachers.forEach((teacher: any) => {
+        this.teacherJournalService
+          .getJournalsTeacher(teacher.id, true)
+          .subscribe(data => this.setClassesSubjectsByTeacher(teacher, data));
+      });
+    });
+
     this.columns = [
       { field: 'lastname', header: 'Прізвище' },
-      { field: 'firstname', header: 'Ім\'я' },
+      { field: 'firstname', header: "Ім'я" },
       { field: 'patronymic', header: 'По батькові' },
-      { field: 'dateOfBirth', header: 'Дата народження' }
+      { field: 'dateOfBirth', header: 'Дата народження' },
+      { field: 'subjectName', header: 'Предмети' },
+      { field: 'className', header: 'Класи' }
     ];
     this._teacherServices.currentCalendar.subscribe(data => (this.ua = data));
     this.requestSubject$.pipe(debounceTime(500)).subscribe(() => {
@@ -65,6 +76,30 @@ export class TeachersComponent implements OnInit {
       );
     });
   }
+
+  // set subjects and classes to this.teachers by teacher id
+  setClassesSubjectsByTeacher(teacher, subjectsData) {
+    const subjects = [];
+    const classes = [];
+
+    subjectsData.forEach((item: any) => {
+      subjects.push(item.subjectName);
+      classes.push(item.className);
+    });
+
+    teacher.subjectName = subjects
+      .filter((item: any, index: any) => {
+        return index === subjects.indexOf(item);
+      })
+      .join(',\n');
+
+    teacher.className = classes
+      .filter((item: any, index: any) => {
+        return index === classes.indexOf(item);
+      })
+      .join(',\n');
+  }
+
   handlerFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
     const reader = new FileReader();
