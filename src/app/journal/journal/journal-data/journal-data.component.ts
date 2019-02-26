@@ -89,7 +89,9 @@ export class JournalDataComponent implements OnInit {
         .getjournals(journal.idSubject, journal.idClass)
         .subscribe(data => {
           this.journalData = data;
-          this.journalDataSorting();
+          this.sortingByDate();
+          this.sortingByAlphabet();
+          this.replaceNames();
           this.countRating();
           this.scrollableCols = this.journalDeys;
           this.isDataRecived = data.length > 0;
@@ -105,11 +107,23 @@ export class JournalDataComponent implements OnInit {
   }
 
   // sorting journalData by date
-  journalDataSorting() {
+  sortingByDate() {
     this.journalData.forEach( item => {
       item.marks.sort( (day1, day2) =>
       + new Date(day1.dateMark) - + new Date(day2.dateMark) );
     });
+  }
+
+  // sorting journalData by alphabet
+  sortingByAlphabet() {
+    this.journalData.sort( (name1, name2) =>
+      name1.studentFullName.split(' ')[1].localeCompare(name2.studentFullName.split(' ')[1]) );
+  }
+
+  // changes names in places
+  replaceNames() {
+  this.journalData.forEach( item =>
+    item.studentFullName = item.studentFullName.split(' ')[1] + ' ' + item.studentFullName.split(' ')[0] );
   }
 
   get journalDeys(): { field: string; header: string }[] {
