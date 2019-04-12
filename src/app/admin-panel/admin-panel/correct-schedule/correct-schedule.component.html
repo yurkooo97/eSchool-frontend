@@ -1,10 +1,52 @@
-<p-dropdown
-  name="classes"
-  [options]="classes"
-  [(ngModel)]="selectedClass"
-  (onChange)="onClassSelected($event)"
-  placeholder="Виберіть клас"
-  #class="ngModel"
-  required
->
-</p-dropdown>
+<div class="flex-container">
+  <p-dropdown
+    name="classes"
+    [options]="classes"
+    [(ngModel)]="selectedGroupId"
+    (onChange)="onClassSelected($event)"
+    placeholder="Виберіть клас"
+    #class="ngModel"
+    required
+  >
+  </p-dropdown>
+
+  <p-button
+    label="Завантажити розклад"
+    (onClick)="getSchedule()"
+    [disabled]="class.invalid"
+  ></p-button>
+</div>
+
+<h3 *ngIf="condition">Розклад уроків учнів {{ selectedGroup }} класу</h3>
+
+<div class="flex-container">
+  <p-calendar
+    *ngIf="condition"
+    class="form-control"
+    [(ngModel)]="startOfSemester"
+    [minDate]="minDateValue"
+    [maxDate]="maxDateValue"
+    [placeholder]="'Дата закінчення семестру'"
+    [locale]="ua"
+    dateFormat="dd.mm.yy"
+    [showIcon]="true"
+    name="fromDate"
+    #fromDate="ngModel"
+    required
+  ></p-calendar>
+
+  <p-calendar
+    *ngIf="condition"
+    class="form-control"
+    [(ngModel)]="endOfSemester"
+    [minDate]="minDateValue"
+    [maxDate]="maxDateValue"
+    [placeholder]="'Дата закінчення семестру'"
+    [locale]="ua"
+    dateFormat="dd.mm.yy"
+    [showIcon]="true"
+    name="toDate"
+    #toDate="ngModel"
+    required
+  ></p-calendar>
+</div>

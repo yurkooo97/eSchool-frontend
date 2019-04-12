@@ -41,4 +41,12 @@ export class ClassScheduleService {
         return response.data;
       });
   }
+
+  public getSchedule(classId: number): Observable<Schedule> {
+    return this.http
+      .get<Schedule>('classes/' + classId + '/schedule')
+      .map((response: any) => {
+        return response.data;
+      });
+  }
 }

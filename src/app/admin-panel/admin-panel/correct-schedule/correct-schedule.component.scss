@@ -1,0 +1,20 @@
+//list of classes and download button
+p-dropdown,
+p-button {
+  margin: 1%;
+  margin-bottom: 2%;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+}
+
+h3 {
+  text-align: center;
+}
+
+:host ::ng-deep p-calendar {
+  margin-right: 4%;
+  margin-left: 4%;
+}
