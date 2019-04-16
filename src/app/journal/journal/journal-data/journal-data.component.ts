@@ -174,7 +174,7 @@ export class JournalDataComponent implements OnInit {
     });
   }
   dayForMonth(date: string): string {
-    const weakDay = new Date(date).getDay();
+    const weakDay = + new Date( date.replace( /\./g, '-' )).getDay();
     const days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
     return days[weakDay];
   }
