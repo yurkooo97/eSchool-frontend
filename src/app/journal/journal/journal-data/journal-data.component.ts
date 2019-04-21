@@ -110,7 +110,7 @@ export class JournalDataComponent implements OnInit {
   sortingByDate() {
     this.journalData.forEach( item => {
       item.marks.sort( (day1, day2) =>
-      + new Date(day1.dateMark) - + new Date(day2.dateMark) );
+      + new Date(day1.dateMark.replace( /\./g, '-' )) - + new Date(day2.dateMark.replace( /\./g, '-' )) );
     });
   }
 
@@ -174,7 +174,7 @@ export class JournalDataComponent implements OnInit {
     });
   }
   dayForMonth(date: string): string {
-    const weakDay = new Date(date).getDay();
+    const weakDay = new Date( date.replace( /\./g, '-' )).getDay();
     const days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
     return days[weakDay];
   }
