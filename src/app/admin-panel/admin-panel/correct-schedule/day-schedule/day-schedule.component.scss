@@ -1,0 +1,44 @@
+p-table {
+  width: 50%;
+  margin-right: 1%;
+  margin-left: 1%;
+}
+
+// delete/add row button
+.class-table-row .trash,
+.class-table-row .plus {
+  width: 34px;
+  height: 34px;
+  margin-left: 2%;
+  border: none;
+  .far {
+    color: white;
+    z-index: 1;
+    margin-top: 28%;
+    margin-right: 4%;
+    width: 20px;
+    height: 20px;
+  }
+  .fas {
+    margin-top: 9px;
+    margin-right: 1px;
+  }
+  visibility: hidden;
+}
+.class-table-row .plus {
+  background-color: MediumSeaGreen;
+}
+
+// delete/add row button
+.class-table-row:hover .trash,
+.class-table-row:hover .plus {
+  visibility: visible;
+}
+
+td {
+  text-align: center;
+}
+
+tr {
+  height: 3em;
+}

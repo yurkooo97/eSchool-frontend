@@ -1,6 +1,6 @@
 //list of classes and download button
-p-dropdown,
-p-button {
+.groups-list,
+.download-button {
   margin: 1%;
   margin-bottom: 2%;
 }
@@ -10,11 +10,41 @@ p-button {
   justify-content: center;
 }
 
+.flex-subjects-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.right-container {
+  margin-right: 1%;
+  width: 48%;
+}
+
+.left-container {
+  width: 48%;
+  margin-left: 1%;
+}
+
+:host ::ng-deep p-calendar {
+  margin-right: 3%;
+  margin-bottom: 2%;
+}
+
 h3 {
   text-align: center;
 }
 
-:host ::ng-deep p-calendar {
-  margin-right: 4%;
-  margin-left: 4%;
+// submit button
+p-footer .submit-subject-button {
+  width: 140px;
+  height: 38px;
+  margin-top: 2%;
+  clear: both;
+  float: left;
+  margin-left: 1.5%;
+  margin-bottom: 5%;
+}
+
+:host ::ng-deep p-footer .submit-subject-button .ui-button-icon-left {
+  margin-left: 17px;
 }

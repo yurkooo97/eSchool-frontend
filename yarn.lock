@@ -5399,10 +5399,10 @@ primeicons@^1.0.0:
   resolved "https://registry.yarnpkg.com/primeicons/-/primeicons-1.0.0.tgz#90061f168ef6227f21f0a7db8204ffa85cd27aec"
   integrity sha512-p/hzIjUVccW4eJPhuORHI3AUkDpqfvCQVrjxbFEejnTEdWY4C8fomVfjiaA9jCu83fSQnBHuRIGB96iAR8R6uA==
 
-primeng@^7.0.0-beta.1:
-  version "7.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/primeng/-/primeng-7.0.0-beta.1.tgz#fb007f64ce9324911561b72bab19126661f1565f"
-  integrity sha512-bhE+Tm8e7gsvhjoQ83pWqBR5twR/zgarrJcpGdMSObNwlauJXRczo/OoM2KVnf4wHjJsie6MK5wdepL11R4WhA==
+primeng@^7.1.0-beta.1:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/primeng/-/primeng-7.1.0.tgz#6aa19f6867e9724b71713634412da1cd7b6fa638"
+  integrity sha512-uUkiKtGjCJN4Hz5fKliiw8/UvkOC7RV4oWOmoDY1el2Y2NDCyQIUI9t4QbyoPeyZzL1CggBbFsVPkqnQg+oVxA==
 
 process-nextick-args@~1.0.6:
   version "1.0.7"
