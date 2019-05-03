@@ -31,11 +31,11 @@
           <ng-template pTemplate="input">
             <p-dropdown
               [options]="subjects"
-              [(ngModel)]="rowData.subjectName"
+              [(ngModel)]="rowData.subject"
+              placeholder="Виберіть предмет"
               [style]="{ width: '100%' }"
               (onChange)="onSubjectChange($event, rowData, daySchedule)"
-              [optionLabel]="label"
-              [required]="true"
+              [autoDisplayFirst]="false"
             ></p-dropdown>
           </ng-template>
           <ng-template pTemplate="output">

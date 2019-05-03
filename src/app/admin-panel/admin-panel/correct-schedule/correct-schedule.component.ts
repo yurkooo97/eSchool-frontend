@@ -19,8 +19,6 @@ export class CorrectScheduleComponent implements OnInit {
 
   schedule: Schedule;
 
-  subjects: Subject[];
-
   startOfSemester: Date;
   endOfSemester: Date;
   minDateValue: Date;
@@ -80,11 +78,6 @@ export class CorrectScheduleComponent implements OnInit {
   }
 
   getSchedule(): void {
-    // request to add a list of subjects
-    this.scheduleService.getScheduleSubjects().subscribe(data => {
-      this.subjects = data;
-    });
-
     this.scheduleService.getSchedule(this.selectedGroupId).subscribe(data => {
       this.schedule = data;
       let count = 0;
