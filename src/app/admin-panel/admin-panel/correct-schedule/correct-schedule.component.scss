@@ -39,12 +39,46 @@ p-footer .submit-subject-button {
   width: 140px;
   height: 38px;
   margin-top: 2%;
-  clear: both;
-  float: left;
   margin-left: 1.5%;
   margin-bottom: 5%;
 }
 
 :host ::ng-deep p-footer .submit-subject-button .ui-button-icon-left {
   margin-left: 17px;
+}
+
+@media screen and (max-width: 1260px) {
+  :host ::ng-deep .ui-datepicker {
+    display: block;
+    margin-left: -18%;
+  }
+
+  .flex-container,
+  .flex-subjects-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .right-container {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .left-container {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  :host p-calendar,
+  .groups-list,
+  .download-button {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  p-footer .submit-subject-button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }

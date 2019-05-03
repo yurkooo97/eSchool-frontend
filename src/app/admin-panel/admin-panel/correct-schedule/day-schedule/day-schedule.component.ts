@@ -15,8 +15,6 @@ export class DayScheduleComponent implements OnInit {
   @Input() isButtonDisabled;
   @Output() isButtonDisabledChange = new EventEmitter<boolean>();
 
-  mondaySubjects: Subject[];
-
   subjects: Subject[];
 
   constructor(private scheduleService: ClassScheduleService) {}

@@ -14,7 +14,7 @@
     class="download-button"
     label="Завантажити розклад"
     (onClick)="getSchedule()"
-    [disabled]="class.invalid"
+    [disabled]="!selectedGroupId"
   ></p-button>
 </div>
 
@@ -35,7 +35,6 @@
     [showIcon]="true"
     name="fromDate"
     #fromDate="ngModel"
-    required
   ></p-calendar>
 
   <p-calendar
@@ -50,7 +49,6 @@
     [showIcon]="true"
     name="toDate"
     #toDate="ngModel"
-    required
   ></p-calendar>
 </div>
 
