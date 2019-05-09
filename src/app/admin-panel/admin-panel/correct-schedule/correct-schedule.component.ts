@@ -80,6 +80,7 @@ export class CorrectScheduleComponent implements OnInit {
   getSchedule(): void {
     this.scheduleService.getSchedule(this.selectedGroupId).subscribe(data => {
       this.schedule = data;
+      this.condition = true;
       let count = 0;
       Object.keys(this.schedule).forEach((item: any) => {
         if (Array.isArray(this.schedule[item])) {
@@ -99,7 +100,6 @@ export class CorrectScheduleComponent implements OnInit {
     });
 
     this.calendar();
-    this.condition = true;
   }
 
   // request to save schedule

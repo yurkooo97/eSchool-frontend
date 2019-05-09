@@ -41,3 +41,17 @@ td {
 tr {
   height: 3em;
 }
+
+// Extra small devices (phones, 410px and down)
+@media only screen and (max-width: 410px) {
+  th:first-child {
+    width: 6em !important;
+  }
+}
+
+// Small and medium devices (phones, landscape tablets, 825px and down)
+@media only screen and (max-width: 825px) {
+  :host ::ng-deep .ui-dropdown {
+    min-width: initial !important;
+  }
+}
