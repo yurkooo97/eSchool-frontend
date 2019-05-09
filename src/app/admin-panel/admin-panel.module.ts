@@ -41,10 +41,12 @@ import { HttpAttachTeacherService } from '../services/http-attach-teacher.servic
 import { DayComponent } from './admin-panel/class-schedule/day/day.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { CorrectScheduleComponent } from './admin-panel/correct-schedule/correct-schedule.component';
 import { AccordionModule } from 'primeng/accordion';
 import { SpinnerModule } from 'primeng/spinner';
 import { Title } from '@angular/platform-browser';
 import { TransformStudyingYearPipe } from '../pipes/transform-studying-year.pipe';
+import { DayScheduleComponent } from './admin-panel/correct-schedule/day-schedule/day-schedule.component';
 
 @NgModule({
   imports: [
@@ -100,7 +102,9 @@ import { TransformStudyingYearPipe } from '../pipes/transform-studying-year.pipe
     AttachTeacherComponent,
     DashboardComponent,
     DayComponent,
-    TransformStudyingYearPipe
+    CorrectScheduleComponent,
+    TransformStudyingYearPipe,
+    DayScheduleComponent
   ]
 })
 export class AdminPanelModule {}

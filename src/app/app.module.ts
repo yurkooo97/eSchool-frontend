@@ -17,18 +17,22 @@ import { ShellGuard } from './shell/shell.guard';
 import { TeachersService } from './services/teachers.service';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule
   ],
-  providers: [AdmingroupsService,
-    AdminSubjectsService, StudentsService, LoginGuard, ClassScheduleService,
-    AdminGuard, ShellGuard, TeachersService,
+  providers: [
+    AdmingroupsService,
+    AdminSubjectsService,
+    StudentsService,
+    LoginGuard,
+    ClassScheduleService,
+    AdminGuard,
+    ShellGuard,
+    TeachersService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RefreshTokenInterceptorService,
@@ -43,4 +47,4 @@ import { TeachersService } from './services/teachers.service';
 
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
