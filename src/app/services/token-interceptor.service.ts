@@ -14,7 +14,7 @@ import { throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class TokenInterceptorService implements HttpInterceptor {
-  baseUrl = 'https://fierce-shore-32592.herokuapp.com';
+  baseUrl = 'http://lb-backend.devops.rebrain.srwx.net';
   allowedUrl = ['/login', '/login/', '/login/request-password', '/login/request-password/', '/login/password', '/login/password/'];
 
   constructor(
