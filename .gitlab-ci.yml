@@ -1,0 +1,28 @@
+build1:
+  stage: build
+  script:
+    - cd /home/centos/
+    - git clone https://github.com/OlehKuryshko/final_project.git
+    - cd /home/centos/final_project/
+    - sudo npm install -g @angular/cli@7.0.7 
+    - sudo npm install --save-dev  --unsafe-perm node-sass
+    - sudo npm install
+    - sudo ng build --prod
+    - sudo mv .htaccess dist/eSchool/
+    - sudo chown apache:apache ./dist/eSchool/*
+    - sudo mv ./dist/eSchool/ /home/centos/
+    - sudo rm -rf /home/centos/final_project/
+    - sudo rm -rf /home/centos/builds/
+  tags:
+    - my-runner-frontend
+
+deploy1:
+  stage: deploy
+  script:
+    - ansible-playbook -i /home/centos/ansible/hosts.txt /home/centos/ansible/playbook_ci_fr.yml
+    - sudo rm -rf /home/centos/eSchool/
+    - sudo rm -rf /home/centos/final_project/
+    - sudo rm -rf /home/centos/builds/
+  when: manual
+  tags:
+    - my-runner-frontend
