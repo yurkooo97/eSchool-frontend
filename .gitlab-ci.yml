@@ -3,8 +3,6 @@ build1:
   script:
     - cd /home/centos/
     - git clone https://github.com/OlehKuryshko/final_project.git
-    - sudo rm -rf /home/centos/final_project/src/app/services/token-interceptor.service.ts
-    - sudo cp /tmp/token-interceptor.service.ts /home/centos/final_project/src/app/services/token-interceptor.service.ts
     - cd /home/centos/final_project/
     - sudo npm install -g @angular/cli@7.0.7 
     - sudo npm install --save-dev  --unsafe-perm node-sass
