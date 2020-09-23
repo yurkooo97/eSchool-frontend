@@ -26,4 +26,4 @@ deploy1:
   when: manual
   tags:
     - my-runner-frontend
-#final_tes
+#final_te
