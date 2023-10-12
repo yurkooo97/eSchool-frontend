@@ -11,4 +11,3 @@ RUN npm run build
 FROM nginx:1.17.1-alpine
 WORKDIR /usr/share/nginx/html
 COPY --from=build /usr/src/app/dist/eSchool .
-FROM ubuntu:22.04                                       # defining the base image from dockerhub to build
