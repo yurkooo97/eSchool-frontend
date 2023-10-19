@@ -34,4 +34,5 @@ jobs:
         IMAGE_TAG: latest
       run: |
         docker build -t frontend:latest .
+        docker image tag frontend:latest  public.ecr.aws/p2c4r2s8/eschool:latest
         docker image push frontend:latest
