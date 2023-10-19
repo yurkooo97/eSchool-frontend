@@ -24,14 +24,14 @@ jobs:
         aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws configure set default.region eu-central-1
-        aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool
+        aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool-frontend
 
     - name: Build and Push Docker image to ECR
       run: |
         export DATE=$(date +%F_%H-%M-%S)
         docker build -t frontend:latest .
-        docker tag frontend:latest 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool:latest
-        docker tag frontend:latest 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool:frontend_$DATE
-        docker push 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool:latest
-        docker push 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool:frontend_$DATE
+        docker tag frontend:latest 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool-frontend:latest
+        docker tag frontend:latest 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool-frontend:frontend_$DATE
+        docker push 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool-frontend:latest
+        docker push 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool-frontend:frontend_$DATE
     
