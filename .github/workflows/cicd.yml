@@ -35,4 +35,4 @@ jobs:
       run: |
         docker build -t frontend:latest .
         docker image tag frontend:latest public.ecr.aws/p2c4r2s8/eschool:latest
-        docker image push frontend:latest public.ecr.aws/p2c4r2s8/eschool:latest
+        docker image push public.ecr.aws/p2c4r2s8/eschool:latest
