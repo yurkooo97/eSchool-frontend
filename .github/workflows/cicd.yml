@@ -1,36 +1,34 @@
-name: Cypress Docker Push
-on: 
-  push: 
-    branches: [ "pipeline" ]
-  
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
-  Cypress-Test:
-   
-  
-    name: Build Docker Image
-    runs-on: ubuntu-latest  
-    steps:  
-        - name: Checkout
-          uses: actions/checkout@v2    
-          
-        - name: Setup AWS ECR Details
-          uses: aws-actions/configure-aws-credentials@v1
-          with:
-            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            aws-region: eu-central-1
+  build-push-to-ecr:
+    runs-on: ubuntu-latest
 
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-        - name: Login to Amazon ECR
-          id: login-pf-aws-ecr
-          uses: aws-actions/amazon-ecr-login@v1
-          
+    - name: Install AWS CLI
+      run: |
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install --update
 
-        - name: Build and push the tagged docker image to Amazon ECR
-          env:
-            ECR_REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
-            ECR_REPOSITORY: public.ecr.aws/p2c4r2s8/eschool
-            IMAGE_TAG: latest
-          run: |
-            docker build -t frontend:$IMAGE_TAG .
-            docker push frontend:$IMAGE_TAG
+    - name: Login to ECR
+      run: |
+        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws configure set default.region eu-central-1
+        aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool
+
+    - name: Build and Push Docker image to ECR
+      run: |
+        docker build -t frontend:latest .
+        docker tag frontend:latest 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool
+        docker push 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool
+    
