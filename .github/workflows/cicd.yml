@@ -42,10 +42,10 @@ jobs:
     steps:
     - name: Decode SSH Key
       run: |
-        echo "${{ secrets.SSH_KEY }}" > bastion
+        echo "${{ secrets.SSH_KEY }}" > ./bastion
         chmod 400 bastion
 
     - name: Deploy to EC2 via Bastion
       run: |
-        ssh -o StrictHostKeyChecking=no -i bastion -J ec2-user@${{ secrets.BASTION_HOST }} ec2-user@${{ secrets.FRONTEND_HOST }} 'mkdir test'
+        ssh -o StrictHostKeyChecking=no -i ./bastion -J ec2-user@${{ secrets.BASTION_HOST }} ec2-user@${{ secrets.FRONTEND_HOST }} 'mkdir test'
     
