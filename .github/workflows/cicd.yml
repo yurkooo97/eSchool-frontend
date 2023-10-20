@@ -48,5 +48,5 @@ jobs:
     - name: Deploy to EC2 via Bastion
       run: |
         scp -o StrictHostKeyChecking=no -i ssh_key.pem ssh_key.pem ec2-user@${{ secrets.BASTION_HOST }}:/tmp/
-        ssh -o StrictHostKeyChecking=no -i ssh_key.pem ec2-user@${{ secrets.BASTION_HOST }} "ssh -o StrictHostKeyChecking=no -i /tmp/ssh_key.pem ec2-user@${{ secrets.EC2_HOST }} 'echo "hello""
+        ssh -o StrictHostKeyChecking=no -i ssh_key.pem ec2-user@${{ secrets.BASTION_HOST }} "ssh -o StrictHostKeyChecking=no -i /tmp/ssh_key.pem ec2-user@${{ secrets.EC2_HOST }} 'echo "hello"'"
     
