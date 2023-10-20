@@ -48,5 +48,5 @@ jobs:
     - name: Deploy to EC2 via Bastion
       run: |
         ssh -o StrictHostKeyChecking=no -i ./bastion ec2-user@${{ secrets.BASTION_HOST }} "ssh -o StrictHostKeyChecking=no -i ~/.ssh/bastion ec2-user@${{ secrets.FRONTEND_HOST }} 'aws ecr get-login-password --region eu-central-1 | sudo docker login --username AWS --password-stdin 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool-frontend'"
-        ssh -o StrictHostKeyChecking=no -i ./bastion ec2-user@${{ secrets.BASTION_HOST }} "ssh -o StrictHostKeyChecking=no -i ~/.ssh/bastion ec2-user@${{ secrets.FRONTEND_HOST }} 'sudo docker stop $(docker ps -a -q) && sudo docker rm $(docker ps -a -q)'"
+        ssh -o StrictHostKeyChecking=no -i ./bastion ec2-user@${{ secrets.BASTION_HOST }} "ssh -o StrictHostKeyChecking=no -i ~/.ssh/bastion ec2-user@${{ secrets.FRONTEND_HOST }} 'sudo docker stop $(sudo docker ps -a -q) && sudo docker rm $(sudo docker ps -a -q)'"
         ssh -o StrictHostKeyChecking=no -i ./bastion ec2-user@${{ secrets.BASTION_HOST }} "ssh -o StrictHostKeyChecking=no -i ~/.ssh/bastion ec2-user@${{ secrets.FRONTEND_HOST }} 'sudo docker pull 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool-frontend:latest && sudo docker run -d -p 80:80 383523838589.dkr.ecr.eu-central-1.amazonaws.com/eschool-frontend:latest'"
