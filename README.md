@@ -1,7 +1,7 @@
 # How to install app
 
 Install yarn `npm install -g yarn`
-Copy repository `clone https://github.com/IF-092-UI/final_project.git`
+Copy repository `clone https://github.com/IF-092-UI/final_project.git`!
 Use command in repository `yarn install`
 
 # ESchool
